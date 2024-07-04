@@ -5,3 +5,4 @@ MANIFEST.MF
 /build/
 /bin/
 node_modules
+DatabaseUtil.java
