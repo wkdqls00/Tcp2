@@ -1,14 +1,23 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="servlet.Ticket_checkDto"%>
+<%@page import="dao.Ticket_checkDao"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+	ArrayList<Ticket_checkDto> list = (ArrayList<Ticket_checkDto>) request.getAttribute("list");
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="/assets/css/mypage.css">
-    <link rel="stylesheet" type="text/css" href="/assets/css/ticket_check.css">
-    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
-    <link rel="stylesheet" href="/assets/css/common.css">
-    <link rel="stylesheet" type="text/css" href="/assets/css/reset.css">
-    <title>예매취소</title>
+    <link rel="stylesheet" type="text/css" href="./css/mypage.css">
+    <link rel="stylesheet" type="text/css" href="./css/ticket_check.css">
+    <link rel="stylesheet" type="text/css" href="./css/footer.css">
+    <link rel="stylesheet" href="./css/common.css">
+    <link rel="stylesheet" type="text/css" href="./css/reset.css">
+    <title>예매확인</title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
     <style>
     </style>
 </head>
@@ -50,8 +59,8 @@
         </header>
         <div class="content">
             <div class="container">
-                <!--상단 메뉴들-->
-                <div class="quick_menu"> 
+                 <!--상단 메뉴들-->
+                 <div class="quick_menu"> 
                     <div class="title">
                         <h2 class="title_txt">마이페이지</h2>
                     </div>
@@ -74,53 +83,53 @@
                         </li>
                     </ul> 
                 </div>
-            <!--마이페이지 부터 내용-->
-            <div class="help_cont"> 
-                <!--왼쪽메뉴-->
-                <ul class="helpMenu">
-                    <li class="has_sub">
-                        <span class="help_submenu_tit">예매관리</span>
-                        <ul class="help_submenu special">
-                            <li class="on"><a href="http://127.0.0.1:5500/TicketProject/Mypage/ticket_check.html">예매확인/취소</a></li>
-                        </ul>
-                    </li>
-                    <li class="has_sub">
-                        <span class="help_submenu_tit">할인혜택</span>
-                        <ul class="help_submenu">
-                            <li><a href="">포인트</a></li>
-                            <li><a href="">예매권</a></li>
-                            <li><a href="">상품권</a></li>
-                            <li><a href="">쿠폰</a></li>
-                        </ul>
-                    </li>
-                    <li class="has_sub">
-                        <span class="help_submenu_tit">활동관리</span>
-                        <ul class="help_submenu">
-                            <li><a href="">참여 이벤트</a></li>
-                            <li><a href="http://127.0.0.1:5500/TicketProject/Mypage/review_concert.html">후기관리</a></li>
-                            <li><a href="">팬클럽/멤버십 내역</a></li>
-                            <li><a href="">취소표 대기 신청 내역</a></li>
-                        </ul>
-                    </li>
-                    <li class="has_sub">
-                        <span class="help_submenu_tit">증빙서류</span>
-                        <ul class="help_submenu">
-                            <li><a href="">입금증</a></li>
-                            <li><a href="">현금영수증</a></li>
-                            <li><a href="">신용카드 매출 전표</a></li>
-                        </ul>
-                    </li>
-                    <li class="has_sub">
-                        <span class="help_submenu_tit">회원정보관리</span>
-                        <ul class="help_submenu">
-                            <li><a href="">환불계좌관리</a></li>
-                            <li><a href="http://127.0.0.1:5500/TicketProject/Mypage/mypage.html">회원정보수정</a></li>
-                            <li><a target="_blank" href="http://127.0.0.1:5500/TicketProject/Modify/modify_main.html">회원탈퇴</a></li>
-                        </ul>
-                    </li>
-                </ul> 
+                <!--마이페이지 부터 내용-->
+                <div class="help_cont"> 
+                        <!--왼쪽메뉴-->
+                        <ul class="helpMenu">
+                            <li class="has_sub">
+                                <span class="help_submenu_tit">예매관리</span>
+                                <ul class="help_submenu special">
+                                    <li class="on"><a href="http://127.0.0.1:5500/TicketProject/Mypage/ticket_check.html">예매확인/취소</a></li>
+                                </ul>
+                            </li>
+                            <li class="has_sub">
+                                <span class="help_submenu_tit">할인혜택</span>
+                                <ul class="help_submenu">
+                                    <li><a href="">포인트</a></li>
+                                    <li><a href="">예매권</a></li>
+                                    <li><a href="">상품권</a></li>
+                                    <li><a href="">쿠폰</a></li>
+                                </ul>
+                            </li>
+                            <li class="has_sub">
+                                <span class="help_submenu_tit">활동관리</span>
+                                <ul class="help_submenu">
+                                    <li><a href="">참여 이벤트</a></li>
+                                    <li><a href="http://127.0.0.1:5500/TicketProject/Mypage/review_concert.html">후기관리</a></li>
+                                    <li><a href="">팬클럽/멤버십 내역</a></li>
+                                    <li><a href="">취소표 대기 신청 내역</a></li>
+                                </ul>
+                            </li>
+                            <li class="has_sub">
+                                <span class="help_submenu_tit">증빙서류</span>
+                                <ul class="help_submenu">
+                                    <li><a href="">입금증</a></li>
+                                    <li><a href="">현금영수증</a></li>
+                                    <li><a href="">신용카드 매출 전표</a></li>
+                                </ul>
+                            </li>
+                            <li class="has_sub">
+                                <span class="help_submenu_tit">회원정보관리</span>
+                                <ul class="help_submenu">
+                                    <li><a href="">환불계좌관리</a></li>
+                                    <li><a href="/Test/Mypage_memberServlet">회원정보수정</a></li>
+                                    <li><a target="_blank" href="/Test/Modify_mainServlet">회원탈퇴</a></li>
+                                </ul>
+                            </li>
+                        </ul> 
                     <!--본문내용-->
-                    <div class="help_recont">
+                    <div class="help_recont"> 
                         <div class="h3">
                             <h4 class="h4">예매확인/취소</h4> 
                         </div>
@@ -129,15 +138,15 @@
                             <br>공연/전시 예매 내역은 하단의 공연/전시 탭을 선택하면 확인할 수 있습니다.
                         </p>
                         <ul class="mypage_tab"> <!--예매확인 / 예매취소-->
-                            <li><a href="http://127.0.0.1:5500/TicketProject/Mypage/ticket_check.html">예매확인</a></li>
-                            <li class="on"><a href="http://127.0.0.1:5500/TicketProject/Mypage/ticket_cancle.html">예매취소</a></li>
+                            	<li><a href="/Test/Ticket_checkServlet">예매확인</a></li>
+                            	<li class="on"><a href="/Test/Ticket_checkServletR">예매취소</a></li>
                         </ul>
                         <div class="sortbox">
                             <dl class="daytbox fl">
                                 <dt>기간별 조회</dt>
                                 <dd style="float: left"> <!--기간별 조회-->
                                     <ul class="daysort">
-                                        <li><a href="">15일</a></li>
+                                        <li><a href=""  class="search">15일</a></li>
                                         <li><a href="">1개월</a></li>
                                         <li><a href="">2개월</a></li>
                                         <li><a href="">3개월</a></li>
@@ -209,17 +218,29 @@
                                     </tr>
                                 </thead>
                                 <tbody> <!--예매내역-->
+                                	<%	
+                                		
+                                		int cnt = 0;
+                                		for(Ticket_checkDto dto : list) {
+                                			String status = dto.getStatus();
+                                			if(status.equals("Y")) status = "결제완료";
+                                			else status = "환불완료";
+                                			if(cnt == 5) break;
+                                	%>
                                     <tr>
-                                        <td class="fs12 point_number"><a href="">123</a></td>
-                                        <td class="tl ng-scope"><a href="">집에 가고 싶다</a></td>
-                                        <td class="fs12 number ng-binding">1949.04.15</td>
+                                        <td class="fs12 point_number"><a href=""><%=dto.getPayment_idx()%></a></td>
+                                        <td class="tl ng-scope"><a href=""><%=dto.getName() %></a></td>
+                                        <td class="fs12 number ng-binding"><%=dto.getStart_date()%></td>
                                         <td class="ng-binding">1장</td>
-                                        <td class="fs12 number color_point">1949.04.15 16:00</td>
+                                        <td class="fs12 number color_point"><%=dto.getStart_date()%><br><%=dto.getStart_time()%></td>
                                         <td>
-                                            <div class="reserve_condition1">전체취소</div>
+                                            <div class="reserve_condition1"><%=status%></div>
                                             <div class="reserve_condition2">1949.04.15</div>
                                         </td>
                                     </tr>
+                                    <%		cnt++;
+                                    	}
+                                    %>
                                 </tbody>
                             </table>
                         </div>
@@ -248,6 +269,7 @@
                 </div>
             </div>
         </div>
+        <!--하단-->
         <footer id="common_footer">
             <div class="footer_menu">
                 <ul class="footer_menu_list">
@@ -283,7 +305,7 @@
                 </ul>
             </div>
             <!-- 맨 밑 하단 회사정보-->
-            <div class="footer_inner">
+        <div class="footer_inner">
             <span class="footer_corp_title"><b>준영 주식회사</b></span>
             <address class="footer_address">
                 <p>
@@ -344,7 +366,16 @@
                 </li>
                 </ul>
             </div>
-            </div>
-<script src="/assets/js/ticket_check.js"></script>
+        </div>
+<script src="./js/ticket_check.js"></script>
+<script>
+	function submitToR() {
+		document.getElementById("ticket_checkR").submit();
+	}
+	function submitToY() {
+		document.getElementById("ticket_checkY").submit();
+	}
+
+</script>
 </body>
 </html>

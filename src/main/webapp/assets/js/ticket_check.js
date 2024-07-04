@@ -7,8 +7,8 @@ document.addEventListener('DOMContentLoaded', function() {
         link.addEventListener('click', function(event) {
             event.preventDefault();
             
-            var parentDiv = this.parentElement; 
-            var list = this.nextElementSibling;
+            var parentDiv = this.parentElement.querySelector(".select"); 
+            var list = this.nextElementSibling.querySelector(".select_list");
             /* 선택한 박스의 보더가 검정으로 바뀌게 */
             if (parentDiv.classList.contains('binding')) { 
                 parentDiv.classList.remove('binding'); 
@@ -32,8 +32,8 @@ document.addEventListener('DOMContentLoaded', function() {
         select.addEventListener("click", function(event){
             event.preventDefault();
 
-            const choiceText = this.textContent;
-            this.parentElement.parentElement.querySelector(".select.ng-binding").textContent = choiceText;
+            const choiceText = this.innerText;
+            this.parentElement.parentElement.querySelector(".select.ng-binding").innerText = choiceText;
             
             /* 박스의 보더색깔 원래대로 */
             const close_border = this.closest(".selectbox.acting");

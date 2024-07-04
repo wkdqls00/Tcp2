@@ -1,13 +1,33 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원정보수정</title>
-    <link rel="stylesheet" href="/assets/css/modify_member.css">
-    <link rel="stylesheet" href="/assets/css/footer.css">
+    <link rel="stylesheet" href="./css/modify_member.css">
+    <link rel="stylesheet" href="./css/footer.css">
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
+    <% String gender = (String)request.getAttribute("gender");
+    String phone = (String) request.getAttribute("phone");
+    String phoneHy = phone.replaceAll("(\\d{3})(\\d{4})(\\d{4})", "$1-$2-$3");
+    HttpSession hs = request.getSession();
+    hs.setAttribute("id", request.getAttribute("id"));
+    hs.setAttribute("phone", request.getAttribute("phone"));
+    hs.setAttribute("name", request.getAttribute("name"));
+    hs.setAttribute("email", request.getAttribute("email"));
+    hs.setAttribute("birth", request.getAttribute("birth"));
+    hs.setAttribute("gender", request.getAttribute("gender"));
+    hs.setAttribute("birth", request.getAttribute("birth"));
+    hs.setAttribute("gender", request.getAttribute("gender"));
+    hs.setAttribute("address", request.getAttribute("address"));
+    hs.setAttribute("detailed_address", request.getAttribute("detailed_address"));
+    
+    %>
+   
     <div class="common_header"> <!--홈페이지상단-->
         <div class="header_inner">
             <div class="inner">
@@ -25,18 +45,19 @@
             <div class="left_menu_area">
                 <div class="my_area"> 
                     <p>환영합니다</p>
-                    <p>이준영님</p>
+                    <p name="name"><%=request.getAttribute("name") %>님</p>
                 </div>
                 <div class="my_menu_area"> <!--왼쪽 메뉴들-->
                     <ul>
-                        <li class="modify current"><a href="http://127.0.0.1:5500/TicketProject/Modify/modify_member.html">회원정보수정</a></li>
-                        <li class="password"><a href="http://127.0.0.1:5500/TicketProject/Modify/modify_password.html">비밀번호변경</a></li>
+                        <li class="modify current"><a href="/Test//Modify_memberServlet">회원정보수정</a></li>
+                        <li class="password"><a href="/Test/Modify_passwordServlet">비밀번호변경</a></li>
                         <li class="sns"><a href="http://127.0.0.1:5500/TicketProject/Modify/modify_memberjoin.html">계정연결설정</a></li>
                         <li class="withdrawal"><a href="http://127.0.0.1:5500/TicketProject/Modify/modify_withdrawal.html">회원탈퇴</a></li>
                     </ul>
                 </div> <!--왼쪽 메뉴들-->
             </div>
-            <form action=""> <!--가운데 회원정보들-->
+           
+            <form action="" method="post"> <!--가운데 회원정보들-->
                 <div class="sub_content_wrap">
                     <h2 class="main_title">회원정보수정</h2>
                     <div class="modify_box">
@@ -44,12 +65,14 @@
                         <div class="con_table">
                             <dl>
                                 <dt>아이디</dt>
-                                <dd class="btn_pd"><span>wnsdud893</span></dd>
+                                <dd class="btn_pd">
+                                	<span><%=request.getAttribute("id") %></span>
+                                </dd>
                             </dl>
                             <dl>
                                 <dt>이름</dt>
                                 <dd class="btn_pd">
-                                    <span>이준영</span>
+                                    <span><%=request.getAttribute("name") %></span>
                                     <a href="#" class="btn_common" id="name_open">수정</a>
                                 </dd>
                                 <div class="modify_box_small">
@@ -59,30 +82,34 @@
                                     <span class="icon_noti">이동통신사 및 신용평가기관 모두 변경된 이름으로 등록되어 있는지 확인 후 진행해주세요.</span>
                                   </div>
                                 </div>
-                                
                             </dl>
+              </form>
+              <form action="/Test/Modify_phoneDao" id="modify_pw" method="post">
                             <dl>
                                 <dt>휴대폰번호</dt>
                                 <dd class="btn_pd">
-                                    <span>010-1234-5678</span>
-                                    <a href="#" class="btn_common" id="name_open">수정</a>
+                                    <span><%=phoneHy %></span>
+                                    <a href="#" class="btn_common" id="phone_open">수정</a>
                                 </dd>
                                 <div class="modify_box_small">
                                   <span class="em_noti">휴대폰번호 변경을 위해 인증이 필요합니다.</span>
                                   <div class="enter_box">
                                     <div class="style_input">
-                                      <input type="text" class="con_input" placeholder="변경 휴대폰번호 (-없이 입력)">
+                                      <input type="text" class="con_input" id="input_phoneN" name="input_phoneN" placeholder="변경 휴대폰번호 (-없이 입력)">
+                                      <input type="text" class="con_input" id="input_certyNum" style="display: none;">
                                       <span id="conClear" class="del_btn" style="display: none;"></span>
+                                      <span id="errorText_phone" style="display: none;" class="error_text"></span>
                                     </div>
                                   </div>
-                                  <p class="btn_area"><a href="#" class="btn_red">인증번호 전송</a></p>
-
+                                  <p class="btn_area"><a href="#" class="btn_red  disabled" name="phone_certy" id="phone_certy">인증번호 전송</a></p>
+                                  <p class="btn_area"><a href="#" class="btn_red" name="certy_check" id="certy_check" style="display: none;">인증</a></p>
                                 </div>
                             </dl>
+               </form>
                             <dl>
                                 <dt>이메일</dt>
                                 <dd class="btn_pd">
-                                    <span>tjsans9069@naver.com</span>
+                                    <span><%= request.getAttribute("email") %></span>
                                     <a href="#" class="btn_common " id="name_open">수정</a>
                                 </dd>
                                 <div class="modify_box_small">
@@ -122,19 +149,38 @@
                             </dl>
                             <dl>
                                 <dt>생년월일</dt>
-                                <dd class="btn_pd"><span>1949-04-15</span></dd>
+                                <dd class="btn_pd"><span><%=request.getAttribute("birth") %></span></dd>
                             </dl>
+                           <form action="Modify_addressAction" id="modify_address">
+                           <dl>
+                			 <dt>주소</dt>
+                             <dd class="btn_pd">
+                               <span style="display: inline-block; width: 86%;"><%=request.getAttribute("address")%> <%=request.getAttribute("detailed_address")%></span>
+                               <a href="#" class="btn_common address" id="name_open">수정</a>
+                             </dd>
+                             <div class="modify_box_small">
+                               <button type="button" class="btn_common" onclick="sample3_execDaumPostcode()">주소 검색</button>
+                               <div id="wrap" style="display:none;border:1px solid;width:500px;height:300px;margin:5px 0;position:absolute;z-index:5;">
+                                  <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()" alt="접기 버튼">
+                               </div>
+                              <span class="em_noti" style="color: #ef3e42">변경할 주소를 상세주소까지 정확하게 입력해주세요.</span>
+                              <div class="enter_box">
+                                <div class="style_input">
+                                  <input type="text" class="con_input" id="input_newAddress" name="input_newAddress">
+                                  <input type="text" class="con_input" id="input_newAddressD" name="input_newAddressD">
+                                </div>
+                              </div>
+                              <p class="btn_area"><button type="submit" class="btn_red" name="mf_address" id="mf_address">수정</button></p>
+                            </div>
+                            </dl>
+                            </form>
                             <dl>
                                 <dt>성별</dt>
                                 <dd class="radio">
-                                    <div class="radio_style">
-                                        <input type="radio" name="sex" id="man" value="1" checked disabled="disabled">
-                                        <label for="man">남</label>
-                                    </div>
-                                    <div class="radio_style">
-                                        <input type="radio" name="sex" id="woman" value="2" disabled="disabled">
-                                        <label for="woman">여</label>
-                                    </div>
+                                	<span>
+	                                    <%if(gender.equals("M")){%>남
+	                                    <%}else {%>여 <%}%>
+                                    </span>
                                 </dd>
                             </dl>
                             <dl>
@@ -156,7 +202,7 @@
                         </span> 
                     </div> <!--취소, 수정 버튼-->
                 </div>
-            </form> <!--가운데 회원정보들-->
+            
         </div>
     </div>
     <!-- 맨 밑 하단 안내사항 -->
@@ -261,63 +307,7 @@
       </ul>
     </div>
   </div>
-  
-
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-
-      // 수정버튼 기능
-      var btn = document.querySelectorAll(".btn_common");
-
-      btn.forEach(function(btn) {
-        btn.addEventListener("click", function() {
-
-        var content = this.parentElement.nextElementSibling;
-        content.classList.toggle("on"); // 수정버튼 누르면 박스나옴
-        this.classList.toggle("red"); // 수정버튼 누르면 빨간 취소버튼으로 바뀜
-          
-        if (this.innerText == "수정") {
-        this.innerText = "취소";
-        }
-        else 
-        this.innerText = "수정"
-        })
-      })
-
-      // 이메일 리스트 펼치는 기능
-      document.querySelector(".custom_select").addEventListener("click", function() {
-        this.classList.toggle("acting");
-      });
-
-
-      // 이메일 선택 기능
-      var text = document.querySelector(".new_list");
-      var list = document.querySelectorAll(".option");
-    
-      list.forEach(function(listItem) {
-                listItem.addEventListener("click", function() {
-                    text.innerText = listItem.innerText;
-                });
-          });
-      
-
-      // 이메일 선택하면 input에 자동 입력
-      var emailInput = document.querySelector('.email_box .con_input');
-      var emailDomainSelect = document.querySelectorAll('.option');
-
-      emailDomainSelect.forEach(function(option) {
-        option.addEventListener('click', function() {
-            var selectedDomain = option.innerText;
-            if (selectedDomain === '직접입력' || selectedDomain === '선택하세요') {
-              emailInput.value = '';  // 직접입력 선택하면 초기화
-            } else {
-                var emailParts = emailInput.value.split('@');
-                emailInput.value = emailParts[0] + '@' + selectedDomain;  
-            }
-          });
-      });
-    });
-  </script>
-  <script src="/assets/js/del_btn.js"></script>
+  <script src="./js/modify_member.js"></script>
+  <script src="./js/del_btn.js"></script>
 </body>
 </html>

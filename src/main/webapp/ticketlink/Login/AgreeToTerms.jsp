@@ -1,18 +1,21 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="/assets/css/agreeToTerms.css">
+    <link rel="stylesheet" type="text/css" href="./css/agreeToTerms.css">
     <title>약관동의</title>
 </head>
 <body>
+
     <div class="memberContainer">
         <div class="header">
             <a href="" class="headerLogo"><span></span></a>
             <div class="headerTitle">약관동의</div>
         </div>
-        <form action="https://www.naver.com">
+        <form action="http://localhost:9090/Test/Signup.jsp" method="get">
             <div class="contents">
                 <div class="contentWrapper">
                     <div class="checkboxAll">
@@ -29,7 +32,7 @@
                                 <div class="uCheckbox">
                                     <label for="check1" class="label2">
                                         <div class="inputWrap">
-                                            <input type="checkbox" class="singleSelector require" id="check1">
+                                            <input type="checkbox" class="singleSelector require" id="check1" name="terms1">
                                             <span class="text">
                                             </span>
                                         </div>
@@ -39,7 +42,7 @@
                                 <div class="uCheckbox">
                                     <label for="check2" class="label2">
                                         <div class="inputWrap">
-                                            <input type="checkbox" class="singleSelector require" id="check2">
+                                            <input type="checkbox" class="singleSelector require" id="check2" name="terms2">
                                             <span class="text">
                                             </span>
                                         </div>
@@ -49,7 +52,7 @@
                                 <div class="uCheckbox">
                                     <label for="check3" class="label2">
                                         <div class="inputWrap">
-                                            <input type="checkbox" class="singleSelector require" id="check3">
+                                            <input type="checkbox" class="singleSelector require" id="check3" name="terms3">
                                             <span class="text">
                                             </span>
                                         </div>
@@ -64,7 +67,7 @@
                             <div class="uCheckbox">
                                 <label for="check4" class="label2">
                                     <div class="inputWrap">
-                                        <input type="checkbox" class="singleSelector" id="check4">
+                                        <input type="checkbox" class="singleSelector" id="check4" name="terms4">
                                         <span class="text"></span>
                                     </div>
                                 </label>
@@ -73,7 +76,7 @@
                             <div class="uCheckbox">
                                 <label for="check5" class="label2">
                                     <div class="inputWrap">
-                                        <input type="checkbox" class="singleSelector" id="check5">
+                                        <input type="checkbox" class="singleSelector" id="check5" name="terms5">
                                         <span class="text"></span>
                                     </div>
                                 </label>

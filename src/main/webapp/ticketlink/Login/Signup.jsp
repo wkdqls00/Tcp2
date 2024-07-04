@@ -1,13 +1,36 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원가입>정보입력</title>
-    <link rel="stylesheet" type="text/css" href="/assets/css/signup.css">
+    <link rel="stylesheet" type="text/css" href="./css/signup.css">
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 </head>
 <body>
-    <form action="다음페이지">
+<%
+	String terms1 = request.getParameter("terms1");
+	String terms2 = request.getParameter("terms2");
+	String terms3 = request.getParameter("terms3");
+	String terms4 = request.getParameter("terms4");
+	String terms5 = request.getParameter("terms5");
+	
+	 terms1 = (terms1 != null) ? "Y" : "N";
+     terms2 = (terms2 != null) ? "Y" : "N";
+     terms3 = (terms3 != null) ? "Y" : "N";
+     terms4 = (terms4 != null) ? "Y" : "N";
+     terms5 = (terms5 != null) ? "Y" : "N";
+%>
+    <form id="form" action="http://localhost:9090/Test/SignupDaoServlet" method="post">
+       <input type="hidden" name="terms1" value="<%= terms1 %>">
+       <input type="hidden" name="terms2" value="<%= terms2 %>">
+       <input type="hidden" name="terms3" value="<%= terms3 %>">
+       <input type="hidden" name="terms4" value="<%= terms4 %>">
+       <input type="hidden" name="terms5" value="<%= terms5 %>">
         <div class="memberConatainer">
             <div class="header">
                 <div class="header_inner">
@@ -27,13 +50,15 @@
                                 <div class="input">
                                     <label for="" class="input_id">아이디</label>
                                     <div class="input_box">
-                                        <input type="text" id="input_id" class="input_text" placeholder="6~20자 영문,숫자" tabindex="1" value="">
+                                        <input type="text" id="input_id" class="input_text" placeholder="6~20자 영문,숫자" tabindex="1" value="" name="id">
                                         <span id="conClear" class="del_btn" style="display: none;"></span>
                                     </div>
                                 </div>
                             </div>
+                            <button type="button" class="check_id" onclick="checkDuplicateId()">중복확인</button>
                         </div>
                         <div class="error_text">영문으로 시작하는 6~20자 영문(소문자), 숫자만 사용 가능합니다</div>
+                        <div class="error_text checkId">중복확인을 체크해주세요.</div>
                     </div>
                     <div class="uBlock"> <!-- 비밀번호 블럭 -->
                         <div class="input_area">
@@ -41,7 +66,7 @@
                                 <div class="input">
                                     <label for="input_pw">비밀번호</label>
                                     <div class="input_box">
-                                        <input type="password" id="input_pw" class="input_text" placeholder="8~12자영문, 숫자, 특수문자" tabindex="2" value="">
+                                        <input type="password" id="input_pw" class="input_text" placeholder="8~12자영문, 숫자, 특수문자" tabindex="2" value="" name="pw">
                                         <span id="conClear" class="del_btn" style="display: none;"></span>
                                     </div>
                                 </div>
@@ -70,7 +95,7 @@
                                 <div class="input">
                                     <label for="input_name">이름</label>
                                     <div class="input_box">
-                                        <input type="text" id="input_name" class="input_text" tabindex="4" value="">
+                                        <input type="text" id="input_name" class="input_text" tabindex="4" value="" name="name">
                                         <span id="conClear" class="del_btn" style="display: none;"></span>
                                     </div>
                                 </div>
@@ -84,13 +109,15 @@
                                 <div class="input">
                                     <label for="input_nickname">닉네임</label>
                                     <div class="input_box">
-                                        <input type="text" id="input_nickname" class="input_text" placeholder="2 ~ 10자 한글, 영문, 숫자" tabindex="5" value="">
+                                        <input type="text" id="input_nickname" class="input_text" placeholder="2 ~ 10자 한글, 영문, 숫자" tabindex="5" value="" name="nickname">
                                         <span id="conClear" class="del_btn" style="display: none;"></span>
                                     </div>
                                 </div>
                             </div>
+                            <button type="button" class="check_nickname"  onclick="checkDuplicateNick()">중복확인</button>
                         </div>
                         <div class="error_text">한글, 영문 2 ~ 10자로 가능합니다.</div>
+                        <div class="error_text checkNick">중복확인을 체크해주세요.</div>
                     </div>
                     <div class="uBlock"> <!-- 이메일 블럭 -->
                         <div class="input_area email">
@@ -98,7 +125,7 @@
                                 <div class="input">
                                     <label for="input_eamil">이메일</label>
                                     <div class="input_box">
-                                        <input type="text" id="input_email" class="input_text text_email" tabindex="6" value="">
+                                        <input type="text" id="input_email" class="input_text text_email" tabindex="6" value="" name="email">
                                         <span id="conClear" class="del_btn" style="display: none;"></span>
                                     </div>
                                 </div>
@@ -129,14 +156,17 @@
                                 <div class="input">
                                     <label for="input_nickname">우편번호</label>
                                     <div class="input_box">
-                                        <input type="text" id="input_address" class="input_text" placeholder="우편번호를 입력해주세요." tabindex="7" value="">
+                                        <input type="text" id="input_address" class="input_text" placeholder="우편번호를 입력해주세요." tabindex="7" value="" name="address">
                                         <span id="conClear" class="del_btn" style="display: none;"></span>
                                     </div>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="btn_area">
-                                    <button type="button" class="btn address">주소 검색</button>
+                                    <button type="button" class="btn address" onclick="sample3_execDaumPostcode()">주소 검색</button>
+                                    <div id="wrap" style="display:none;border:1px solid;width:500px;height:300px;margin:5px 0;position:absolute;z-index:5;">
+                                        <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()" alt="접기 버튼">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -147,7 +177,7 @@
                                 <div class="input">
                                     <label for="input_nickname">상세주소</label>
                                     <div class="input_box">
-                                        <input type="text" id="input_addressDetailed" class="input_text" placeholder="상세주소를 입력해주세요." tabindex="8" value="">
+                                        <input type="text" id="input_addressDetailed" class="input_text" placeholder="상세주소를 입력해주세요." tabindex="8" value="" name="detailed_address">
                                         <span id="conClear" class="del_btn" style="display: none;"></span>
                                     </div>
                                 </div>
@@ -160,9 +190,9 @@
                                 <div class="input">
                                     <label for="input_birth">주민등록번호</label>
                                     <div class="input_box birth">
-                                        <input type="text" id="input_birth" class="input_text" placeholder="6자리" tabindex="9" maxlength="6" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" >
+                                        <input name="birth" type="text" id="input_birth" class="input_text" placeholder="6자리" tabindex="9" maxlength="6" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" >
                                         <div style="display: inline-block; width: 13px; height: 0; border: 1px solid black; vertical-align: middle;"></div>
-                                        <input type="text" id="input_gender" class="input_text gender" tabindex="10" maxlength="1" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                        <input name="gender" type="text" id="input_gender" class="input_text gender" tabindex="10" maxlength="1" oninput="this.value = this.value.replace(/[^1-4]/g, '')">
                                         <!--주민번호 뒷자리 별모양-->
                                         <input type="text" class="input_text gender" placeholder="" maxlength="1" value="●" readonly style="font-size: 15px;">
                                         <input type="text" class="input_text gender" placeholder="" maxlength="1" value="●" readonly style="font-size: 15px;">
@@ -182,7 +212,7 @@
                                 <div class="input">
                                     <label for="input_phone">휴대폰</label>
                                     <div class="input_box">
-                                        <input type="text" id="input_phone" class="input_text" placeholder="010 1234 5678" tabindex="11" value="">
+                                        <input type="text" id="input_phone" class="input_text" placeholder="010 1234 5678" tabindex="11" value="" name="phone">
                                         <span id="conClear" class="del_btn" style="display: none;"></span>
                                     </div>
                                 </div>
@@ -305,14 +335,118 @@
                     </div>
                     <div class="btn_area last"> <!--가입완료버튼-->
                         <div class="col">
-                            <button type="submit" class="btn point" disabled>가입완료</button>
+                            <button type="submit" class="btn point" disabled onclick="end(event)">가입완료</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <input type="hidden">
     </form>
-</body>
-    <script src="/assets/js/signup.js"></script>
+    <script src="./js/signup.js"></script>
+    <script>
+	// 가입완료 버튼 누르면 alert 
+		function end(event) {
+			event.preventDefault();
+			var text = document.getElementById("input_name").value;
+			const queryParams = window.location.search;
+			console.log("입력된 이름:", text);
+			alert(`가입 되었습니다.\n환영합니다 ${text}님`);
+			document.getElementById("form").submit();
+		}
+		   // 모든 인풋의 값 입력할 때까지 인증번호 버튼 disabled
+		   let isIdUnique = false; // 아이디 중복 여부  변수
+		   let isNickUnique = false; // 닉네임 중복 여부 변수
+		   let inputs = document.querySelectorAll(".input_text");
+		   let submitButton = document.querySelector('.btn.border_type');
+		   
+		   function validateInputs() {
+		       let userid = document.getElementById("input_id").value;
+		       let password = document.getElementById("input_pw").value;
+		       let confirmPassword = document.getElementById("input_pw_confirm").value;
+		       let name = document.getElementById("input_name").value;
+		       let nickname = document.getElementById("input_nickname").value;
+		       let email = document.getElementById("input_email").value;
+		       let phone = document.getElementById("input_phone").value;
+		       let address = document.getElementById("input_address").value;
+		       let detail_ad = document.getElementById("input_addressDetailed").value;
+		       let birth = document.getElementById("input_birth").value;
+		       let gender = document.getElementById("input_gender").value;
+		
+		       let useridValid = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9]{6,20}$/.test(userid);
+		       let passwordValid = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(password);
+		       let confirmPasswordValid = password === confirmPassword;
+		       let nameValid = /^[가-힣]{2,}$/.test(name);
+		       let nicknameValid = /^(?=.*[가-힣a-zA-Z])([가-힣a-zA-Z0-9]){2,10}$/.test(nickname);
+		       let emailValid = /^[^\s@]+@[^\s@]+\.com$/.test(email);
+		       let phoneValid = /^[0-9]{10,11}$/.test(phone);
+		       let addressValid = address != '';
+		       let detail_adValid = detail_ad != '';
+		       let birthValid = /^.{6,}$/.test(birth);
+		       let genderValid = /^[1234]+$/.test(gender);
+		
+		       return useridValid && passwordValid && confirmPasswordValid && nameValid && nicknameValid && emailValid && phoneValid && addressValid && detail_adValid && birthValid && genderValid;
+		   }
+		
+		   function updateButtonState() {
+			
+		       if (validateInputs() && isIdUnique && isNickUnique)  {
+		           submitButton.classList.add("notdisabled"); // 버튼 활성화
+		       } else {
+		           submitButton.classList.remove("notdisabled"); // 버튼 비활성화
+		       }
+		   }
+		
+		   inputs.forEach(input => {
+		   input.addEventListener('input', updateButtonState);
+		
+		   });
+		   updateButtonState();
+    
+ 		// 아이디 중복확인
+        function checkDuplicateId() {
+            var inputId = document.getElementById("input_id").value;
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/Test/CheckId", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    let response = xhr.responseText;
+                    alert(response);
+                    if (response.trim() === "사용 가능한 아이디입니다.") {
+                    	const errorEl2 = document.querySelector('.error_text.checkId');
+                        isIdUnique = true;
+                        errorEl2.style.display = "none";
+                    } else {
+                        isIdUnique = false;
+                    }	
+                    updateButtonState();
+                }
+            };
+            xhr.send("id=" + encodeURIComponent(inputId));
+        }
+	     // 닉네임 중복확인
+	        function checkDuplicateNick() {
+	            var inputNick = document.getElementById("input_nickname").value;
+	            var xhr = new XMLHttpRequest();
+	            xhr.open("POST", "/Test/CheckNick", true);
+	            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	            xhr.onreadystatechange = function () {
+	                if (xhr.readyState === 4 && xhr.status === 200) {
+	                    let response = xhr.responseText;
+	                    alert(response);
+	                    if (response.trim() === "사용 가능한 닉네임입니다.") {
+	                    	const errorEl3 = document.querySelector('.error_text.checkNick');
+	                        isNickUnique = true;
+	                        errorEl3.style.display = "none";
+	                    } else {
+	                        isNickUnique = false;
+	                    }
+	                    updateButtonState();
+	                }
+	            };
+	            xhr.send("nickname=" + encodeURIComponent(inputNick));
+	        }
+    </script>
 </body>
 </html>

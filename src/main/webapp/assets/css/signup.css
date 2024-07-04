@@ -155,7 +155,7 @@ input::placeholder {
     transition: 1s;
     opacity: 0.4;
 }
-.btn.address  {
+.btn.address, .check_id, .check_nickname  {
     min-width: 70px;
     padding: 0 10px 1px 10px;
     box-sizing: border-box;
@@ -363,11 +363,6 @@ input::placeholder {
 .agreeBlock .input_area {
     border: 0;
 }
-
-
-
-
-
 
 
 

@@ -1,35 +1,41 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="/assets/css/login.css">
+    <link rel="stylesheet" type="text/css" href="./css/login.css">
     <title>Document</title>
-    <style>
-       
-    </style>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
+    <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+    <script>
+    Kakao.init('d71651f09cc74945fc403a9f0692a5b7'); // 사용하려는 앱의 JavaScript 키 입력
+    </script>
+  
 </head>
 <body>
     <div class="header"></div>
     <div id="container" class="container login">
         <div class="loginWrap">
             <div class="loginLogo">
-             <h1 style="margin: 0;">
+            <h1 style="margin: 0;">
                 <span>종원링크</span>
             </h1>
             </div>
-            <form id="loginFrm" name="loginFrm" action="/login/submit" >
+            <form id="loginFrm" name="loginFrm" action="/Test/LoginSuccessToModify"  method="post" >
                 <div class="loginInner">
                     <div class="loginForm">
                         <div class="inputBox">
                             <div class="style_input id">
-                                <label for="">
+                                <label for="userId">
                                     <input type="text" name="userId" id="userId" placeholder="아이디" class="con_input id">
                                     <span id="conClear" class="del_btn" style="display: none;"></span>
                                 </label>
                             </div>
                             <div class="style_input pw">
-                                <label for="">
+                                <label for="userPw">
                                     <input type="password" name="userPw" id="userPw" placeholder="비밀번호" class="con_input pw">
                                     <span id="conClear" class="del_btn" style="display: none;"></span>
                                 </label>
@@ -48,7 +54,7 @@
                         </div>
                     </div>
                     <div class="loginButtonBox">
-                        <button type="button" class="loginBtn" id="btn_login">
+                        <button type="submit" class="loginBtn" id="btn_login">
                             <span>로그인</span>
                         </button>
                     </div>
@@ -62,14 +68,14 @@
                     <div class="snsLogin">
                         <ul>
                             <li id="kakao_li">
-                              <a href="https://accounts.kakao.com/login/?continue=https%3A%2F%2Fkauth.kakao.com%2Foauth%2Fauthorize%3Fresponse_type%3Dcode%26redirect_uri%3Dhttps%253A%252F%252Faccounts.interpark.com%252Fmember%252Flogin.do%253F_method%253DloginKakaoResult%26state%3D%26through_account%3Dtrue%26client_id%3Dcb6dd3048009fc6dec77006c8031d90a#login" class="kakao" id="openid_kakao">
+                                <a href="javascript:loginWithKakao()" class="kakao" id="openid_kakao">
                                 <span>카카오톡</span>
-                              </a>
+                                </a>
                             </li>
                             <li id="naver_li">
-                              <a href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=OjMXIqLDpjGKOT9U3Usb&redirect_uri=https://accounts.interpark.com/openid/callback/naver&state=xC8FmLjLNPIBAw9sUyRUqdeoewQM1ioYZf-nWVXtpB8" class="naver" id="openid_naver">
-                                <span>네이버</span>
-                              </a>
+                                <a href="javascript:loginWithNaver()" class="naver" id="naver_id_login">
+                                <span id="">네이버</span>
+                                </a>
                             </li>
                         </ul>
                     </div>
@@ -77,12 +83,9 @@
             </form>
         </div>
     </div>
-    
     <script>
-        // 로그인 유지 버튼 기능
-
         document.addEventListener("DOMContentLoaded", function() {
-
+            // 로그인 유지 버튼 기능
             document.querySelector(".checkbox input").addEventListener("change", function() {
                 var check = document.querySelector(".checkbox input");
 
@@ -103,8 +106,35 @@
             document.querySelector(".loginBtn").addEventListener("mouseleave", function() {
                 this.classList.remove("special");
             });
-        });
+            
+          });
+    </script>        
+    <script type="text/javascript">
+        var naver_id_login = new naver_id_login("0XIdlnam8573LeD3OCbE", "https://127.0.0.1:5500/callback");
+        var state = naver_id_login.getUniqState();
+        naver_id_login.setButton("green", 1, 1);
+        naver_id_login.setDomain("https://127.0.0.1:5500");
+        naver_id_login.setState(state);
+        naver_id_login.setPopup();
+        naver_id_login.init_naver_id_login();
     </script>
-    <script src="/assets/js/del_btn.js"></script>
+    <script type="text/javascript">
+        Kakao.init('d71651f09cc74945fc403a9f0692a5b7'); // 여기에 본인의 앱 키를 입력하세요.
+
+        function loginWithKakao() {
+            Kakao.Auth.authorize({
+                redirectUri: 'http://127.0.0.1:5500/zproject_backup/html/Login/callback.html', // ngrok URL 사용
+            });
+        }
+    </script>
+     <script type="text/javascript">
+        window.onload = function() {
+            // 로그인 실패하면 error문 뜨게 
+            <% if (request.getAttribute("loginError") != null) { %> // 이게 LoginSuccessMain에서 조건이 맞지 않으면 loginError 라는 속성을 전달함
+                document.querySelector(".message").style.display = "block";
+            <% } %>
+        }
+    </script>
+    <script src="./js/del_btn.js"></script>
 </body>
 </html>

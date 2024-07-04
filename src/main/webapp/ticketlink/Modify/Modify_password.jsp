@@ -1,12 +1,14 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>비밀번호변경</title>
-    <link rel="stylesheet" href="/assets/css/modify_member.css">
-    <link rel="stylesheet" href="/assets/css/modify_password.css">
-    <link rel="stylesheet" href="/assets/css/footer.css">
+    <link rel="stylesheet" href="./modify_member.css">
+    <link rel="stylesheet" href="./css/modify_password.css">
+    <link rel="stylesheet" href="./css/footer.css">
 </head>
 <body>
     <div class="common_header"> <!--홈페이지상단-->
@@ -26,18 +28,18 @@
             <div class="left_menu_area">
                 <div class="my_area"> 
                     <p>환영합니다</p>
-                    <p>이준영님</p>
+                    <p><%=request.getAttribute("name")%>님</p>
                 </div>
                 <div class="my_menu_area"> <!--왼쪽 메뉴들-->
                     <ul>
-                        <li class="modify"><a href="http://127.0.0.1:5500/TicketProject/Modify/modify_member.html">회원정보수정</a></li>
-                        <li class="password current"><a href="http://127.0.0.1:5500/TicketProject/Modify/modify_password.html">비밀번호변경</a></li>
-                        <li class="sns"><a href="http://127.0.0.1:5500/TicketProject/Modify/modify_memberjoin.html">계정연결설정</a></li>
-                        <li class="withdrawal"><a href="http://127.0.0.1:5500/TicketProject/Modify/modify_withdrawal.html">회원탈퇴</a></li>
+                        <li class="modify"><a href="/Test//Modify_memberServlet">회원정보수정</a></li>
+                        <li class="password current"><a href="/Test/Modify_passwordServlet">비밀번호변경</a></li>
+                        <li class="sns"><a href="#">계정연결설정</a></li>
+                        <li class="withdrawal"><a href="#">회원탈퇴</a></li>
                     </ul>
                 </div> <!--왼쪽 메뉴들-->
             </div>
-            <form action="" name="password_modify"> <!--가운데 회원정보들-->
+            <form action="/Test/Modify_passwordAction" name="password_modify" method="get"> <!--가운데 회원정보들-->
                 <div class="sub_content_wrap">
                     <h2 class="main_title">비밀번호변경</h2>
                     <div class="pw_to_box">
@@ -49,25 +51,24 @@
                         <ul>
                             <li>
                                 <div class="style_input">
-                                  <input type="password" class="con_input" id="fst_password" placeholder="새 비밀번호">
-                                  <span id="conClear" class="del_btn" style="display: none;"></span>
+                                    <input type="password" class="i_input" id="fst_password" placeholder="새 비밀번호" name="newPw">
+                                    <p class="error" style="color: #ef3e42; font-size: 12px; display: none;">잘못된 형식의 비밀번호입니다.</p>
                                 </div>
                             </li>
                             <li>
                                 <div class="style_input">
-                                  <input type="password" class="con_input" id="snd_password" placeholder="새 비밀번호 확인">
-                                  <span id="conClear" class="del_btn" style="display: none;"></span>
+                                    <input type="password" class="i_input" id="snd_password" placeholder="새 비밀번호 확인">
                                 </div>
                             </li>
                         </ul>
-                        <p class="pw_noti">비밀번호는 8~12자 이내로 영문(대,소문자), 숫자, 특수문자 3가지 조합 중 2가지 이상을 조합하셔서 만드시면 됩니다.</p>
+                        <p class="pw_noti">8~12자의 영문, 숫자, 특수문자 중 2가지 이상으로만 가능합니다.</p>
                     </div>
                     <div class="inter_btn_area">
                         <span>
                             <button type="submit" class="btn_white">취소</button>
                         </span>
                         <span>
-                            <button type="submit" class="btn_red_success">변경</button>
+                            <button type="submit" class="btn_red">변경</button>
                         </span>
                     </div>
                 </div>
@@ -172,6 +173,37 @@
       </ul>
     </div>
   </div>
-  <script src="/assets/js/del_btn.js"></script>
+  <script>
+    // 새비밀번호랑 새비밀번호 확인 비교 
+    document.addEventListener("DOMContentLoaded", function() {
+
+      document.querySelector(".btn_red").addEventListener("click", function() {
+        let p1 = document.getElementById("fst_password").value;
+        let p2 = document.getElementById("snd_password").value;
+        let regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        if(p1 !== p2) {
+          event.preventDefault();
+          alert("비밀번호가 일치하지 않습니다.")
+        } else if(!regex.test(p1)) {
+          event.preventDefault();
+          alert("잘못된 형식의 비밀번호입니다.")
+        } else {
+          alert("비밀번호가 변경되었습니다. \n 다시 로그인해주세요.")
+        }
+      });
+
+      // 비밀번호 조건문(정규표현으로)
+      document.getElementById("fst_password").addEventListener("input", function() {
+        let error = document.querySelector(".error");
+        let regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        let text = this.value;
+        if(!regex.test(text)) {
+          error.style.display = "block";
+        } else {
+          error.style.display = "none";
+        }
+      });
+    });
+  </script>
 </body>
 </html>

@@ -268,6 +268,7 @@ input::placeholder {
     text-decoration: none;
     font-size: 16px;
     color: #fff;
+    transition: 0.5s;
 }
 .icon_noti {
     background: url("http://openimage.interpark.com/.ui/openId/pc/icon_noti.png") no-repeat 0 2px;
@@ -363,7 +364,12 @@ input::placeholder {
     outline: 0;
     cursor: pointer;
 }
-
+.error_text {
+    padding: 10px;
+    line-height: 14px;
+    font-size: 13px;
+    color: #ef3e42;
+}
 
 /* 자바스크립트 적용 css */
 .modify_box_small.on { 
@@ -379,4 +385,9 @@ input::placeholder {
     border: 1px solid #ef3e42;
     background-color: #fff;
     color: #ef3e42;
+}
+.disabled {
+    background-color: grey;
+    border-color: grey;
+    pointer-events: none;
 }
