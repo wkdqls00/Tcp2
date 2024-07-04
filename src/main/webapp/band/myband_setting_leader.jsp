@@ -147,11 +147,11 @@
               <span class="name">김민효님의 프로필</span>
               <span class="subtxt"></span>
             </div>
-            <div class="etc">
-              <button type="button" class="etc_btn">
-                설정
-              </button>
-            </div>
+            <form action="band_profile.jsp">
+	            <div class="etc">
+	              <button type="submit" class="etc_btn">설정</button>
+	            </div>
+            </form>
           </div>
           <h2 class="setting_title">밴드 정보 관리</h2>
           <ul class="setting_list">
@@ -183,7 +183,7 @@
                 <span class="subtxt">성별 제한없음, 나이 제한없음</span>
               </div>
               <div class="item_side">
-                <a href="#" class="band_update_btn">변경</a>
+                <a href="band_joining_condition.jsp" class="band_update_btn">변경</a>
               </div>
             </li>
           </ul>
@@ -194,7 +194,7 @@
                 <span class="subtxt">밴드 주소, 키워드, 소개글을 관리하세요.</span>
               </div>
               <div class="item_side">
-                <a href="#" class="band_update_btn">변경</a>
+                <a href="band_information.jsp" class="band_update_btn">변경</a>
               </div>
             </li>
           </ul>
@@ -373,7 +373,7 @@
       });
       $(".btnCancel").click(function() {
         $(".layer_wrap").css('display', 'none');
-      })
+      });
     });
     
 
