@@ -17,7 +17,7 @@ public class UpdateLeaveBandServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		UpdateLeaveBandDAO ulbDAO = new UpdateLeaveBandDAO();
-		RequestDispatcher rd = request.getRequestDispatcher("ticket_project/band/updateLeaveBandPopup.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("/band/updateLeaveBandPopup.jsp");
 		rd.forward(request, response);
 	}
 }

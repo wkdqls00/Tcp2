@@ -13,5 +13,5 @@
 	int member_idx = Integer.parseInt(request.getParameter("member_idx"));
 	ulbDAO.updateLeaveBand(meet_idx, member_idx);
 	
-	response.sendRedirect("ticket_project/band/band_main.jsp");
+	response.sendRedirect("band/band_main.jsp");
 %>

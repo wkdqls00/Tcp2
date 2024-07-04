@@ -18,7 +18,7 @@ public class bandDeleteServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		BandDeleteDAO bdDAO = new BandDeleteDAO();
-		RequestDispatcher rd = request.getRequestDispatcher("ticket_project/band/bandDeletePopUp.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("band/bandDeletePopUp.jsp");
 		rd.forward(request, response);
 	}
 

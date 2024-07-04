@@ -348,7 +348,7 @@
           </div>
         </div>
         <footer class="modalFooter">
-        <form action="../../UpdateLeaveBandServlet" method="post">
+        <form action="../UpdateLeaveBandServlet" method="post">
         	<input type="hidden" name="meet_idx" value="<%=request.getParameter("meet_idx")%>">
         	<input type="hidden" name="member_idx" value="<%=request.getParameter("member_idx")%>">
           <button type="button" class="btnCancel">취소</button>
