@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import dto.CommentListViewDTO;
+import dto.LikeCountDTO;
 import project.DatabaseUtil;
 
 public class CommentListViewDAO {
@@ -29,7 +30,7 @@ public class CommentListViewDAO {
         Connection conn = d.getConn();
 
         String sql = 
-        		"SELECT m.nickname, m_m.profile, c.content "
+        		"SELECT m.member_idx, m_m.nickname, m_m.profile, c.content "
         		+ "FROM member m, meet_member m_m, meet_comment c, post p "
         		+ "WHERE m.member_idx = m_m.member_idx "
         		+ "AND c.meet_member_idx = m_m.meet_member_idx "
@@ -43,12 +44,46 @@ public class CommentListViewDAO {
         ResultSet rs = d.getRs(pstmt);
         try {
             while (rs.next()) {
-            	String nickname = rs.getString(1);
-            	String profile = rs.getString(2);
-            	String content = rs.getString(3);
+            	int member_idx = rs.getInt(1);
+            	String nickname = rs.getString(2);
+            	String profile = rs.getString(3);
+            	String content = rs.getString(4);
             	
-            	CommentListViewDTO commentListViewDTO = new CommentListViewDTO(nickname, profile, content); // 저장한 값으로 SeatStatus 객체 생성
+            	CommentListViewDTO commentListViewDTO = new CommentListViewDTO(member_idx, nickname, profile, content); // 저장한 값으로 SeatStatus 객체 생성
                 list.add(commentListViewDTO);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+			d.close(conn, pstmt, rs);
+        }
+        return list;
+    }
+    
+    public ArrayList<LikeCountDTO> selectLikeCountDTO(int post_idx) throws SQLException {
+        ArrayList<LikeCountDTO> list = new ArrayList<>();
+        DatabaseUtil d = new DatabaseUtil();
+        Connection conn = d.getConn();
+
+        String sql = 
+        		"SELECT COUNT(g.post_idx) "
+        		+ "FROM meet_member m_m, member m, post p, post_good g "
+        		+ "WHERE m_m.member_idx = m.member_idx "
+        		+ "AND p.meet_member_idx = m_m.meet_member_idx "
+        		+ "AND g.post_idx = p.post_idx "
+        		+ "AND p.post_idx = ?";
+        
+        PreparedStatement pstmt = d.getPstmt(conn, sql);
+        
+        pstmt.setInt(1, post_idx);
+
+        ResultSet rs = d.getRs(pstmt);
+        try {
+            while (rs.next()) {
+            	int like = rs.getInt(1);
+            	
+            	LikeCountDTO likeCountDTO = new LikeCountDTO(like); // 저장한 값으로 SeatStatus 객체 생성
+                list.add(likeCountDTO);
             }
         } catch (SQLException e) {
             e.printStackTrace();

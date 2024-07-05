@@ -1,3 +1,7 @@
+<%@page import="dto.LikeCountDTO"%>
+<%@page import="dao.LikeCountDAO"%>
+<%@page import="dto.CommentListViewDTO"%>
+<%@page import="dao.CommentListViewDAO"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="dto.MeetPostListPrintDTO"%>
 <%@page import="dao.MeetPostListPrintDAO"%>
@@ -27,7 +31,17 @@
 	
 	// 밴드 글 목록 출력
 	MeetPostListPrintDAO mPrintDAO = new MeetPostListPrintDAO();
-	ArrayList<MeetPostListPrintDTO> mPrintDTO = new ArrayList();
+	ArrayList<MeetPostListPrintDTO> mPrintListDTO = new ArrayList<>();
+	
+	mPrintListDTO = mPrintDAO.selectMeetPostListPrintDTO(meet_idx);
+	
+	// 댓글 목록 출력
+	CommentListViewDAO clViewDAO = new CommentListViewDAO();
+	ArrayList<CommentListViewDTO> clListDTO = new ArrayList<>();
+	
+	// 밴드 글 좋아요 갯수
+	LikeCountDAO lCountDAO = new LikeCountDAO();
+	
 %>
 
 <!DOCTYPE html>
@@ -156,7 +170,7 @@
       <main class="band_main">
         <section>
           <!-- 게시글 검색 form -->
-          <div class="searchWrap">
+          <!-- <div class="searchWrap">
             <form>
               <div class="inputSearch">
                 <input type="text" id="input_search" placeholder="글 내용, #태그, @작성자 검색"
@@ -164,7 +178,7 @@
                 <button type="submit" class="search"></button>
               </div>
             </form>
-          </div>
+          </div> -->
           <!-- 밴드 소개 영역 -->
           <div class="bandIntroRegion">
             <div class="contentsCard">
@@ -198,15 +212,145 @@
           <div class="moduleBox">
             <div class="postWrap">
               <div>
+              <span></span>
             <!-- 게시글이 없을 경우 -->
               <% 
-              if (mPrintDTO.size() == 0) {
+              if (mPrintListDTO.size() == 0) {
               %>
                 <div class="postEmpty">
                 </div>
-              <% } %>
+              <% } else { %>
              <!-- 게시글이 있을 경우 -->
-             
+             <% for (MeetPostListPrintDTO mPDto : mPrintListDTO) {
+            	 clListDTO = clViewDAO.selectCommentListViewDTO(mPDto.getPost_idx());
+            	 LikeCountDTO lCountDTO = lCountDAO.selectLikeCountDTO(mPDto.getPost_idx());
+            	 %>
+           		<div class="postLayoutView">
+           		<article class="contentsCard">
+				 <!-- 게시글 상단 -->
+				 <div class="postListItemView">
+				   <div class="postAuthorRegion">
+				     <div class="postWriter">
+				     <% if (mPrintDAO.adminCheck(mPDto.getMember_idx(), meet_idx)) { %>
+				       <a href="#" class="uProfile -leader">
+				       <% } else { %>
+				       <a href="#" class="uProfile">
+				       <% } %>
+				         <span class="profileInner">
+			         		<% if (mPDto.getProfile() != null) { %>
+				         	<img src="<%= mPDto.getProfile() %>"
+				                   width="34" height="34">
+		                   <% } %>
+				         </span>
+				       </a>
+				       <div class="postWriterInfoWrap">
+				         <span class="name">
+				           <a href="#" class="text"><%= mPDto.getNickname() %></a>
+				         </span>
+				         <div class="postListInfoWrap">
+				           <time class="time"><%= mPDto.getReg_date() %></time>
+				         </div>
+				       </div>
+				     </div>
+				   </div>
+				   <div class="postMain">
+				     <div class="postBody">
+				       <div class="postTextView">
+				         <div class="postText">
+				           <p class="txtBody"><%= mPDto.getContent() %></p>
+				         </div>
+				         <% if (mPDto.getFile_url() != null) { %>
+				         <div class="postPhoto">
+				           <ul class="photoCollage">
+				             <li class="collageItem">
+				               <button class="collageImg">
+				                 <img src="<%= mPDto.getFile_url() %>">
+				               </button>
+				             </li>
+				           </ul>
+				         </div>
+				         <% } %>
+				       </div>
+				     </div>
+				   </div>
+				 </div>
+				 <!-- 게시글 옵션 -->
+				 <div class="postOptionListView">
+				   <div class="postFunction">
+				     <button class="postSet">글 옵션</button>
+				   </div>
+				 </div>
+				 <!-- 게시글 하단 -->
+				 <div class="postCountView">
+				   <div class="postCount">
+				     <!-- 댓글, 좋아요수 -->
+				     <div class="postCountLeft">
+				       <span class="faceComment">
+				         <button class="uEmotionView">
+				           <span class="emotionWrap">
+				             <span class="icon">
+				               <span class="uFaceIcon"></span>
+				             </span>
+				           </span>
+				           <span class="count"><%= lCountDTO.getLike() %></span>
+				         </button>
+				         <button class="comment">댓글<span class="count"><%= clListDTO.size() %></span>
+				         </button>
+				       </span>
+				     </div>
+				     <!-- 조회수 -->
+				     <div class="postCountRight">
+				       <span class="shareRead">
+				         <span class="read">
+				           <span class="count">
+				             <%= mPDto.getViews() %>
+				           </span>
+				         </span>
+				       </span>
+				     </div>
+				   </div>
+				 <!-- 댓글 내용 -->
+				 <div class="commentMainView">
+				   <div>
+				     <!-- 댓글 목록 -->
+				     <div class="commentList">
+				       <div class="cComment">
+				         <div>
+				         <% for(CommentListViewDTO clDto : clListDTO) { %>
+				           <div class="itemWrap">
+				             <div class="writeInfo">
+				             <% if (mPrintDAO.adminCheck(clDto.getMember_idx(), meet_idx)) {%>
+				               <a href="#" class="uProfile -leader">
+				               <% } else { %>
+				               <a href="#" class="uProfile">
+				               <% } %>
+				                 <span class="profileInner">
+				                 <% if (clDto.getProfile() != null) { %>
+				                   <img src="<%= clDto.getProfile() %>"
+				                   width="34" height="34">
+				                   <% } %>
+				                 </span>
+				               </a>
+				               <button class="nameWrap">
+				                 <strong class="name"><%= clDto.getNickname() %></strong>
+				               </button>
+				             </div>
+				             <div class="commentBody">
+				               <p class="txt"><%= clDto.getContent() %></p>
+				               <div class="func">
+				                 <time class="time" title="2024년 6월 1일 오후 3:40">3시간 전</time>
+				               </div>
+				             </div>
+				           </div>
+				           <% } %>
+				         </div>
+				       </div>
+				     </div>
+				   </div>
+				</article>
+                </div>
+             <% } %>
+           	<% } %>
               </div>
             </div>
           </div>
@@ -259,7 +403,7 @@
       $(".-cancle").click(function() {
         $(".layerContainerView").css('display', 'none');
       })
-    });
+    })
    <% } %>
   </script>
 </body>

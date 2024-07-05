@@ -57,4 +57,33 @@ public class MeetMemberListPrintDAO {
         }
         return list;
     }
+    
+    public boolean adminCheck(int member_idx, int meet_idx) throws Exception {
+    	DatabaseUtil d = new DatabaseUtil();
+        Connection conn = d.getConn();
+        
+    	String sql = "SELECT COUNT(*) "
+    			+ "FROM meet_member "
+    			+ "WHERE admin_ok = 'Y' "
+    			+ "AND member_idx = ? "
+    			+ "AND meet_idx = ?";
+    	
+    	PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setInt(1, member_idx);
+		pstmt.setInt(2, meet_idx);
+		
+		// 실행 --> return true / false
+		ResultSet rs = pstmt.executeQuery();
+		int result = 0;	// 0 : 초기값 (사실, 1이 아닌 모든 값이면 오케이)
+		if (rs.next()) {
+			result = rs.getInt(1);	// 첫 번째 컬럼의 값.
+		}
+		
+		rs.close();
+		pstmt.close();
+		conn.close();
+    	
+		return result == 1;
+    	
+    }
 }

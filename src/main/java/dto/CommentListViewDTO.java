@@ -1,16 +1,26 @@
 package dto;
 
 public class CommentListViewDTO {
+	int member_idx;
 	String nickname;
 	String profile;
 	String content;
 	
-	public CommentListViewDTO(String nickname, String profile, String content) {
+	public CommentListViewDTO(int member_idx, String nickname, String profile, String content) {
+		this.member_idx = member_idx;
 		this.nickname = nickname;
 		this.profile = profile;
 		this.content = content;
 	}
 
+	public int getMember_idx() {
+		return member_idx;
+	}
+
+	public void setMember_idx(int member_idx) {
+		this.member_idx = member_idx;
+	}
+	
 	public String getNickname() {
 		return nickname;
 	}
