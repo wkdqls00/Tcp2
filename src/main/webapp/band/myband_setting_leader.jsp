@@ -1,7 +1,30 @@
+<%@page import="dto.MeetMemberSettingPrintDTO"%>
+<%@page import="dao.MeetMemberSettingPrintDAO"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="dao.BandDeleteDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%!
+	public String joinok(String input){
+		if(input.equals("Y")){
+			return "checked";
+		} else {
+			return "";
+		}
+	}
+%>
+<%
+	int meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
 
+	MeetMemberSettingPrintDAO mmspDAO = new MeetMemberSettingPrintDAO();
+	ArrayList<MeetMemberSettingPrintDTO> mmspListDAO = new ArrayList<>();
+	
+	try {
+		mmspListDAO = mmspDAO.selectMeetMemberSettingPrintDTO(meet_idx);
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -205,14 +228,18 @@
                 <span class="label">가입 신청 받기</span>
                 <span class="subtxt">멤버 가입시 리더의 승인이 필요합니다.</span>
               </div>
+              <%
+              	for(MeetMemberSettingPrintDTO dto : mmspListDAO){
+              %>
               <div class="item_side">
                 <label class="check_switch">
-                  <input type="checkbox" class="check_input" checked="checked">
+                  <input type="checkbox" class="check_input" name="join_ok" <%=joinok(dto.getJoin_ok())%> >
                   <span class="check_label">
                     <span class="shape"></span>
                   </span>
                 </label>
               </div>
+             
             </li>
             <li class="setting_item -minHeightAuto">
               <div class="-flexible" style="min-height: auto; padding-top: 28px;">
@@ -221,7 +248,7 @@
                 </div>
                 <div class="item_side">
                   <label class="check_switch -switch">
-                    <input type="checkbox" class="check_input" checked="checked">
+                    <input type="checkbox" class="check_input" <%=joinok(dto.getSub_qok()) %>>
                   <span class="check_label">
                     <span class="shape"></span>
                   </span>
@@ -230,12 +257,15 @@
               </div>
               <div class="textareaBox">
                 <div class="uTextarea" style="height: 76px">
-                  <textArea class="_joinQuestionTextarea" id="qnaText" maxlength="100" placeholder="새로운 멤버가 밴드 가입을 신청할 때 물어볼 질문을 작성해 주세요."></textArea>
+                  <textArea class="_joinQuestionTextarea" id="qnaText" maxlength="100" placeholder="새로운 멤버가 밴드 가입을 신청할 때 물어볼 질문을 작성해 주세요."><%=dto.getSub_q()%></textArea>
                   <span class="border"></span>
                 </div>
               </div>
             </li>
           </ul>
+          <%
+          	}
+          %>
           <h2 class="hide_title"></h2>
           <ul class="setting_list">
             <li class="setting_item">
@@ -374,6 +404,8 @@
       $(".btnCancel").click(function() {
         $(".layer_wrap").css('display', 'none');
       });
+      $('input:checkbox[name="join_ok"]').is(":checked")==true
+      
     });
     
 
