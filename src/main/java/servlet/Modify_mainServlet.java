@@ -60,7 +60,7 @@ public class Modify_mainServlet extends HttpServlet {
 	            } else {
 	                System.out.println("No member found with the given index.");
 	            }
-	            	RequestDispatcher rd = request.getRequestDispatcher("/Modify_main.jsp"); // 고객별로 id와 name을 다르게 출력해야 하니까 값 가지고 가기
+	            	RequestDispatcher rd = request.getRequestDispatcher("/ticketlink/Modify/Modify_main.jsp"); // 고객별로 id와 name을 다르게 출력해야 하니까 값 가지고 가기
 	            	rd.forward(request, response);
 	        } catch (SQLException | ClassNotFoundException e) {
 	            e.printStackTrace();

@@ -6,26 +6,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원정보수정</title>
-    <link rel="stylesheet" href="./css/modify_member.css">
-    <link rel="stylesheet" href="./css/footer.css">
+    <link rel="stylesheet" href="/Tcp2/assets//css/modify_member.css">
+    <link rel="stylesheet" href="/Tcp2/assets//css/footer.css">
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
-    <% String gender = (String)request.getAttribute("gender");
+    <%
+    String id = (String)request.getAttribute("id");  
+    String name = (String)request.getAttribute("name");  
     String phone = (String) request.getAttribute("phone");
-    String phoneHy = phone.replaceAll("(\\d{3})(\\d{4})(\\d{4})", "$1-$2-$3");
-    HttpSession hs = request.getSession();
-    hs.setAttribute("id", request.getAttribute("id"));
-    hs.setAttribute("phone", request.getAttribute("phone"));
-    hs.setAttribute("name", request.getAttribute("name"));
-    hs.setAttribute("email", request.getAttribute("email"));
-    hs.setAttribute("birth", request.getAttribute("birth"));
-    hs.setAttribute("gender", request.getAttribute("gender"));
-    hs.setAttribute("birth", request.getAttribute("birth"));
-    hs.setAttribute("gender", request.getAttribute("gender"));
-    hs.setAttribute("address", request.getAttribute("address"));
-    hs.setAttribute("detailed_address", request.getAttribute("detailed_address"));
-    
+    String phoneHy = phone.replaceAll("(\\d{3})(\\d{4})(\\d{4})", "$1-$2-$3");   
+    String email = (String)request.getAttribute("email");  
+    String birth = (String)request.getAttribute("birth");  
+    String gender = (String)request.getAttribute("gender");
+    String address = (String)request.getAttribute("address");  
+    String detailed_address = (String)request.getAttribute("detailed_address");  
+   
     %>
    
     <div class="common_header"> <!--홈페이지상단-->
@@ -49,8 +45,8 @@
                 </div>
                 <div class="my_menu_area"> <!--왼쪽 메뉴들-->
                     <ul>
-                        <li class="modify current"><a href="/Test//Modify_memberServlet">회원정보수정</a></li>
-                        <li class="password"><a href="/Test/Modify_passwordServlet">비밀번호변경</a></li>
+                        <li class="modify current"><a href="/Tcp2//Modify_memberServlet">회원정보수정</a></li>
+                        <li class="password"><a href="/Tcp2/Modify_passwordServlet">비밀번호변경</a></li>
                         <li class="sns"><a href="http://127.0.0.1:5500/TicketProject/Modify/modify_memberjoin.html">계정연결설정</a></li>
                         <li class="withdrawal"><a href="http://127.0.0.1:5500/TicketProject/Modify/modify_withdrawal.html">회원탈퇴</a></li>
                     </ul>
@@ -66,13 +62,13 @@
                             <dl>
                                 <dt>아이디</dt>
                                 <dd class="btn_pd">
-                                	<span><%=request.getAttribute("id") %></span>
+                                	<span><%=id%></span>
                                 </dd>
                             </dl>
                             <dl>
                                 <dt>이름</dt>
                                 <dd class="btn_pd">
-                                    <span><%=request.getAttribute("name") %></span>
+                                    <span><%=name%></span>
                                     <a href="#" class="btn_common" id="name_open">수정</a>
                                 </dd>
                                 <div class="modify_box_small">
@@ -84,7 +80,7 @@
                                 </div>
                             </dl>
               </form>
-              <form action="/Test/Modify_phoneDao" id="modify_pw" method="post">
+              <form action="/Tcp2/Modify_phoneDao" id="modify_ph" method="post">
                             <dl>
                                 <dt>휴대폰번호</dt>
                                 <dd class="btn_pd">
@@ -109,7 +105,7 @@
                             <dl>
                                 <dt>이메일</dt>
                                 <dd class="btn_pd">
-                                    <span><%= request.getAttribute("email") %></span>
+                                    <span><%=email%></span>
                                     <a href="#" class="btn_common " id="name_open">수정</a>
                                 </dd>
                                 <div class="modify_box_small">
@@ -149,13 +145,13 @@
                             </dl>
                             <dl>
                                 <dt>생년월일</dt>
-                                <dd class="btn_pd"><span><%=request.getAttribute("birth") %></span></dd>
+                                <dd class="btn_pd"><span><%=birth%></span></dd>
                             </dl>
-                           <form action="Modify_addressAction" id="modify_address">
+                           <form action="Modify_addressAction" id="modify_address" method="post">
                            <dl>
                 			 <dt>주소</dt>
                              <dd class="btn_pd">
-                               <span style="display: inline-block; width: 86%;"><%=request.getAttribute("address")%> <%=request.getAttribute("detailed_address")%></span>
+                               <span style="display: inline-block; width: 86%;"><%=address%> <%=detailed_address%></span>
                                <a href="#" class="btn_common address" id="name_open">수정</a>
                              </dd>
                              <div class="modify_box_small">
@@ -195,14 +191,13 @@
                     </div>
                     <div class="inter_btn_area"> <!--취소, 수정 버튼-->
                         <span>
-                            <button type="submit" class="btn_white">취소</button>
+                            <button type="button" class="btn_white">취소</button>
                         </span>
                         <span>
-                            <button type="submit" class="btn_red_success">수정</button>
+                            <button type="button" class="btn_red_success">수정</button>
                         </span> 
                     </div> <!--취소, 수정 버튼-->
                 </div>
-            
         </div>
     </div>
     <!-- 맨 밑 하단 안내사항 -->
@@ -307,7 +302,7 @@
       </ul>
     </div>
   </div>
-  <script src="./js/modify_member.js"></script>
-  <script src="./js/del_btn.js"></script>
+  <script src="/Tcp2/assets/js/modify_member.js"></script>
+  <script src="/Tcp2/assets/js/del_btn.js"></script>
 </body>
 </html>

@@ -33,13 +33,7 @@ public class Modify_phoneDao extends HttpServlet {
 	    String phone = request.getParameter("input_phoneN");
 	    HttpSession hs = request.getSession();
 	    int idx = (int) hs.getAttribute("userIdx");
-	    String id =  (String) hs.getAttribute("id");
-	    String name =  (String) hs.getAttribute("name");
-	    String email =  (String) hs.getAttribute("email");
-	    String birth =  (String) hs.getAttribute("birth");
-	    String gender =  (String) hs.getAttribute("gender");
-	    String address = (String) hs.getAttribute("address");
-	    String detailed_address = (String) hs.getAttribute("detailed_address");
+
         
         Connection connection = null;
         PreparedStatement pstmt = null;
@@ -72,15 +66,7 @@ public class Modify_phoneDao extends HttpServlet {
                 System.out.println("휴대폰 번호 변경 실패");
             }
             
-            request.setAttribute("id", id);
-            request.setAttribute("name", name);
-            request.setAttribute("phone", phone);
-            request.setAttribute("email", email);
-            request.setAttribute("birth", birth);
-            request.setAttribute("gender", gender);
-            request.setAttribute("address", address);
-            request.setAttribute("detailed_address", detailed_address);
-            RequestDispatcher rd = request.getRequestDispatcher("/Modify_member.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("/Modify_memberServlet");
             rd.forward(request, response);
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();

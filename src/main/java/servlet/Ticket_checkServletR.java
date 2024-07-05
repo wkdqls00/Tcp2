@@ -28,7 +28,7 @@ public class Ticket_checkServletR extends HttpServlet {
 		Ticket_checkDao tcDao = new Ticket_checkDao();
 		ArrayList<Ticket_checkDto> list = tcDao.checkReservationR(userIdx);
 		request.setAttribute("list", list);
-		RequestDispatcher rd = request.getRequestDispatcher("/Ticket_cancle.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("/ticketlink/Mypage/Ticket_cancle.jsp");
 		rd.forward(request, response);
 		for (Ticket_checkDto l : list) {
 			System.out.println(l);

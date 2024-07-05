@@ -6,8 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>비밀번호확인</title>
-    <link rel="stylesheet" href="./css/modify_main.css">
-    <link rel="stylesheet" href="./css/footer.css">
+    <link rel="stylesheet" href="/Tcp2/assets//css/modify_main.css">
+    <link rel="stylesheet" href="/Tcp2/assets//css/footer.css">
 </head>
 <body>
 <%
@@ -43,7 +43,7 @@ String name = (String)request.getAttribute("name");
                     </ul>
                 </div> <!--왼쪽 메뉴들-->
             </div>
-            <form action="/Test/LoginSuccessToModify_member" method="post"> <!--가운데 회원정보들-->
+            <form action="/Tcp2/LoginSuccessToModify_member" method="post"> <!--가운데 회원정보들-->
                 <div class="sub_content_wrap">
                     <h2 class="main_title">비밀번호인증</h2>
                     <div class="pw_to_box">
@@ -183,7 +183,7 @@ String name = (String)request.getAttribute("name");
       </ul>
     </div>
   </div>
-  <script src="./js/del_btn.js"></script>
+  <script src="/Tcp2/assets//js/del_btn.js"></script>
 </body>
  	<script type="text/javascript">
         window.onload = function() {

@@ -79,6 +79,7 @@ document.getElementById("phone_certy").addEventListener("click", function() {
     document.getElementById("certy_check").style.display = "block";
     document.getElementById("phone_certy").style.display = "none";
     document.getElementById("input_phoneN").readOnly = "true"
+	alert("인증번호가 전송되었습니다.")
 });
 
 	// 인증버튼 인증번호랑 같으면 수정완료, 다르면 다르다고 alert
@@ -90,14 +91,31 @@ document.getElementById("phone_certy").addEventListener("click", function() {
 	    alert("인증번호가 다릅니다.");
 	    } else {
 	    alert("변경되었습니다.")
-		document.getElementById('modify_pw').submit();	    }
+		document.getElementById('modify_ph').submit();	    }
 	});
 	
 	// 주소 수정버튼 기능
 	document.getElementById("mf_address").addEventListener("click",function() {
-		
+		let address = document.getElementById("input_newAddress").value;
+		let addressD = document.getElementById("input_newAddressD").value;
+		if(address.length <= 5 || addressD == '') {
+			event.preventDefault();
+			alert("주소를 올바르게 작성해주세요.")
+		} else {
+			alert("주소가 변경되었습니다.")
+		}
 	})
 	
+	// 최종 수정 버튼
+	document.querySelector(".btn_red_success").addEventListener("click", function() {
+		alert("수정 완료되었습니다.")
+		window.location.href = "/Tcp2/Mypage_memberServlet"
+	});
+	// 취소 버튼
+	document.querySelector(".btn_white").addEventListener("click", function() {
+		alert("메인페이지로 이동합니다.")
+		window.location.href = "/Tcp2/Mypage_memberServlet"
+	});
 });
 
 

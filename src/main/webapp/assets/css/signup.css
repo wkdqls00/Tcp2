@@ -1,3 +1,10 @@
+input::-ms-reveal,  /* password 눈깔 안보이게 하는 코드 */
+input::-ms-clear {
+    display : none !important;
+}
+input[type="password"]::-webkit-input-placeholder {
+    display: none;
+}
 body {
     margin: 0;
     font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, Helvetica Neue, Segoe UI, Apple SD Gothic Neo, Malgun Gothic, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, sans-serif;

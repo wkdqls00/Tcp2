@@ -11,11 +11,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="./css/mypage.css">
-    <link rel="stylesheet" type="text/css" href="./css/ticket_check.css">
-    <link rel="stylesheet" type="text/css" href="./css/footer.css">
-    <link rel="stylesheet" href="./css/common.css">
-    <link rel="stylesheet" type="text/css" href="./css/reset.css">
+    <link rel="stylesheet" type="text/css" href="/Tcp2/assets/css/mypage.css">
+    <link rel="stylesheet" type="text/css" href="/Tcp2/assets/css/ticket_check.css">
+    <link rel="stylesheet" type="text/css" href="/Tcp2/assets/css/footer.css">
+    <link rel="stylesheet" href="/Tcp2/assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="/Tcp2/assets/css/reset.css">
     <title>예매확인</title>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
     <style>
@@ -90,7 +90,7 @@
                             <li class="has_sub">
                                 <span class="help_submenu_tit">예매관리</span>
                                 <ul class="help_submenu special">
-                                    <li class="on"><a href="http://127.0.0.1:5500/TicketProject/Mypage/ticket_check.html">예매확인/취소</a></li>
+                                    <li class="on"><a href="/Tcp2/Ticket_checkServlet">예매확인/취소</a></li>
                                 </ul>
                             </li>
                             <li class="has_sub">
@@ -123,8 +123,8 @@
                                 <span class="help_submenu_tit">회원정보관리</span>
                                 <ul class="help_submenu">
                                     <li><a href="">환불계좌관리</a></li>
-                                    <li><a href="/Test/Mypage_memberServlet">회원정보수정</a></li>
-                                    <li><a target="_blank" href="/Test/Modify_mainServlet">회원탈퇴</a></li>
+                                    <li><a href="/Tcp2/Mypage_memberServlet">회원정보수정</a></li>
+                                    <li><a href="/Tcp2/Modify_mainServlet">회원탈퇴</a></li>
                                 </ul>
                             </li>
                         </ul> 
@@ -138,8 +138,8 @@
                             <br>공연/전시 예매 내역은 하단의 공연/전시 탭을 선택하면 확인할 수 있습니다.
                         </p>
                         <ul class="mypage_tab"> <!--예매확인 / 예매취소-->
-                            	<li class="on"><a href="/Test/Ticket_checkServlet">예매확인</a></li>
-                            	<li><a href	="/Test/Ticket_checkServletR">예매취소</a></li>
+                            	<li class="on"><a href="/Tcp2/Ticket_checkServlet">예매확인</a></li>
+                            	<li><a href	="/Tcp2/Ticket_checkServletR">예매취소</a></li>
                         </ul>
                         <div class="sortbox">
                             <dl class="daytbox fl">
@@ -365,6 +365,6 @@
                 </ul>
             </div>
         </div>
-<script src="./js/ticket_check.js"></script>
+<script src="/Tcp2/assets/js/ticket_check.js"></script>
 </body>
 </html>

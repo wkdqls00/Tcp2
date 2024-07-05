@@ -6,9 +6,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>비밀번호변경</title>
-    <link rel="stylesheet" href="./modify_member.css">
-    <link rel="stylesheet" href="./css/modify_password.css">
-    <link rel="stylesheet" href="./css/footer.css">
+    <link rel="stylesheet" href="/Tcp2/assets/css/modify_member.css">
+    <link rel="stylesheet" href="/Tcp2/assets//css/modify_password.css">
+    <link rel="stylesheet" href="/Tcp2/assets//css/footer.css">
 </head>
 <body>
     <div class="common_header"> <!--홈페이지상단-->
@@ -32,8 +32,8 @@
                 </div>
                 <div class="my_menu_area"> <!--왼쪽 메뉴들-->
                     <ul>
-                        <li class="modify"><a href="/Test//Modify_memberServlet">회원정보수정</a></li>
-                        <li class="password current"><a href="/Test/Modify_passwordServlet">비밀번호변경</a></li>
+                        <li class="modify"><a href="/Tcp2//Modify_memberServlet">회원정보수정</a></li>
+                        <li class="password current"><a href="/Tcp2/Modify_passwordServlet">비밀번호변경</a></li>
                         <li class="sns"><a href="#">계정연결설정</a></li>
                         <li class="withdrawal"><a href="#">회원탈퇴</a></li>
                     </ul>

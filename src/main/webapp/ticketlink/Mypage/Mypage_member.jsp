@@ -1,12 +1,14 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="/assets/css/mypage.css">
-    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
-    <link rel="stylesheet" href="/assets/css/common.css">
-    <link rel="stylesheet" type="text/css" href="/assets/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="/Tcp2/assets/css/mypage.css">
+    <link rel="stylesheet" type="text/css" href="/Tcp2/assets/css/footer.css">
+    <link rel="stylesheet" href="/Tcp2/assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="/Tcp2/assets/css/reset.css">
     <title>마이페이지</title>
     <style>
     </style>
@@ -80,7 +82,7 @@
                         <li class="has_sub">
                             <span class="help_submenu_tit">예매관리</span>
                             <ul class="help_submenu special">
-                                <li><a href="http://127.0.0.1:5500/TicketProject/Mypage/ticket_check.html">예매확인/취소</a></li>
+                                <li><a href="/Tcp2/Ticket_checkServlet">예매확인/취소</a></li>
                             </ul>
                         </li>
                         <li class="has_sub">
@@ -113,8 +115,8 @@
                             <span class="help_submenu_tit">회원정보관리</span>
                             <ul class="help_submenu">
                                 <li><a href="">환불계좌관리</a></li>
-                                <li class="on"><a href="http://127.0.0.1:5500/TicketProject/Mypage/mypage.html">회원정보수정</a></li>
-                                <li><a target="_blank" href="http://127.0.0.1:5500/TicketProject/Modify/modify_main.html">회원탈퇴</a></li>
+                                <li class="on"><a href="/Tcp2/Mypage_memberServlet">회원정보수정</a></li>
+                                <li><a href="/Tcp2/Modify_mainServlet">회원탈퇴</a></li>
                             </ul>
                         </li>
                     </ul> 
@@ -131,7 +133,7 @@
                                 <tbody>
                                     <tr>
                                         <th scope="row">아이디</th>
-                                        <td>wnsdud893
+                                        <td><%=request.getAttribute("id") %>
                                             <p>
                                                 <span class="checkbox">
                                                     <input type="checkbox" id="agree_mail">
@@ -142,21 +144,21 @@
                                     </tr>
                                     <tr>
                                         <th scope="row">비밀번호</th>
-                                        <td><a target="_blank" href="http://127.0.0.1:5500/TicketProject/Modify/modify_main.html" class="btn_blank">비밀번호 변경</a></td>
+                                        <td><a href="/Tcp2/Modify_mainServlet" class="btn_blank" style="display: inline-block;">비밀번호 변경</a></td>
                                     </tr>
                                     <tr>
                                         <th scope="row">연락처</th>
-                                        <td>010******69</td>
+                                        <td><%=request.getAttribute("phone") %></td>
                                     </tr>
                                     <tr>
                                         <th scope="row">주소</th>
-                                        <td>*****</td>
+                                        <td><%=request.getAttribute("address") %></td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                         <div class="list_btn">
-                            <a target="_blank" href="http://127.0.0.1:5500/TicketProject/Modify/modify_main.html" class="btn btn_full">회원정보 수정</a>
+                            <a href="/Tcp2/Modify_mainServlet" class="btn btn_full">회원정보 수정</a>
                         </div>
                     </div>
                 </div>

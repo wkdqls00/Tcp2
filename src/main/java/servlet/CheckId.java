@@ -29,7 +29,9 @@ public class CheckId extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	request.setCharacterEncoding("UTF-8");
     	response.setContentType("text/html;charset=UTF-8");
+    	
     	String id = request.getParameter("id");
         String regex = "^(?=.*[a-zA-Z])(?=.*\\d)[a-zA-Z0-9]{6,20}$";
         boolean isIdTaken = false;

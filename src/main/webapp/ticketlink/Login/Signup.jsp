@@ -6,10 +6,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원가입>정보입력</title>
-    <link rel="stylesheet" type="text/css" href="./css/signup.css">
+    <link rel="stylesheet" type="text/css" href="/Tcp2/assets/css/signup.css">
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
 </head>
 <body>
 <%
@@ -343,7 +342,7 @@
         </div>
         <input type="hidden">
     </form>
-    <script src="./js/signup.js"></script>
+    <script src="/Tcp2/assets/js/signup.js"></script>
     <script>
 	// 가입완료 버튼 누르면 alert 
 		function end(event) {
@@ -352,7 +351,7 @@
 			const queryParams = window.location.search;
 			console.log("입력된 이름:", text);
 			alert(`가입 되었습니다.\n환영합니다 ${text}님`);
-			document.getElementById("form").submit();
+			window.location.href = "/Tcp2/ticketlink/Login/Login.jsp"
 		}
 		   // 모든 인풋의 값 입력할 때까지 인증번호 버튼 disabled
 		   let isIdUnique = false; // 아이디 중복 여부  변수
@@ -407,7 +406,7 @@
         function checkDuplicateId() {
             var inputId = document.getElementById("input_id").value;
             var xhr = new XMLHttpRequest();
-            xhr.open("POST", "/Test/CheckId", true);
+            xhr.open("POST", "/Tcp2/CheckId", true);
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4 && xhr.status === 200) {
@@ -429,7 +428,7 @@
 	        function checkDuplicateNick() {
 	            var inputNick = document.getElementById("input_nickname").value;
 	            var xhr = new XMLHttpRequest();
-	            xhr.open("POST", "/Test/CheckNick", true);
+	            xhr.open("POST", "/Tcp2/CheckNick", true);
 	            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 	            xhr.onreadystatechange = function () {
 	                if (xhr.readyState === 4 && xhr.status === 200) {

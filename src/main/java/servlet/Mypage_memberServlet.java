@@ -76,7 +76,7 @@ public class Mypage_memberServlet extends HttpServlet {
 			} else {
 				System.out.println("No member found with the given index.");
 			}
-			RequestDispatcher rd = request.getRequestDispatcher("/Mypage_member.jsp"); // 이 jsp파일로 저 값들을 가져가겠다는 거 (rd는페이지 넘김X)
+			RequestDispatcher rd = request.getRequestDispatcher("/ticketlink/Mypage/Mypage_member.jsp"); // 이 jsp파일로 저 값들을 가져가겠다는 거 (rd는페이지 넘김X)
 			rd.forward(request, response);
 
 		} catch (SQLException | ClassNotFoundException e) {

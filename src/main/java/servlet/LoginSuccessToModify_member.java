@@ -35,12 +35,12 @@ public class LoginSuccessToModify_member extends HttpServlet {
 			hs.setAttribute("userIdx", userIdx);
 			System.out.println("로그인성공");
 			System.out.println(userIdx);
-			response.sendRedirect("/Test/Modify_memberServlet");
+			response.sendRedirect("/Tcp2/Modify_memberServlet");
 			} else {
 				request.setAttribute("loginError", true);
 				System.out.println("로그인실패");
 				System.out.println(userIdx);
-				request.getRequestDispatcher("/Modify_mainServlet").forward(request, response);
+				request.getRequestDispatcher("/ticketlink/Modify/Modify_mainServlet").forward(request, response);
 				
 			}  
 			} catch (Exception e) {

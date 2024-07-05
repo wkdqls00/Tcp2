@@ -109,7 +109,7 @@ public class SignupDao extends HttpServlet {
                 }
             }
         }
-        response.sendRedirect("http://localhost:9090/Test/Login.jsp");
+        response.sendRedirect("/Tcp2/ticketlink/Login/Login.jsp");
 
     }
 

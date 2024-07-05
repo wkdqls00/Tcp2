@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="./css/agreeToTerms.css">
+    <link rel="stylesheet" type="text/css" href="/Tcp2/assets/css/agreeToTerms.css">
     <title>약관동의</title>
 </head>
 <body>
@@ -15,7 +15,7 @@
             <a href="" class="headerLogo"><span></span></a>
             <div class="headerTitle">약관동의</div>
         </div>
-        <form action="http://localhost:9090/Test/Signup.jsp" method="get">
+        <form action="/Tcp2/ticketlink/Login/Signup.jsp" method="get">
             <div class="contents">
                 <div class="contentWrapper">
                     <div class="checkboxAll">

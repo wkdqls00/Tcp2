@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="./css/login.css">
+    <link rel="stylesheet" type="text/css" href="/Tcp2/assets/css/login.css">
     <title>Document</title>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
@@ -24,7 +24,7 @@
                 <span>종원링크</span>
             </h1>
             </div>
-            <form id="loginFrm" name="loginFrm" action="/Test/LoginSuccessToModify"  method="post" >
+            <form id="loginFrm" name="loginFrm" action="/Tcp2/LoginSuccessToMain"  method="post" >
                 <div class="loginInner">
                     <div class="loginForm">
                         <div class="inputBox">
@@ -62,7 +62,7 @@
                         <ul>
                             <li><a href="">아이디 찾기</a></li>
                             <li><a href="">비밀번호 찾기</a></li>
-                            <li><a href="">회원가입</a></li>
+                            <li><a href="http://localhost:9090/Tcp2/ticketlink/Login/joinContent.html">회원가입</a></li>
                         </ul>
                     </div>
                     <div class="snsLogin">
@@ -135,6 +135,6 @@
             <% } %>
         }
     </script>
-    <script src="./js/del_btn.js"></script>
+    <script src="/Tcp2/assets/js/del_btn.js"></script>
 </body>
 </html>

@@ -55,7 +55,7 @@ public class Modify_passwordAction extends HttpServlet {
 	            }
 //	            	RequestDispatcher rd = request.getRequestDispatcher("/Modify_member.jsp"); // 이 jsp파일로 저 값들을 가져가겠다는 거 (rd는 페이지 넘김X)
 //	            	rd.forward(request, response);
-	            	response.sendRedirect("http://localhost:9090/Test/Login.jsp");
+	            	response.sendRedirect("/ticketlink/Login/Login.jsp");
 	        } catch (SQLException | ClassNotFoundException e) {
 	            e.printStackTrace();
 	        } finally {
