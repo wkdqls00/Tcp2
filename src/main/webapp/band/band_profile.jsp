@@ -7,8 +7,7 @@
 	int meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
 	int member_idx = Integer.parseInt(request.getParameter("member_idx"));
 	MeetMemberProfilePrintDAO mmppDAO = new MeetMemberProfilePrintDAO();
-	
-	ArrayList<MeetMemberProfilePrintDTO> mmppListDAO = mmppDAO.selectMeetMemberProfilePrintDTO(meet_idx, member_idx);
+	MeetMemberProfilePrintDTO mmppDTO = mmppDAO.selectMeetMemberProfilePrintDTO(meet_idx, member_idx);
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -138,9 +137,7 @@
         <div class="settingBand">
           <div class="headerWrap">
             <header class="profile_header">
-            <%
-            	for(MeetMemberProfilePrintDTO mmppDTO : mmppListDAO) {
-            %>
+            
               <h1 class="h1ProfileTitle"> 프로필 설정 </h1>
             </header>
           </div>
@@ -172,9 +169,6 @@
               </div>
             </li>
           </ul>
-          <%
-            	}
-          %>
           <div class="btnFooter">
             <button type="button" class="btnCancel">취소</button>
             <button type="button" class="btnSave">저장</button>

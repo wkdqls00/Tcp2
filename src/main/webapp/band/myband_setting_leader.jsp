@@ -1,3 +1,5 @@
+<%@page import="dto.MeetMemberProfilePrintDTO"%>
+<%@page import="dao.MeetMemberProfilePrintDAO"%>
 <%@page import="dto.MeetMemberSettingPrintDTO"%>
 <%@page import="dao.MeetMemberSettingPrintDAO"%>
 <%@page import="java.util.ArrayList"%>
@@ -24,6 +26,12 @@
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
+%>
+<%
+	int member_idx = Integer.parseInt(request.getParameter("member_idx"));
+	MeetMemberProfilePrintDAO mmppDAO = new MeetMemberProfilePrintDAO();
+	MeetMemberProfilePrintDTO mmppDTO = mmppDAO.selectMeetMemberProfilePrintDTO(meet_idx, member_idx);
+	
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -146,7 +154,7 @@
             </p>
             <!-- 밴드 설정 -->
             <div class="bandSetting">
-              <a href="#" class="bandSetting_Link">
+              <a href="#" onClick="top.location='javascript:location.reload()'" class="bandSetting_Link">
                 <span class="uIconSetting"></span>
                 밴드 설정
               </a>
@@ -163,14 +171,18 @@
             </header>
           </div>
           <div class="profile_view">
-            <a href="#" role="button" class="open_profile_btn">
-              <span class="profile_inner"></span>
-            </a>
+          	<span class="profile_inner">
+            <% if (mmppDTO.getProfile() != null) { %>
+            <img id="profile_inner" src="<%=mmppDTO.getProfile()%>" width="60" height="60" >
+            <% } %>
+            </span>
             <div class="set_body">
-              <span class="name">김민효님의 프로필</span>
+              <span class="name"><%=mmppDTO.getNickname() %>님의 프로필</span>
               <span class="subtxt"></span>
             </div>
-            <form action="band_profile.jsp">
+            <form action="band_profile.jsp" method="post">
+            	<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
+            	<input type="hidden" value="<%=member_idx %>" name="member_idx">
 	            <div class="etc">
 	              <button type="submit" class="etc_btn">설정</button>
 	            </div>
@@ -184,7 +196,11 @@
                 <span class="subtxt"></span>
               </div>
               <div class="item_side">
-                <a href="setting_leader_band_name.jsp" class="band_update_btn">변경</a>
+            <form action="setting_leader_band_name.jsp" method="post">
+           		<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
+            	<input type="hidden" value="<%=member_idx %>" name="member_idx">
+                <button type="submit" class="band_update_btn">변경</button>
+              </form>
               </div>
             </li>
           </ul>
