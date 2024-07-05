@@ -20,7 +20,7 @@ public class LoginDao {
 			Class.forName(driver);
 			conn = DriverManager.getConnection(url, id, pw);
 			
-			String sql = "SELECT member_idx, name FROM member WHERE id = ? AND pw = ?";
+			String sql = "SELECT member_idx, name FROM member WHERE id = ? AND pw = ? AND withdrawal = 'N'";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, paramId);

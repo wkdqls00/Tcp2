@@ -45,10 +45,10 @@
                 </div>
                 <div class="my_menu_area"> <!--왼쪽 메뉴들-->
                     <ul>
-                        <li class="modify current"><a href="/Tcp2//Modify_memberServlet">회원정보수정</a></li>
+                          <li class="modify current"><a href="/Tcp2//Modify_memberServlet">회원정보수정</a></li>
                         <li class="password"><a href="/Tcp2/Modify_passwordServlet">비밀번호변경</a></li>
                         <li class="sns"><a href="http://127.0.0.1:5500/TicketProject/Modify/modify_memberjoin.html">계정연결설정</a></li>
-                        <li class="withdrawal"><a href="http://127.0.0.1:5500/TicketProject/Modify/modify_withdrawal.html">회원탈퇴</a></li>
+                        <li class="withdrawal"><a href="/Tcp2//Modify_withdrawalServlet">회원탈퇴</a></li>
                     </ul>
                 </div> <!--왼쪽 메뉴들-->
             </div>
