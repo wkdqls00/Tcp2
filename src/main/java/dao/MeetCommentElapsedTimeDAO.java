@@ -12,26 +12,19 @@ import project.DatabaseUtil;
 public class MeetCommentElapsedTimeDAO {
 	public static void main(String[] args) {
 		MeetCommentElapsedTimeDAO mcedao = new MeetCommentElapsedTimeDAO();
-        ArrayList<MeetCommentElapsedTimeDTO> list = null;        
         try {
-        	list = mcedao.selectMeetCommentElapsedTimeDTO(2);
+        	System.out.println(mcedao.selectMeetCommentElapsedTimeDTO(11));
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        for (MeetCommentElapsedTimeDTO meetCommentElapsedTimeDTO : list) {
-        	System.out.println(meetCommentElapsedTimeDTO);
-        }
     }
     
-    public ArrayList<MeetCommentElapsedTimeDTO> selectMeetCommentElapsedTimeDTO(int comment_idx) throws SQLException {
-        ArrayList<MeetCommentElapsedTimeDTO> list = new ArrayList<>();
+    public MeetCommentElapsedTimeDTO selectMeetCommentElapsedTimeDTO(int comment_idx) throws SQLException {
         DatabaseUtil d = new DatabaseUtil();
         Connection conn = d.getConn();
 
         String sql = 
-        		"SELECT TRUNC(sysdate - reg_date,0), "
-        		+ "MOD(TRUNC((sysdate - reg_date )* 24 ,0),24), "
-        		+ "MOD(TRUNC((sysdate - reg_date )* 24 * 60, 0),60) "
+        		"SELECT TRUNC(sysdate - reg_date, 0), TRUNC(sysdate - reg_date) * 24, 60 + MOD(TRUNC((sysdate - reg_date )* 24 * 60, 0),60) "
         		+ "FROM meet_comment "
         		+ "WHERE meet_comment_idx = ?";
         
@@ -39,21 +32,19 @@ public class MeetCommentElapsedTimeDAO {
         
         pstmt.setInt(1, comment_idx);
 
-        ResultSet rs = d.getRs(pstmt);
-        try {
-            while (rs.next()) {
-            	String day = rs.getString(1);
-            	String time = rs.getString(2);
-            	String minute = rs.getString(3);
-            	
-            	MeetCommentElapsedTimeDTO meetCommentElapsedTimeDTO = new MeetCommentElapsedTimeDTO(day, time, minute); // 저장한 값으로 SeatStatus 객체 생성
-                list.add(meetCommentElapsedTimeDTO);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-			d.close(conn, pstmt, rs);
+        ResultSet rs = pstmt.executeQuery();
+        MeetCommentElapsedTimeDTO meetCommentElapsedTimeDTO = null;
+        
+        if (rs.next()) {
+        	String day = rs.getString(1);
+        	String time = rs.getString(2);
+        	String minute = rs.getString(3);
+        	
+        	meetCommentElapsedTimeDTO = new MeetCommentElapsedTimeDTO(day, time, minute); // 저장한 값으로 SeatStatus 객체 생성
         }
-        return list;
+        
+        d.close(conn, pstmt, rs);
+        
+        return meetCommentElapsedTimeDTO;
     }
 }

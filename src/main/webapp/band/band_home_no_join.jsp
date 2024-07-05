@@ -1,3 +1,7 @@
+<%@page import="dto.MeetCommentElapsedTimeDTO"%>
+<%@page import="dao.MeetCommentElapsedTimeDAO"%>
+<%@page import="dto.MeetMemberProfilePrintDTO"%>
+<%@page import="dao.MeetMemberProfilePrintDAO"%>
 <%@page import="dto.LikeCountDTO"%>
 <%@page import="dao.LikeCountDAO"%>
 <%@page import="dto.CommentListViewDTO"%>
@@ -16,6 +20,11 @@
     
 <%
 	int meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
+	int member_idx = Integer.parseInt(request.getParameter("member_idx"));
+	
+	// 내 프로필 출력
+	MeetMemberProfilePrintDAO mMemberProfilePrintDAO = new MeetMemberProfilePrintDAO();
+	MeetMemberProfilePrintDTO mMemberProfilePrintDTO = mMemberProfilePrintDAO.selectMeetMemberProfilePrintDTO(meet_idx, member_idx);
 
 	// 밴드 소개
 	MeetIntroduceWriteDAO miDao = new MeetIntroduceWriteDAO();
@@ -42,6 +51,8 @@
 	// 밴드 글 좋아요 갯수
 	LikeCountDAO lCountDAO = new LikeCountDAO();
 	
+	// 댓글 작성 시간 출력 (~시간, ~분, ~일 전)
+	MeetCommentElapsedTimeDAO mCDao = new MeetCommentElapsedTimeDAO();
 %>
 
 <!DOCTYPE html>
@@ -100,8 +111,13 @@
               <button class="btnMySetting">
                 <span class="uProfile">
                   <span class="profileInner">
-                    <img src="	https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
+                  <% if (mMemberProfilePrintDTO.getProfile() != null) { %>
+                  		<img src="<%= mMemberProfilePrintDTO.getProfile() %>"
                     width="30" height="30">
+                  <% } else { %>
+                    <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
+                    width="30" height="30">
+                    <% } %>
                   </span>
                 </span>
               </button>
@@ -231,11 +247,13 @@
 				 <div class="postListItemView">
 				   <div class="postAuthorRegion">
 				     <div class="postWriter">
+				     <!-- 관리자인지 확인 -->
 				     <% if (mPrintDAO.adminCheck(mPDto.getMember_idx(), meet_idx)) { %>
 				       <a href="#" class="uProfile -leader">
 				       <% } else { %>
 				       <a href="#" class="uProfile">
 				       <% } %>
+				       <!-- 프로필 사진 있는지 확인 -->
 				         <span class="profileInner">
 			         		<% if (mPDto.getProfile() != null) { %>
 				         	<img src="<%= mPDto.getProfile() %>"
@@ -316,7 +334,9 @@
 				     <div class="commentList">
 				       <div class="cComment">
 				         <div>
-				         <% for(CommentListViewDTO clDto : clListDTO) { %>
+				         <% for(CommentListViewDTO clDto : clListDTO) { 
+				         	MeetCommentElapsedTimeDTO mCDto = mCDao.selectMeetCommentElapsedTimeDTO(clDto.getComment_idx());
+				         %>
 				           <div class="itemWrap">
 				             <div class="writeInfo">
 				             <% if (mPrintDAO.adminCheck(clDto.getMember_idx(), meet_idx)) {%>
@@ -338,7 +358,23 @@
 				             <div class="commentBody">
 				               <p class="txt"><%= clDto.getContent() %></p>
 				               <div class="func">
-				                 <time class="time" title="2024년 6월 1일 오후 3:40">3시간 전</time>
+				               <!-- 댓글 작성 시간 출력 -->
+				                 <time class="time">
+				                 	<% 
+				                 	int day = Integer.parseInt(mCDto.getDay());
+				                 	int time = Integer.parseInt(mCDto.getTime());
+				                 	int minute = Integer.parseInt(mCDto.getMinute());
+				                 	
+				                 	if (day > 10) { %>
+				                 	<%= clDto.getReg_date() %>
+				                 	<% } else if (time > 23) { %>
+				                 			<%= day %>일 전
+			                 			<% } else if (minute > 60) { %>
+			                 					<%= time %>시간 전
+			                 				<% } else { %>
+			                 					<%= minute %>분 전
+			                 					<% } %>
+				                 </time>
 				               </div>
 				             </div>
 				           </div>

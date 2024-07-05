@@ -30,7 +30,7 @@ public class CommentListViewDAO {
         Connection conn = d.getConn();
 
         String sql = 
-        		"SELECT m.member_idx, m_m.nickname, m_m.profile, c.content "
+        		"SELECT m.member_idx, c.meet_comment_idx, m_m.nickname, m_m.profile, c.content, c.reg_date "
         		+ "FROM member m, meet_member m_m, meet_comment c, post p "
         		+ "WHERE m.member_idx = m_m.member_idx "
         		+ "AND c.meet_member_idx = m_m.meet_member_idx "
@@ -45,11 +45,13 @@ public class CommentListViewDAO {
         try {
             while (rs.next()) {
             	int member_idx = rs.getInt(1);
-            	String nickname = rs.getString(2);
-            	String profile = rs.getString(3);
-            	String content = rs.getString(4);
+            	int comment_idx = rs.getInt(2);
+            	String nickname = rs.getString(3);
+            	String profile = rs.getString(4);
+            	String content = rs.getString(5);
+            	String reg_date = rs.getString(6);
             	
-            	CommentListViewDTO commentListViewDTO = new CommentListViewDTO(member_idx, nickname, profile, content); // 저장한 값으로 SeatStatus 객체 생성
+            	CommentListViewDTO commentListViewDTO = new CommentListViewDTO(member_idx, comment_idx, nickname, profile, content, reg_date); // 저장한 값으로 SeatStatus 객체 생성
                 list.add(commentListViewDTO);
             }
         } catch (SQLException e) {
@@ -71,6 +73,7 @@ public class CommentListViewDAO {
         		+ "WHERE m_m.member_idx = m.member_idx "
         		+ "AND p.meet_member_idx = m_m.meet_member_idx "
         		+ "AND g.post_idx = p.post_idx "
+        		+ "AND delete_ok = 'N' "
         		+ "AND p.post_idx = ?";
         
         PreparedStatement pstmt = d.getPstmt(conn, sql);
