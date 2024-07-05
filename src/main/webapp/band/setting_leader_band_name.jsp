@@ -1,3 +1,5 @@
+<%@page import="dto.MeetIntroduceWriteDTO"%>
+<%@page import="dao.MeetIntroduceWriteDAO"%>
 <%@page import="dto.MeetSettingPrintDTO"%>
 <%@page import="dao.MeetSettingPrintDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -7,6 +9,7 @@
 	
 	MeetSettingPrintDAO mspDAO = new MeetSettingPrintDAO();
 	MeetSettingPrintDTO mspDTO = mspDAO.selectMeetSettingPrintDTO(meet_idx);
+		
 %>
 <!DOCTYPE html>
 <html lang="en">

@@ -1,5 +1,24 @@
+<%@page import="dao.UpdateMeetInfoWriteDAO"%>
+<%@page import="dto.MeetIntroduceWriteDTO"%>
+<%@page import="dao.MeetIntroduceWriteDAO"%>
+<%@page import="dto.MeetInfoWriteDTO"%>
+<%@page import="dao.MeetInfoWriteDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	int meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
+	int member_idx = Integer.parseInt(request.getParameter("member_idx"));
+	MeetInfoWriteDAO miwDAO = new MeetInfoWriteDAO();
+	MeetInfoWriteDTO miwDTO = miwDAO.selectMeetInfoWriteDTO(meet_idx);
+	
+	// 밴드 왼쪽 소개
+	MeetIntroduceWriteDAO miDao = new MeetIntroduceWriteDAO();
+	MeetIntroduceWriteDTO miDto = miDao.selectMeetIntroduceWriteDTO(meet_idx);
+	
+	// 밴드 소개글, 지역 업데이트
+	UpdateMeetInfoWriteDAO umiwDAO = new UpdateMeetInfoWriteDAO();
+	
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -84,22 +103,24 @@
         <div class="info_inner">
           <div class="sticky_side_bar">
             <!-- 밴드 이미지 -->
-            <div class="side_cover">
-              <a href="#">
+           <div class="side_cover">
                 <div class="cover_img">
                   <span class="cover_inner">
-                    <img>
+                  <img
+                    <% if (miDto.getUrl() != null) {%>
+                    	src = "<%= miDto.getUrl() %>"
+                   	<% } %>
+                   	>
                   </span>
                 </div>
-              </a>
               <!-- 밴드 이름 -->
               <div class="band_name">
-                <a class="band_name_txt">6조 밴드</a>
+                <a class="band_name_txt"><%= miDto.getMeet_name() %></a>
               </div>
             </div>
             <!-- 멤버 수 -->
             <p class="member">
-              <a href="#" class="member_count">멤버 1</a>
+              <a href="#" class="member_count">멤버 <%= miDto.getMeet_member_count() %></a>
             </p>
             <!-- 밴드 소개 설정 -->
             <div class="band_info_setting">
@@ -114,8 +135,8 @@
               밴드와 게시글이 공개되지 않습니다. 초대를 통해서만 가입할 수 있습니다.
             </p>
             <!-- 밴드 소개 -->
-            <div class="bandSetting">
-              <a href="#" class="bandSetting_Link">
+           	<div class="bandSetting">
+              <a href="#" onClick="history.back()" class="bandSetting_Link">
                 <span class="uIconSetting"></span>
                 밴드 설정
               </a>
@@ -137,7 +158,7 @@
               <!-- 소개글 입력 -->
               <div class="textareaBox _introDescription">
                 <div class="uTextarea">
-                  <textarea class="_introDescription" id="bandIntroduce" cols="30" rows="10" maxlength="500" placeholder="밴드 소개말을 입력하세요." style="height: 100%"></textarea>
+                  <textarea class="_introDescription" id="bandIntroduce" cols="30" rows="10" maxlength="500" placeholder="밴드 소개말을 입력하세요." style="height: 100%"><%=miwDTO.getTitle() %></textarea>
                   <span class="border"></span>
                 </div>
               </div>
@@ -145,7 +166,11 @@
               <div class="_locationText" style="display:flex;">
                 <div class="introOptionBox">
                   <div class="addressText">
-                    <button type="button" class="textButton">주소를 등록해주세요.
+                    <button type="button" class="textButton"><% if(miwDTO.getArea() != null) {%>
+                    <%=miwDTO.getArea() %>
+                    <%} else {%>
+                    주소를 등록해주세요.
+                    <% } %>
                     </button>
                   </div>
                 </div>
@@ -153,8 +178,12 @@
               <!-- 저장 버튼 -->
               <div class="introOption">
                 <div class="introOptionBox2">
-                  <button type="button" class="btnConfirm">저장</button>
-                </div>
+                 <form action="myband_setting_leader.jsp" method="post">
+	           		<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
+	            	<input type="hidden" value="<%=member_idx %>" name="member_idx">
+	                <button type="submit" class="btnConfirm">변경</button>
+              	</form>
+               </div>
               </div>
           </div>
         </div>

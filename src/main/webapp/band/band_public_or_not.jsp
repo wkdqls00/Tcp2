@@ -1,5 +1,14 @@
+<%@page import="dto.MeetIntroduceWriteDTO"%>
+<%@page import="dao.MeetIntroduceWriteDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	//밴드 왼쪽 소개
+	int meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
+	MeetIntroduceWriteDAO miDao = new MeetIntroduceWriteDAO();
+	MeetIntroduceWriteDTO miDto = miDao.selectMeetIntroduceWriteDTO(meet_idx);
+	
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -81,23 +90,25 @@
       <aside class="band_info">
         <div class="info_inner">
           <div class="sticky_side_bar">
-            <!-- 밴드 이미지 -->
+           <!-- 밴드 이미지 -->
             <div class="side_cover">
-              <a href="#">
                 <div class="cover_img">
                   <span class="cover_inner">
-                    <img>
+                  <img
+                    <% if (miDto.getUrl() != null) {%>
+                    	src = "<%= miDto.getUrl() %>"
+                   	<% } %>
+                   	>
                   </span>
                 </div>
-              </a>
               <!-- 밴드 이름 -->
               <div class="band_name">
-                <a class="band_name_txt">6조 밴드</a>
+                <a class="band_name_txt"><%= miDto.getMeet_name() %></a>
               </div>
             </div>
             <!-- 멤버 수 -->
             <p class="member">
-              <a href="#" class="member_count">멤버 1</a>
+              <a href="#" class="member_count">멤버 <%= miDto.getMeet_member_count() %></a>
             </p>
             <!-- 밴드 소개 설정 -->
             <div class="band_info_setting">
@@ -113,7 +124,7 @@
             </p>
             <!-- 밴드 설정 -->
             <div class="bandSetting">
-              <a href="#" class="bandSetting_Link">
+              <a href="#" onClick="history.back()" class="bandSetting_Link">
                 <span class="uIconSetting"></span>
                 밴드 설정
               </a>

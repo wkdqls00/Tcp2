@@ -1,3 +1,5 @@
+<%@page import="dao.MeetIntroduceWriteDAO"%>
+<%@page import="dto.MeetIntroduceWriteDTO"%>
 <%@page import="dto.MeetSettingPrintDTO"%>
 <%@page import="dao.MeetSettingPrintDAO"%>
 <%@page import="dto.MeetMemberProfilePrintDTO"%>
@@ -38,6 +40,12 @@
 <%
 	MeetSettingPrintDAO mspDAO = new MeetSettingPrintDAO();
 	MeetSettingPrintDTO mspDTO = mspDAO.selectMeetSettingPrintDTO(meet_idx);
+	
+	// 밴드 왼쪽 소개
+	MeetIntroduceWriteDAO miDao = new MeetIntroduceWriteDAO();
+	MeetIntroduceWriteDTO miDto = miDao.selectMeetIntroduceWriteDTO(meet_idx);
+	
+	
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -50,7 +58,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="../assets/css/myband_setting.css">
   <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/band_leave_popup.css'>
   <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-  <title>BAND - Setting - Leader</title>
+  <title>BAND - <%= miDto.getMeet_name() %> - Setting - Leader</title>
 </head>
 <body>
   <div id="wrap">
@@ -130,21 +138,23 @@
           <div class="sticky_side_bar">
             <!-- 밴드 이미지 -->
             <div class="side_cover">
-              <a href="#">
                 <div class="cover_img">
                   <span class="cover_inner">
-                    <img src="<%=mspDTO.getUrl()%>">
+                  <img
+                    <% if (miDto.getUrl() != null) {%>
+                    	src = "<%= miDto.getUrl() %>"
+                   	<% } %>
+                   	>
                   </span>
                 </div>
-              </a>
               <!-- 밴드 이름 -->
               <div class="band_name">
-                <a class="band_name_txt">6조 밴드</a>
+                <a class="band_name_txt"><%= miDto.getMeet_name() %></a>
               </div>
             </div>
             <!-- 멤버 수 -->
             <p class="member">
-              <a href="#" class="member_count">멤버 1</a>
+              <a href="#" class="member_count">멤버 <%= miDto.getMeet_member_count() %></a>
             </p>
             <!-- 밴드 소개 설정 -->
             <div class="band_info_setting">
@@ -217,7 +227,11 @@
                 <span class="subtxt">비공개</span>
               </div>
               <div class="item_side">
-                <a href="band_public_or_not.jsp" class="band_update_btn">변경</a>
+               <form action="band_public_or_not.jsp" method="post">
+	           		<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
+	            	<input type="hidden" value="<%=member_idx %>" name="member_idx">
+	                <button type="submit" class="band_update_btn">변경</button>
+                </form>
               </div>
             </li>
           </ul>
@@ -228,7 +242,11 @@
                 <span class="subtxt">성별 제한없음, 나이 제한없음</span>
               </div>
               <div class="item_side">
-                <a href="band_joining_condition.jsp" class="band_update_btn">변경</a>
+               <form action="band_joining_condition.jsp" method="post">
+	           		<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
+	            	<input type="hidden" value="<%=member_idx %>" name="member_idx">
+	                <button type="submit" class="band_update_btn">변경</button>
+                </form>
               </div>
             </li>
           </ul>
@@ -236,10 +254,14 @@
             <li class="setting_item">
               <div class="item_content">
                 <span class="label">밴드 소개</span>
-                <span class="subtxt">밴드 주소, 키워드, 소개글을 관리하세요.</span>
+                <span class="subtxt">밴드 주소, 소개글을 관리하세요.</span>
               </div>
               <div class="item_side">
-                <a href="band_information.jsp" class="band_update_btn">변경</a>
+	              <form action="band_information.jsp" method="post">
+		           		<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
+		            	<input type="hidden" value="<%=member_idx %>" name="member_idx">
+		                <button type="submit" class="band_update_btn">변경</button>
+	                </form>
               </div>
             </li>
           </ul>
