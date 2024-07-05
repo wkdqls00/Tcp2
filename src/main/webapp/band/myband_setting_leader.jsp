@@ -1,3 +1,5 @@
+<%@page import="dto.MeetSettingPrintDTO"%>
+<%@page import="dao.MeetSettingPrintDAO"%>
 <%@page import="dto.MeetMemberProfilePrintDTO"%>
 <%@page import="dao.MeetMemberProfilePrintDAO"%>
 <%@page import="dto.MeetMemberSettingPrintDTO"%>
@@ -32,6 +34,10 @@
 	MeetMemberProfilePrintDAO mmppDAO = new MeetMemberProfilePrintDAO();
 	MeetMemberProfilePrintDTO mmppDTO = mmppDAO.selectMeetMemberProfilePrintDTO(meet_idx, member_idx);
 	
+%>
+<%
+	MeetSettingPrintDAO mspDAO = new MeetSettingPrintDAO();
+	MeetSettingPrintDTO mspDTO = mspDAO.selectMeetSettingPrintDTO(meet_idx);
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -127,7 +133,7 @@
               <a href="#">
                 <div class="cover_img">
                   <span class="cover_inner">
-                    <img>
+                    <img src="<%=mspDTO.getUrl()%>">
                   </span>
                 </div>
               </a>
@@ -367,8 +373,9 @@
           </div>
         </div>
         <footer class="modalFooter">
-        <form action="../../bandDeleteServlet" method="post">
+        <form action="../bandDeleteServlet" method="post">
 	      <input type="hidden" name="meet_idx" value="<%=request.getParameter("meet_idx") %>"/>
+	      <input type="hidden" name="member_idx" value="<%=request.getParameter("member_idx") %>"/> 
           <button type="button" class="btnCancel">아니오</button>
           <button type="submit" id="deleteBtn" class="btnLeaveBand">예</button>
         </form>

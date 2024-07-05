@@ -9,7 +9,7 @@ import project.DatabaseUtil;
 public class BandDeleteDAO {
 	public static void main(String[] args) {
 		BandDeleteDAO bddao = new BandDeleteDAO();
-		bddao.bandDelete(10);
+		bddao.bandDelete(8);
 	}
 
     public void bandDelete(int meet_idx) {

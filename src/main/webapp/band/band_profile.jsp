@@ -170,7 +170,7 @@
             </li>
           </ul>
           <div class="btnFooter">
-            <button type="button" class="btnCancel">취소</button>
+            <button type="button" onClick="history.back()" class="btnCancel">취소</button>
             <button type="button" class="btnSave">저장</button>
           </div>
         </div>

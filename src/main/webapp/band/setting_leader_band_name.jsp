@@ -1,5 +1,13 @@
+<%@page import="dto.MeetSettingPrintDTO"%>
+<%@page import="dao.MeetSettingPrintDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	int meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
+	
+	MeetSettingPrintDAO mspDAO = new MeetSettingPrintDAO();
+	MeetSettingPrintDTO mspDTO = mspDAO.selectMeetSettingPrintDTO(meet_idx);
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -72,7 +80,7 @@
               <div class="make_cover">
                 <label class="make_title" for="ex_name">밴드 이름</label>
                 <div class="input_band">
-                  <input value="hi" type="text" class="_input_band_name" id="ex_name" placeholder="밴드 이름 입력">
+                  <input value="<%=mspDTO.getName()%>" type="text" class="_input_band_name" id="ex_name" placeholder="밴드 이름 입력">
                 </div>
                 <div class="desc">
                   <p>밴드명 변경시 멤버에게 알림이 전송됩니다.</p>
@@ -80,7 +88,7 @@
                 <div class="cover_select">
                   <div class="main_cover">
                     <span class="m_cover">
-                      <img data-cover="#" src="https://coresos-phinf.pstatic.net/a/2ih08a/c_b6hUd018adm1pd8bo8s7zqln_paxnin.jpg?type=cover_a640" class="selectedCover coverImg" width="300" height="225" alt="불꽃놀이 이미지">
+                      <img data-cover="#" src="<%=mspDTO.getUrl() %>" class="selectedCover coverImg" width="300" height="225" alt="불꽃놀이 이미지">
                     </span>
                   </div>
                   <div class="cover_list">
@@ -218,7 +226,7 @@
                 </ul>
               </div>
               <div class="btn_footer">
-                <button type="button" class="_btnCancel">취소</button>
+              	<button type="button" class="_btnCancel" onClick="history.back()">취소</button>
                 <button type="submit" class="_btnConfirm">완료</button>
               </div>
             </fieldset>
