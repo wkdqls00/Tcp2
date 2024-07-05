@@ -56,6 +56,14 @@
   border-radius: 50%;
   font-size: 0;
 }
+#profile_inner {
+	vertical-align: top;
+	position: relative;
+	width: 60px;
+	height: 60px;
+	border-radius: 50%;
+}
+
 .profile_inner::before {
   width: 25px;
   height: 25px;

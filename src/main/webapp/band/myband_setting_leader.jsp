@@ -1,3 +1,9 @@
+<%@page import="dao.MeetIntroduceWriteDAO"%>
+<%@page import="dto.MeetIntroduceWriteDTO"%>
+<%@page import="dto.MeetSettingPrintDTO"%>
+<%@page import="dao.MeetSettingPrintDAO"%>
+<%@page import="dto.MeetMemberProfilePrintDTO"%>
+<%@page import="dao.MeetMemberProfilePrintDAO"%>
 <%@page import="dto.MeetMemberSettingPrintDTO"%>
 <%@page import="dao.MeetMemberSettingPrintDAO"%>
 <%@page import="java.util.ArrayList"%>
@@ -25,6 +31,22 @@
 		e.printStackTrace();
 	}
 %>
+<%
+	int member_idx = Integer.parseInt(request.getParameter("member_idx"));
+	MeetMemberProfilePrintDAO mmppDAO = new MeetMemberProfilePrintDAO();
+	MeetMemberProfilePrintDTO mmppDTO = mmppDAO.selectMeetMemberProfilePrintDTO(meet_idx, member_idx);
+	
+%>
+<%
+	MeetSettingPrintDAO mspDAO = new MeetSettingPrintDAO();
+	MeetSettingPrintDTO mspDTO = mspDAO.selectMeetSettingPrintDTO(meet_idx);
+	
+	// 밴드 왼쪽 소개
+	MeetIntroduceWriteDAO miDao = new MeetIntroduceWriteDAO();
+	MeetIntroduceWriteDTO miDto = miDao.selectMeetIntroduceWriteDTO(meet_idx);
+	
+	
+%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -36,7 +58,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="../assets/css/myband_setting.css">
   <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/band_leave_popup.css'>
   <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-  <title>BAND - Setting - Leader</title>
+  <title>BAND - <%= miDto.getMeet_name() %> - Setting - Leader</title>
 </head>
 <body>
   <div id="wrap">
@@ -116,21 +138,23 @@
           <div class="sticky_side_bar">
             <!-- 밴드 이미지 -->
             <div class="side_cover">
-              <a href="#">
                 <div class="cover_img">
                   <span class="cover_inner">
-                    <img>
+                  <img
+                    <% if (miDto.getUrl() != null) {%>
+                    	src = "<%= miDto.getUrl() %>"
+                   	<% } %>
+                   	>
                   </span>
                 </div>
-              </a>
               <!-- 밴드 이름 -->
               <div class="band_name">
-                <a class="band_name_txt">6조 밴드</a>
+                <a class="band_name_txt"><%= miDto.getMeet_name() %></a>
               </div>
             </div>
             <!-- 멤버 수 -->
             <p class="member">
-              <a href="#" class="member_count">멤버 1</a>
+              <a href="#" class="member_count">멤버 <%= miDto.getMeet_member_count() %></a>
             </p>
             <!-- 밴드 소개 설정 -->
             <div class="band_info_setting">
@@ -146,7 +170,7 @@
             </p>
             <!-- 밴드 설정 -->
             <div class="bandSetting">
-              <a href="#" class="bandSetting_Link">
+              <a href="#" onClick="top.location='javascript:location.reload()'" class="bandSetting_Link">
                 <span class="uIconSetting"></span>
                 밴드 설정
               </a>
@@ -163,14 +187,18 @@
             </header>
           </div>
           <div class="profile_view">
-            <a href="#" role="button" class="open_profile_btn">
-              <span class="profile_inner"></span>
-            </a>
+          	<span class="profile_inner">
+            <% if (mmppDTO.getProfile() != null) { %>
+            <img id="profile_inner" src="<%=mmppDTO.getProfile()%>" width="60" height="60" >
+            <% } %>
+            </span>
             <div class="set_body">
-              <span class="name">김민효님의 프로필</span>
+              <span class="name"><%=mmppDTO.getNickname() %>님의 프로필</span>
               <span class="subtxt"></span>
             </div>
-            <form action="band_profile.jsp">
+            <form action="band_profile.jsp" method="post">
+            	<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
+            	<input type="hidden" value="<%=member_idx %>" name="member_idx">
 	            <div class="etc">
 	              <button type="submit" class="etc_btn">설정</button>
 	            </div>
@@ -184,7 +212,11 @@
                 <span class="subtxt"></span>
               </div>
               <div class="item_side">
-                <a href="setting_leader_band_name.jsp" class="band_update_btn">변경</a>
+            <form action="setting_leader_band_name.jsp" method="post">
+           		<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
+            	<input type="hidden" value="<%=member_idx %>" name="member_idx">
+                <button type="submit" class="band_update_btn">변경</button>
+              </form>
               </div>
             </li>
           </ul>
@@ -195,7 +227,11 @@
                 <span class="subtxt">비공개</span>
               </div>
               <div class="item_side">
-                <a href="band_public_or_not.jsp" class="band_update_btn">변경</a>
+               <form action="band_public_or_not.jsp" method="post">
+	           		<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
+	            	<input type="hidden" value="<%=member_idx %>" name="member_idx">
+	                <button type="submit" class="band_update_btn">변경</button>
+                </form>
               </div>
             </li>
           </ul>
@@ -206,7 +242,11 @@
                 <span class="subtxt">성별 제한없음, 나이 제한없음</span>
               </div>
               <div class="item_side">
-                <a href="band_joining_condition.jsp" class="band_update_btn">변경</a>
+               <form action="band_joining_condition.jsp" method="post">
+	           		<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
+	            	<input type="hidden" value="<%=member_idx %>" name="member_idx">
+	                <button type="submit" class="band_update_btn">변경</button>
+                </form>
               </div>
             </li>
           </ul>
@@ -214,10 +254,14 @@
             <li class="setting_item">
               <div class="item_content">
                 <span class="label">밴드 소개</span>
-                <span class="subtxt">밴드 주소, 키워드, 소개글을 관리하세요.</span>
+                <span class="subtxt">밴드 주소, 소개글을 관리하세요.</span>
               </div>
               <div class="item_side">
-                <a href="band_information.jsp" class="band_update_btn">변경</a>
+	              <form action="band_information.jsp" method="post">
+		           		<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
+		            	<input type="hidden" value="<%=member_idx %>" name="member_idx">
+		                <button type="submit" class="band_update_btn">변경</button>
+	                </form>
               </div>
             </li>
           </ul>
@@ -351,8 +395,9 @@
           </div>
         </div>
         <footer class="modalFooter">
-        <form action="../../bandDeleteServlet" method="post">
+        <form action="../bandDeleteServlet" method="post">
 	      <input type="hidden" name="meet_idx" value="<%=request.getParameter("meet_idx") %>"/>
+	      <input type="hidden" name="member_idx" value="<%=request.getParameter("member_idx") %>"/> 
           <button type="button" class="btnCancel">아니오</button>
           <button type="submit" id="deleteBtn" class="btnLeaveBand">예</button>
         </form>

@@ -21,7 +21,6 @@
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
-	
 %>
 
 <!DOCTYPE html>
@@ -184,12 +183,12 @@
             <span class="bubble_help_layer" style="width:348px; display:none">
               소모임 활동 주제가 분명하고, 오프라인 정모 활동이 활발한 밴드를 선정해 보여드려요!
               <button type="button" class="close_btn">
-            </div>
               <span class="help">닫기</span>
             </button>
           </span>
         </span>
       </h3>
+    </div>
     
     <!-- 소모임 멤버 모집글 -->
     <div id="band_find_wrap">

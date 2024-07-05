@@ -21,7 +21,7 @@ public class MeetMemberProfilePrintDTO {
 		return "MeetMemberProfilePrintDTO [profile=" + profile + ", nickname=" + nickname + "]";
 	}
 	
-	public MeetMemberProfilePrintDTO(String profile, String nickname) {
+	public MeetMemberProfilePrintDTO(String nickname, String profile) {
 		this.profile = profile;
 		this.nickname = nickname;
 	}
