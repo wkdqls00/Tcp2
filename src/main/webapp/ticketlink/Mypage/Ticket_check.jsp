@@ -5,6 +5,7 @@
     pageEncoding="UTF-8"%>
 <%
 	ArrayList<Ticket_checkDto> list = (ArrayList<Ticket_checkDto>) request.getAttribute("list");
+	int count = (int)request.getAttribute("count");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -106,7 +107,7 @@
                                 <span class="help_submenu_tit">활동관리</span>
                                 <ul class="help_submenu">
                                     <li><a href="">참여 이벤트</a></li>
-                                    <li><a href="http://127.0.0.1:5500/TicketProject/Mypage/review_concert.html">후기관리</a></li>
+                                    <li><a href="/Tcp2/ScriptManagementServlet">후기관리</a></li>
                                     <li><a href="">팬클럽/멤버십 내역</a></li>
                                     <li><a href="">취소표 대기 신청 내역</a></li>
                                 </ul>
@@ -243,11 +244,17 @@
                             </table>
                         </div>
                         <div class="paging"> <!--페이지 이동-->
-                            <a href="" class="first">맨앞</a>
-                            <a href="" class="prev">이전</a>
-                            <strong>1</strong>
-                            <a href="" class="next">다음</a>
-                            <a href="" class="end">맨뒤</a>
+                           <%
+                            int currP = 1;
+                            String currP_ = request.getParameter("currP");
+                            if (currP_ != null && !currP_.equals(""))
+                            	currP = Integer.parseInt(currP_);
+                            %>
+                            <a href="/Tcp2/Ticket_checkServlet?currP=1" class="first">맨앞</a>
+                            <a href="/Tcp2/Ticket_checkServlet?currP=<%=Math.max(currP -1, 1)%>" class="prev">이전</a>
+                            <strong><%=currP%></strong>
+                            <a href="/Tcp2/Ticket_checkServlet?currP=<%=currP + 1%>" class="next">다음</a>
+                            <a href="/Tcp2/Ticket_checkServlet?currP=<%=count%>" class="end">맨뒤</a>
                         </div>
                         <div class="note">
                             <h6>

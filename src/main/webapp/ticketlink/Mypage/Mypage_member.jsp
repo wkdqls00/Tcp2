@@ -98,7 +98,7 @@
                             <span class="help_submenu_tit">활동관리</span>
                             <ul class="help_submenu">
                                 <li><a href="">참여 이벤트</a></li>
-                                <li><a href="http://127.0.0.1:5500/TicketProject/Mypage/review_concert.html">후기관리</a></li>
+                                <li><a href="/Tcp2/ScriptManagementServlet">후기관리</a></li>
                                 <li><a href="">팬클럽/멤버십 내역</a></li>
                                 <li><a href="">취소표 대기 신청 내역</a></li>
                             </ul>

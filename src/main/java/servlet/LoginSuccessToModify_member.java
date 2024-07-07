@@ -40,7 +40,7 @@ public class LoginSuccessToModify_member extends HttpServlet {
 				request.setAttribute("loginError", true);
 				System.out.println("로그인실패");
 				System.out.println(userIdx);
-				request.getRequestDispatcher("/ticketlink/Modify/Modify_mainServlet").forward(request, response);
+				request.getRequestDispatcher("/Modify_mainServlet").forward(request, response);
 				
 			}  
 			} catch (Exception e) {

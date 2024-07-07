@@ -11,38 +11,26 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import dao.Ticket_checkDao;
-
-/**
- * Servlet implementation class Ticket_checkServlet
- */
-@WebServlet("/Ticket_checkServlet")
-public class Ticket_checkServlet extends HttpServlet {
+import dao.ScriptManagementDao;
+import dto.ScriptManagementDto;
+@WebServlet("/ScriptManagementServlet")
+public class ScriptManagementServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession hs = request.getSession();
-		int userIdx =(int)hs.getAttribute("userIdx");
-		int currP = 1;
-		String currP_ = request.getParameter("currP");
-		if (currP_ != null && !currP_.equals("")) {
-			currP = Integer.parseInt(currP_);
-		}
-		
-		int max = currP * 5;
-		int min = 1 + (currP - 1)*5;
-		
-		Ticket_checkDao tcDao = new Ticket_checkDao();
-		ArrayList<Ticket_checkDto> list = tcDao.checkReservationY(userIdx, max, min);
-		int count = tcDao.check_countY(userIdx);
+		int userIdx = (int) hs.getAttribute("userIdx");
+		ScriptManagementDao smdao = new ScriptManagementDao();
+		ArrayList<ScriptManagementDto> list = smdao.selectScriptManagementC(userIdx);
 		request.setAttribute("list", list);
-		request.setAttribute("count", count);
-		RequestDispatcher rd = request.getRequestDispatcher("/ticketlink/Mypage/Ticket_check.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("/ticketlink/Mypage/review_concert.jsp");
 		rd.forward(request, response);
-		for (Ticket_checkDto l : list) {
+		for (ScriptManagementDto l : list) {
 			System.out.println(l);
 		}
 	}
+
 }
