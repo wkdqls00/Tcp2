@@ -16,7 +16,7 @@ public class JoinConditionPrintServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		JoinConditionPrintDAO jcpDAO = new JoinConditionPrintDAO();
-		RequestDispatcher rd = request.getRequestDispatcher("ticket_project/band/band_joining_condition.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("band/band_joining_condition.jsp");
 		rd.forward(request, response);
 	}
 }

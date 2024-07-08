@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="/assets/css/joinContent.css">
+    <link rel="stylesheet" type="text/css" href="/Tcp2/assets/css/joinContent.css">
     <title>회원가입</title>
 </head>
 <body>
@@ -35,9 +35,9 @@
     <script>
         // 개인회원가입 버튼에 링크 추가
         document.querySelector(".text").nextElementSibling.addEventListener("click", function() {
-            location.href = "http://127.0.0.1:5501/ticketlink/Login/agreeToTerms.html";
+            window.location.href = "/Tcp2/ticketlink/Login/AgreeToTerms.jsp";
         });
-
+	
         // 개인회원가입 버튼누르면 약간 효과 주기
         document.querySelector(".text").nextElementSibling.addEventListener("mousedown", function() {
             this.classList.add("special");
@@ -48,7 +48,6 @@
         document.querySelector(".text").nextElementSibling.addEventListener("mouseleave", function() {
             this.classList.remove("special");
         });
-        
     </script>
 </body>
 </html>

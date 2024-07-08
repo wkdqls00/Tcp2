@@ -1,13 +1,20 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>비밀번호확인</title>
-    <link rel="stylesheet" href="/assets/css/modify_main.css">
-    <link rel="stylesheet" href="/assets/css/footer.css">
+    <link rel="stylesheet" href="/Tcp2/assets//css/modify_main.css">
+    <link rel="stylesheet" href="/Tcp2/assets//css/footer.css">
 </head>
 <body>
+<%
+String id = (String)request.getAttribute("id");
+String name = (String)request.getAttribute("name");
+%>
+	
     <div class="common_header"> <!--홈페이지상단-->
         <div class="header_inner">
             <div class="inner">
@@ -25,18 +32,18 @@
             <div class="left_menu_area">
                 <div class="my_area"> 
                     <p>환영합니다</p>
-                    <p>이준영님</p>
+                    <p><%=name %>님</p>
                 </div>
                 <div class="my_menu_area"> <!--왼쪽 메뉴들-->
                     <ul>
-                        <li class="modify"><a href="">회원정보수정</a></li>
-                        <li class="password"><a href="">비밀번호변경</a></li>
-                        <li class="sns"><a href="">계정연결설정</a></li>
-                        <li class="withdrawal"><a href="">회원탈퇴</a></li>
+                        <li class="modify"><a href="#">회원정보수정</a></li>
+                        <li class="password"><a href="#">비밀번호변경</a></li>
+                        <li class="sns"><a href="#">계정연결설정</a></li>
+                        <li class="withdrawal"><a href="#">회원탈퇴</a></li>
                     </ul>
                 </div> <!--왼쪽 메뉴들-->
             </div>
-            <form action="./modify_member.html"> <!--가운데 회원정보들-->
+            <form action="/Tcp2/LoginSuccessToModify_member" method="post"> <!--가운데 회원정보들-->
                 <div class="sub_content_wrap">
                     <h2 class="main_title">비밀번호인증</h2>
                     <div class="pw_to_box">
@@ -48,15 +55,16 @@
                     <div class="pw_con_box">
                         <dl>
                             <dt>아이디</dt>
-                            <dd class="mem_id">wnsdud893</dd>
+                            <dd class="mem_id"><%=id %></dd>
+                            <input type="hidden" name="userId" value="<%=id%>">
                         </dl>
                         <dl>
                             <dt>비밀번호</dt>
                             <dd>
                                 <div class="style_input">
-                                    <input type="password" id="mem_pw" class="i_input">
-                                    <span class="del_btn"></span>
-                                    <p class="error">비밀번호를 다시 확인해주세요</p>
+                                    <input type="password" id="mem_pw" class="con_input"  name="userPw">
+                                    <span class="del_btn" style="display: none;"></span>
+                                    <p class="error" style="display: none;">비밀번호를 다시 확인해주세요</p>
                                 </div>
                             </dd>
                         </dl>
@@ -175,6 +183,14 @@
       </ul>
     </div>
   </div>
-  
+  <script src="/Tcp2/assets//js/del_btn.js"></script>
 </body>
+ 	<script type="text/javascript">
+        window.onload = function() {
+            // 로그인 실패 메시지가 있을 경우 메시지 표시
+            <% if (request.getAttribute("loginError") != null) { %>
+                document.querySelector(".error").style.display = "block";
+            <% } %>
+        }
+    </script>
 </html>

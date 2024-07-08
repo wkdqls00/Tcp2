@@ -1,12 +1,14 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>회원탈퇴</title>
-    <link rel="stylesheet" href="/assets/css/modify_member.css">
-    <link rel="stylesheet" href="/assets/css/modify_withdrawal.css">
-    <link rel="stylesheet" href="/assets/css/footer.css">
+    <title>비밀번호변경</title>
+    <link rel="stylesheet" href="/Tcp2/assets/css/modify_member.css">
+    <link rel="stylesheet" href="/Tcp2/assets//css/modify_password.css">
+    <link rel="stylesheet" href="/Tcp2/assets//css/footer.css">
 </head>
 <body>
     <div class="common_header"> <!--홈페이지상단-->
@@ -26,63 +28,55 @@
             <div class="left_menu_area">
                 <div class="my_area"> 
                     <p>환영합니다</p>
-                    <p>이준영님</p>
+                    <p><%=request.getAttribute("name")%>님</p>
                 </div>
                 <div class="my_menu_area"> <!--왼쪽 메뉴들-->
                     <ul>
-                        <li class="modify"><a href="http://127.0.0.1:5500/TicketProject/Modify/modify_member.html">회원정보수정</a></li>
-                        <li class="password"><a href="http://127.0.0.1:5500/TicketProject/Modify/modify_password.html">비밀번호변경</a></li>
+                        <li class="modify"><a href="/Tcp2//Modify_memberServlet">회원정보수정</a></li>
+                        <li class="password current"><a href="/Tcp2/Modify_passwordServlet">비밀번호변경</a></li>
                         <li class="sns"><a href="http://127.0.0.1:5500/TicketProject/Modify/modify_memberjoin.html">계정연결설정</a></li>
-                        <li class="withdrawal current"><a href="http://127.0.0.1:5500/TicketProject/Modify/modify_withdrawal.html">회원탈퇴</a></li>
+                        <li class="withdrawal"><a href="/Tcp2//Modify_withdrawalServlet">회원탈퇴</a></li>
                     </ul>
                 </div> <!--왼쪽 메뉴들-->
             </div>
-            <form action="http://www.naver.com"> <!--가운데 회원정보들-->
+            <form action="/Test/Modify_passwordAction" name="password_modify" method="get"> <!--가운데 회원정보들-->
                 <div class="sub_content_wrap">
-                    <h2 class="main_title">회원탈퇴</h2>
-                    <div>
-                        <p class="member_dsc">이용에 불편을 드려서 죄송합니다<br>
-                            <span style="color: #ef3e42">회원 탈퇴시 혜택이 소멸되고, 정보가 복귀되지 않습니다.</span>
+                    <h2 class="main_title">비밀번호변경</h2>
+                    <div class="pw_to_box">
+                        <p class="top_title">
+                            <br>주기적인 <span style="color: #ef3e42">비밀번호 변경</span>을 통해<br> 개인정보를 안전하게 보호하세요.
                         </p>
                     </div>
-                    <dl class="member_out_box">
-                        <dt>서비스 탈퇴 전 유의사항을 반드시 확인해주세요.</dt>
-                        <dd>
-                            <ul class="outbxcon">
-                                <li>서비스 탈퇴 시 즉시 탈퇴 처리되나, 개인정보 도용 등으로 인한 원치 않은 철회, 부정 이용 방지 등에 대비하기 위하여 회원님의 아이디를 포함한 개인 정보가 3일간 보존됩니다.(동의하신 개인정보
-                                    처리방침에 명시한 파기 절차에 따라 3일 이후 개인정보는 지체없이 파기하며, 관계법령의 규정에 의하여 보존할 필요가 있는 경우 관계법령에서 정한 일정한 기간 동안 개인정보를 보관합니다.)
-                                </li>
-                                <li>서비스 탈퇴 후 3일간 개인정보(ex. 휴대전화번호 / 이메일주소 / 개인식별정보(CI/DC))가 보관되며 동일 회원정보로 재가입이 불가능합니다.</li>
-                                <li>서비스 탈퇴 시 등록된 예매권과 쿠폰은 삭제되며 재 이용이 불가합니다.</li>
-                                <li>진행중인 전자상거래 이용내역(관람일이 경과되지 않은 예매내역, 배송/반품 중 상태 등)이 있는 경우 서비스 탈퇴를 하실 수 없습니다.</li>
-                                <li>작성된 게시물은 탈퇴 시 자동 삭제되지 않으며, 삭제가 필요한 경우 게시물 직접 삭제 후 서비스 탈퇴 하셔야 합니다.</li>
-                            </ul>
-                        </dd>
-                    </dl>
-                    <div class="member_ck">
-                        <span class="checkbox" id="agree_withdrawal">
-                            <input type="checkbox" id="agree">
-                        </span>
-                        <label for="agree" style="display: inline-block; top: 15px;">위 내용을 모두 확인하였으며 동의합니다.</label>
+                    <div class="pw_input_box">
+                        <ul>
+                            <li>
+                                <div class="style_input">
+                                    <input type="password" class="i_input" id="fst_password" placeholder="새 비밀번호" name="newPw">
+                                    <p class="error" style="color: #ef3e42; font-size: 12px; display: none;">잘못된 형식의 비밀번호입니다.</p>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="style_input">
+                                    <input type="password" class="i_input" id="snd_password" placeholder="새 비밀번호 확인">
+                                </div>
+                            </li>
+                        </ul>
+                        <p class="pw_noti">8~12자의 영문, 숫자, 특수문자 중 2가지 이상으로만 가능합니다.</p>
                     </div>
-                    <div class="inter_btn_area"> <!--취소, 수정 버튼-->
+                    <div class="inter_btn_area">
                         <span>
                             <button type="submit" class="btn_white">취소</button>
                         </span>
                         <span>
-                            <button type="submit" class="btn_red" onclick="check()">탈퇴</button>
-                        </span> 
-                    </div> <!--취소, 수정 버튼-->
+                            <button type="submit" class="btn_red">변경</button>
+                        </span>
+                    </div>
                 </div>
             </form> <!--가운데 회원정보들-->
         </div>
     </div>
     <!-- 맨 밑 하단 안내사항 -->
 <footer id="common_footer">
-    <button type="button" class="btn_move_top is-active is-stuck">
-      <!-- ::before -->
-      <span class="blind1">맨 위로 이동하기</span>
-    </button>
     <div class="footer_menu">
       <ul class="footer_menu_list">
         <li class="footer_menu_item">
@@ -179,18 +173,37 @@
       </ul>
     </div>
   </div>
-  
-
   <script>
-    function check() {
-      let checkbox = document.getElementById("agree");
-      if(!checkbox.checked) {
-        alert("동의사항 체크를 해주세요 \n진짜 탈퇴하실건가요?ㅜㅜ");
-        event.preventDefault();
-      } else {
-        alert("탈퇴되었습니다 지금까지 이용해주셔서 감사합니다");
-      }
-    }
+    // 새비밀번호랑 새비밀번호 확인 비교 
+    document.addEventListener("DOMContentLoaded", function() {
+
+      document.querySelector(".btn_red").addEventListener("click", function() {
+        let p1 = document.getElementById("fst_password").value;
+        let p2 = document.getElementById("snd_password").value;
+        let regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        if(p1 !== p2) {
+          event.preventDefault();
+          alert("비밀번호가 일치하지 않습니다.")
+        } else if(!regex.test(p1)) {
+          event.preventDefault();
+          alert("잘못된 형식의 비밀번호입니다.")
+        } else {
+          alert("비밀번호가 변경되었습니다. \n 다시 로그인해주세요.")
+        }
+      });
+
+      // 비밀번호 조건문(정규표현으로)
+      document.getElementById("fst_password").addEventListener("input", function() {
+        let error = document.querySelector(".error");
+        let regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        let text = this.value;
+        if(!regex.test(text)) {
+          error.style.display = "block";
+        } else {
+          error.style.display = "none";
+        }
+      });
+    });
   </script>
 </body>
 </html>

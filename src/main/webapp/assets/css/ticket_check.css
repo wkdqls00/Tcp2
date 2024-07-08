@@ -147,6 +147,7 @@ ul, ol {
 .guide_txt.v2 a{
     color: #fa2828;
     text-decoration: underline;
+    display: inline-block;
 }
 .basic_tbl {
     border-bottom: 1px solid #ecedf2;
@@ -176,16 +177,14 @@ ul, ol {
 .basic_tbl a:hover {
     text-decoration: underline;
 }
-tbody tr:first-child td {
-    padding: 14px 2px;
-}
 .basic_tbl table tbody td {
     vertical-align: middle;
     border-top: 0;
     text-align: center;
     color: #242428;
     font-size: 14px;
-    line-height: 22px;
+    line-height: 12px;
+    padding: 14px 2px;
 }
 .fs12 {
     font-size: 12px !important;

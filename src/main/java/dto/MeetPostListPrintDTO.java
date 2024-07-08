@@ -1,6 +1,8 @@
 package dto;
 
 public class MeetPostListPrintDTO {
+	int member_idx;
+	int post_idx;
 	String nickname;
 	String profile;
 	String content;
@@ -8,19 +10,33 @@ public class MeetPostListPrintDTO {
 	int views;
 	String file_url;
 	
-	public MeetPostListPrintDTO(String nickname, String profile, String content, String reg_date, int views,
-			String file_url) {
+	public MeetPostListPrintDTO(int member_idx, String nickname, String profile, String content, String reg_date, int views,
+			String file_url, int post_idx) {
+		this.member_idx = member_idx;
 		this.nickname = nickname;
 		this.profile = profile;
 		this.content = content;
 		this.reg_date = reg_date;
 		this.views = views;
 		this.file_url = file_url;
+		this.post_idx = post_idx;
 	}
 	@Override
 	public String toString() {
 		return "MeetPostListPrintDTO [nickname=" + nickname + ", profile=" + profile + ", content=" + content
 				+ ", reg_date=" + reg_date + ", views=" + views + ", file_url=" + file_url + "]";
+	}
+	public int getPost_idx() {
+		return post_idx;
+	}
+	public void setPost_idx(int post_idx) {
+		this.post_idx = post_idx;
+	}
+	public int getMember_idx() {
+		return member_idx;
+	}
+	public void setMember_idx(int member_idx) {
+		this.member_idx = member_idx;
 	}
 	public String getNickname() {
 		return nickname;

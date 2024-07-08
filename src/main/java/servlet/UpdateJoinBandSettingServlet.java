@@ -19,7 +19,7 @@ public class UpdateJoinBandSettingServlet extends HttpServlet {
 		
 		UpdateJoinBandSettingDAO ujbsDAO = new UpdateJoinBandSettingDAO();
 		
-		RequestDispatcher rd = request.getRequestDispatcher("ticket_project/band/band_joining_condition.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("band/band_joining_condition.jsp");
 		rd.forward(request, response);
 	}
 }

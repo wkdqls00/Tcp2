@@ -1,14 +1,16 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="/assets/css/mypage.css">
-    <link rel="stylesheet" type="text/css" href="/assets/css/review.management.css">
-    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
-    <link rel="stylesheet" href="/assets/css/common.css">
-    <link rel="stylesheet" type="text/css" href="/assets/css/reset.css">
-    <title>후기 관리>공연</title>
+    <link rel="stylesheet" type="text/css" href="/Tcp2/assets/css/mypage.css">
+    <link rel="stylesheet" type="text/css" href="/Tcp2/assets/css/review.management.css">
+    <link rel="stylesheet" href="/Tcp2/assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="/Tcp2/assets/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="/Tcp2/assets/css/footer.css">
+    <title>후기 관리>전시</title>
     <style>
     </style>
 </head>
@@ -50,75 +52,75 @@
         </header>
         <div class="content">
             <div class="container">
-                <!--상단 메뉴들-->
-                <div class="quick_menu"> 
-                    <div class="title">
-                        <h2 class="title_txt">마이페이지</h2>
-                    </div>
-                    <ul class="quick_menu_list">
-                        <li class="quick_menu_item reserve">
-                            <a href="">
-                                <div class="qmenu_box">
-                                    <span class="qmenu_tit">예매내역</span>
-                                    <span class="qmenu_subtit state_number">0</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="quick_menu_item info">
-                            <a href="">
-                                <div class="qmenu_box">
-                                    <span class="qmenu_tit">회원정보</span>
-                                    <span class="qmenu_subtit">수정</span>
-                                </div>
-                            </a>
-                        </li>
-                    </ul> 
+               <!--상단 메뉴들-->
+               <div class="quick_menu"> 
+                <div class="title">
+                    <h2 class="title_txt">마이페이지</h2>
                 </div>
-                <!--마이페이지 부터 내용-->
-                <div class="help_cont"> 
-                    <!--왼쪽메뉴-->
-                    <ul class="helpMenu">
-                        <li class="has_sub">
-                            <span class="help_submenu_tit">예매관리</span>
-                            <ul class="help_submenu special">
-                                <li><a href="http://127.0.0.1:5500/TicketProject/Mypage/ticket_check.html">예매확인/취소</a></li>
-                            </ul>
-                        </li>
-                        <li class="has_sub">
-                            <span class="help_submenu_tit">할인혜택</span>
-                            <ul class="help_submenu">
-                                <li><a href="">포인트</a></li>
-                                <li><a href="">예매권</a></li>
-                                <li><a href="">상품권</a></li>
-                                <li><a href="">쿠폰</a></li>
-                            </ul>
-                        </li>
-                        <li class="has_sub">
-                            <span class="help_submenu_tit">활동관리</span>
-                            <ul class="help_submenu">
-                                <li><a href="">참여 이벤트</a></li>
-                                <li class="on"><a href="http://127.0.0.1:5500/TicketProject/Mypage/review_concert.html">후기관리</a></li>
-                                <li><a href="">팬클럽/멤버십 내역</a></li>
-                                <li><a href="">취소표 대기 신청 내역</a></li>
-                            </ul>
-                        </li>
-                        <li class="has_sub">
-                            <span class="help_submenu_tit">증빙서류</span>
-                            <ul class="help_submenu">
-                                <li><a href="">입금증</a></li>
-                                <li><a href="">현금영수증</a></li>
-                                <li><a href="">신용카드 매출 전표</a></li>
-                            </ul>
-                        </li>
-                        <li class="has_sub">
-                            <span class="help_submenu_tit">회원정보관리</span>
-                            <ul class="help_submenu">
-                                <li><a href="">환불계좌관리</a></li>
-                                <li><a href="http://127.0.0.1:5500/TicketProject/Mypage/mypage.html">회원정보수정</a></li>
-                                <li><a target="_blank" href="http://127.0.0.1:5500/TicketProject/Modify/modify_main.html">회원탈퇴</a></li>
-                            </ul>
-                        </li>
-                    </ul> 
+                <ul class="quick_menu_list">
+                    <li class="quick_menu_item reserve">
+                        <a href="">
+                            <div class="qmenu_box">
+                                <span class="qmenu_tit">예매내역</span>
+                                <span class="qmenu_subtit state_number">0</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="quick_menu_item info">
+                        <a href="">
+                            <div class="qmenu_box">
+                                <span class="qmenu_tit">회원정보</span>
+                                <span class="qmenu_subtit">수정</span>
+                            </div>
+                        </a>
+                    </li>
+                </ul> 
+            </div>
+            <!--마이페이지 부터 내용-->
+            <div class="help_cont"> 
+                <!--왼쪽메뉴-->
+                <ul class="helpMenu">
+                    <li class="has_sub">
+                        <span class="help_submenu_tit">예매관리</span>
+                        <ul class="help_submenu special">
+                            <li><a href="/Tcp2/Ticket_checkServlet">예매확인/취소</a></li>
+                        </ul>
+                    </li>
+                    <li class="has_sub">
+                        <span class="help_submenu_tit">할인혜택</span>
+                        <ul class="help_submenu">
+                            <li><a href="">포인트</a></li>
+                            <li><a href="">예매권</a></li>
+                            <li><a href="">상품권</a></li>
+                            <li><a href="">쿠폰</a></li>
+                        </ul>
+                    </li>
+                    <li class="has_sub">
+                        <span class="help_submenu_tit">활동관리</span>
+                        <ul class="help_submenu">
+                            <li><a href="">참여 이벤트</a></li>
+                            <li class="on"><a href="/Tcp2/ScriptManagementServlet">후기관리</a></li>
+                            <li><a href="">팬클럽/멤버십 내역</a></li>
+                            <li><a href="">취소표 대기 신청 내역</a></li>
+                        </ul>
+                    </li>
+                    <li class="has_sub">
+                        <span class="help_submenu_tit">증빙서류</span>
+                        <ul class="help_submenu">
+                            <li><a href="">입금증</a></li>
+                            <li><a href="">현금영수증</a></li>
+                            <li><a href="">신용카드 매출 전표</a></li>
+                        </ul>
+                    </li>
+                    <li class="has_sub">
+                        <span class="help_submenu_tit">회원정보관리</span>
+                        <ul class="help_submenu">
+                            <li><a href="">환불계좌관리</a></li>
+                            <li><a href="/Tcp2/Mypage_memberServlet">회원정보수정</a></li>
+                            <li><a target="_blank" href="/Tcp2/Modify_mainServlet">회원탈퇴</a></li>
+                        </ul>
+                    </li>
+                </ul> 
                     <!--본문내용-->
                     <div class="help_recont">
                         <div class="h3_line">   
@@ -129,8 +131,8 @@
                             종원링크 운영정책에 위봔되거나, 후기의 성격에 맞지 않는 글은 고객님께 사전 통보 없이 삭제될 수 있습니다.
                         </p>
                         <ul class="mypage_tab">
-                            <li class="on"><a href="http://127.0.0.1:5500/TicketProject/Mypage/review_concert.html">공연</a></li>
-                            <li><a href="http://127.0.0.1:5500/TicketProject/Mypage/review_exhibition.html">전시</a></li>
+                            <li><a href="/Tcp2/ScriptManagementServlet">공연</a></li>
+                            <li class="on"><a href="/Tcp2/ScriptManagementServletE">전시</a></li>
                         </ul>
                         <div class="basic_tbl">
                             <table>
@@ -148,9 +150,9 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td class="tl"><a href="">집 가고 싶어</a></td>
-                                        <td class="tl"><a href="">너무 공감돼요</a></td>
-                                        <td class="fs12">2024.06.10</td>
+                                        <td class="tl"><a href="">학원 가고 싶어</a></td>
+                                        <td class="tl"><a href="">너무 공감이 안 돼요</a></td>
+                                        <td class="fs12">2024.08.11</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -166,7 +168,7 @@
                 </div>
             </div>
         </div>
-        <!--하단-->
+       <!--하단-->
        <footer id="common_footer">
         <div class="footer_menu">
             <ul class="footer_menu_list">

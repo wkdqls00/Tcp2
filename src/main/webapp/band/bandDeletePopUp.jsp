@@ -12,5 +12,5 @@
 	
 	bdDAO.bandDelete(meet_idx);
 	
-	response.sendRedirect("ticket_project/band/band_main.jsp");
+	response.sendRedirect("band/band_main.jsp");
 %>

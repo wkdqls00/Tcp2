@@ -1,3 +1,7 @@
+input::-ms-reveal,  /* password 눈깔 안보이게 하는 코드 */
+input::-ms-clear {
+    display : none !important;
+}
 .header {
     width: 100%;
     height: 68px;
@@ -67,9 +71,9 @@ input:focus {outline:none;}
     margin-top: 12px;
 }
 .message {
-    position: static;
     color: red;
     font-size: 13px;
+    display: none;
 }
 .sign {
     top: 32px;

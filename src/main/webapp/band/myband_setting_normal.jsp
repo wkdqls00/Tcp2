@@ -1,5 +1,13 @@
+<%@page import="dto.MeetMemberProfilePrintDTO"%>
+<%@page import="dao.MeetMemberProfilePrintDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	int meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
+	int member_idx = Integer.parseInt(request.getParameter("member_idx"));
+	MeetMemberProfilePrintDAO mmppDAO = new MeetMemberProfilePrintDAO();
+	MeetMemberProfilePrintDTO mmppDTP = mmppDAO.selectMeetMemberProfilePrintDTO(meet_idx, member_idx);
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -313,10 +321,13 @@
               </div>
             </div>
           </div>
-          <fotter class="modalFooter">
-            <button type="button" class="btnCancel">아니오</button>
-            <button type="button" class="btnLeaveBand">예</button>
-          </fotter>
+          <footer class="modalFooter">
+          	<form action="../../bandDeleteServlet" method="post">
+	          	<input type="hidden" name="meet_idx" value="<%=request.getParameter("meet_idx") %>">
+	            <button type="button" class="btnCancel">아니오</button>
+	            <button type="submit" class="btnLeaveBand">예</button>
+            </form>
+          </footer>
         </div>
       </section>
     </div>
@@ -337,7 +348,7 @@
               </div>
             </div>
           </div>
-          <fotter class="modalFooter">
+          <footer class="modalFooter">
             <button type="button" class="btnCancel">취소</button>
             <button type="button" class="btnLeaveBand">탈퇴하기</button>
           </fotter>

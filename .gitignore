@@ -6,3 +6,4 @@ MANIFEST.MF
 /bin/
 node_modules
 DatabaseUtil.java
+src/main/webapp/WEB-INF/*
