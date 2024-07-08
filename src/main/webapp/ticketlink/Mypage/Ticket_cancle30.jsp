@@ -11,7 +11,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="/Tcp2/assets/css/mypage.css">
     <link rel="stylesheet" type="text/css" href="/Tcp2/assets/css/ticket_check.css">
     <link rel="stylesheet" type="text/css" href="/Tcp2/assets/css/footer.css">
@@ -139,18 +139,18 @@
                             <br>공연/전시 예매 내역은 하단의 공연/전시 탭을 선택하면 확인할 수 있습니다.
                         </p>
                         <ul class="mypage_tab"> <!--예매확인 / 예매취소-->
-                            	<li class="on"><a href="/Tcp2/Ticket_checkServlet">예매확인</a></li>
-                            	<li><a href	="/Tcp2/Ticket_checkServletR">예매취소</a></li>
+                            	<li><a href="/Tcp2/Ticket_checkServlet">예매확인</a></li>
+                            	<li class="on"><a href="/Tcp2/Ticket_checkServletR">예매취소</a></li>
                         </ul>
                         <div class="sortbox">
                             <dl class="daytbox fl">
                                 <dt>기간별 조회</dt>
                                 <dd style="float: left"> <!--기간별 조회-->
                                     <ul class="daysort">
-                                        <li><a href="/Tcp2/Ticket_checkPeriodServlet?day=15">15일</a></li>
-                                        <li><a href="/Tcp2/Ticket_checkPeriodServlet?day=30">1개월</a></li>
-                                        <li><a href="/Tcp2/Ticket_checkPeriodServlet?day=60">2개월</a></li>
-                                        <li><a href="/Tcp2/Ticket_checkPeriodServlet?day=90">3개월</a></li>
+                                        <li><a href="/Tcp2/Ticket_checkPeriodServletR?day=15">15일</a></li>
+                                        <li><a href="/Tcp2/Ticket_checkPeriodServletR?day=30"  class="search">1개월</a></li>
+                                        <li><a href="/Tcp2/Ticket_checkPeriodServletR?day=60">2개월</a></li>
+                                        <li><a href="/Tcp2/Ticket_checkPeriodServletR?day=90">3개월</a></li>
                                     </ul>
                                 </dd>
                             </dl>
@@ -160,12 +160,12 @@
                                     <div class="selectbox binding">
                                         <a href="" class="select ng-binding">예매일</a>
                                         <ul class="select_list ng-hiding" style="display: block;">
-                                            <li class="ng-scope" id="reser"><a href="">예매일</a></li>
-                                            <li class="ng-scope" id="view"><a href="">관람일</a></li>
+                                            <li class="ng-scope"><a href="">예매일</a></li>
+                                            <li class="ng-scope"><a href="">관람일</a></li>
                                         </ul>
                                     </div>
                                     <div class="selectbox binding">
-                                        <a href="" class="select ng-binding" id="year">연도</a>
+                                        <a href="" class="select ng-binding">연도</a>
                                         <ul class="select_list ng-hiding" style="display: block;">
                                             <li class="ng-scope"><a href="">2024년</a></li>
                                             <li class="ng-scope"><a href="">2023년</a></li>
@@ -173,7 +173,7 @@
                                         </ul>
                                     </div>
                                     <div class="selectbox binding">
-                                        <a href="" class="select ng-binding" id="month">월</a>
+                                        <a href="" class="select ng-binding">월</a>
                                         <ul class="select_list ng-hiding" style="display: block;">
                                             <li class="ng-scope"><a href="">1월</a></li>
                                             <li class="ng-scope"><a href="">2월</a></li>
@@ -189,7 +189,7 @@
                                             <li class="ng-scope"><a href="">12월</a></li>
                                         </ul>
                                     </div> <!--조회버튼-->
-                                    <a href="" class="btn_blank" id="searchMonth">조회</a>
+                                    <a href="" class="btn_blank">조회</a>
                                 </dd>
                             </dl>
                         </div>
@@ -220,7 +220,6 @@
                                 </thead>
                                 <tbody> <!--예매내역-->
                                 	<%	
-                                		
                                 		int cnt = 0;
                                 		for(Ticket_checkDto dto : list) {
                                 			String status = dto.getStatus();
@@ -239,22 +238,24 @@
                                             <div class="reserve_condition2"><%=dto.getPay_date() %></div>
                                         </td>
                                     </tr>
-                                    <% cnt++; }%>
+                                    <%		cnt++;
+                                    	}
+                                    %>
                                 </tbody>
                             </table>
                         </div>
                         <div class="paging"> <!--페이지 이동-->
-                           <%
+                            <%
                             int currP = 1;
                             String currP_ = request.getParameter("currP");
                             if (currP_ != null && !currP_.equals(""))
                             	currP = Integer.parseInt(currP_);
                             %>
-                            <a href="/Tcp2/Ticket_checkServlet?currP=1" class="first">맨앞</a>
-                            <a href="/Tcp2/Ticket_checkServlet?currP=<%=Math.max(currP -1, 1)%>" class="prev">이전</a>
+                            <a href="/Tcp2/Ticket_checkPeriodServletR?day=30&currP=1" class="first">맨앞</a>
+                            <a href="/Tcp2/Ticket_checkPeriodServletR?day=30&currP=<%=Math.max(currP -1, 1)%>" class="prev">이전</a>
                             <strong><%=currP%></strong>
-                            <a href="/Tcp2/Ticket_checkServlet?currP=<%=currP + 1%>" class="next">다음</a>
-                            <a href="/Tcp2/Ticket_checkServlet?currP=<%=count%>" class="end">맨뒤</a>
+                            <a href="/Tcp2/Ticket_checkPeriodServletR?day=30&currP=<%=currP + 1%>" class="next">다음</a>
+                            <a href="/Tcp2/Ticket_checkPeriodServletR?day=30&currP=<%=count%>" class="end">맨뒤</a>
                         </div>
                         <div class="note">
                             <h6>
@@ -373,6 +374,15 @@
             </div>
         </div>
 <script src="/Tcp2/assets/js/ticket_check.js"></script>
-<script src="/Tcp2/assets/js/toMonthY.js"></script>
+<script>
+	function submitToR() {
+		document.getElementById("ticket_checkR").submit();
+	}
+	function submitToY() {
+		document.getElementById("ticket_checkY").submit();
+	}
+	});
+</script>
+<script src="/Tcp2/assets/js/toMonthR.js"></script>
 </body>
 </html>

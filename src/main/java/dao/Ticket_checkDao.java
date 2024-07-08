@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 
-import servlet.Ticket_checkDto;
+import dto.Ticket_checkDto;
 
 
 public class Ticket_checkDao {
@@ -20,8 +20,7 @@ public class Ticket_checkDao {
     public static void main(String[] args) {
         Ticket_checkDao tcdao = new Ticket_checkDao();
         ArrayList<Ticket_checkDto>  list = null;        
-        list = tcdao.checkReservationY(1, 1, 5);
-        list = tcdao.checkReservationR(1, 10, 6);
+        list = tcdao.checkReservationY(24, 5, 1);
         for (Ticket_checkDto checkReservation : list) {
            System.out.println(checkReservation);
         }
@@ -39,7 +38,7 @@ public class Ticket_checkDao {
 			
 			 String sql =
 		             "SELECT * FROM (SELECT ROWNUM row_n, a.*  " + 
-		             "FROM(SELECT pay.payment_idx, p.name, p.start_date, pay.status, pi.start_time " + 
+		             "FROM(SELECT pay.payment_idx, p.name, p.start_date, pay.status, pi.start_time, TO_CHAR(pay.pay_date, 'YYYY.MM.DD') " + 
 		             "FROM payment pay, play p, playinfo pi, member m " + 
 		             "WHERE m.member_idx = ? " + 
 		             "AND pay.playinfo_idx = pi.playinfo_idx " + 
@@ -66,7 +65,8 @@ public class Ticket_checkDao {
                Date start_date = rs.getDate(4);
                String status = rs.getString(5);
                String start_time = rs.getString(6);
-               Ticket_checkDto checkReservationDTO = new  Ticket_checkDto(payment_idx, name, start_date, status, start_time);
+               String pay_date = rs.getNString(7);
+               Ticket_checkDto checkReservationDTO = new  Ticket_checkDto(payment_idx, name, start_date, status, start_time, pay_date);
                 list.add(checkReservationDTO);
             }
         } catch (SQLException e) {
@@ -92,7 +92,7 @@ public class Ticket_checkDao {
 			
 			String sql =
 		             "SELECT * FROM (SELECT ROWNUM row_n, a.*  " + 
-		             "FROM(SELECT pay.payment_idx, p.name, p.start_date, pay.status, pi.start_time " + 
+		             "FROM(SELECT pay.payment_idx, p.name, p.start_date, pay.status, pi.start_time, TO_CHAR(pay.pay_date, 'YYYY.MM.DD') " + 
 		             "FROM payment pay, play p, playinfo pi, member m " + 
 		             "WHERE m.member_idx = ? " + 
 		             "AND pay.playinfo_idx = pi.playinfo_idx " + 
@@ -119,7 +119,8 @@ public class Ticket_checkDao {
                Date start_date = rs.getDate(4);
                String status = rs.getString(5);
                String start_time = rs.getString(6);
-               Ticket_checkDto checkReservationDTO = new  Ticket_checkDto(payment_idx, name, start_date, status, start_time);
+               String pay_date = rs.getString(7);
+               Ticket_checkDto checkReservationDTO = new  Ticket_checkDto(payment_idx, name, start_date, status, start_time, pay_date);
                 list.add(checkReservationDTO);
             }
         } catch (SQLException e) {

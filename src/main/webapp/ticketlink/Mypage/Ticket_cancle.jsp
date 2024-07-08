@@ -1,5 +1,5 @@
 <%@page import="java.util.ArrayList"%>
-<%@page import="servlet.Ticket_checkDto"%>
+<%@page import="dto.Ticket_checkDto"%>
 <%@page import="dao.Ticket_checkDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -147,25 +147,25 @@
                                 <dt>기간별 조회</dt>
                                 <dd style="float: left"> <!--기간별 조회-->
                                     <ul class="daysort">
-                                        <li><a href=""  class="search">15일</a></li>
-                                        <li><a href="">1개월</a></li>
-                                        <li><a href="">2개월</a></li>
-                                        <li><a href="">3개월</a></li>
+                                        <li><a href="/Tcp2/Ticket_checkPeriodServletR?day=15">15일</a></li>
+                                        <li><a href="/Tcp2/Ticket_checkPeriodServletR?day=30">1개월</a></li>
+                                        <li><a href="/Tcp2/Ticket_checkPeriodServletR?day=60">2개월</a></li>
+                                        <li><a href="/Tcp2/Ticket_checkPeriodServletR?day=90">3개월</a></li>
                                     </ul>
                                 </dd>
                             </dl>
                             <dl class="monthbox fr">
                                 <dt>월 별 조회</dt> <!--월 별 조회-->
-                                <dd style="float: left;">
+                                 <dd style="float: left;">
                                     <div class="selectbox binding">
                                         <a href="" class="select ng-binding">예매일</a>
                                         <ul class="select_list ng-hiding" style="display: block;">
-                                            <li class="ng-scope"><a href="">예매일</a></li>
-                                            <li class="ng-scope"><a href="">관람일</a></li>
+                                            <li class="ng-scope" id="reser"><a href="">예매일</a></li>
+                                            <li class="ng-scope" id="view"><a href="">관람일</a></li>
                                         </ul>
                                     </div>
                                     <div class="selectbox binding">
-                                        <a href="" class="select ng-binding">연도</a>
+                                        <a href="" class="select ng-binding" id="year">연도</a>
                                         <ul class="select_list ng-hiding" style="display: block;">
                                             <li class="ng-scope"><a href="">2024년</a></li>
                                             <li class="ng-scope"><a href="">2023년</a></li>
@@ -173,7 +173,7 @@
                                         </ul>
                                     </div>
                                     <div class="selectbox binding">
-                                        <a href="" class="select ng-binding">월</a>
+                                        <a href="" class="select ng-binding" id="month">월</a>
                                         <ul class="select_list ng-hiding" style="display: block;">
                                             <li class="ng-scope"><a href="">1월</a></li>
                                             <li class="ng-scope"><a href="">2월</a></li>
@@ -189,7 +189,7 @@
                                             <li class="ng-scope"><a href="">12월</a></li>
                                         </ul>
                                     </div> <!--조회버튼-->
-                                    <a href="" class="btn_blank">조회</a>
+                                    <a href="" class="btn_blank" id="searchMonth">조회</a>
                                 </dd>
                             </dl>
                         </div>
@@ -235,7 +235,7 @@
                                         <td class="fs12 number color_point"><%=dto.getStart_date()%><br><%=dto.getStart_time()%></td>
                                         <td>
                                             <div class="reserve_condition1"><%=status%></div>
-                                            <div class="reserve_condition2">1949.04.15</div>
+                                            <div class="reserve_condition2"><%=dto.getPay_date() %></div>
                                         </td>
                                     </tr>
                                     <%		cnt++;
@@ -374,14 +374,6 @@
             </div>
         </div>
 <script src="/Tcp2/assets/js/ticket_check.js"></script>
-<script>
-	function submitToR() {
-		document.getElementById("ticket_checkR").submit();
-	}
-	function submitToY() {
-		document.getElementById("ticket_checkY").submit();
-	}
-
-</script>
+<script src="/Tcp2/assets/js/toMonthR.js"></script>
 </body>
 </html>

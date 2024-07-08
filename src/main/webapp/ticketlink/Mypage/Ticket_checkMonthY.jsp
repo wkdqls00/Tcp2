@@ -245,16 +245,19 @@
                         </div>
                         <div class="paging"> <!--페이지 이동-->
                            <%
+                            String year = request.getParameter("year");
+                            String month = request.getParameter("month");
                             int currP = 1;
                             String currP_ = request.getParameter("currP");
                             if (currP_ != null && !currP_.equals(""))
                             	currP = Integer.parseInt(currP_);
+                          
                             %>
-                            <a href="/Tcp2/Ticket_checkServlet?currP=1" class="first">맨앞</a>
-                            <a href="/Tcp2/Ticket_checkServlet?currP=<%=Math.max(currP -1, 1)%>" class="prev">이전</a>
+                            <a href="/Tcp2/Ticket_checkMonthYServlet?year=<%=year%>&month=<%=month%>&currP=1" class="first">맨앞</a>
+                            <a href="/Tcp2/Ticket_checkMonthYServlet?year=<%=year%>&month=<%=month%>&currP=<%=Math.max(currP -1, 1)%>" class="prev">이전</a>
                             <strong><%=currP%></strong>
-                            <a href="/Tcp2/Ticket_checkServlet?currP=<%=currP + 1%>" class="next">다음</a>
-                            <a href="/Tcp2/Ticket_checkServlet?currP=<%=count%>" class="end">맨뒤</a>
+                            <a href="/Tcp2/Ticket_checkMonthYServlet?year=<%=year%>&month=<%=month%>&currP=<%=currP + 1%>" class="next">다음</a>
+                            <a href="/Tcp2/Ticket_checkMonthYServlet?year=<%=year%>&month=<%=month%>&currP=<%=count%>" class="end">맨뒤</a>
                         </div>
                         <div class="note">
                             <h6>

@@ -1,6 +1,6 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="dto.Ticket_checkDto"%>
-<%@page import="dao.Ticket_checkDao"%>
+<%@page import="dao.Ticket_checkPeriodDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
@@ -149,7 +149,7 @@
                                     <ul class="daysort">
                                         <li><a href="/Tcp2/Ticket_checkPeriodServlet?day=15">15일</a></li>
                                         <li><a href="/Tcp2/Ticket_checkPeriodServlet?day=30">1개월</a></li>
-                                        <li><a href="/Tcp2/Ticket_checkPeriodServlet?day=60">2개월</a></li>
+                                        <li><a href="/Tcp2/Ticket_checkPeriodServlet?day=60" class="search">2개월</a></li>
                                         <li><a href="/Tcp2/Ticket_checkPeriodServlet?day=90">3개월</a></li>
                                     </ul>
                                 </dd>
@@ -160,12 +160,12 @@
                                     <div class="selectbox binding">
                                         <a href="" class="select ng-binding">예매일</a>
                                         <ul class="select_list ng-hiding" style="display: block;">
-                                            <li class="ng-scope" id="reser"><a href="">예매일</a></li>
-                                            <li class="ng-scope" id="view"><a href="">관람일</a></li>
+                                            <li class="ng-scope"><a href="">예매일</a></li>
+                                            <li class="ng-scope"><a href="">관람일</a></li>
                                         </ul>
                                     </div>
                                     <div class="selectbox binding">
-                                        <a href="" class="select ng-binding" id="year">연도</a>
+                                        <a href="" class="select ng-binding">연도</a>
                                         <ul class="select_list ng-hiding" style="display: block;">
                                             <li class="ng-scope"><a href="">2024년</a></li>
                                             <li class="ng-scope"><a href="">2023년</a></li>
@@ -173,7 +173,7 @@
                                         </ul>
                                     </div>
                                     <div class="selectbox binding">
-                                        <a href="" class="select ng-binding" id="month">월</a>
+                                        <a href="" class="select ng-binding">월</a>
                                         <ul class="select_list ng-hiding" style="display: block;">
                                             <li class="ng-scope"><a href="">1월</a></li>
                                             <li class="ng-scope"><a href="">2월</a></li>
@@ -189,7 +189,7 @@
                                             <li class="ng-scope"><a href="">12월</a></li>
                                         </ul>
                                     </div> <!--조회버튼-->
-                                    <a href="" class="btn_blank" id="searchMonth">조회</a>
+                                    <a href="" class="btn_blank">조회</a>
                                 </dd>
                             </dl>
                         </div>
@@ -250,11 +250,11 @@
                             if (currP_ != null && !currP_.equals(""))
                             	currP = Integer.parseInt(currP_);
                             %>
-                            <a href="/Tcp2/Ticket_checkServlet?currP=1" class="first">맨앞</a>
-                            <a href="/Tcp2/Ticket_checkServlet?currP=<%=Math.max(currP -1, 1)%>" class="prev">이전</a>
-                            <strong><%=currP%></strong>
-                            <a href="/Tcp2/Ticket_checkServlet?currP=<%=currP + 1%>" class="next">다음</a>
-                            <a href="/Tcp2/Ticket_checkServlet?currP=<%=count%>" class="end">맨뒤</a>
+                            <a href="/Tcp2/Ticket_checkPeriodServlet?day=60&currP=1" class="first">맨앞</a>
+                            <a href="/Tcp2/Ticket_checkPeriodServlet?day=60&currP=<%=Math.max(currP -1, 1)%>" class="prev">이전</a>
+                            <strong><%=currP%></strong>      
+                            <a href="/Tcp2/Ticket_checkPeriodServlet?day=60&currP=<%=currP + 1%>" class="next">다음</a>
+                            <a href="/Tcp2/Ticket_checkPeriodServlet?day=60&currP=<%=count%>" class="end">맨뒤</a>
                         </div>
                         <div class="note">
                             <h6>

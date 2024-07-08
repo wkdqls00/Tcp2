@@ -1,4 +1,4 @@
-package servlet;
+package dto;
 
 import java.util.Date;
 
@@ -9,13 +9,17 @@ public class Ticket_checkDto {
    private Date start_date;
    private String status;
    private String start_time;
+   private String pay_date;
    
-   public Ticket_checkDto(int payment_idx, String name, Date start_date, String status, String start_time) {
+
+
+public Ticket_checkDto(int payment_idx, String name, Date start_date, String status, String start_time, String pay_date) {
       this.payment_idx = payment_idx;
       this.name = name;
       this.start_date = start_date;
       this.status = status;
       this.start_time = start_time;
+      this.pay_date = pay_date;
    }
 
 	public int getPayment_idx() {
@@ -58,10 +62,19 @@ public class Ticket_checkDto {
 		this.start_time = start_time;
 	}
 
+    public String getPay_date() {
+			return pay_date;
+	}
+
+	public void setPay_date(String pay_date) {
+			this.pay_date = pay_date;
+	}
+
 	@Override
 	public String toString() {
-		return "CheckReservationDTO [payment_idx=" + payment_idx + ", name=" + name + ", start_date=" + start_date
-				+ ", status=" + status + ", start_time=" + start_time + "]";
+		return "Ticket_checkDto [payment_idx=" + payment_idx + ", name=" + name + ", start_date=" + start_date
+				+ ", status=" + status + ", start_time=" + start_time + ", pay_date=" + pay_date + "]";
 	}
+	
    
 }

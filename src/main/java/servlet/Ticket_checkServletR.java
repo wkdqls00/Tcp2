@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.Ticket_checkDao;
+import dto.Ticket_checkDto;
 
 /**
  * Servlet implementation class Ticket_checkServlet

@@ -139,8 +139,8 @@
                             <br>공연/전시 예매 내역은 하단의 공연/전시 탭을 선택하면 확인할 수 있습니다.
                         </p>
                         <ul class="mypage_tab"> <!--예매확인 / 예매취소-->
-                            	<li class="on"><a href="/Tcp2/Ticket_checkServlet">예매확인</a></li>
-                            	<li><a href	="/Tcp2/Ticket_checkServletR">예매취소</a></li>
+                            	<li><a href="/Tcp2/Ticket_checkServlet">예매확인</a></li>
+                            	<li class="on"><a href	="/Tcp2/Ticket_checkServletR">예매취소</a></li>
                         </ul>
                         <div class="sortbox">
                             <dl class="daytbox fl">
@@ -245,16 +245,19 @@
                         </div>
                         <div class="paging"> <!--페이지 이동-->
                            <%
+                            String year = request.getParameter("year");
+                            String month = request.getParameter("month");
                             int currP = 1;
                             String currP_ = request.getParameter("currP");
                             if (currP_ != null && !currP_.equals(""))
                             	currP = Integer.parseInt(currP_);
+                          
                             %>
-                            <a href="/Tcp2/Ticket_checkServlet?currP=1" class="first">맨앞</a>
-                            <a href="/Tcp2/Ticket_checkServlet?currP=<%=Math.max(currP -1, 1)%>" class="prev">이전</a>
+                            <a href="/Tcp2/Ticket_checkMonthRServlet?year=<%=year%>&month=<%=month%>&currP=1" class="first">맨앞</a>
+                            <a href="/Tcp2/Ticket_checkMonthRServlet?year=<%=year%>&month=<%=month%>&currP=<%=Math.max(currP -1, 1)%>" class="prev">이전</a>
                             <strong><%=currP%></strong>
-                            <a href="/Tcp2/Ticket_checkServlet?currP=<%=currP + 1%>" class="next">다음</a>
-                            <a href="/Tcp2/Ticket_checkServlet?currP=<%=count%>" class="end">맨뒤</a>
+                            <a href="/Tcp2/Ticket_checkMonthRServlet?year=<%=year%>&month=<%=month%>&currP=<%=currP + 1%>" class="next">다음</a>
+                            <a href="/Tcp2/Ticket_checkMonthRServlet?year=<%=year%>&month=<%=month%>&currP=<%=count%>" class="end">맨뒤</a>
                         </div>
                         <div class="note">
                             <h6>
@@ -373,6 +376,6 @@
             </div>
         </div>
 <script src="/Tcp2/assets/js/ticket_check.js"></script>
-<script src="/Tcp2/assets/js/toMonthY.js"></script>
+<script src="/Tcp2/assets/js/toMonthR.js"></script>
 </body>
 </html>
