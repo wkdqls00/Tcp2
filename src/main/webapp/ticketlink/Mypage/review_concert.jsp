@@ -4,7 +4,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	ArrayList<ScriptManagementDto> list = (ArrayList<Ticket_checkDto>) request.getAttribute("list");
+	ArrayList<ScriptManagementDto> list = (ArrayList<ScriptManagementDto>) request.getAttribute("list");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -158,9 +158,9 @@
                                 <tbody>
                                 <% for(ScriptManagementDto l : list) { %>
                                     <tr>
-                                        <td class="tl"><a href=""><%=l.getPlay_name() %></a></td>
-                                        <td class="tl"><a href=""><%=l.getContent() %></a></td>
-                                        <td class="fs12"><%l.getReg_date() %></td>
+                                        <td class="tl"><a href=""><%=l.getPlay_name()%></a></td>
+                                        <td class="tl"><a href=""><%=l.getContent() %>...</a></td>
+                                        <td class="fs12"><%=l.getReg_date()%></td>
                                     </tr>
                                 <%}%>
                                 </tbody>

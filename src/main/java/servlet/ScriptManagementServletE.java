@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import dao.ScriptManagementDao;
 import dto.ScriptManagementDto;
-@WebServlet("/ScriptManagementServlet")
+@WebServlet("/ScriptManagementServletE")
 public class ScriptManagementServletE extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -26,7 +26,7 @@ public class ScriptManagementServletE extends HttpServlet {
 		ScriptManagementDao smdao = new ScriptManagementDao();
 		ArrayList<ScriptManagementDto> list = smdao.selectScriptManagementE(userIdx);
 		request.setAttribute("list", list);
-		RequestDispatcher rd = request.getRequestDispatcher("/ticketlink/Mypage/review_concert.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("/ticketlink/Mypage/review_exhibition.jsp");
 		rd.forward(request, response);
 		for (ScriptManagementDto l : list) {
 			System.out.println(l);

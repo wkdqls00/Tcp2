@@ -12,7 +12,7 @@
     <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
     <script>
     Kakao.init('d71651f09cc74945fc403a9f0692a5b7'); // 사용하려는 앱의 JavaScript 키 입력
-    </script>
+    </script> 
   
 </head>
 <body>
