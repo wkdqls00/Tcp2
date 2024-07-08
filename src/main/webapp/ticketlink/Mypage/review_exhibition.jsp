@@ -1,5 +1,11 @@
+<%@page import="dto.ScriptManagementDto"%>
+<%@page import="dao.ScriptManagementDao"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	ArrayList<ScriptManagementDto> list = (ArrayList<ScriptManagementDto>) request.getAttribute("list");
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -149,10 +155,12 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                	<% for (ScriptManagementDto l : list) {%>
                                     <tr>
-                                        <td class="tl"><a href="">학원 가고 싶어</a></td>
-                                        <td class="tl"><a href="">너무 공감이 안 돼요</a></td>
-                                        <td class="fs12">2024.08.11</td>
+                                        <td class="tl"><a href=""><%=l.getPlay_name() %></a></td>
+                                        <td class="tl"><a href=""><%=l.getContent() %>...</a></td>
+                                        <td class="fs12"><%=l.getReg_date() %></td>
+                                    <%} %>
                                     </tr>
                                 </tbody>
                             </table>

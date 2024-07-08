@@ -37,7 +37,7 @@ public class ScriptManagementDao {
 
         // 스크립트 정보를 조회하는 SQL 쿼리
         String sql = 
-				"SELECT star_rating, p.name, title, SUBSTR(content,1, 15) content, TO_CHAR(s.reg_date, 'YYYY.MM.DD') "
+				"SELECT star_rating, p.name, title, SUBSTR(content,1, 20) content, TO_CHAR(s.reg_date, 'YYYY.MM.DD') "
 				+ "FROM script s "
 				+ "JOIN member m ON s.member_idx = m.member_idx "
 				+ "JOIN payment pm ON s.payment_idx = pm.payment_idx "
@@ -92,7 +92,7 @@ public class ScriptManagementDao {
 
          // 스크립트 정보를 조회하는 SQL 쿼리
          String sql = 
- 				"SELECT star_rating, p.name, title, SUBSTR(content,1, 15) content, TO_CHAR(s.reg_date, 'YYYY.MM.DD') "
+ 				"SELECT star_rating, p.name, title, SUBSTR(content,1, 20) content, TO_CHAR(s.reg_date, 'YYYY.MM.DD') "
  				+ "FROM script s "
  				+ "JOIN member m ON s.member_idx = m.member_idx "
  				+ "JOIN payment pm ON s.payment_idx = pm.payment_idx "
