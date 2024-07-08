@@ -13,7 +13,7 @@ public class MeetMemberProfilePrintDAO {
 	public static void main(String[] args) {
 		MeetMemberProfilePrintDAO mmpp = new MeetMemberProfilePrintDAO();
         try {
-        	System.out.println(mmpp.selectMeetMemberProfilePrintDTO(2, 2));
+        	System.out.println(mmpp.selectMeetMemberProfilePrintDTO(2, 3));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -36,12 +36,20 @@ public class MeetMemberProfilePrintDAO {
         ResultSet rs = pstmt.executeQuery();
         MeetMemberProfilePrintDTO meetMemberProfilePrintDTO = null;
        
-        if (rs.next()) {
-        	String nickname = rs.getString(1);
-        	String profile = rs.getString(2);
-			
-			meetMemberProfilePrintDTO = new MeetMemberProfilePrintDTO(nickname, profile); // 저장한 값으로 SeatStatus 객체 생성
-        }
+        try {
+        	if (rs.next()) {
+        		String nickname = rs.getString(1);
+        		String profile = rs.getString(2);
+        		
+        		meetMemberProfilePrintDTO = new MeetMemberProfilePrintDTO(nickname, profile); // 저장한 값으로 SeatStatus 객체 생성
+        	}
+        } catch (Exception e) {
+        	e.printStackTrace();
+        } finally {
+        	rs.close();
+    		pstmt.close();
+    		conn.close();
+		}
         
         return meetMemberProfilePrintDTO;
     }

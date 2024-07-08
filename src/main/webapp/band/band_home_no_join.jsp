@@ -1,3 +1,4 @@
+<%@page import="dao.NoJoinMeetDAO"%>
 <%@page import="dto.MeetCommentElapsedTimeDTO"%>
 <%@page import="dao.MeetCommentElapsedTimeDAO"%>
 <%@page import="dto.MeetMemberProfilePrintDTO"%>
@@ -53,6 +54,10 @@
 	
 	// 댓글 작성 시간 출력 (~시간, ~분, ~일 전)
 	MeetCommentElapsedTimeDAO mCDao = new MeetCommentElapsedTimeDAO();
+	
+	// 밴드 가입 여부
+	NoJoinMeetDAO njDao = new NoJoinMeetDAO();
+	
 %>
 
 <!DOCTYPE html>
@@ -70,6 +75,14 @@
 		$(".postEmpty").load("band_no_write_div.html");
   	})
   </script>
+  <style>
+  	#container.band_main_area {
+	  	<% if (!(njDao.noJoinOk(meet_idx, member_idx))) { %>
+	  	min-height: calc(100% - 70px);
+	    margin-top: 70px;
+	    <% } %>
+    }
+  </style>
 </head>
 <body>
   <div id="wrap">
@@ -111,13 +124,17 @@
               <button class="btnMySetting">
                 <span class="uProfile">
                   <span class="profileInner">
-                  <% if (mMemberProfilePrintDTO.getProfile() != null) { %>
+                  <% try {
+                	  if (mMemberProfilePrintDTO.getProfile() != null) { %>
                   		<img src="<%= mMemberProfilePrintDTO.getProfile() %>"
                     width="30" height="30">
-                  <% } else { %>
-                    <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
-                    width="30" height="30">
-                    <% } %>
+                    <% } else { %>
+                   <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
+                   width="30" height="30">
+                  	<% } 
+                  	} catch (Exception e) {
+                  		e.printStackTrace();
+                  	} %>
                   </span>
                 </span>
               </button>
@@ -128,7 +145,8 @@
     </header>
     <!-- 내용 시작 -->
     <div id="container" class="band_main_area">
-      <!-- header lnb 메뉴 -->
+      <!-- header lnb 메뉴 : 가입했을 시 출력 -->
+      <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
       <div class="header_lnb bg_blue">
         <ul class="header_lnb_menu">
           <li class="menu_item">
@@ -143,6 +161,7 @@
           </li>
         </ul>
       </div>
+      <% } %>
       <!-- 메인 내용 왼쪽 밴드 소개 -->
       <aside class="band_info">
         <div class="info_inner">
@@ -169,24 +188,42 @@
             <p class="member">
               <a href="#" class="member_count">멤버 <%= miDto.getMeet_member_count() %></a>
             </p>
-            <!-- 글쓰기 버튼 -->
+            <!-- 글쓰기 버튼 : 가입했을 시 출력 -->
+            <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
+            <div class="btnBox">
+              <button class="uButton bg_blue" id="postWriteBtn">글쓰기</button>
+            </div>
+            <% } else { %>
+            <!-- 가입하기 버튼 -->
             <div class="btnBox">
               <button type="submit" class="uButton" id="joinBtn">밴드 가입하기</button>
             </div>
+            <% } %>
+            <!-- 밴드 정보 보기 -->
             <div class="bandInfoBox">
               <a href="#" class="showBandInfo">밴드 정보 보기
                 <span class="uIconArrow"></span>
               </a>
             </div>
             <p class="bandTypeDesc">누구나 밴드를 검색해 찾을 수 있고, 밴드 소개와 게시물을 볼 수 있습니다.</p>
+            <!-- 밴드 설정 : 가입헀을 시 출력 -->
+            <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
+            <div class="bandSetting">
+              <a href="#" class="bandSetting_Link">
+                <span class="uIconSetting"></span>
+                밴드 설정
+              </a>
+            </div>
+            <% } %>
           </div>
         </div>
       </aside>
       <!-- 메인 내용 게시글 목록 및 글쓰기 -->
       <main class="band_main">
         <section>
-          <!-- 게시글 검색 form -->
-          <!-- <div class="searchWrap">
+          <!-- 게시글 검색 form : 가입했을 시 출력 -->
+          <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
+          <div class="searchWrap">
             <form>
               <div class="inputSearch">
                 <input type="text" id="input_search" placeholder="글 내용, #태그, @작성자 검색"
@@ -194,8 +231,28 @@
                 <button type="submit" class="search"></button>
               </div>
             </form>
-          </div> -->
+          </div>
+          <!-- 글쓰기 영역 : 가입했을 시 출력 -->
+          <div class="writeWrap">
+            <div class="postWrite">
+              <button class="postWriteEventWrapper"></button>
+              <div class="postWriteForm">
+                <div class="contentEditor">새로운 소식을 남겨보세요.</div>
+              </div>
+              <div class="buttonArea">
+                <ul class="toolbarList">
+                  <li class="toolbarListItem">
+                    <button>
+                      <span class="photoIcon"></span>
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <% } %>
           <!-- 밴드 소개 영역 -->
+          <% if (!(njDao.noJoinOk(meet_idx, member_idx))) { %>
           <div class="bandIntroRegion">
             <div class="contentsCard">
               <div class="bandIntro">
@@ -216,6 +273,7 @@
               </div>
             </div>
           </div>
+          <% } %>
           <!-- 게시글 목록 : 헤더 영역 -->
           <div class="boardTag">
             <div class="boardTagHead">
@@ -327,6 +385,27 @@
 				       </span>
 				     </div>
 				   </div>
+   			<!-- 댓글 쓰기, 좋아요 버튼 : 가입했을 시 출력 -->
+			   <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
+                 <div class="postAdded">
+                   <div class="postAddBox">
+                     <div class="addCol">
+                       <button class="addStatus">
+                         <span class="uFaceIcon"></span>
+                         <span>좋아요
+                         </span>
+                       </button>
+                     </div>
+                     <div class="addCol">
+                       <button class="addStatus">
+                         <span class="uIconComment"></span>
+                         <span>댓글쓰기</span>
+                       </button>
+                     </div>
+                   </div>
+                 </div>
+                <% } %>
+			   </div>
 				 <!-- 댓글 내용 -->
 				 <div class="commentMainView">
 				   <div>
@@ -383,6 +462,54 @@
 				       </div>
 				     </div>
 				   </div>
+				   <!-- 댓글 입력창 : 가입했을 시 출력 -->
+				   <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
+                    <div class="cCommentWrite">
+                      <section class="commentInputView">
+                        <div class="writeMain">
+                          <div class="writeBtn">
+                            <div class="btnUploadWrap">
+                              <button class="btnUpload">
+                                <span class="uIconCommentPlus"></span>
+                              </button>
+                            </div>
+                          </div>
+                          <div class="writeWrap">
+                            <div class="flexBox">
+                              <div class="profileStatus profileInputRegion">
+                                <div class="messageInputProfileView">
+                                  <span class="current uProfile">
+                                    <span class="profileInner">
+                                      <img
+                                      width="21" height="21">
+                                    </span>
+                                  </span>
+                                </div>
+                              </div>
+                              <div class="mentionsWrap">
+                                <div class="uInputComment">
+                                  <div class="mentions-input">
+                                    <div class="mentions">
+                                      <div></div>
+                                    </div>
+                                    <textarea cols="20" rows="1" class="commentWrite" placeholder="댓글을 남겨주세요."></textarea>
+                                    <div style="position: absolute; display: none; overflow-wrap: break-word; 
+                                    white-space: pre-wrap; border-color: rgb(68, 68, 68);
+                                    border-style: none; border-width: 0px; font-weight: 400; width: 333px;
+                                    line-height: 20.02px; font-size: 13px; padding: 8px 15px 0px 10px;">&nbsp;</div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- 댓글 submit -->
+                          <div class="submitWrap">
+                            <button type="submit" class="writeSubmit">보내기</button>
+                          </div>
+                        </div>
+                      </section>
+                    </div>
+                   <% } %>
 				</article>
                 </div>
              <% } %>
@@ -392,6 +519,84 @@
           </div>
         </section>
       </main>
+      <!-- 메인 내용 오른쪽 채팅방 목록 : 가입했을 시 출력 -->
+      <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
+      <div id="banner">
+        <div id="bannerInner">
+          <div class="chatSticky">
+            <section class="bandChannerView">
+              <h2 class="tit">채팅</h2>
+              <div class="chat_setting_wrap">
+                <button class="chat_setting_btn">설정</button>
+              </div>
+              <div class="body">
+                <div class="new_chatting_wrap">
+                  <div class="buttonBox">
+                    <button class="newChattingBtn">
+                      <span class="iconPlusSquare"></span>
+                      새 채팅
+                    </button>
+                  </div>
+                </div>
+                <!-- 채팅 목록 -->
+                <div class="nano">
+                  <div class="nano_content">
+                    <ul class="chat">
+                      <li>
+                        <button class="itemLink" onclick="window.open('chat.html', '', 'width=415, height=643')">
+                          <span class="thum">
+                            <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240603162344/images/template/multi_profile_60x60.png"
+                            height="30" width="30">
+                          </span>
+                          <span class="cont">
+                            <strong class="text">치이카와, 장예원</strong>
+                            <span class="sub">장예원 : ㅎㅇ</span>
+                          </span>
+                        </button>
+                      </li>
+                      <li>
+                        <button class="itemLink">
+                          <span class="thum">
+                            <img src="https://coresos-phinf.pstatic.net/a/34g065/e_5a2Ud018admg69oqx3t5mng_5ksoqj.png?type=s75"
+                            height="30" width="30">
+                          </span>
+                          <span class="cont">
+                            <strong class="text">6조 밴드</strong>
+                            <span class="sub">밴드 전체 멤버들과 함께 하는 채팅방</span>
+                          </span>
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <!-- 사진 목록 -->
+            <div class="photoBox">
+              <section class="photoList photo">
+                <h2 class="tit">최근 사진</h2>
+                <div class="body">
+                  <div class="list">
+                    <!-- 이미지 있을 경우 -->
+                    <a href="#" data-index="0">
+                      <img src="	https://coresos-phinf.pstatic.net/a/371ffi/f_460Ud018svc11ftqgy2zsi15_ezuzx0.png?type=s150"
+                      width="73" height="73">
+                    </a>
+                    <!-- 이미지 없는 경우 -->
+                    <span class="noImg"></span>
+                    <span class="noImg"></span>
+                    <span class="noImg"></span>
+                    <span class="noImg"></span>
+                    <span class="noImg"></span>
+                  </div>
+                </div>
+                <a href="#" class="more">더보기</a>
+              </section>
+            </div>
+          </div>
+        </div>
+      </div>
+     <% } %>
     </div>
     <!-- 가입질문 팝업 -->
     <div class="layerContainerView" tabindex="-1" id="memberJoinQ_popUp" style="display: none;">
