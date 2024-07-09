@@ -12,19 +12,14 @@ import project.DatabaseUtil;
 public class MeetWriteViewDAO {
 	public static void main(String[] args) {
 		MeetWriteViewDAO mwdao = new MeetWriteViewDAO();
-        ArrayList<MeetWriteViewDTO> list = null;        
         try {
-        	list = mwdao.selectMeetWriteViewDTO(2);
+        	System.out.println(mwdao.selectMeetWriteViewDTO(2));
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        for (MeetWriteViewDTO meetWriteViewDTO : list) {
-        	System.out.println(meetWriteViewDTO);
-        }
     }
     
-    public ArrayList<MeetWriteViewDTO> selectMeetWriteViewDTO(int post_idx) throws SQLException {
-        ArrayList<MeetWriteViewDTO> list = new ArrayList<>();
+    public MeetWriteViewDTO selectMeetWriteViewDTO(int post_idx) throws SQLException {
         DatabaseUtil d = new DatabaseUtil();
         Connection conn = d.getConn();
 
@@ -40,6 +35,8 @@ public class MeetWriteViewDAO {
         pstmt.setInt(1, post_idx);
 
         ResultSet rs = d.getRs(pstmt);
+        
+        MeetWriteViewDTO meetWriteViewDTO = null;
         try {
             while (rs.next()) {
             	String nickname = rs.getString(1);
@@ -49,14 +46,13 @@ public class MeetWriteViewDAO {
             	String content = rs.getString(5);
             	String file_url = rs.getString(6);
             	
-            	MeetWriteViewDTO meetWriteViewDTO = new MeetWriteViewDTO(nickname, profile, views, reg_date, content, file_url); // 저장한 값으로 SeatStatus 객체 생성
-                list.add(meetWriteViewDTO);
+            	meetWriteViewDTO = new MeetWriteViewDTO(nickname, profile, views, reg_date, content, file_url); // 저장한 값으로 SeatStatus 객체 생성
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
 			d.close(conn, pstmt, rs);
         }
-        return list;
+        return meetWriteViewDTO;
     }
 }

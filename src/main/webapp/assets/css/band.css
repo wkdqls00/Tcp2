@@ -420,6 +420,10 @@ body {
   margin-bottom: 11px;
 }
 
+.cCommentWrite .writeWrap {
+  margin-left: 10px;
+}
+
 .postWrite {
   position: relative;
   padding-bottom: 46px;
@@ -2854,4 +2858,48 @@ body {
 
 .lyPostViewer .cComment .writeInfo>.uProfile {
     left: 40px;
+}
+
+
+.uCollage {
+  max-width: 520px;
+  cursor: auto;
+  overflow: hidden;
+  position: relative;
+  border: 0;
+  background: 0 0;
+  font-size: 0;
+}
+
+.uCollage .ucollageItem {
+  overflow: hidden;
+  position: relative;
+  display: inline-block;
+  float: none;
+  clear: both;
+  vertical-align: top;
+  background-color: #fafafa;
+  font-size: 0;
+  cursor: pointer;
+}
+
+.uCollage .ucollageImg {
+  width: 100%;
+  display: block;
+}
+
+.uCollage .collageImg img {
+  max-width: 100%;
+  max-height: none;
+  width: 100%;
+  vertical-align: middle;
+}
+
+.uCollage .collageImg::after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  content: '';
 }

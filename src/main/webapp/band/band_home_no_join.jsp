@@ -1,3 +1,5 @@
+<%@page import="dto.MeetWriteViewDTO"%>
+<%@page import="dao.MeetWriteViewDAO"%>
 <%@page import="dao.NoJoinMeetDAO"%>
 <%@page import="dto.MeetCommentElapsedTimeDTO"%>
 <%@page import="dao.MeetCommentElapsedTimeDAO"%>
@@ -57,6 +59,9 @@
 	
 	// 밴드 가입 여부
 	NoJoinMeetDAO njDao = new NoJoinMeetDAO();
+	
+	// 팝업 : 글 디테일 뷰
+	MeetWriteViewDAO mwDao = new MeetWriteViewDAO();
 	
 %>
 
@@ -313,7 +318,7 @@
             		 photoList.add(mPDto.getFile_url());
             	 }
             	 %>
-           		<div class="postLayoutView" id="post<%= mPDto.getPost_idx() %>">
+           		<div class="postLayoutView" id="<%= mPDto.getPost_idx() %>">
            		<article class="contentsCard">
 				 <!-- 게시글 상단 -->
 				 <div class="postListItemView">
@@ -349,6 +354,7 @@
 				         <div class="postText">
 				           <p class="txtBody"><%= mPDto.getContent() %></p>
 				         </div>
+				         <!-- 게시글에 사진 있는지 확인 -->
 				         <% if (mPDto.getFile_url() != null) { %>
 				         <div class="postPhoto">
 				           <ul class="photoCollage">
@@ -493,13 +499,6 @@
                     <div class="cCommentWrite" id="off" style="display: none;">
                       <section class="commentInputView">
                         <div class="writeMain">
-                          <div class="writeBtn">
-                            <div class="btnUploadWrap">
-                              <button class="btnUpload">
-                                <span class="uIconCommentPlus"></span>
-                              </button>
-                            </div>
-                          </div>
                           <div class="writeWrap">
                             <div class="flexBox">
                               <div class="profileStatus profileInputRegion">
@@ -541,6 +540,183 @@
                    <% } %>
 				</article>
                 </div>
+                <!-- 팝업 : 게시글 디테일 뷰 -->
+                <div class="layerContainerView" id="postDetail<%= mPDto.getPost_idx() %>" style="display: none">
+			      <div class="layerContainerInnerView">
+			        <section class="lyWrap">
+			          <div class="lyPostViewer">
+			            <div class="postViewer">
+			              <article class="cPostCard">
+			                <div class="cContentsCard">
+			                  <!-- 작성자 영역 -->
+			                  <div class="postWriter">
+			                    <% if (mPrintDAO.adminCheck(mPDto.getMember_idx(), meet_idx)) { %>
+                                <a class="uProfile -leader -border">
+                                <% } else { %>
+                                <a class="uProfile -border">
+                                <% } %>
+			                      <span class="profileInner">
+			                      <% if (mPDto.getProfile() != null) { %>
+			                        <img src="<%= mPDto.getProfile() %>" width="40" height="40">
+		                          <% } %>
+			                      </span>
+			                    </a>
+			                    <div class="postWriterInfoWrap">
+			                      <span class="ellipsis">
+			                        <a href="#" class="text"><%= mPDto.getNickname() %></a>
+			                      </span>
+			                      <div class="postListInfoWrap">
+			                        <time class="time"><%= mPDto.getReg_date() %></time>
+			                      </div>
+			                    </div>
+			                    <button class="btnLyClose" style="z-index: 20; top: 30px;"></button>
+			                  </div>
+			                  <div class="postMain">
+			                    <!-- 읽은 사람 수 출력 -->
+			                    <div class="readNotice">
+			                      <p class="postReaders">
+			                        <strong class="sf_color"><%= mPDto.getViews() %>명</strong>
+			                       이 읽었습니다.
+			                      </p>
+			                    </div>
+			                    <div class="postBody">
+			                      <div class="postTextView">
+			                        <div class="postText">
+			                          <div class="txtBody"><%= mPDto.getContent() %></div>
+			                        </div>
+			                      </div>
+			                      <!-- 이미지 있을 경우 -->
+			                      <% if (mPDto.getFile_url() != null) { %>
+			                      <div class="postPhoto">
+			                        <ul class="uCollage">
+			                          <li class="collageItem">
+			                            <a href="#" class="collageImg">
+			                              <img src="<%= mPDto.getFile_url() %>">
+			                            </a>
+			                          </li>
+			                        </ul>
+			                      </div>
+			                      <% } %>
+			                    </div>
+			                  </div>
+			                  <!-- 댓글, 좋아요 수 -->
+			                   <div class="dPostCountView">
+			                    <div class="postCount">
+			                      <div class="postCountLeft">
+			                        <span class="faceComment">
+			                          <div class="uEmotionView">
+			                            <span class="emotionWrap">
+			                              <span class="icon">
+			                                <span class="uFaceIcon">좋아요</span>
+			                              </span>
+			                            </span>
+			                            <span class="count"><%= lCountDTO.getLike() %></span>
+			                          </div>
+			                          <span class="comment">댓글<span class="count"><%= clListDTO.size() %></span>
+			                          </span>
+			                        </span>
+			                      </div>
+			                    </div>
+			                   </div>
+			                   <div class="dPostCommentMainView">
+			                    <div>
+			                      <div class="sCommentList">
+			                        <div class="cComment">
+			                          <div class="DCommentView">
+			                          <% for(CommentListViewDTO clDto : clListDTO) { 
+								         	MeetCommentElapsedTimeDTO mCDto = mCDao.selectMeetCommentElapsedTimeDTO(clDto.getComment_idx());
+							          %>
+			                            <div class="itemWrap">
+			                              <div class="writeInfo">
+			                              <% if (mPrintDAO.adminCheck(clDto.getMember_idx(), meet_idx)) { %>
+			                                <a class="uProfile -leader -border">
+			                                <% } else { %>
+			                                <a class="uProfile -border">
+			                                <% } %>
+			                                  <span class="profileInner">
+			                                    <img 
+			                                    <% if (clDto.getProfile() != null) { %>
+			                                    	src="<%= clDto.getProfile() %>"
+			                                    <% } %>
+			                                    width="34" height="34">
+			                                  </span>
+			                                </a>
+			                                <button class="nameWrap">
+			                                  <strong class="name"><%= clDto.getNickname() %></strong>
+			                                </button>
+			                              </div>
+			                              <div class="commentBody">
+			                                <p class="txt"><%= clDto.getContent() %></p>
+			                                <div class="func">
+			                                  <!-- 댓글 작성 시간 출력 -->
+								                <time class="time">
+								                 <% 
+								                 	int day = Integer.parseInt(mCDto.getDay());
+								                 	int time = Integer.parseInt(mCDto.getTime());
+								                 	int minute = Integer.parseInt(mCDto.getMinute());
+								                 	
+								                 	if (day > 10) { %>
+									                <%= clDto.getReg_date() %>
+									                <% } else if (time > 23) { %>
+									                 	<%= day %>일 전
+								                 	<% } else if (minute > 60) { %>
+								                 			<%= time %>시간 전
+								                 		<% } else { %>
+								                 			<%= minute %>분 전
+								                 			<% } %>
+								               </time>
+			                                </div>
+			                              </div>
+			                            </div>
+			                            <% } %>
+			                          </div>
+			                        </div>
+			                      </div>
+			                    </div>
+			                    <!-- 댓글 입력창 -->
+			                    <div class="cCommentWrite">
+			                      <section class="_messageInputView">
+			                        <div class="writeMain">
+			                          <div class="writeWrap">
+			                            <div class="flexBox">
+			                              <div class="profileStatus profileInputRegion">
+			                                <div class="messageInputProfileView">
+			                                  <span class="current uProfile">
+			                                    <span class="profileInner">
+			                                      <img
+			                                      <% if (mMemberProfilePrintDTO.getProfile() != null) { %>
+			                                      src = "<%= mMemberProfilePrintDTO.getProfile() %>"
+			                                      <% } %>
+			                                      width="21" height="21">
+			                                    </span>
+			                                  </span>
+			                                </div>
+			                              </div>
+			                              <div class="mentionsWrap">
+			                                <div class="uInputComment">
+			                                  <div class="mentions-input">
+			                                    <div class="mentions">
+			                                      <textarea cols="20" rows="1" placeholder="댓글을 남겨주세요."></textarea>
+			                                    </div>
+			                                  </div>
+			                                </div>
+			                              </div>
+			                            </div>
+			                          </div>
+			                          <div class="submitWrap">
+			                            <button class="writeSubmit">보내기</button>
+			                          </div>
+			                        </div>
+			                      </section>
+			                    </div>
+			                   </div>
+			                </div>
+			              </article>
+			            </div>
+			          </div>
+			        </section>
+			      </div>
+			    </div>
              <% } %>
            	<% } %>
               </div>
@@ -600,35 +776,12 @@
                 </div>
               </div>
             </section>
-            <!-- 사진 목록 -->
-            <div class="photoBox">
-              <section class="photoList photo">
-                <h2 class="tit">최근 사진</h2>
-                <div class="body">
-                  <div class="list">
-                    <!-- 이미지 있을 경우 -->
-                    <!--  <a href="#" data-index="0">
-                      <img src="https://coresos-phinf.pstatic.net/a/371ffi/f_460Ud018svc11ftqgy2zsi15_ezuzx0.png?type=s150"
-                      width="73" height="73">
-                    </a> -->
-                    <!-- 이미지 없는 경우 -->
-                    <!--  <span class="noImg"></span>
-                    <span class="noImg"></span>
-                    <span class="noImg"></span>
-                    <span class="noImg"></span>
-                    <span class="noImg"></span>
-                     -->
-                  </div>
-                </div>
-                <a href="#" class="more">더보기</a>
-              </section>
-            </div>
           </div>
         </div>
       </div>
      <% } %>
     </div>
-    <!-- 가입질문 팝업 -->
+    <!-- 팝업 : 가입질문 -->
     <div class="layerContainerView" tabindex="-1" id="memberJoinQ_popUp" style="display: none;">
       <div class="layerContainerInnerView">
         <section class="lyWrap">
@@ -727,141 +880,6 @@
         </section>
       </div>
     </div>
-    <!-- 팝업 : 글 디테일 뷰 -->
-    <div class="layerContainerView">
-      <div class="layerContainerInnerView">
-        <section class="lyWrap">
-          <div class="lyPostViewer">
-            <div class="postViewer">
-              <article class="cPostCard">
-                <div class="cContentsCard">
-                  <!-- 작성자 영역 -->
-                  <div class="postWriter">
-                    <a class="uProfile -leader -border">
-                      <span class="profileInner">
-                        <img src="https://coresos-phinf.pstatic.net/a/371f31/9_i62Ud018svcju2od2y1er48_ezuzx0.png?type=s75" width="40" height="40">
-                      </span>
-                    </a>
-                    <div class="postWriterInfoWrap">
-                      <span class="ellipsis">
-                        <a href="#" class="text">장예원</a>
-                      </span>
-                      <div class="postListInfoWrap">
-                        <time class="time">2024년 6월 24일 오전 9:00</time>
-                      </div>
-                    </div>
-                    <button class="btnLyClose" style="z-index: 20; top: 30px;"></button>
-                  </div>
-                  <div class="postMain">
-                    <!-- 읽은 사람 수 출력 -->
-                    <div class="readNotice">
-                      <p class="postReaders">
-                        <strong class="sf_color">1명</strong>
-                        이 읽었습니다.
-                      </p>
-                    </div>
-                    <div class="postBody">
-                      <div class="postTextView">
-                        <div class="postText">
-                          <div class="txtBody">안녕하세요</div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- 댓글, 좋아요 수 -->
-                   <div class="dPostCountView">
-                    <div class="postCount">
-                      <div class="postCountLeft">
-                        <span class="faceComment">
-                          <div class="uEmotionView">
-                            <span class="emotionWrap">
-                              <span class="icon">
-                                <span class="uFaceIcon">좋아요</span>
-                              </span>
-                            </span>
-                            <span class="count">2</span>
-                          </div>
-                          <span class="comment">댓글<span class="count">5</span>
-                          </span>
-                        </span>
-                      </div>
-                    </div>
-                   </div>
-                   <div class="dPostCommentMainView">
-                    <div>
-                      <div class="sCommentList">
-                        <div class="cComment">
-                          <div class="DCommentView">
-                            <div class="itemWrap">
-                              <div class="writeInfo">
-                                <a class="uProfile -leader -border">
-                                  <span class="profileInner">
-                                    <img src="https://coresos-phinf.pstatic.net/a/371f31/9_i62Ud018svcju2od2y1er48_ezuzx0.png?type=s75"
-                                    width="34" height="34">
-                                  </span>
-                                </a>
-                                <button class="nameWrap">
-                                  <strong class="name">장예원</strong>
-                                </button>
-                              </div>
-                              <div class="commentBody">
-                                <p class="txt">dddd</p>
-                                <div class="func">
-                                  <time class="time">
-                                    6월 4일 오후 3:40
-                                  </time>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="cCommentWrite">
-                      <section class="_messageInputView">
-                        <div class="writeMain">
-                          <div class="writeBtn">
-                            <div class="btnUploadWrap">
-                              <button class="btnUpload"></button>
-                            </div>
-                          </div>
-                          <div class="writeWrap">
-                            <div class="flexBox">
-                              <div class="profileStatus profileInputRegion">
-                                <div class="messageInputProfileView">
-                                  <span class="current uProfile">
-                                    <span class="profileInner">
-                                      <img
-                                      width="21" height="21">
-                                    </span>
-                                  </span>
-                                </div>
-                              </div>
-                              <div class="mentionsWrap">
-                                <div class="uInputComment">
-                                  <div class="mentions-input">
-                                    <div class="mentions">
-                                      <textarea cols="20" rows="1" placeholder="댓글을 남겨주세요."></textarea>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="submitWrap">
-                            <button class="writeSubmit">보내기</button>
-                          </div>
-                        </div>
-                      </section>
-                    </div>
-                   </div>
-                </div>
-              </article>
-            </div>
-          </div>
-        </section>
-      </div>
-     </div>
   </div>
   <!-- JavaScript -->
   <script>
@@ -885,6 +903,12 @@
       $(".newChattingBtn").click(function() {
         $("#newChatWrap_popUp").css('display', 'block');
       })
+      // 글 디테일 클릭 이벤트
+      $(".postListItemView").click(function() {
+		let postIdx = $(this).parent().parent().attr('id');
+		$("#postDetail" + postIdx).css('display', 'block');
+	  })
+	  // 팝업 닫기
       $(".btnLyClose").click(function() {
         $(".layerContainerView").css('display', 'none');
       })
