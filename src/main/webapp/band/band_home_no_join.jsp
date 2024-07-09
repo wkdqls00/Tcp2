@@ -1,3 +1,5 @@
+<%@page import="dto.ChatListDTO"%>
+<%@page import="dao.ChatListDAO"%>
 <%@page import="dto.MeetWriteViewDTO"%>
 <%@page import="dao.MeetWriteViewDAO"%>
 <%@page import="dao.NoJoinMeetDAO"%>
@@ -62,6 +64,12 @@
 	
 	// 팝업 : 글 디테일 뷰
 	MeetWriteViewDAO mwDao = new MeetWriteViewDAO();
+	
+	// 채팅 목록 출력
+	ChatListDAO cDao = new ChatListDAO();
+	ArrayList<ChatListDTO> chatListDto = new ArrayList<>();
+	
+	chatListDto = cDao.selectChatListDTO(meet_idx);
 	
 %>
 
@@ -306,7 +314,8 @@
                 </div>
               <% } else { %>
              <!-- 게시글이 있을 경우 -->
-             <% for (MeetPostListPrintDTO mPDto : mPrintListDTO) {
+             <% 
+             	for (MeetPostListPrintDTO mPDto : mPrintListDTO) {
             	 clListDTO = clViewDAO.selectCommentListViewDTO(mPDto.getPost_idx());
             	 LikeCountDTO lCountDTO = lCountDAO.selectLikeCountDTO(mPDto.getPost_idx());
             	 
@@ -747,30 +756,20 @@
                 <div class="nano">
                   <div class="nano_content">
                     <ul class="chat">
+                    <% for (ChatListDTO cDto2 : chatListDto) { %>
                       <li>
-                        <button class="itemLink" onclick="window.open('chat.html', '', 'width=415, height=643')">
+                        <button class="itemLink" onclick="window.open('chat.jsp', '', 'width=415, height=643')">
                           <span class="thum">
                             <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240603162344/images/template/multi_profile_60x60.png"
                             height="30" width="30">
                           </span>
                           <span class="cont">
-                            <strong class="text">치이카와, 장예원</strong>
-                            <span class="sub">장예원 : ㅎㅇ</span>
+                            <strong class="text"><%= cDto2.getTitle() %></strong>
+                            <span class="sub"><%= cDto2.getContent() %></span>
                           </span>
                         </button>
                       </li>
-                      <li>
-                        <button class="itemLink">
-                          <span class="thum">
-                            <img src="https://coresos-phinf.pstatic.net/a/34g065/e_5a2Ud018admg69oqx3t5mng_5ksoqj.png?type=s75"
-                            height="30" width="30">
-                          </span>
-                          <span class="cont">
-                            <strong class="text">6조 밴드</strong>
-                            <span class="sub">밴드 전체 멤버들과 함께 하는 채팅방</span>
-                          </span>
-                        </button>
-                      </li>
+                      <% } %>
                     </ul>
                   </div>
                 </div>

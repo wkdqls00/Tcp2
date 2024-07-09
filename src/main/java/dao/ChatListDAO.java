@@ -14,7 +14,7 @@ public class ChatListDAO {
 		ChatListDAO msp = new ChatListDAO();
         ArrayList<ChatListDTO>  list = null;        
         try {
-        	list = msp.selectChatListDTO(15,3);
+        	list = msp.selectChatListDTO(3);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -23,26 +23,23 @@ public class ChatListDAO {
         }
     }
     
-    public ArrayList<ChatListDTO> selectChatListDTO(int member_idx, int chat_idx) throws SQLException {
+    public ArrayList<ChatListDTO> selectChatListDTO(int meet_idx) throws SQLException {
         ArrayList<ChatListDTO> list = new ArrayList<>();
         DatabaseUtil d = new DatabaseUtil();
         Connection conn = d.getConn();
 
         String sql = 
-        		"SELECT c.title, msg.content, MAX(msg.send_date) "
-        		+ "FROM chat c, chat_member c_m, message msg "
-        		+ "WHERE c.chat_idx = c_m.chat_idx "
-        		+ "AND msg.chat_idx = c_m.chat_idx "
-        		+ "AND msg.member_idx = ? "
-        		+ "AND c.chat_idx = ? "
-        		+ "GROUP BY c.title, msg.content "
-        		+ "ORDER BY MAX(msg.send_date) DESC";
+        		"SELECT c.title, msg.content, msg.send_date "
+        		+ "FROM chat c, message msg "
+        		+ "WHERE c.meet_idx = ? "
+        		+ "AND msg.chat_idx = c.chat_idx "
+        		+ "AND msg.send_date IN (SELECT MAX(send_date) FROM message GROUP BY chat_idx) "
+        		+ "ORDER BY msg.send_date DESC";
         		
 
         PreparedStatement pstmt = d.getPstmt(conn, sql);
 
-        pstmt.setInt(1, member_idx);
-        pstmt.setInt(2, chat_idx);
+        pstmt.setInt(1, meet_idx);
 
         ResultSet rs = d.getRs(pstmt);
         try {
