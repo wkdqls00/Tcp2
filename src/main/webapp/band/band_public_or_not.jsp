@@ -1,13 +1,35 @@
+<%@page import="dto.BandPublicOkDTO"%>
+<%@page import="dao.BandPublicOkDAO"%>
 <%@page import="dto.MeetIntroduceWriteDTO"%>
 <%@page import="dao.MeetIntroduceWriteDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%!
+	public String publicOk(String input) {
+		if(input.equals("Y")) {
+			return "checked";
+		} else {
+			return "";
+		}
+	}
+
+	public String publicNo(String input) {
+		if(input.equals("N")) {
+			return "checked";
+		} else {
+			return "";
+		}
+	}
+%>
 <%
 	//밴드 왼쪽 소개
 	int meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
 	MeetIntroduceWriteDAO miDao = new MeetIntroduceWriteDAO();
 	MeetIntroduceWriteDTO miDto = miDao.selectMeetIntroduceWriteDTO(meet_idx);
 	
+	BandPublicOkDAO bpoDAO = new BandPublicOkDAO();
+	BandPublicOkDTO bpoDTO = bpoDAO.selectBandPublicOkDTO(meet_idx);
+	int member_idx = Integer.parseInt(request.getParameter("member_idx"));
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,6 +39,9 @@
   <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/clear.css'>
   <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/band.css'>
   <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/band_header.css'>
+  
+  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+   
   <title>Band public_or_not</title>
 </head>
 <body>
@@ -149,7 +174,7 @@
                 </div>
                 <div class="itemSide">
                   <label class="check_btn">
-                    <input type="radio" id="secret" class="check_input" name="type_check" value="secret">
+                    <input type="radio" id="secret" class="check_input" name="type_check" <%=publicNo(bpoDTO.getPublic_ok()) %> >
                     <span class="check_label">
                       <span class="shape"></span>
                     </span>
@@ -164,7 +189,7 @@
                   </div>
                   <div class="itemSide">
                     <label class="check_btn">
-                      <input type="radio" id="public" class="check_input" name="type_check" value="public">
+                      <input type="radio" id="public" class="check_input" name="type_check" <%=publicOk(bpoDTO.getPublic_ok()) %>>
                       <span class="check_label">
                         <span class="shape"></span>
                       </span>
@@ -176,9 +201,13 @@
             <div class="guide_area">
               <p class="guide_area_txt">타입 변경시 멤버들에게 알림이 발송됩니다.</p>
             </div>
-            <div class="btn_footer">
-              <button type="button" class="confirm_btn">저장</button>
-            </div>
+	            <div class="btn_footer">
+            		<form action="myband_setting_leader.jsp" method="get">
+	              		<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
+	              		<input type="hidden" value="<%=member_idx%>" name="member_idx">
+	              		<button type="submit" class="confirm_btn">저장</button>
+            		</form>
+	            </div>
           </section>
         </div>
       </main>

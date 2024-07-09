@@ -227,7 +227,7 @@
                 <span class="subtxt">비공개</span>
               </div>
               <div class="item_side">
-               <form action="band_public_or_not.jsp" method="post">
+               <form action="band_public_or_not.jsp" method="get">
 	           		<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
 	            	<input type="hidden" value="<%=member_idx %>" name="member_idx">
 	                <button type="submit" class="band_update_btn">변경</button>

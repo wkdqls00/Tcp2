@@ -6,16 +6,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import dto.BandPublicOkDTO;
-import dto.MeetMemberProfilePrintDTO;
 import project.DatabaseUtil;
 
 public class BandPublicOkDAO {
-    
     public BandPublicOkDTO selectBandPublicOkDTO(int meet_idx) throws SQLException {
         DatabaseUtil d = new DatabaseUtil();
         Connection conn = d.getConn();
 
-        String sql = "SELET public_ok FROM meet WHERE meet_idx = ?";
+        String sql = "SELECT public_ok FROM meet WHERE meet_idx = ?";
         		
 
         PreparedStatement pstmt = d.getPstmt(conn, sql);
