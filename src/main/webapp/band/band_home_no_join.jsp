@@ -1,3 +1,9 @@
+<%@page import="dto.BandPublicOkDTO"%>
+<%@page import="dao.BandPublicOkDAO"%>
+<%@page import="dto.ChatListDTO"%>
+<%@page import="dao.ChatListDAO"%>
+<%@page import="dto.MeetWriteViewDTO"%>
+<%@page import="dao.MeetWriteViewDAO"%>
 <%@page import="dao.NoJoinMeetDAO"%>
 <%@page import="dto.MeetCommentElapsedTimeDTO"%>
 <%@page import="dao.MeetCommentElapsedTimeDAO"%>
@@ -58,6 +64,19 @@
 	// 밴드 가입 여부
 	NoJoinMeetDAO njDao = new NoJoinMeetDAO();
 	
+	// 팝업 : 글 디테일 뷰
+	MeetWriteViewDAO mwDao = new MeetWriteViewDAO();
+	
+	// 채팅 목록 출력
+	ChatListDAO cDao = new ChatListDAO();
+	ArrayList<ChatListDTO> chatListDto = new ArrayList<>();
+	
+	chatListDto = cDao.selectChatListDTO(meet_idx);
+	
+	// 밴드 공개 여부
+	BandPublicOkDAO bDao = new BandPublicOkDAO();
+	BandPublicOkDTO bOkDTO = bDao.selectBandPublicOkDTO(meet_idx);
+	
 %>
 
 <!DOCTYPE html>
@@ -81,6 +100,12 @@
 	  	min-height: calc(100% - 70px);
 	    margin-top: 70px;
 	    <% } %>
+    }
+    #upArrow::before {
+    	background-position: -770px -585px;
+    }
+    #downArrow::before {
+    	background-position: -429px -667px;
     }
   </style>
 </head>
@@ -120,25 +145,24 @@
                 <span class="uIconChat bg_white"></span>
               </button>
             </li>
+           <!-- 가입했을 시 프로필 출력 -->
+           <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
             <li class="ml_24 positionR">
               <button class="btnMySetting">
                 <span class="uProfile">
                   <span class="profileInner">
-                  <% try {
-                	  if (mMemberProfilePrintDTO.getProfile() != null) { %>
-                  		<img src="<%= mMemberProfilePrintDTO.getProfile() %>"
+               	   <% if (mMemberProfilePrintDTO.getProfile() != null) { %>
+               		<img src="<%= mMemberProfilePrintDTO.getProfile() %>"
                     width="30" height="30">
                     <% } else { %>
                    <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
                    width="30" height="30">
-                  	<% } 
-                  	} catch (Exception e) {
-                  		e.printStackTrace();
-                  	} %>
+                  	<% } %>
                   </span>
                 </span>
               </button>
             </li>
+           	<% } %>
           </ul>
         </div>
       </div>
@@ -199,13 +223,24 @@
               <button type="submit" class="uButton" id="joinBtn">밴드 가입하기</button>
             </div>
             <% } %>
-            <!-- 밴드 정보 보기 -->
+            <!-- 밴드 소개 설정 : 리더일 시 출력 -->
             <div class="bandInfoBox">
-              <a href="#" class="showBandInfo">밴드 정보 보기
+             <% try {
+            	 if (mPrintDAO.adminCheck(member_idx, meet_idx)) { %>
+              <a href="#" class="showBandInfo">밴드 소개 설정
+             <% 	} 
+             	} catch(Exception e) {
+             		e.printStackTrace();
+             	}
+             	%>
                 <span class="uIconArrow"></span>
               </a>
             </div>
+            <% if (bOkDTO.getPublic_ok() == "Y") { %>
             <p class="bandTypeDesc">누구나 밴드를 검색해 찾을 수 있고, 밴드 소개와 게시물을 볼 수 있습니다.</p>
+            <% } else { %>
+            <p class="bandTypeDesc">밴드와 게시글이 공개되지 않습니다. 초대를 통해서만 가입할 수 있습니다.</p>
+            <% } %>
             <!-- 밴드 설정 : 가입헀을 시 출력 -->
             <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
             <div class="bandSetting">
@@ -278,7 +313,7 @@
           <div class="boardTag">
             <div class="boardTagHead">
               <div class="sortingMenu">
-                <button class="buttonSorting">최신순</button>
+                <button class="buttonSorting" id="downArrow">최신순</button>
               </div>
             </div>
           </div>
@@ -295,11 +330,20 @@
                 </div>
               <% } else { %>
              <!-- 게시글이 있을 경우 -->
-             <% for (MeetPostListPrintDTO mPDto : mPrintListDTO) {
+             <% 
+             	for (MeetPostListPrintDTO mPDto : mPrintListDTO) {
             	 clListDTO = clViewDAO.selectCommentListViewDTO(mPDto.getPost_idx());
             	 LikeCountDTO lCountDTO = lCountDAO.selectLikeCountDTO(mPDto.getPost_idx());
+            	 
+            	 int n = 0;
+            	 n++;
+            	 
+            	 ArrayList<String> photoList = new ArrayList<>();
+            	 if (mPDto.getFile_url() != null) {
+            		 photoList.add(mPDto.getFile_url());
+            	 }
             	 %>
-           		<div class="postLayoutView">
+           		<div class="postLayoutView" id="<%= mPDto.getPost_idx() %>">
            		<article class="contentsCard">
 				 <!-- 게시글 상단 -->
 				 <div class="postListItemView">
@@ -335,6 +379,7 @@
 				         <div class="postText">
 				           <p class="txtBody"><%= mPDto.getContent() %></p>
 				         </div>
+				         <!-- 게시글에 사진 있는지 확인 -->
 				         <% if (mPDto.getFile_url() != null) { %>
 				         <div class="postPhoto">
 				           <ul class="photoCollage">
@@ -350,12 +395,24 @@
 				     </div>
 				   </div>
 				 </div>
-				 <!-- 게시글 옵션 -->
+				 <!-- 게시글 옵션 : 본인 게시글일 시 출력 -->
+				 <% if (mPDto.getMember_idx() == member_idx) { %>
 				 <div class="postOptionListView">
-				   <div class="postFunction">
-				     <button class="postSet">글 옵션</button>
-				   </div>
-				 </div>
+                   <div class="postFunction" id="off">
+                     <button class="postSet">글 옵션</button>
+                     <div class="lyMenu" style="display: none">
+                       <ul>
+                         <li>
+                           <a href="#">삭제하기</a>
+                         </li>
+                         <li>
+                           <a href="#">수정하기</a>
+                         </li>
+                       </ul>
+                     </div>
+                   </div>
+                 </div>
+                 <% } %>
 				 <!-- 게시글 하단 -->
 				 <div class="postCountView">
 				   <div class="postCount">
@@ -385,7 +442,7 @@
 				       </span>
 				     </div>
 				   </div>
-   			<!-- 댓글 쓰기, 좋아요 버튼 : 가입했을 시 출력 -->
+   			  <!-- 댓글 쓰기, 좋아요 버튼 : 가입했을 시 출력 -->
 			   <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
                  <div class="postAdded">
                    <div class="postAddBox">
@@ -397,7 +454,7 @@
                        </button>
                      </div>
                      <div class="addCol">
-                       <button class="addStatus">
+                       <button class="addStatus addComment">
                          <span class="uIconComment"></span>
                          <span>댓글쓰기</span>
                        </button>
@@ -464,16 +521,9 @@
 				   </div>
 				   <!-- 댓글 입력창 : 가입했을 시 출력 -->
 				   <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
-                    <div class="cCommentWrite">
+                    <div class="cCommentWrite" id="off" style="display: none;">
                       <section class="commentInputView">
                         <div class="writeMain">
-                          <div class="writeBtn">
-                            <div class="btnUploadWrap">
-                              <button class="btnUpload">
-                                <span class="uIconCommentPlus"></span>
-                              </button>
-                            </div>
-                          </div>
                           <div class="writeWrap">
                             <div class="flexBox">
                               <div class="profileStatus profileInputRegion">
@@ -481,6 +531,9 @@
                                   <span class="current uProfile">
                                     <span class="profileInner">
                                       <img
+                                      <% if(mMemberProfilePrintDTO.getProfile() != null) { %>
+                                      	src="<%= mMemberProfilePrintDTO.getProfile() %>"
+                                      	<% } %>
                                       width="21" height="21">
                                     </span>
                                   </span>
@@ -512,6 +565,189 @@
                    <% } %>
 				</article>
                 </div>
+                <!-- 팝업 : 게시글 디테일 뷰 -->
+                <div class="layerContainerView" id="postDetail<%= mPDto.getPost_idx() %>" style="display: none">
+			      <div class="layerContainerInnerView">
+			        <section class="lyWrap">
+			          <div class="lyPostViewer">
+			            <div class="postViewer">
+			              <article class="cPostCard">
+			                <div class="cContentsCard">
+			                  <!-- 작성자 영역 -->
+			                  <div class="postWriter">
+			                    <% if (mPrintDAO.adminCheck(mPDto.getMember_idx(), meet_idx)) { %>
+                                <a class="uProfile -leader -border">
+                                <% } else { %>
+                                <a class="uProfile -border">
+                                <% } %>
+			                      <span class="profileInner">
+			                      <% if (mPDto.getProfile() != null) { %>
+			                        <img src="<%= mPDto.getProfile() %>" width="40" height="40">
+		                          <% } %>
+			                      </span>
+			                    </a>
+			                    <div class="postWriterInfoWrap">
+			                      <span class="ellipsis">
+			                        <a href="#" class="text"><%= mPDto.getNickname() %></a>
+			                      </span>
+			                      <div class="postListInfoWrap">
+			                        <time class="time"><%= mPDto.getReg_date() %></time>
+			                      </div>
+			                    </div>
+			                    <button class="btnLyClose" style="z-index: 20; top: 30px;"></button>
+			                  </div>
+			                  <div class="postMain">
+			                    <!-- 읽은 사람 수 출력 -->
+			                    <div class="readNotice">
+			                      <p class="postReaders">
+			                        <strong class="sf_color"><%= mPDto.getViews() %>명</strong>
+			                       이 읽었습니다.
+			                      </p>
+			                    </div>
+			                    <div class="postBody">
+			                      <div class="postTextView">
+			                        <div class="postText">
+			                          <div class="txtBody"><%= mPDto.getContent() %></div>
+			                        </div>
+			                      </div>
+			                      <!-- 이미지 있을 경우 -->
+			                      <% if (mPDto.getFile_url() != null) { %>
+			                      <div class="postPhoto">
+			                        <ul class="uCollage">
+			                          <li class="collageItem">
+			                            <a href="#" class="collageImg">
+			                              <img src="<%= mPDto.getFile_url() %>">
+			                            </a>
+			                          </li>
+			                        </ul>
+			                      </div>
+			                      <% } %>
+			                    </div>
+			                  </div>
+			                  <!-- 댓글, 좋아요 수 -->
+			                   <div class="dPostCountView">
+			                    <div class="postCount">
+			                      <div class="postCountLeft">
+			                        <span class="faceComment">
+			                          <div class="uEmotionView">
+			                            <span class="emotionWrap">
+			                              <span class="icon">
+			                                <span class="uFaceIcon">좋아요</span>
+			                              </span>
+			                            </span>
+			                            <span class="count"><%= lCountDTO.getLike() %></span>
+			                          </div>
+			                          <span class="comment">댓글<span class="count"><%= clListDTO.size() %></span>
+			                          </span>
+			                        </span>
+			                      </div>
+			                    </div>
+			                   </div>
+			                   <div class="dPostCommentMainView">
+			                    <div>
+			                      <div class="sCommentList">
+			                        <div class="cComment">
+			                          <div class="DCommentView">
+			                          <% for(CommentListViewDTO clDto : clListDTO) { 
+								         	MeetCommentElapsedTimeDTO mCDto = mCDao.selectMeetCommentElapsedTimeDTO(clDto.getComment_idx());
+							          %>
+			                            <div class="itemWrap">
+			                              <div class="writeInfo">
+			                              <% if (mPrintDAO.adminCheck(clDto.getMember_idx(), meet_idx)) { %>
+			                                <a class="uProfile -leader -border">
+			                                <% } else { %>
+			                                <a class="uProfile -border">
+			                                <% } %>
+			                                  <span class="profileInner">
+			                                    <img 
+			                                    <% if (clDto.getProfile() != null) { %>
+			                                    	src="<%= clDto.getProfile() %>"
+			                                    <% } %>
+			                                    width="34" height="34">
+			                                  </span>
+			                                </a>
+			                                <button class="nameWrap">
+			                                  <strong class="name"><%= clDto.getNickname() %></strong>
+			                                </button>
+			                              </div>
+			                              <div class="commentBody">
+			                                <p class="txt"><%= clDto.getContent() %></p>
+			                                <div class="func">
+			                                  <!-- 댓글 작성 시간 출력 -->
+								                <time class="time">
+								                 <% 
+								                 	int day = Integer.parseInt(mCDto.getDay());
+								                 	int time = Integer.parseInt(mCDto.getTime());
+								                 	int minute = Integer.parseInt(mCDto.getMinute());
+								                 	
+								                 	if (day > 10) { %>
+									                <%= clDto.getReg_date() %>
+									                <% } else if (time > 23) { %>
+									                 	<%= day %>일 전
+								                 	<% } else if (minute > 60) { %>
+								                 			<%= time %>시간 전
+								                 		<% } else { %>
+								                 			<%= minute %>분 전
+								                 			<% } %>
+								               </time>
+			                                </div>
+			                              </div>
+			                            </div>
+			                            <% } %>
+			                          </div>
+			                        </div>
+			                      </div>
+			                    </div>
+			                    <!-- 댓글 입력창 -->
+			                    <div class="cCommentWrite">
+			                      <section class="_messageInputView">
+			                        <div class="writeMain">
+			                          <div class="writeWrap">
+			                            <div class="flexBox">
+			                              <div class="profileStatus profileInputRegion">
+			                                <div class="messageInputProfileView">
+			                                  <span class="current uProfile">
+			                                    <span class="profileInner">
+			                                      <img
+			                                      <% 
+			                                      try {
+			                                    	  if (mMemberProfilePrintDTO.getProfile() != null) { %>
+			                                      src = "<%= mMemberProfilePrintDTO.getProfile() %>"
+			                                      <% }
+		                                    	  } catch(Exception e) {
+		                                    		  e.printStackTrace();
+		                                    	  }
+		                                    	  %>
+			                                      width="21" height="21">
+			                                    </span>
+			                                  </span>
+			                                </div>
+			                              </div>
+			                              <div class="mentionsWrap">
+			                                <div class="uInputComment">
+			                                  <div class="mentions-input">
+			                                    <div class="mentions">
+			                                      <textarea cols="20" rows="1" placeholder="댓글을 남겨주세요."></textarea>
+			                                    </div>
+			                                  </div>
+			                                </div>
+			                              </div>
+			                            </div>
+			                          </div>
+			                          <div class="submitWrap">
+			                            <button class="writeSubmit">보내기</button>
+			                          </div>
+			                        </div>
+			                      </section>
+			                    </div>
+			                   </div>
+			                </div>
+			              </article>
+			            </div>
+			          </div>
+			        </section>
+			      </div>
+			    </div>
              <% } %>
            	<% } %>
               </div>
@@ -542,63 +778,31 @@
                 <div class="nano">
                   <div class="nano_content">
                     <ul class="chat">
+                    <% for (ChatListDTO cDto2 : chatListDto) { %>
                       <li>
-                        <button class="itemLink" onclick="window.open('chat.html', '', 'width=415, height=643')">
+                        <button class="itemLink" onclick="window.open('chat.jsp', '', 'width=415, height=643')">
                           <span class="thum">
                             <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240603162344/images/template/multi_profile_60x60.png"
                             height="30" width="30">
                           </span>
                           <span class="cont">
-                            <strong class="text">치이카와, 장예원</strong>
-                            <span class="sub">장예원 : ㅎㅇ</span>
+                            <strong class="text"><%= cDto2.getTitle() %></strong>
+                            <span class="sub"><%= cDto2.getContent() %></span>
                           </span>
                         </button>
                       </li>
-                      <li>
-                        <button class="itemLink">
-                          <span class="thum">
-                            <img src="https://coresos-phinf.pstatic.net/a/34g065/e_5a2Ud018admg69oqx3t5mng_5ksoqj.png?type=s75"
-                            height="30" width="30">
-                          </span>
-                          <span class="cont">
-                            <strong class="text">6조 밴드</strong>
-                            <span class="sub">밴드 전체 멤버들과 함께 하는 채팅방</span>
-                          </span>
-                        </button>
-                      </li>
+                      <% } %>
                     </ul>
                   </div>
                 </div>
               </div>
             </section>
-            <!-- 사진 목록 -->
-            <div class="photoBox">
-              <section class="photoList photo">
-                <h2 class="tit">최근 사진</h2>
-                <div class="body">
-                  <div class="list">
-                    <!-- 이미지 있을 경우 -->
-                    <a href="#" data-index="0">
-                      <img src="	https://coresos-phinf.pstatic.net/a/371ffi/f_460Ud018svc11ftqgy2zsi15_ezuzx0.png?type=s150"
-                      width="73" height="73">
-                    </a>
-                    <!-- 이미지 없는 경우 -->
-                    <span class="noImg"></span>
-                    <span class="noImg"></span>
-                    <span class="noImg"></span>
-                    <span class="noImg"></span>
-                    <span class="noImg"></span>
-                  </div>
-                </div>
-                <a href="#" class="more">더보기</a>
-              </section>
-            </div>
           </div>
         </div>
       </div>
      <% } %>
     </div>
-    <!-- 가입질문 팝업 -->
+    <!-- 팝업 : 가입질문 -->
     <div class="layerContainerView" tabindex="-1" id="memberJoinQ_popUp" style="display: none;">
       <div class="layerContainerInnerView">
         <section class="lyWrap">
@@ -633,19 +837,135 @@
         </section>
       </div>
     </div>
+    <!-- 팝업 : 글쓰기 -->
+    <div class="layerContainerView" tabindex="-1" id="postWriteEditor_popUp" style="display: none;">
+      <div class="layerContainerInnerView">
+        <div class="postEditorLayerView" style="position: relative;">
+          <section class="lyWrap">
+            <div class="lyPostShareWrite" style="margin-top: 77px;">
+              <header class="header">
+                <h1 class="title">글쓰기</h1>
+              </header>
+              <div class="main">
+                <div class="postWrite">
+                  <div class="postWriteForm">
+                    <textarea class="contentEditor cke_editable"></textarea>
+                  </div>
+                  <div class="buttonArea">
+                    <ul class="toolbarList">
+                      <li class="toolbarListItem">
+                        <label class="photo">
+                          <input type="file">
+                          <span class="photoIcon"></span>
+                        </label>
+                      </li>
+                    </ul>
+                    <div class="writeSubmitBox">
+                      <div class="buttonSubmit">
+                        <button type="submit" class="uButton">게시</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <footer class="footer">
+                <button class="btnLyClose"></button>
+              </footer>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+    <!-- 팝업 : 새 채팅 -->
+    <div class="layerContainerView" id="newChatWrap_popUp" style="display: none;">
+      <div class="layerContainerInnerView">
+        <section class="lyWrap">
+          <div class="lyContent -w400">
+            <header class="header">
+              <h1 class="title">공개채팅방 만들기</h1>
+            </header>
+            <div class="main -tSpaceNone">
+              <label for="chatName" class="title -sub2" style="margin-top: 20px">
+                채팅방 이름
+              </label>
+              <div class="uInput" style="height: 36px; padding: 0 10px; margin-bottom: 20px;">
+                <input type="text" placeholder="채팅방 이름을 입력해주세요.">
+                <span class="border"></span>
+              </div>
+            </div>
+            <footer class="footer">
+              <button class="uButton -confirm -sizeL">완료</button>
+              <button class="btnLyClose"></button>
+            </footer>
+          </div>
+        </section>
+      </div>
+    </div>
   </div>
   <!-- JavaScript -->
   <script>
   <% if (mAPrintDTO.getSub_q() != null) { %>
     $(function() {
       $("#joinBtn").click(function() {
-        $(".layerContainerView").css('display', 'block');
+        $("#memberJoinQ_popUp").css('display', 'block');
       })
       $(".-cancle").click(function() {
-        $(".layerContainerView").css('display', 'none');
+        $("#memberJoinQ_popUp").css('display', 'none');
       })
     })
    <% } %>
+   $(function() {
+      $(".postWriteEventWrapper").click(function() {
+        $("#postWriteEditor_popUp").css('display', 'block');
+      })
+      $("#postWriteBtn").click(function() {
+        $("#postWriteEditor_popUp").css('display', 'block');
+      })
+      $(".newChattingBtn").click(function() {
+        $("#newChatWrap_popUp").css('display', 'block');
+      })
+      // 글 디테일 클릭 이벤트
+      $(".postListItemView").click(function() {
+		let postIdx = $(this).parent().parent().attr('id');
+		$("#postDetail" + postIdx).css('display', 'block');
+	  })
+	  // 팝업 닫기
+      $(".btnLyClose").click(function() {
+        $(".layerContainerView").css('display', 'none');
+      })
+      // 글 옵션 버튼 눌렀을 시 클릭 이벤트
+      $(".postSet").click(function() {
+		let postFunction = $(this).parent();
+		let onOff = $(this).parent().attr('id');
+		if (onOff == 'off') {
+			postFunction.attr('id', 'on');
+			postFunction.find(".lyMenu").css('display', 'block');
+		} else {
+			postFunction.attr('id', 'off');
+			postFunction.find(".lyMenu").css('display', 'none');
+		}
+	  })
+	  // 댓글 입력창 댓글쓰기 버튼 눌렀을 시 출력 클릭 이벤트
+	  $(".addComment").click(function() {
+		let postId = $(this).parent().parent().parent().parent().parent().parent();
+		let cCommentWrite = postId.find(".cCommentWrite");
+		if (cCommentWrite.attr('id') == 'off') {
+			cCommentWrite.attr('id', 'on');
+			cCommentWrite.css('display', 'block');
+		} else {
+			cCommentWrite.attr('id', 'off');
+			cCommentWrite.css('display', 'none');
+		}
+	  })
+	  // 최신순 버튼 클릭 시 화살표 모양 바뀌기
+	  $(".buttonSorting").click(function() {
+		if ($(this).attr('id') == 'downArrow') {
+			$(this).attr('id', 'upArrow');
+		} else {
+			$(this).attr('id', 'downArrow');
+		}
+	  })	
+    });
   </script>
 </body>
 </html>
