@@ -64,16 +64,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
     });
 
-    // 휴대폰 인증번호 받으면 모든 인풋 readonly로 바꾸기(보류)
-    document.querySelector(".btn.border_type").addEventListener("click", function() {
-     
-        let vali_box = document.querySelector(".account_vali");
-        let certify = document.getElementById("certify");
-
-        
-        vali_box.style.display = "block"; // 이미 가입된 정보면 박스 나옴
-        certify.style.display = "block"; // 그 인증번호 인풋하고 타이머 나옴
-    });
+  
 
     // 체크박스 파란색 활성화 
     var labels = document.querySelectorAll(".text");
@@ -126,12 +117,58 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
-    // 인증번호가 같아야 버튼 활성화되게끔
-    var sentV = "123456";
+	// 인증번호 만들기, 그 타이머 시작하기
+ 	let timerInterval;
+    let verificationCode;
+    let isCodeValid = false;
+
+    function generateVerificationCode() {
+        return Math.floor(100000 + Math.random() * 900000); // 6자리 랜덤 숫자 생성
+    }
+
+    function startTimer(duration, display) {
+        let timer = duration, minutes, seconds;
+        clearInterval(timerInterval); // 기존 타이머 중지
+
+        timerInterval = setInterval(() => {
+            minutes = parseInt(timer / 60, 10);
+            seconds = parseInt(timer % 60, 10);
+
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            display.textContent = minutes + ":" + seconds;
+
+            if (--timer < 0) {
+                clearInterval(timerInterval);
+                display.textContent = "만료";
+                isCodeValid = false;
+            }
+        }, 1000);
+	}
+ 	// 휴대폰 인증번호 받기
+    document.querySelector(".btn.border_type").addEventListener("click", function() {
+     	alert("인증번호가 전송되었습니다.")
+        let vali_box = document.querySelector(".account_vali");
+        let certify = document.getElementById("certify");
+        
+        vali_box.style.display = "block"; // 이미 가입된 정보면 박스 나옴
+        certify.style.display = "block"; // 그 인증번호 인풋하고 타이머 나옴
+
+		verificationCode = generateVerificationCode();
+        isCodeValid = true;
+        console.log(`인증번호: ${verificationCode}`);
+
+        const fiveMinutes = 60 * 5;
+        const display = document.querySelector('.timer');
+        startTimer(fiveMinutes, display);  
+    });
+    
+	// 인증번호가 같아야 버튼 활성화되게끔
     document.getElementById("check_certify").addEventListener("click", function() {
         var input = document.getElementById("input_certify").value;
 
-        if (input === sentV) {
+        if (input == verificationCode && isCodeValid) {
             alert("인증이 완료되었습니다");
             document.getElementById("input_certify").setAttribute("readonly", true);
             let final = document.querySelector(".btn.point");
@@ -149,9 +186,22 @@ document.addEventListener("DOMContentLoaded", function() {
             input.setAttribute('readonly', true);
             });
         } else {
-            alert("인증번호가 일치하지 않습니다")
-        }  
-    })
+			console.log(isCodeValid);
+            alert("인증번호가 일치하지 않습니다");
+        }
+
+    });
+
+	// 재발송 버튼
+    document.getElementById('re').addEventListener('click', function() {
+        verificationCode = generateVerificationCode();
+        isCodeValid = true;
+        console.log(`인증번호 : ${verificationCode}`);
+
+        const fiveMinutes = 60 * 5;
+        const display = document.querySelector('.timer');
+        startTimer(fiveMinutes, display);
+    });
 
     // 아이디 에러창
     document.getElementById("input_id").addEventListener('input', function() {
@@ -217,7 +267,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const isValid = regex.test(fullEmail);
         errorEl.style.display = isValid ? 'none' : 'block';
 		updateButtonState();
-    }
+    };
     // 폰번호 에러창
     document.getElementById("input_phone").addEventListener('input', function() {
         const regex = /^[0-9]{10,11}$/;
@@ -226,23 +276,21 @@ document.addEventListener("DOMContentLoaded", function() {
         errorEl.style.display = isValid ? 'none' : 'block';	
 		updateButtonState();
     });
-	
 
-/*	document.querySelector(".btn.point").addEventeListener('click', function() {
+	document.querySelector(".btn.point").addEventeListener('click', function() {
 		let text = document.getElementById("input_name").value;
 		alert(`가입 되었습니다.\n환영합니다 ${text}님`);
-	})*/
-
-
-
+	});
 });
+
+
 // 우편번호 찾기 찾기 화면을 넣을 element
 var element_wrap = document.getElementById('wrap');
     
 function foldDaumPostcode() {
     // iframe을 넣은 element를 안보이게 한다.
     element_wrap.style.display = 'none';
-}
+};
 
 function sample3_execDaumPostcode() {
     // 현재 scroll 위치를 저장해놓는다.
@@ -302,7 +350,7 @@ function sample3_execDaumPostcode() {
 
     // iframe을 넣은 element를 보이게 한다.
     element_wrap.style.display = 'block';
-}
+};
 
 
 	

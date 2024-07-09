@@ -73,6 +73,36 @@ function validatePhoneInput() {
 }
 document.getElementById("input_phoneN").addEventListener("change", validatePhoneInput);
 
+// 타이머, 인증번호 랜덤으로 만드는 코드
+	let timerInterval;
+    let verificationCode;
+    let isCodeValid = false;
+
+    function generateVerificationCode() {
+        return Math.floor(100000 + Math.random() * 900000); // 6자리 랜덤 숫자 생성
+    }
+
+    function startTimer(duration, display) {
+        let timer = duration, minutes, seconds;
+        clearInterval(timerInterval); // 기존 타이머 중지
+
+        timerInterval = setInterval(() => {
+            minutes = parseInt(timer / 60, 10);
+            seconds = parseInt(timer % 60, 10);
+
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            display.textContent = minutes + ":" + seconds;
+
+            if (--timer < 0) {
+                clearInterval(timerInterval);
+                display.textContent = "만료";
+                isCodeValid = false;
+            }
+        }, 1000);
+    }
+
 // 인증번호 전송시 input태그 생기고 전송 -> 인증 버튼으로 바뀌게 
 document.getElementById("phone_certy").addEventListener("click", function() {
     document.getElementById("input_certyNum").style.display = "block";
@@ -80,18 +110,27 @@ document.getElementById("phone_certy").addEventListener("click", function() {
     document.getElementById("phone_certy").style.display = "none";
     document.getElementById("input_phoneN").readOnly = "true"
 	alert("인증번호가 전송되었습니다.")
+	
+		verificationCode = generateVerificationCode();
+        isCodeValid = true;
+        console.log(`인증번호: ${verificationCode}`);
+
+        const fiveMinutes = 60 * 5;
+        const display = document.getElementById('timer');
+        startTimer(fiveMinutes, display);
+	
 });
 
 	// 인증버튼 인증번호랑 같으면 수정완료, 다르면 다르다고 alert
 	document.getElementById("certy_check").addEventListener("click", function() {
 	    var inputV = document.getElementById("input_certyNum").value;
-	    var num = '123456';
-	    if(inputV !== num) {
-	    event.preventDefault();
-	    alert("인증번호가 다릅니다.");
-	    } else {
+	    if(inputV == verificationCode && isCodeValid) {
 	    alert("변경되었습니다.")
-		document.getElementById('modify_ph').submit();	    }
+		document.getElementById('modify_ph').submit();	
+	    } else {
+        event.preventDefault();
+	    alert("인증번호가 다릅니다.");
+		}
 	});
 	
 	// 주소 수정버튼 기능

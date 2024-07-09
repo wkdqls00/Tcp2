@@ -253,7 +253,7 @@
                             </div>
                         </div>
                         <div class="certify_time">
-                            <span classq="time">05:00</span>
+                            <span class="timer"></span>
                         </div>
                     </div>
                     <div class="uBlock check_block"> <!--체크블럭-->

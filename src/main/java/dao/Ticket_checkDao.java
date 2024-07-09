@@ -206,4 +206,41 @@ public class Ticket_checkDao {
          int count_ = (int)Math.ceil(count/5.0);
          return count_;
      }
+    
+    public int check_total_countY(int member_idx) {
+    	int count = 0;
+    	 Connection conn = null;
+         PreparedStatement pstmt = null;
+         ResultSet rs = null;
+         try {
+         	Class.forName(driver);
+ 			conn = DriverManager.getConnection(url, db_id, db_pw);
+ 			
+ 			 String sql =
+ 					 "SELECT COUNT(*) FROM (SELECT pay.payment_idx, p.name, p.start_date, pay.status, pi.start_time " + 
+ 					 "FROM payment pay, play p, playinfo pi, member m " + 
+ 					 "WHERE m.member_idx = ? " + 
+ 					 "AND pay.playinfo_idx = pi.playinfo_idx " + 
+ 					 "AND p.play_idx = pi.play_idx " + 
+ 					 "AND pay.member_idx = m.member_idx " + 
+ 					 "AND pay.status = 'Y' " +
+ 					 "ORDER BY payment_idx DESC)";
+ 			 
+ 			 pstmt = conn.prepareStatement(sql);
+ 			 pstmt.setInt(1, member_idx);
+ 			
+ 		     rs = pstmt.executeQuery();
+ 		     if (rs.next()) {
+ 		    	 count = rs.getInt(1);
+ 		     }
+ 		} catch (SQLException | ClassNotFoundException e) {
+ 			e.printStackTrace();
+ 		} finally {
+         	if (rs != null) {try {rs.close();} catch (SQLException e) {e.printStackTrace();}}
+     		if (pstmt != null) {try {pstmt.close();} catch (SQLException e) {e.printStackTrace();}}
+     		if (conn != null) {try {conn.close();} catch (SQLException e) {e.printStackTrace();}}
+         }
+         
+         return count;
+     }
 }

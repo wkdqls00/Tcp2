@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<% 
+HttpSession hs = request.getSession();
+int totalT = (int)hs.getAttribute("totalT");
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -58,15 +62,15 @@
                     </div>
                     <ul class="quick_menu_list">
                         <li class="quick_menu_item reserve">
-                            <a href="">
+                            <a href="/Tcp2/Ticket_checkServlet">
                                 <div class="qmenu_box">
                                     <span class="qmenu_tit">예매내역</span>
-                                    <span class="qmenu_subtit state_number">0</span>
+                                    <span class="qmenu_subtit state_number"><%=totalT %></span>
                                 </div>
                             </a>
                         </li>
                         <li class="quick_menu_item info">
-                            <a href="">
+                            <a href="/Tcp2/Mypage_memberServlet">
                                 <div class="qmenu_box">
                                     <span class="qmenu_tit">회원정보</span>
                                     <span class="qmenu_subtit">수정</span>

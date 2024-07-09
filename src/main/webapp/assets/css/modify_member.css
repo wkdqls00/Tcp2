@@ -370,6 +370,15 @@ input::placeholder {
     font-size: 13px;
     color: #ef3e42;
 }
+#timer {
+	color: #ef3e4e;
+    position: absolute;
+    width: 40px;
+    height: 20px;
+    right: 15px;
+    bottom: 12px;
+    font-size: 15px;
+}
 
 /* 자바스크립트 적용 css */
 .modify_box_small.on { 

@@ -93,6 +93,7 @@
                                     <div class="style_input">
                                       <input type="text" class="con_input" id="input_phoneN" name="input_phoneN" placeholder="변경 휴대폰번호 (-없이 입력)">
                                       <input type="text" class="con_input" id="input_certyNum" style="display: none;">
+                                      <span id="timer"></span>
                                       <span id="conClear" class="del_btn" style="display: none;"></span>
                                       <span id="errorText_phone" style="display: none;" class="error_text"></span>
                                     </div>
