@@ -191,18 +191,23 @@
               <button class="uButton bg_blue" id="postWriteBtn">글쓰기</button>
             </div>
             <!-- 밴드 소개 설정 : 리더일 시 출력 -->
-            <div class="bandInfoBox">
-             <% try {
-            	 if (mPrintDAO.adminCheck(member_idx, meet_idx)) { %>
-              <a href="#" class="showBandInfo">밴드 소개 설정
-             <% 	} 
-             	} catch(Exception e) {
-             		e.printStackTrace();
-             	}
-             	%>
-                <span class="uIconArrow"></span>
-              </a>
-            </div>
+            <form action="band_information.jsp" method="post">
+            	<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
+   		  	 	<input type="hidden" value="<%=member_idx %>" name="member_idx">
+	            <div class="bandInfoBox">
+	             <% try {
+	            	 if (mPrintDAO.adminCheck(member_idx, meet_idx)) { %>
+	              <button type="submit" class="showBandInfo">밴드 소개 설정
+	             <% 	} 
+	             	} catch(Exception e) {
+	             		e.printStackTrace();
+	             	}
+	             	%>
+	                <span class="uIconArrow"></span>
+	              </button>
+	            </div>
+            </form>
+            <!-- 밴드 안내 문구 -->
             <% if (bOkDTO.getPublic_ok() == "Y") { %>
             <p class="bandTypeDesc">누구나 밴드를 검색해 찾을 수 있고, 밴드 소개와 게시물을 볼 수 있습니다.</p>
             <% } else { %>
