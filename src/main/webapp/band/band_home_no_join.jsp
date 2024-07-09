@@ -82,6 +82,12 @@
 	    margin-top: 70px;
 	    <% } %>
     }
+    #upArrow::before {
+    	background-position: -770px -585px;
+    }
+    #downArrow::before {
+    	background-position: -429px -667px;
+    }
   </style>
 </head>
 <body>
@@ -278,7 +284,7 @@
           <div class="boardTag">
             <div class="boardTagHead">
               <div class="sortingMenu">
-                <button class="buttonSorting">최신순</button>
+                <button class="buttonSorting" id="downArrow">최신순</button>
               </div>
             </div>
           </div>
@@ -298,8 +304,16 @@
              <% for (MeetPostListPrintDTO mPDto : mPrintListDTO) {
             	 clListDTO = clViewDAO.selectCommentListViewDTO(mPDto.getPost_idx());
             	 LikeCountDTO lCountDTO = lCountDAO.selectLikeCountDTO(mPDto.getPost_idx());
+            	 
+            	 int n = 0;
+            	 n++;
+            	 
+            	 ArrayList<String> photoList = new ArrayList<>();
+            	 if (mPDto.getFile_url() != null) {
+            		 photoList.add(mPDto.getFile_url());
+            	 }
             	 %>
-           		<div class="postLayoutView">
+           		<div class="postLayoutView" id="post<%= mPDto.getPost_idx() %>">
            		<article class="contentsCard">
 				 <!-- 게시글 상단 -->
 				 <div class="postListItemView">
@@ -350,12 +364,24 @@
 				     </div>
 				   </div>
 				 </div>
-				 <!-- 게시글 옵션 -->
+				 <!-- 게시글 옵션 : 본인 게시글일 시 출력 -->
+				 <% if (mPDto.getMember_idx() == member_idx) { %>
 				 <div class="postOptionListView">
-				   <div class="postFunction">
-				     <button class="postSet">글 옵션</button>
-				   </div>
-				 </div>
+                   <div class="postFunction" id="off">
+                     <button class="postSet">글 옵션</button>
+                     <div class="lyMenu" style="display: none">
+                       <ul>
+                         <li>
+                           <a href="#">삭제하기</a>
+                         </li>
+                         <li>
+                           <a href="#">수정하기</a>
+                         </li>
+                       </ul>
+                     </div>
+                   </div>
+                 </div>
+                 <% } %>
 				 <!-- 게시글 하단 -->
 				 <div class="postCountView">
 				   <div class="postCount">
@@ -385,7 +411,7 @@
 				       </span>
 				     </div>
 				   </div>
-   			<!-- 댓글 쓰기, 좋아요 버튼 : 가입했을 시 출력 -->
+   			  <!-- 댓글 쓰기, 좋아요 버튼 : 가입했을 시 출력 -->
 			   <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
                  <div class="postAdded">
                    <div class="postAddBox">
@@ -397,7 +423,7 @@
                        </button>
                      </div>
                      <div class="addCol">
-                       <button class="addStatus">
+                       <button class="addStatus addComment">
                          <span class="uIconComment"></span>
                          <span>댓글쓰기</span>
                        </button>
@@ -464,7 +490,7 @@
 				   </div>
 				   <!-- 댓글 입력창 : 가입했을 시 출력 -->
 				   <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
-                    <div class="cCommentWrite">
+                    <div class="cCommentWrite" id="off" style="display: none;">
                       <section class="commentInputView">
                         <div class="writeMain">
                           <div class="writeBtn">
@@ -481,6 +507,9 @@
                                   <span class="current uProfile">
                                     <span class="profileInner">
                                       <img
+                                      <% if(mMemberProfilePrintDTO.getProfile() != null) { %>
+                                      	src="<%= mMemberProfilePrintDTO.getProfile() %>"
+                                      	<% }%>
                                       width="21" height="21">
                                     </span>
                                   </span>
@@ -578,16 +607,17 @@
                 <div class="body">
                   <div class="list">
                     <!-- 이미지 있을 경우 -->
-                    <a href="#" data-index="0">
-                      <img src="	https://coresos-phinf.pstatic.net/a/371ffi/f_460Ud018svc11ftqgy2zsi15_ezuzx0.png?type=s150"
+                    <!--  <a href="#" data-index="0">
+                      <img src="https://coresos-phinf.pstatic.net/a/371ffi/f_460Ud018svc11ftqgy2zsi15_ezuzx0.png?type=s150"
                       width="73" height="73">
-                    </a>
+                    </a> -->
                     <!-- 이미지 없는 경우 -->
+                    <!--  <span class="noImg"></span>
                     <span class="noImg"></span>
                     <span class="noImg"></span>
                     <span class="noImg"></span>
                     <span class="noImg"></span>
-                    <span class="noImg"></span>
+                     -->
                   </div>
                 </div>
                 <a href="#" class="more">더보기</a>
@@ -633,19 +663,264 @@
         </section>
       </div>
     </div>
+    <!-- 팝업 : 글쓰기 -->
+    <div class="layerContainerView" tabindex="-1" id="postWriteEditor_popUp" style="display: none;">
+      <div class="layerContainerInnerView">
+        <div class="postEditorLayerView" style="position: relative;">
+          <section class="lyWrap">
+            <div class="lyPostShareWrite" style="margin-top: 77px;">
+              <header class="header">
+                <h1 class="title">글쓰기</h1>
+              </header>
+              <div class="main">
+                <div class="postWrite">
+                  <div class="postWriteForm">
+                    <textarea class="contentEditor cke_editable"></textarea>
+                  </div>
+                  <div class="buttonArea">
+                    <ul class="toolbarList">
+                      <li class="toolbarListItem">
+                        <label class="photo">
+                          <input type="file">
+                          <span class="photoIcon"></span>
+                        </label>
+                      </li>
+                    </ul>
+                    <div class="writeSubmitBox">
+                      <div class="buttonSubmit">
+                        <button type="submit" class="uButton">게시</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <footer class="footer">
+                <button class="btnLyClose"></button>
+              </footer>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+    <!-- 팝업 : 새 채팅 -->
+    <div class="layerContainerView" id="newChatWrap_popUp" style="display: none;">
+      <div class="layerContainerInnerView">
+        <section class="lyWrap">
+          <div class="lyContent -w400">
+            <header class="header">
+              <h1 class="title">공개채팅방 만들기</h1>
+            </header>
+            <div class="main -tSpaceNone">
+              <label for="chatName" class="title -sub2" style="margin-top: 20px">
+                채팅방 이름
+              </label>
+              <div class="uInput" style="height: 36px; padding: 0 10px; margin-bottom: 20px;">
+                <input type="text" placeholder="채팅방 이름을 입력해주세요.">
+                <span class="border"></span>
+              </div>
+            </div>
+            <footer class="footer">
+              <button class="uButton -confirm -sizeL">완료</button>
+              <button class="btnLyClose"></button>
+            </footer>
+          </div>
+        </section>
+      </div>
+    </div>
+    <!-- 팝업 : 글 디테일 뷰 -->
+    <div class="layerContainerView">
+      <div class="layerContainerInnerView">
+        <section class="lyWrap">
+          <div class="lyPostViewer">
+            <div class="postViewer">
+              <article class="cPostCard">
+                <div class="cContentsCard">
+                  <!-- 작성자 영역 -->
+                  <div class="postWriter">
+                    <a class="uProfile -leader -border">
+                      <span class="profileInner">
+                        <img src="https://coresos-phinf.pstatic.net/a/371f31/9_i62Ud018svcju2od2y1er48_ezuzx0.png?type=s75" width="40" height="40">
+                      </span>
+                    </a>
+                    <div class="postWriterInfoWrap">
+                      <span class="ellipsis">
+                        <a href="#" class="text">장예원</a>
+                      </span>
+                      <div class="postListInfoWrap">
+                        <time class="time">2024년 6월 24일 오전 9:00</time>
+                      </div>
+                    </div>
+                    <button class="btnLyClose" style="z-index: 20; top: 30px;"></button>
+                  </div>
+                  <div class="postMain">
+                    <!-- 읽은 사람 수 출력 -->
+                    <div class="readNotice">
+                      <p class="postReaders">
+                        <strong class="sf_color">1명</strong>
+                        이 읽었습니다.
+                      </p>
+                    </div>
+                    <div class="postBody">
+                      <div class="postTextView">
+                        <div class="postText">
+                          <div class="txtBody">안녕하세요</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- 댓글, 좋아요 수 -->
+                   <div class="dPostCountView">
+                    <div class="postCount">
+                      <div class="postCountLeft">
+                        <span class="faceComment">
+                          <div class="uEmotionView">
+                            <span class="emotionWrap">
+                              <span class="icon">
+                                <span class="uFaceIcon">좋아요</span>
+                              </span>
+                            </span>
+                            <span class="count">2</span>
+                          </div>
+                          <span class="comment">댓글<span class="count">5</span>
+                          </span>
+                        </span>
+                      </div>
+                    </div>
+                   </div>
+                   <div class="dPostCommentMainView">
+                    <div>
+                      <div class="sCommentList">
+                        <div class="cComment">
+                          <div class="DCommentView">
+                            <div class="itemWrap">
+                              <div class="writeInfo">
+                                <a class="uProfile -leader -border">
+                                  <span class="profileInner">
+                                    <img src="https://coresos-phinf.pstatic.net/a/371f31/9_i62Ud018svcju2od2y1er48_ezuzx0.png?type=s75"
+                                    width="34" height="34">
+                                  </span>
+                                </a>
+                                <button class="nameWrap">
+                                  <strong class="name">장예원</strong>
+                                </button>
+                              </div>
+                              <div class="commentBody">
+                                <p class="txt">dddd</p>
+                                <div class="func">
+                                  <time class="time">
+                                    6월 4일 오후 3:40
+                                  </time>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="cCommentWrite">
+                      <section class="_messageInputView">
+                        <div class="writeMain">
+                          <div class="writeBtn">
+                            <div class="btnUploadWrap">
+                              <button class="btnUpload"></button>
+                            </div>
+                          </div>
+                          <div class="writeWrap">
+                            <div class="flexBox">
+                              <div class="profileStatus profileInputRegion">
+                                <div class="messageInputProfileView">
+                                  <span class="current uProfile">
+                                    <span class="profileInner">
+                                      <img
+                                      width="21" height="21">
+                                    </span>
+                                  </span>
+                                </div>
+                              </div>
+                              <div class="mentionsWrap">
+                                <div class="uInputComment">
+                                  <div class="mentions-input">
+                                    <div class="mentions">
+                                      <textarea cols="20" rows="1" placeholder="댓글을 남겨주세요."></textarea>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="submitWrap">
+                            <button class="writeSubmit">보내기</button>
+                          </div>
+                        </div>
+                      </section>
+                    </div>
+                   </div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+      </div>
+     </div>
   </div>
   <!-- JavaScript -->
   <script>
   <% if (mAPrintDTO.getSub_q() != null) { %>
     $(function() {
       $("#joinBtn").click(function() {
-        $(".layerContainerView").css('display', 'block');
+        $("#memberJoinQ_popUp").css('display', 'block');
       })
       $(".-cancle").click(function() {
-        $(".layerContainerView").css('display', 'none');
+        $("#memberJoinQ_popUp").css('display', 'none');
       })
     })
    <% } %>
+   $(function() {
+      $(".postWriteEventWrapper").click(function() {
+        $("#postWriteEditor_popUp").css('display', 'block');
+      })
+      $("#postWriteBtn").click(function() {
+        $("#postWriteEditor_popUp").css('display', 'block');
+      })
+      $(".newChattingBtn").click(function() {
+        $("#newChatWrap_popUp").css('display', 'block');
+      })
+      $(".btnLyClose").click(function() {
+        $(".layerContainerView").css('display', 'none');
+      })
+      // 글 옵션 버튼 눌렀을 시 클릭 이벤트
+      $(".postSet").click(function() {
+		let postFunction = $(this).parent();
+		let onOff = $(this).parent().attr('id');
+		if (onOff == 'off') {
+			postFunction.attr('id', 'on');
+			postFunction.find(".lyMenu").css('display', 'block');
+		} else {
+			postFunction.attr('id', 'off');
+			postFunction.find(".lyMenu").css('display', 'none');
+		}
+	  })
+	  // 댓글 입력창 댓글쓰기 버튼 눌렀을 시 출력 클릭 이벤트
+	  $(".addComment").click(function() {
+		let postId = $(this).parent().parent().parent().parent().parent().parent();
+		let cCommentWrite = postId.find(".cCommentWrite");
+		if (cCommentWrite.attr('id') == 'off') {
+			cCommentWrite.attr('id', 'on');
+			cCommentWrite.css('display', 'block');
+		} else {
+			cCommentWrite.attr('id', 'off');
+			cCommentWrite.css('display', 'none');
+		}
+	  })
+	  // 최신순 버튼 클릭 시 화살표 모양 바뀌기
+	  $(".buttonSorting").click(function() {
+		if ($(this).attr('id') == 'downArrow') {
+			$(this).attr('id', 'upArrow');
+		} else {
+			$(this).attr('id', 'downArrow');
+		}
+	  })	
+    });
   </script>
 </body>
 </html>

@@ -76,8 +76,8 @@ public class NoJoinMeetDAO {
         
         PreparedStatement pstmt = d.getPstmt(conn, sql);
         
-        pstmt.setInt(1, meet_idx);
-        pstmt.setInt(2, member_idx);
+        pstmt.setInt(1, member_idx);
+        pstmt.setInt(2, meet_idx);
         
         ResultSet rs = pstmt.executeQuery();
         
