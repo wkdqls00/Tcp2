@@ -1,3 +1,6 @@
+<%@page import="dao.NoJoinMeetDAO"%>
+<%@page import="dto.ChatListDTO"%>
+<%@page import="dao.ChatListDAO"%>
 <%@page import="dto.MeetMemberProfilePrintDTO"%>
 <%@page import="dao.MeetMemberProfilePrintDAO"%>
 <%@page import="dao.MeetPostListPrintDAO"%>
@@ -33,6 +36,15 @@
 	MeetMemberProfilePrintDAO mMemberProfilePrintDAO = new MeetMemberProfilePrintDAO();
 	MeetMemberProfilePrintDTO mMemberProfilePrintDTO = mMemberProfilePrintDAO.selectMeetMemberProfilePrintDTO(meet_idx, member_idx);
 
+	// 채팅 목록 출력
+	ChatListDAO cDao = new ChatListDAO();
+	ArrayList<ChatListDTO> chatListDto = new ArrayList<>();
+	
+	chatListDto = cDao.selectChatListDTO(meet_idx);
+	
+	// 밴드 가입 여부
+	NoJoinMeetDAO njDao = new NoJoinMeetDAO();
+	
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -223,7 +235,8 @@
           </div>
         </div>
       </main>
-      <!-- 메인 내용 오른쪽 채팅방 목록 -->
+     <!-- 메인 내용 오른쪽 채팅방 목록 : 가입했을 시 출력 -->
+      <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
       <div id="banner">
         <div id="bannerInner">
           <div class="chatSticky">
@@ -245,18 +258,20 @@
                 <div class="nano">
                   <div class="nano_content">
                     <ul class="chat">
+                    <% for (ChatListDTO cDto2 : chatListDto) { %>
                       <li>
-                        <button class="itemLink">
+                        <button class="itemLink" onclick="window.open('chat.jsp', '', 'width=415, height=643')">
                           <span class="thum">
-                            <img src="https://coresos-phinf.pstatic.net/a/34g065/e_5a2Ud018admg69oqx3t5mng_5ksoqj.png?type=s75"
+                            <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240603162344/images/template/multi_profile_60x60.png"
                             height="30" width="30">
                           </span>
                           <span class="cont">
-                            <strong class="text">6조 밴드</strong>
-                            <span class="sub">밴드 전체 멤버들과 함께 하는 채팅방</span>
+                            <strong class="text"><%= cDto2.getTitle() %></strong>
+                            <span class="sub"><%= cDto2.getContent() %></span>
                           </span>
                         </button>
                       </li>
+                      <% } %>
                     </ul>
                   </div>
                 </div>
@@ -265,7 +280,7 @@
           </div>
         </div>
       </div>
-    </div>
+     <% } %>
   </div>
 </body>
 </html>
