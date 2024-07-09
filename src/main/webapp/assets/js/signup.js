@@ -277,9 +277,12 @@ document.addEventListener("DOMContentLoaded", function() {
 		updateButtonState();
     });
 
-	document.querySelector(".btn.point").addEventeListener('click', function() {
+	// 가입환영 문구
+	document.querySelector(".btn.point").addEventListener('click', function(event) {
+		event.preventDefault();
 		let text = document.getElementById("input_name").value;
 		alert(`가입 되었습니다.\n환영합니다 ${text}님`);
+		document.getElementById("form").submit();
 	});
 });
 
