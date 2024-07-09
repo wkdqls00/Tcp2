@@ -1,3 +1,5 @@
+<%@page import="dto.MeetMemberProfilePrintDTO"%>
+<%@page import="dao.MeetMemberProfilePrintDAO"%>
 <%@page import="dao.UpdateMeetInfoWriteDAO"%>
 <%@page import="dto.MeetIntroduceWriteDTO"%>
 <%@page import="dao.MeetIntroduceWriteDAO"%>
@@ -17,6 +19,11 @@
 	
 	// 밴드 소개글, 지역 업데이트
 	UpdateMeetInfoWriteDAO umiwDAO = new UpdateMeetInfoWriteDAO();
+	
+	//내 프로필 출력
+	MeetMemberProfilePrintDAO mMemberProfilePrintDAO = new MeetMemberProfilePrintDAO();
+	MeetMemberProfilePrintDTO mMemberProfilePrintDTO = mMemberProfilePrintDAO.selectMeetMemberProfilePrintDTO(meet_idx, member_idx);
+			
 	
 %>
 <!DOCTYPE html>
@@ -70,9 +77,18 @@
             <li class="ml_24 positionR">
               <button class="btnMySetting">
                 <span class="uProfile">
-                  <span class="profileInner">
-                    <img src="	https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
+                 <span class="profileInner">
+                  <% try {
+                	  if (mMemberProfilePrintDTO.getProfile() != null) { %>
+                  		<img src="<%= mMemberProfilePrintDTO.getProfile() %>"
                     width="30" height="30">
+                    <% } else { %>
+                   <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
+                   width="30" height="30">
+                  	<% } 
+                  	} catch (Exception e) {
+                  		e.printStackTrace();
+                  	} %>
                   </span>
                 </span>
               </button>

@@ -22,10 +22,21 @@ public class ScriptManagementServletE extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession hs = request.getSession();
+		int cp = 1;
+		String cp_ = request.getParameter("cp");
+		if (cp_ != null && !cp_.equals("")) 
+			cp = Integer.parseInt(cp_);
+		int min = 1 + (cp-1) * 5;
+		int max = cp * 5;
 		int userIdx = (int) hs.getAttribute("userIdx");
+		
 		ScriptManagementDao smdao = new ScriptManagementDao();
-		ArrayList<ScriptManagementDto> list = smdao.selectScriptManagementE(userIdx);
+		ArrayList<ScriptManagementDto> list = smdao.selectScriptManagementE(userIdx, max, min);
+		int count = smdao.scriptCountE(userIdx);
+		
+		
 		request.setAttribute("list", list);
+		request.setAttribute("count", count);
 		RequestDispatcher rd = request.getRequestDispatcher("/ticketlink/Mypage/review_exhibition.jsp");
 		rd.forward(request, response);
 		for (ScriptManagementDto l : list) {

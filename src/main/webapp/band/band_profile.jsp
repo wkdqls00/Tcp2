@@ -14,7 +14,11 @@
 	//밴드 왼쪽 소개
 	MeetIntroduceWriteDAO miDao = new MeetIntroduceWriteDAO();
 	MeetIntroduceWriteDTO miDto = miDao.selectMeetIntroduceWriteDTO(meet_idx);
-		
+	
+	//내 프로필 출력
+	MeetMemberProfilePrintDAO mMemberProfilePrintDAO = new MeetMemberProfilePrintDAO();
+	MeetMemberProfilePrintDTO mMemberProfilePrintDTO = mMemberProfilePrintDAO.selectMeetMemberProfilePrintDTO(meet_idx, member_idx);
+	
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -68,8 +72,17 @@
               <button class="btnMySetting">
                 <span class="uProfile">
                   <span class="profileInner">
-                    <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
+                  <% try {
+                	  if (mMemberProfilePrintDTO.getProfile() != null) { %>
+                  		<img src="<%= mMemberProfilePrintDTO.getProfile() %>"
                     width="30" height="30">
+                    <% } else { %>
+                   <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
+                   width="30" height="30">
+                  	<% } 
+                  	} catch (Exception e) {
+                  		e.printStackTrace();
+                  	} %>
                   </span>
                 </span>
               </button>

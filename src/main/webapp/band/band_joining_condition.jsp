@@ -1,3 +1,5 @@
+<%@page import="dao.MeetMemberProfilePrintDAO"%>
+<%@page import="dto.MeetMemberProfilePrintDTO"%>
 <%@page import="dto.MeetIntroduceWriteDTO"%>
 <%@page import="dao.MeetIntroduceWriteDAO"%>
 <%@page import="dao.UpdateJoinBandSettingDAO"%>
@@ -25,9 +27,14 @@
     }
     %>
 <%
+	int member_idx = Integer.parseInt(request.getParameter("member_idx"));
 	int meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
 	JoinConditionPrintDAO jcpDAO = new JoinConditionPrintDAO();
 	JoinConditionPrintDTO jcpListDAO = jcpDAO.selectJoinConditionPrintDTO(meet_idx);
+	//내 프로필 출력
+	MeetMemberProfilePrintDAO mMemberProfilePrintDAO = new MeetMemberProfilePrintDAO();
+	MeetMemberProfilePrintDTO mMemberProfilePrintDTO = mMemberProfilePrintDAO.selectMeetMemberProfilePrintDTO(meet_idx, member_idx);
+		
 %>
 <%
 	UpdateJoinBandSettingDAO ujbsDAO = new UpdateJoinBandSettingDAO();
@@ -102,8 +109,17 @@
               <button class="btnMySetting">
                 <span class="uProfile">
                   <span class="profileInner">
-                    <img src="	https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
+                  <% try {
+                	  if (mMemberProfilePrintDTO.getProfile() != null) { %>
+                  		<img src="<%= mMemberProfilePrintDTO.getProfile() %>"
                     width="30" height="30">
+                    <% } else { %>
+                   <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
+                   width="30" height="30">
+                  	<% } 
+                  	} catch (Exception e) {
+                  		e.printStackTrace();
+                  	} %>
                   </span>
                 </span>
               </button>

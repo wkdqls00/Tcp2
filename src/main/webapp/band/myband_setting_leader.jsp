@@ -45,7 +45,9 @@
 	MeetIntroduceWriteDAO miDao = new MeetIntroduceWriteDAO();
 	MeetIntroduceWriteDTO miDto = miDao.selectMeetIntroduceWriteDTO(meet_idx);
 	
-	
+	//내 프로필 출력
+	MeetMemberProfilePrintDAO mMemberProfilePrintDAO = new MeetMemberProfilePrintDAO();
+	MeetMemberProfilePrintDTO mMemberProfilePrintDTO = mMemberProfilePrintDAO.selectMeetMemberProfilePrintDTO(meet_idx, member_idx);
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -100,8 +102,17 @@
               <button class="btnMySetting">
                 <span class="uProfile">
                   <span class="profileInner">
-                    <img src="	https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
+                  <% try {
+                	  if (mMemberProfilePrintDTO.getProfile() != null) { %>
+                  		<img src="<%= mMemberProfilePrintDTO.getProfile() %>"
                     width="30" height="30">
+                    <% } else { %>
+                   <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
+                   width="30" height="30">
+                  	<% } 
+                  	} catch (Exception e) {
+                  		e.printStackTrace();
+                  	} %>
                   </span>
                 </span>
               </button>
@@ -123,11 +134,6 @@
           <li class="menu_item">
             <a href="#">
               <span class="menu_item_txt">멤버</span>
-            </a>
-          </li>
-          <li class="menu_item">
-            <a href="#">
-              <span class="menu_item_txt">채팅</span>
             </a>
           </li>
         </ul>
@@ -227,7 +233,7 @@
                 <span class="subtxt">비공개</span>
               </div>
               <div class="item_side">
-               <form action="band_public_or_not.jsp" method="post">
+               <form action="band_public_or_not.jsp" method="get">
 	           		<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
 	            	<input type="hidden" value="<%=member_idx %>" name="member_idx">
 	                <button type="submit" class="band_update_btn">변경</button>

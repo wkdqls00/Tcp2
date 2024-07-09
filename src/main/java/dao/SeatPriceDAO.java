@@ -15,17 +15,15 @@ public class SeatPriceDAO {
     public static void main(String[] args) {
         SeatPriceDAO spdao = new SeatPriceDAO();
         ArrayList<SeatPriceDTO>  list = null;        
-        try {
-        	list = spdao.selectSeatPrice(1);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        list = spdao.selectSeatPrice(1);
+        list.get(0).getPrice();
+        list.get(0).getRank();
         for (SeatPriceDTO seatPrice : list) {
         	System.out.println(seatPrice);
         }
     }
     
-    public ArrayList<SeatPriceDTO> selectSeatPrice(int play_idx) throws SQLException {
+    public ArrayList<SeatPriceDTO> selectSeatPrice(int play_idx) {
         ArrayList<SeatPriceDTO> list = new ArrayList<>();
         DatabaseUtil d = new DatabaseUtil();
         Connection conn = d.getConn();
@@ -38,7 +36,11 @@ public class SeatPriceDAO {
         
         PreparedStatement pstmt = d.getPstmt(conn, sql);
         
-        pstmt.setInt(1, play_idx);
+        try {
+			pstmt.setInt(1, play_idx);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
         ResultSet rs = d.getRs(pstmt);
         try {

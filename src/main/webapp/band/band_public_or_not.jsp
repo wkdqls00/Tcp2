@@ -1,13 +1,43 @@
+<%@page import="dto.MeetMemberProfilePrintDTO"%>
+<%@page import="dao.MeetMemberProfilePrintDAO"%>
+<%@page import="dto.BandPublicOkDTO"%>
+<%@page import="dao.BandPublicOkDAO"%>
 <%@page import="dto.MeetIntroduceWriteDTO"%>
 <%@page import="dao.MeetIntroduceWriteDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%!
+	public String publicOk(String input) {
+		if(input.equals("Y")) {
+			return "checked";
+		} else {
+			return "";
+		}
+	}
+
+	public String publicNo(String input) {
+		if(input.equals("N")) {
+			return "checked";
+		} else {
+			return "";
+		}
+	}
+%>
 <%
 	//밴드 왼쪽 소개
 	int meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
 	MeetIntroduceWriteDAO miDao = new MeetIntroduceWriteDAO();
 	MeetIntroduceWriteDTO miDto = miDao.selectMeetIntroduceWriteDTO(meet_idx);
 	
+	//밴드공개 여부
+	BandPublicOkDAO bpoDAO = new BandPublicOkDAO();
+	BandPublicOkDTO bpoDTO = bpoDAO.selectBandPublicOkDTO(meet_idx);
+	int member_idx = Integer.parseInt(request.getParameter("member_idx"));
+	
+	//내 프로필 출력
+	MeetMemberProfilePrintDAO mMemberProfilePrintDAO = new MeetMemberProfilePrintDAO();
+	MeetMemberProfilePrintDTO mMemberProfilePrintDTO = mMemberProfilePrintDAO.selectMeetMemberProfilePrintDTO(meet_idx, member_idx);
+
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,6 +47,9 @@
   <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/clear.css'>
   <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/band.css'>
   <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/band_header.css'>
+  
+  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+   
   <title>Band public_or_not</title>
 </head>
 <body>
@@ -59,8 +92,17 @@
               <button class="btnMySetting">
                 <span class="uProfile">
                   <span class="profileInner">
-                    <img src="	https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
+                  <% try {
+                	  if (mMemberProfilePrintDTO.getProfile() != null) { %>
+                  		<img src="<%= mMemberProfilePrintDTO.getProfile() %>"
                     width="30" height="30">
+                    <% } else { %>
+                   <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
+                   width="30" height="30">
+                  	<% } 
+                  	} catch (Exception e) {
+                  		e.printStackTrace();
+                  	} %>
                   </span>
                 </span>
               </button>
@@ -90,7 +132,7 @@
       <aside class="band_info">
         <div class="info_inner">
           <div class="sticky_side_bar">
-           <!-- 밴드 이미지 -->
+            <!-- 밴드 이미지 -->
             <div class="side_cover">
                 <div class="cover_img">
                   <span class="cover_inner">
@@ -110,21 +152,20 @@
             <p class="member">
               <a href="#" class="member_count">멤버 <%= miDto.getMeet_member_count() %></a>
             </p>
-            <!-- 밴드 소개 설정 -->
-            <div class="band_info_setting">
-              <a href="#" class="band_setting_link">밴드 소개 설정</a>
-            </div>
             <!-- 글쓰기 버튼 -->
             <div class="btnBox">
-              <button class="uButton bg_blue">글쓰기</button>
+              <button class="uButton bg_blue" id="postWriteBtn">글쓰기</button>
             </div>
-            <!-- 밴드 안내 문구 -->
-            <p class="bandTypeDesc">
-              밴드와 게시글이 공개되지 않습니다. 초대를 통해서만 가입할 수 있습니다.
-            </p>
+            <!-- 밴드 정보 보기 -->
+            <div class="bandInfoBox">
+              <a href="#" class="showBandInfo">밴드 정보 보기
+                <span class="uIconArrow"></span>
+              </a>
+            </div>
+            <p class="bandTypeDesc">누구나 밴드를 검색해 찾을 수 있고, 밴드 소개와 게시물을 볼 수 있습니다.</p>
             <!-- 밴드 설정 -->
             <div class="bandSetting">
-              <a href="#" onClick="history.back()" class="bandSetting_Link">
+              <a href="#" onClick="history.back()"  class="bandSetting_Link">
                 <span class="uIconSetting"></span>
                 밴드 설정
               </a>
@@ -149,7 +190,7 @@
                 </div>
                 <div class="itemSide">
                   <label class="check_btn">
-                    <input type="radio" id="secret" class="check_input" name="type_check" value="secret">
+                    <input type="radio" id="secret" class="check_input" name="type_check" <%=publicNo(bpoDTO.getPublic_ok()) %> >
                     <span class="check_label">
                       <span class="shape"></span>
                     </span>
@@ -164,7 +205,7 @@
                   </div>
                   <div class="itemSide">
                     <label class="check_btn">
-                      <input type="radio" id="public" class="check_input" name="type_check" value="public">
+                      <input type="radio" id="public" class="check_input" name="type_check" <%=publicOk(bpoDTO.getPublic_ok()) %>>
                       <span class="check_label">
                         <span class="shape"></span>
                       </span>
@@ -176,9 +217,13 @@
             <div class="guide_area">
               <p class="guide_area_txt">타입 변경시 멤버들에게 알림이 발송됩니다.</p>
             </div>
-            <div class="btn_footer">
-              <button type="button" class="confirm_btn">저장</button>
-            </div>
+	            <div class="btn_footer">
+            		<form action="myband_setting_leader.jsp" method="get">
+	              		<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
+	              		<input type="hidden" value="<%=member_idx%>" name="member_idx">
+	              		<button type="submit" class="confirm_btn">저장</button>
+            		</form>
+	            </div>
           </section>
         </div>
       </main>

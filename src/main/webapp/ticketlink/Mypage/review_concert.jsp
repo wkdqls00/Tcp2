@@ -5,6 +5,7 @@
     pageEncoding="UTF-8"%>
 <%
 	ArrayList<ScriptManagementDto> list = (ArrayList<ScriptManagementDto>) request.getAttribute("list");
+	int count = (int)request.getAttribute("count");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -168,11 +169,17 @@
                             </table>
                         </div>
                         <div class="paging">
-                            <a href="" class="first">처음</a>
-                            <a href="" class="prev">이전</a>
-                            <strong>1</strong>
-                            <a href="" class="next">다음</a>
-                            <a href="" class="end">마지막</a>
+                         <%
+                            int cp = 1;
+                            String page_ = request.getParameter("cp");
+                            if (page_ != null && !page_.equals(""))
+                            	cp = Integer.parseInt(page_);
+                          %>
+                            <a href="/Tcp2/ScriptManagementServlet?cp=1" class="first">처음</a>
+                            <a href="/Tcp2/ScriptManagementServlet?cp=<%=Math.max(cp-1, 1)%>" class="prev">이전</a>
+                            <strong><%=cp %></strong>
+                            <a href="/Tcp2/ScriptManagementServlet?cp=<%=cp+1%>" class="next">다음</a>
+                            <a href="/Tcp2/ScriptManagementServlet?cp=<%=count%>" class="end">마지막</a>
                         </div>
                     </div>
                 </div>

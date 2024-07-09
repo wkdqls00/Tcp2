@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.sql.RowSetInternal;
+
 import dto.NoJoinMeetDTO;
 import project.DatabaseUtil;
 
@@ -61,5 +63,34 @@ public class NoJoinMeetDAO {
 			d.close(conn, pstmt, rs);
         }
         return list;
+    }
+    
+    public boolean noJoinOk(int meet_idx, int member_idx) throws Exception {
+    	DatabaseUtil d = new DatabaseUtil();
+        Connection conn = d.getConn();
+        
+        String sql = "SELECT COUNT(*) "
+        		+ "FROM meet_member "
+        		+ "WHERE member_idx = ? "
+        		+ "AND meet_idx = ?";
+        
+        PreparedStatement pstmt = d.getPstmt(conn, sql);
+        
+        pstmt.setInt(1, member_idx);
+        pstmt.setInt(2, meet_idx);
+        
+        ResultSet rs = pstmt.executeQuery();
+        
+        int result = 0;
+        
+        if (rs.next()) {
+        	result = rs.getInt(1);
+        }
+        
+        rs.close();
+		pstmt.close();
+		conn.close();
+		
+		return result == 1;
     }
 }
