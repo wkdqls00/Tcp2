@@ -1,3 +1,5 @@
+<%@page import="dto.BandPublicOkDTO"%>
+<%@page import="dao.BandPublicOkDAO"%>
 <%@page import="dto.ChatListDTO"%>
 <%@page import="dao.ChatListDAO"%>
 <%@page import="dto.MeetWriteViewDTO"%>
@@ -71,6 +73,10 @@
 	
 	chatListDto = cDao.selectChatListDTO(meet_idx);
 	
+	// 밴드 공개 여부
+	BandPublicOkDAO bDao = new BandPublicOkDAO();
+	BandPublicOkDTO bOkDTO = bDao.selectBandPublicOkDTO(meet_idx);
+	
 %>
 
 <!DOCTYPE html>
@@ -139,25 +145,24 @@
                 <span class="uIconChat bg_white"></span>
               </button>
             </li>
+           <!-- 가입했을 시 프로필 출력 -->
+           <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
             <li class="ml_24 positionR">
               <button class="btnMySetting">
                 <span class="uProfile">
                   <span class="profileInner">
-                  <% try {
-                	  if (mMemberProfilePrintDTO.getProfile() != null) { %>
-                  		<img src="<%= mMemberProfilePrintDTO.getProfile() %>"
+               	   <% if (mMemberProfilePrintDTO.getProfile() != null) { %>
+               		<img src="<%= mMemberProfilePrintDTO.getProfile() %>"
                     width="30" height="30">
                     <% } else { %>
                    <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
                    width="30" height="30">
-                  	<% } 
-                  	} catch (Exception e) {
-                  		e.printStackTrace();
-                  	} %>
+                  	<% } %>
                   </span>
                 </span>
               </button>
             </li>
+           	<% } %>
           </ul>
         </div>
       </div>
@@ -218,13 +223,24 @@
               <button type="submit" class="uButton" id="joinBtn">밴드 가입하기</button>
             </div>
             <% } %>
-            <!-- 밴드 정보 보기 -->
+            <!-- 밴드 소개 설정 : 리더일 시 출력 -->
             <div class="bandInfoBox">
-              <a href="#" class="showBandInfo">밴드 정보 보기
+             <% try {
+            	 if (mPrintDAO.adminCheck(member_idx, meet_idx)) { %>
+              <a href="#" class="showBandInfo">밴드 소개 설정
+             <% 	} 
+             	} catch(Exception e) {
+             		e.printStackTrace();
+             	}
+             	%>
                 <span class="uIconArrow"></span>
               </a>
             </div>
+            <% if (bOkDTO.getPublic_ok() == "Y") { %>
             <p class="bandTypeDesc">누구나 밴드를 검색해 찾을 수 있고, 밴드 소개와 게시물을 볼 수 있습니다.</p>
+            <% } else { %>
+            <p class="bandTypeDesc">밴드와 게시글이 공개되지 않습니다. 초대를 통해서만 가입할 수 있습니다.</p>
+            <% } %>
             <!-- 밴드 설정 : 가입헀을 시 출력 -->
             <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
             <div class="bandSetting">
@@ -517,7 +533,7 @@
                                       <img
                                       <% if(mMemberProfilePrintDTO.getProfile() != null) { %>
                                       	src="<%= mMemberProfilePrintDTO.getProfile() %>"
-                                      	<% }%>
+                                      	<% } %>
                                       width="21" height="21">
                                     </span>
                                   </span>
@@ -693,9 +709,15 @@
 			                                  <span class="current uProfile">
 			                                    <span class="profileInner">
 			                                      <img
-			                                      <% if (mMemberProfilePrintDTO.getProfile() != null) { %>
+			                                      <% 
+			                                      try {
+			                                    	  if (mMemberProfilePrintDTO.getProfile() != null) { %>
 			                                      src = "<%= mMemberProfilePrintDTO.getProfile() %>"
-			                                      <% } %>
+			                                      <% }
+		                                    	  } catch(Exception e) {
+		                                    		  e.printStackTrace();
+		                                    	  }
+		                                    	  %>
 			                                      width="21" height="21">
 			                                    </span>
 			                                  </span>
