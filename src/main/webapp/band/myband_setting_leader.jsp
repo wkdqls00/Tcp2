@@ -1,3 +1,7 @@
+<%@page import="dto.MeetPostListPrintDTO"%>
+<%@page import="dao.MeetPostListPrintDAO"%>
+<%@page import="dto.BandPublicOkDTO"%>
+<%@page import="dao.BandPublicOkDAO"%>
 <%@page import="dao.MeetIntroduceWriteDAO"%>
 <%@page import="dto.MeetIntroduceWriteDTO"%>
 <%@page import="dto.MeetSettingPrintDTO"%>
@@ -48,6 +52,17 @@
 	//내 프로필 출력
 	MeetMemberProfilePrintDAO mMemberProfilePrintDAO = new MeetMemberProfilePrintDAO();
 	MeetMemberProfilePrintDTO mMemberProfilePrintDTO = mMemberProfilePrintDAO.selectMeetMemberProfilePrintDTO(meet_idx, member_idx);
+	
+	// 밴드 공개 여부
+	BandPublicOkDAO bDao = new BandPublicOkDAO();
+	BandPublicOkDTO bOkDTO = bDao.selectBandPublicOkDTO(meet_idx);
+	
+	// 밴드 글 목록 출력
+	MeetPostListPrintDAO mPrintDAO = new MeetPostListPrintDAO();
+	ArrayList<MeetPostListPrintDTO> mPrintListDTO = new ArrayList<>();
+	
+	mPrintListDTO = mPrintDAO.selectMeetPostListPrintDTO(meet_idx);
+	
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -65,7 +80,7 @@
 <body>
   <div id="wrap">
     <!-- 최상단 헤더 -->
-    <header class="header_area">
+    <header class="header_area bg_blue">
       <div class="headerInner">
         <!-- 로고, 검색창 영역 -->
         <div class="logo_search_area">
@@ -90,29 +105,25 @@
           <ul class="widgetList">
             <li>
               <button class="btnIconStyle">
-                <span class="uIconNews"></span>
+                <span class="uIconNews bg_white"></span>
               </button>
             </li>
             <li class="ml_14">
               <button class="btnIconStyle">
-                <span class="uIconChat"></span>
+                <span class="uIconChat bg_white"></span>
               </button>
             </li>
             <li class="ml_24 positionR">
               <button class="btnMySetting">
                 <span class="uProfile">
                   <span class="profileInner">
-                  <% try {
-                	  if (mMemberProfilePrintDTO.getProfile() != null) { %>
-                  		<img src="<%= mMemberProfilePrintDTO.getProfile() %>"
+               	   <% if (mMemberProfilePrintDTO.getProfile() != null) { %>
+               		<img src="<%= mMemberProfilePrintDTO.getProfile() %>"
                     width="30" height="30">
                     <% } else { %>
                    <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
                    width="30" height="30">
-                  	<% } 
-                  	} catch (Exception e) {
-                  		e.printStackTrace();
-                  	} %>
+                  	<% } %>
                   </span>
                 </span>
               </button>
@@ -127,23 +138,35 @@
       <div class="header_lnb bg_blue">
         <ul class="header_lnb_menu">
           <li class="menu_item">
-            <a href="#">
-              <span class="menu_item_txt active">게시글</span>
-            </a>
+           <form action="band_home.jsp" method="post">
+	          <a>
+	          	<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
+   		  	 	<input type="hidden" value="<%=member_idx %>" name="member_idx">
+             	<button type="submit">
+           		  <span class="menu_item_txt" style="padding:2px;">게시글</span>
+            	</button>
+	          </a>
+            </form>
           </li>
           <li class="menu_item">
-            <a href="#">
-              <span class="menu_item_txt">멤버</span>
-            </a>
+           <form action="band_member_list.jsp" method="post">
+           	<a>	
+   		  	 <input type="hidden" value="<%=meet_idx %>" name="meet_idx">
+   		  	 <input type="hidden" value="<%=member_idx %>" name="member_idx">
+             <button type="submit">
+              <span class="menu_item_txt" style="padding:2px;">멤버</span>
+             </button>
+  	        </a>
+           </form>
           </li>
         </ul>
       </div>
-      <!-- 메인 내용 왼쪽 밴드 소개 -->
       <aside class="band_info">
         <div class="info_inner">
           <div class="sticky_side_bar">
             <!-- 밴드 이미지 -->
             <div class="side_cover">
+              <a href="#">
                 <div class="cover_img">
                   <span class="cover_inner">
                   <img
@@ -153,6 +176,7 @@
                    	>
                   </span>
                 </div>
+              </a>
               <!-- 밴드 이름 -->
               <div class="band_name">
                 <a class="band_name_txt"><%= miDto.getMeet_name() %></a>
@@ -162,24 +186,38 @@
             <p class="member">
               <a href="#" class="member_count">멤버 <%= miDto.getMeet_member_count() %></a>
             </p>
-            <!-- 밴드 소개 설정 -->
-            <div class="band_info_setting">
-              <a href="#" class="band_setting_link">밴드 소개 설정</a>
-            </div>
             <!-- 글쓰기 버튼 -->
             <div class="btnBox">
-              <button class="uButton bg_blue">글쓰기</button>
+              <button class="uButton bg_blue" id="postWriteBtn">글쓰기</button>
             </div>
-            <!-- 밴드 안내 문구 -->
-            <p class="bandTypeDesc">
-              밴드와 게시글이 공개되지 않습니다. 초대를 통해서만 가입할 수 있습니다.
-            </p>
+            <!-- 밴드 소개 설정 : 리더일 시 출력 -->
+            <div class="bandInfoBox">
+             <% try {
+            	 if (mPrintDAO.adminCheck(member_idx, meet_idx)) { %>
+              <a href="#" class="showBandInfo">밴드 소개 설정
+             <% 	} 
+             	} catch(Exception e) {
+             		e.printStackTrace();
+             	}
+             	%>
+                <span class="uIconArrow"></span>
+              </a>
+            </div>
+            <% if (bOkDTO.getPublic_ok() == "Y") { %>
+            <p class="bandTypeDesc">누구나 밴드를 검색해 찾을 수 있고, 밴드 소개와 게시물을 볼 수 있습니다.</p>
+            <% } else { %>
+            <p class="bandTypeDesc">밴드와 게시글이 공개되지 않습니다. 초대를 통해서만 가입할 수 있습니다.</p>
+            <% } %>
             <!-- 밴드 설정 -->
             <div class="bandSetting">
-              <a href="#" onClick="top.location='javascript:location.reload()'" class="bandSetting_Link">
-                <span class="uIconSetting"></span>
-                밴드 설정
-              </a>
+            	<form action="myband_setting_leader.jsp" method="post">
+	            	<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
+	            	<input type="hidden" value="<%=member_idx %>" name="member_idx">
+	              	<button type="submit" class="bandSetting_Link">
+		                <span class="uIconSetting"></span>
+		                밴드 설정
+	                </button>
+              </form>
             </div>
           </div>
         </div>

@@ -122,14 +122,26 @@
       <div class="header_lnb bg_blue">
         <ul class="header_lnb_menu">
           <li class="menu_item">
-            <a href="#">
-              <span class="menu_item_txt">게시글</span>
-            </a>
+             <form action="band_home.jsp" method="post">
+	          <a>
+	          	<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
+   		  	 	<input type="hidden" value="<%=member_idx %>" name="member_idx">
+             	<button type="submit">
+           		  <span class="menu_item_txt" style="padding:2px;">게시글</span>
+            	</button>
+	          </a>
+            </form>
           </li>
           <li class="menu_item">
-            <a href="#">
+           <form action="band_member_list.jsp" method="post">
+           	<a>	
+   		  	 <input type="hidden" value="<%=meet_idx %>" name="meet_idx">
+   		  	 <input type="hidden" value="<%=member_idx %>" name="member_idx">
+             <button type="submit">
               <span class="menu_item_txt active">멤버</span>
-            </a>
+             </button>
+  	        </a>
+           </form>
           </li>
         </ul>
       </div>
@@ -171,10 +183,14 @@
             </p>
             <!-- 밴드 설정 -->
             <div class="bandSetting">
-              <a href="#" class="bandSetting_Link">
-                <span class="uIconSetting"></span>
-                밴드 설정
-              </a>
+            	<form action="myband_setting_leader.jsp" method="post">
+	            	<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
+	            	<input type="hidden" value="<%=member_idx %>" name="member_idx">
+	              	<button type="submit" class="bandSetting_Link">
+		                <span class="uIconSetting"></span>
+		                밴드 설정
+	                </button>
+              </form>
             </div>
           </div>
         </div>
