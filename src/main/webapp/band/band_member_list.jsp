@@ -1,3 +1,5 @@
+<%@page import="dto.BandPublicOkDTO"%>
+<%@page import="dao.BandPublicOkDAO"%>
 <%@page import="dao.NoJoinMeetDAO"%>
 <%@page import="dto.ChatListDTO"%>
 <%@page import="dao.ChatListDAO"%>
@@ -45,6 +47,9 @@
 	// 밴드 가입 여부
 	NoJoinMeetDAO njDao = new NoJoinMeetDAO();
 	
+	// 밴드 공개 여부
+	BandPublicOkDAO bDao = new BandPublicOkDAO();
+	BandPublicOkDTO bOkDTO = bDao.selectBandPublicOkDTO(meet_idx);
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -169,18 +174,28 @@
             <p class="member">
               <a href="#" class="member_count">멤버 <%=miDto.getMeet_member_count() %></a>
             </p>
-            <!-- 밴드 소개 설정 -->
-            <div class="band_info_setting">
-              <a href="#" class="band_setting_link">밴드 소개 설정</a>
-            </div>
             <!-- 글쓰기 버튼 -->
             <div class="btnBox">
               <button class="uButton bg_blue">글쓰기</button>
             </div>
-            <!-- 밴드 안내 문구 -->
-            <p class="bandTypeDesc">
-              밴드와 게시글이 공개되지 않습니다. 초대를 통해서만 가입할 수 있습니다.
-            </p>
+             <!-- 밴드 소개 설정 : 리더일 시 출력 -->
+            <div class="bandInfoBox">
+             <% try {
+            	 if (mPrintDAO.adminCheck(member_idx, meet_idx)) { %>
+              <a href="#" class="showBandInfo">밴드 소개 설정
+             <% 	} 
+             	} catch(Exception e) {
+             		e.printStackTrace();
+             	}
+             	%>
+                <span class="uIconArrow"></span>
+              </a>
+            </div>
+            <% if (bOkDTO.getPublic_ok() == "Y") { %>
+            <p class="bandTypeDesc">누구나 밴드를 검색해 찾을 수 있고, 밴드 소개와 게시물을 볼 수 있습니다.</p>
+            <% } else { %>
+            <p class="bandTypeDesc">밴드와 게시글이 공개되지 않습니다. 초대를 통해서만 가입할 수 있습니다.</p>
+            <% } %>
             <!-- 밴드 설정 -->
             <div class="bandSetting">
             	<form action="myband_setting_leader.jsp" method="post">

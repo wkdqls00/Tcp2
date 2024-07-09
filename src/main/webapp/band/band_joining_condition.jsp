@@ -83,7 +83,7 @@
 <body>
   <div id="wrap">
     <!-- 최상단 헤더 -->
-    <header class="header_area">
+    <header class="header_area bg_blue">
       <div class="headerInner">
         <!-- 로고, 검색창 영역 -->
         <div class="logo_search_area">
@@ -108,12 +108,12 @@
           <ul class="widgetList">
             <li>
               <button class="btnIconStyle">
-                <span class="uIconNews"></span>
+                <span class="uIconNews bg_white"></span>
               </button>
             </li>
             <li class="ml_14">
               <button class="btnIconStyle">
-                <span class="uIconChat"></span>
+                <span class="uIconChat bg_white"></span>
               </button>
             </li>
             <li class="ml_24 positionR">
@@ -145,14 +145,26 @@
       <div class="header_lnb bg_blue">
         <ul class="header_lnb_menu">
           <li class="menu_item">
-            <a href="#">
-              <span class="menu_item_txt active">게시글</span>
-            </a>
+            <form action="band_home.jsp" method="post">
+	          <a>
+	          	<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
+   		  	 	<input type="hidden" value="<%=member_idx %>" name="member_idx">
+             	<button type="submit">
+           		  <span class="menu_item_txt" style="padding:2px;">게시글</span>
+            	</button>
+	          </a>
+            </form>
           </li>
           <li class="menu_item">
-            <a href="#">
-              <span class="menu_item_txt">멤버</span>
-            </a>
+           <form action="band_member_list.jsp" method="post">
+           	<a>	
+   		  	 <input type="hidden" value="<%=meet_idx %>" name="meet_idx">
+   		  	 <input type="hidden" value="<%=member_idx %>" name="member_idx">
+             <button type="submit">
+              <span class="menu_item_txt" style="padding:2px;">멤버</span>
+             </button>
+  	        </a>
+           </form>
           </li>
         </ul>
       </div>

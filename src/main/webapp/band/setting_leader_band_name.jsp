@@ -1,3 +1,5 @@
+<%@page import="dto.MeetMemberProfilePrintDTO"%>
+<%@page import="dao.MeetMemberProfilePrintDAO"%>
 <%@page import="dto.MeetIntroduceWriteDTO"%>
 <%@page import="dao.MeetIntroduceWriteDAO"%>
 <%@page import="dto.MeetSettingPrintDTO"%>
@@ -6,9 +8,12 @@
     pageEncoding="UTF-8"%>
 <%
 	int meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
-	
+	int member_idx = Integer.parseInt(request.getParameter("member_idx"));
 	MeetSettingPrintDAO mspDAO = new MeetSettingPrintDAO();
 	MeetSettingPrintDTO mspDTO = mspDAO.selectMeetSettingPrintDTO(meet_idx);
+	//내 프로필 출력
+	MeetMemberProfilePrintDAO mMemberProfilePrintDAO = new MeetMemberProfilePrintDAO();
+	MeetMemberProfilePrintDTO mMemberProfilePrintDTO = mMemberProfilePrintDAO.selectMeetMemberProfilePrintDTO(meet_idx, member_idx);
 		
 %>
 <!DOCTYPE html>
@@ -60,8 +65,13 @@
               <button class="btnMySetting">
                 <span class="uProfile">
                   <span class="profileInner">
-                    <img src="	https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
+               	   <% if (mMemberProfilePrintDTO.getProfile() != null) { %>
+               		<img src="<%= mMemberProfilePrintDTO.getProfile() %>"
                     width="30" height="30">
+                    <% } else { %>
+                   <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
+                   width="30" height="30">
+                  	<% } %>
                   </span>
                 </span>
               </button>
