@@ -167,8 +167,9 @@ public class Ticket_checkDao {
      }
     
     public int check_countR(int member_idx) {
-    	int count = 0;
-    	 Connection conn = null;
+    	 int count = 0;
+    	 DatabaseUtil d = new DatabaseUtil();
+         Connection conn = d.getConn();
          PreparedStatement pstmt = null;
          ResultSet rs = null;
          try {
