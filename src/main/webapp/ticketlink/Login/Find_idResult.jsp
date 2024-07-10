@@ -1,0 +1,125 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/Tcp2/assets/css/find_id.css">
+    <style>
+        .search_content > h3 {
+            margin: 40px 0;
+            line-height: 143%;
+            font-weight: bold;
+            font-size: 22px;
+            color: #1c1c13;
+        }
+        .member_info {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            box-sizing: border-box;
+            padding-bottom: 50px;
+        }
+        .id {
+            margin-left: 10px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .image {
+            height: 20px;
+            margin-left: 4px;
+            padding: 2px 6px;
+            border: 1px solid #ef3e4e;
+            border-radius: 4px;
+            box-sizing: border-box;
+            background-color: #fff;
+            text-align: center;
+            font-weight: bold;
+            font-size: 10px;
+            color: #ef3e4e;
+        }
+        .date {
+            margin-left: 195px;
+        }
+        .btn_box {
+            display: flex;
+        }
+        .btn_box > button{
+            width: 100%;
+            height: 52px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 17px;
+            box-sizing: border-box;
+        }
+        .btn_box button + button {
+            margin-left: 10px;
+        }
+        .white_btn {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            color: #1c1c1e;
+        }
+        .red_btn {
+            background-color: #ef3e4e;
+            color: #fff;
+            border: 1px solid #ef3e4e;
+        }
+    </style>
+</head>
+<body>
+    <!--홈페이지상단-->
+    <div class="common_header">
+        <div class="header_inner">
+            <div class="inner">
+                <a href="https://www.naver.com" class="header_logo"><span class="hidden">사이트이름</span></a>
+                <ul class="my_menu">
+                    <li>
+                        <a href="#">로그아웃</a>
+                        <a href="#">회원가입</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div> 
+    <div class="content">
+        <div class="info_searchHeader">
+            <h2>계정찾기</h2>
+        </div>
+        <div class="info_searchBody">
+            <div class="search_tabWrap">
+                <div class="search_tab">
+                    <div class="tab current">
+                        <a href="">아이디 찾기</a>
+                    </div>
+                    <div class="tab">
+                        <a href="">비밀번호 찾기</a>
+                    </div>
+                </div>
+            </div>
+            <div class="search_contentWrap">
+                <div class="search_content">
+                    <h3>고객님의 아이디를 찾았어요</h3>
+                    <div class="resultList">
+                        <ul>
+                            <li>
+                                <div class="member_info">
+                                    <div class="id"><%=request.getAttribute("id") %></div>
+                                    <div class="image">본인인증</div>
+                                    <div class="date"><%=request.getAttribute("join_date") %> 가입</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="btn_box">
+                        <button type="button" class="white_btn">비밀번호 찾기</button>
+                        <button type="button" class="red_btn">로그인</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
