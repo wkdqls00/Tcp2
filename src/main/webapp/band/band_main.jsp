@@ -73,14 +73,14 @@
         <div id="content_tab_left">
           <div id="tab_myband">
             <div id="myband_btn">
-              <a href = "#" class = "myband_text">
+              <a href = "#main" class = "myband_text">
               내 밴드  
               </a>
             </div>
           </div>
           <div id="tab_meet">
             <div id="meet_btn">
-              <a href="#" class="meet_text">
+              <a href="#main2" class="meet_text">
                 소모임
               </a>
             </div>
@@ -108,7 +108,7 @@
       <ul id="band_card_list">
         <li class="band_card_item">
           <div id="band_inner">
-            <a href="#" class="band_create_link">
+            <a href="band_new_create.jsp?member_idx=<%= member_idx %>" class="band_create_link">
               <div id="cover">
                 <img class="create_band_img">
               </div>
