@@ -1,3 +1,4 @@
+<%@page import="dao.NoJoinMeetDAO"%>
 <%@page import="dto.MeetMemberProfilePrintDTO"%>
 <%@page import="dao.MeetMemberProfilePrintDAO"%>
 <%@page import="dto.MeetIntroduceWriteDTO"%>
@@ -14,7 +15,8 @@
 	//내 프로필 출력
 	MeetMemberProfilePrintDAO mMemberProfilePrintDAO = new MeetMemberProfilePrintDAO();
 	MeetMemberProfilePrintDTO mMemberProfilePrintDTO = mMemberProfilePrintDAO.selectMeetMemberProfilePrintDTO(meet_idx, member_idx);
-		
+	// 밴드 가입 여부
+	NoJoinMeetDAO njDao = new NoJoinMeetDAO();
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -37,31 +39,19 @@
             <a href="#" class="logo">
             </a>
           </h1>
-          <!-- 검색창 -->
-<!--           <form action> -->
-<!--             <fieldset> -->
-<!--               <div class="search_input"> -->
-<!--                 <input type="text" id="input_serach_view" class="inputBandSearch" role="search" placeholder="밴드, 페이지, 게시글 검색" autocomplete="off"> -->
-<!--                 <button type="submit" class="btn_search"> -->
-<!--                 </button> -->
-<!--               </div> -->
-<!--             </fieldset> -->
-<!--           </form> -->
         </div>
         <!-- 위젯 -->
         <div id="header_widget_area">
           <ul class="widgetList">
-<!--             <li> -->
+<!--             <li class="ml_14"> -->
 <!--               <button class="btnIconStyle"> -->
-<!--                 <span class="uIconNews"></span> -->
+<!--                 <span class="uIconChat"></span> -->
 <!--               </button> -->
 <!--             </li> -->
-            <li class="ml_14">
-              <button class="btnIconStyle">
-                <span class="uIconChat"></span>
-              </button>
-            </li>
+            <!-- 가입했을 시 프로필 출력 -->
+           <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
             <li class="ml_24 positionR">
+            <a href="band_profile.jsp?meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>">
               <button class="btnMySetting">
                 <span class="uProfile">
                   <span class="profileInner">
@@ -75,7 +65,9 @@
                   </span>
                 </span>
               </button>
+             </a>
             </li>
+           	<% } %>
           </ul>
         </div>
       </div>
@@ -248,6 +240,8 @@
       </main>
     </div>
   </div>
-  </div>
+  <script>
+  	
+  </script>
 </body>
 </html>

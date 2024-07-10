@@ -1,3 +1,5 @@
+<%@page import="dto.BandPublicOkDTO"%>
+<%@page import="dao.BandPublicOkDAO"%>
 <%@page import="dao.NoJoinMeetDAO"%>
 <%@page import="dto.ChatListDTO"%>
 <%@page import="dao.ChatListDAO"%>
@@ -54,6 +56,10 @@
 	
 	// 밴드 가입 여부
 	NoJoinMeetDAO njDao = new NoJoinMeetDAO();
+	
+	// 밴드 공개 여부
+	BandPublicOkDAO bDao = new BandPublicOkDAO();
+	BandPublicOkDTO bOkDTO = bDao.selectBandPublicOkDTO(meet_idx);
 %>
 
 <!DOCTYPE html>
@@ -92,25 +98,10 @@
             <a href="band_main.jsp?meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="logo">
             </a>
           </h1>
-<!--           검색창 -->
-<!--           <form action> -->
-<!--             <fieldset> -->
-<!--               <div class="search_input"> -->
-<!--                 <input type="text" id="input_serach_view" class="inputBandSearch" role="search" placeholder="밴드, 페이지, 게시글 검색" autocomplete="off"> -->
-<!--                 <button type="submit" class="btn_search"> -->
-<!--                 </button> -->
-<!--               </div> -->
-<!--             </fieldset> -->
-<!--           </form> -->
         </div>
         <!-- 위젯 -->
         <div id="header_widget_area">
           <ul class="widgetList">
-<!--             <li> -->
-<!--               <button class="btnIconStyle"> -->
-<!--                 <span class="uIconNews bg_white"></span> -->
-<!--               </button> -->
-<!--             </li> -->
             <li class="ml_14">
               <button class="btnIconStyle">
                 <span class="uIconChat bg_white"></span>
@@ -190,20 +181,22 @@
             </div>
             <!-- 멤버 수 -->
             <p class="member">
-              <a href="#" class="member_count">멤버 <%= miDto.getMeet_member_count() %></a>
+              <a class="member_count">멤버 <%= miDto.getMeet_member_count() %></a>
             </p>
             <!-- 밴드 소개 설정 -->
             <div class="band_info_setting">
-              <a href="#" class="band_setting_link">밴드 소개 설정</a>
+              <a href="band_information.jsp?meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="band_setting_link">밴드 소개 설정</a>
             </div>
             <!-- 글쓰기 버튼 -->
             <div class="btnBox">
-              <button class="uButton bg_blue">글쓰기</button>
+              <button class="uButton bg_blue" id="postWriteBtn">글쓰기</button>
             </div>
             <!-- 밴드 안내 문구 -->
-            <p class="bandTypeDesc">
-              밴드와 게시글이 공개되지 않습니다. 초대를 통해서만 가입할 수 있습니다.
-            </p>
+            <% if (bOkDTO.getPublic_ok() == "Y") { %>
+            <p class="bandTypeDesc">누구나 밴드를 검색해 찾을 수 있고, 밴드 소개와 게시물을 볼 수 있습니다.</p>
+            <% } else { %>
+            <p class="bandTypeDesc">밴드와 게시글이 공개되지 않습니다. 초대를 통해서만 가입할 수 있습니다.</p>
+            <% } %>
             <!-- 밴드 설정 -->
             <div class="bandSetting">
               <a href="#" onClick="history.back()" class="bandSetting_Link">
@@ -444,6 +437,70 @@
     </section>
   </div>
   </form>
+  <!-- 팝업 : 글쓰기 -->
+    <div class="layerContainerView" tabindex="-1" id="postWriteEditor_popUp" style="display: none;">
+      <div class="layerContainerInnerView">
+        <div class="postEditorLayerView" style="position: relative;">
+          <section class="lyWrap">
+            <div class="lyPostShareWrite" style="margin-top: 77px;">
+              <header class="header">
+                <h1 class="title">글쓰기</h1>
+              </header>
+              <div class="main">
+                <div class="postWrite">
+                  <div class="postWriteForm">
+                    <textarea class="contentEditor cke_editable"></textarea>
+                  </div>
+                  <div class="buttonArea">
+                    <ul class="toolbarList">
+                      <li class="toolbarListItem">
+                        <label class="photo">
+                          <input type="file">
+                          <span class="photoIcon"></span>
+                        </label>
+                      </li>
+                    </ul>
+                    <div class="writeSubmitBox">
+                      <div class="buttonSubmit">
+                        <button type="submit" class="uButton">게시</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <footer class="footer">
+                <button class="btnLyClose"></button>
+              </footer>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+    <!-- 팝업 : 새 채팅 -->
+    <div class="layerContainerView" id="newChatWrap_popUp" style="display: none;">
+      <div class="layerContainerInnerView">
+        <section class="lyWrap">
+          <div class="lyContent -w400">
+            <header class="header">
+              <h1 class="title">공개채팅방 만들기</h1>
+            </header>
+            <div class="main -tSpaceNone">
+              <label for="chatName" class="title -sub2" style="margin-top: 20px">
+                채팅방 이름
+              </label>
+              <div class="uInput" style="height: 36px; padding: 0 10px; margin-bottom: 20px;">
+                <input type="text" placeholder="채팅방 이름을 입력해주세요.">
+                <span class="border"></span>
+              </div>
+            </div>
+            <footer class="footer">
+              <button class="uButton -confirm -sizeL">완료</button>
+              <button class="btnLyClose"></button>
+            </footer>
+          </div>
+        </section>
+      </div>
+    </div>
   <!-- JavaScript -->
   <script>
     $(function() {
@@ -463,6 +520,21 @@
       $(".btnConfirm").click(function(){
     	  let a = $("input[name='check']:checked").val();
       });
+      	$("#postWriteBtn").click(function() {
+          $("#postWriteEditor_popUp").css('display', 'block');
+        })
+        //글쓰기 버튼 팝업
+        $(".newChattingBtn").click(function() {
+          $("#newChatWrap_popUp").css('display', 'block');
+        }) 
+        
+        $(".btnLyClose").click(function() {
+          $(".layerContainerView").css('display', 'none');
+        })
+        // 오른쪽 상단 채팅 버튼 팝업
+        $(".btnIconStyle").click(function(){
+  	    	$("#newChatWrap_popUp").css('display', 'block');
+  	    })
     });
     
   </script>

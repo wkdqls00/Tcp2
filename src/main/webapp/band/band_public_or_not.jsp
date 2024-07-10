@@ -81,31 +81,17 @@
             <a href="#" class="logo">
             </a>
           </h1>
-          <!-- 검색창 -->
-<!--           <form action> -->
-<!--             <fieldset> -->
-<!--               <div class="search_input"> -->
-<!--                 <input type="text" id="input_serach_view" class="inputBandSearch" role="search" placeholder="밴드, 페이지, 게시글 검색" autocomplete="off"> -->
-<!--                 <button type="submit" class="btn_search"> -->
-<!--                 </button> -->
-<!--               </div> -->
-<!--             </fieldset> -->
-<!--           </form> -->
         </div>
         <!-- 위젯 -->
         <div id="header_widget_area">
           <ul class="widgetList">
-<!--             <li> -->
-<!--               <button class="btnIconStyle"> -->
-<!--                 <span class="uIconNews bg_white"></span> -->
-<!--               </button> -->
-<!--             </li> -->
             <li class="ml_14">
               <button class="btnIconStyle">
                 <span class="uIconChat bg_white"></span>
               </button>
             </li>
             <li class="ml_24 positionR">
+             <a href="band_profile.jsp?member_idx=<%=member_idx%>&meet_idx=<%=meet_idx%>">
               <button class="btnMySetting">
                 <span class="uProfile">
                   <span class="profileInner">
@@ -123,6 +109,7 @@
                   </span>
                 </span>
               </button>
+             </a>
             </li>
           </ul>
         </div>
@@ -187,7 +174,7 @@
             </div>
             <!-- 밴드 소개 설정 -->
             <div class="bandInfoBox">
-              <a href="#" class="showBandInfo">밴드 소개 설정
+              <a href="band_information.jsp?meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="showBandInfo">밴드 소개 설정
                 <span class="uIconArrow"></span>
               </a>
             </div>
@@ -252,7 +239,7 @@
               <p class="guide_area_txt">타입 변경시 멤버들에게 알림이 발송됩니다.</p>
             </div>
 	            <div class="btn_footer">
-            		<form action="myband_setting_leader.jsp" method="get">
+            		<form action="myband_setting_leader.jsp" method="post">
 	              		<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
 	              		<input type="hidden" value="<%=member_idx%>" name="member_idx">
 	              		<button type="submit" class="confirm_btn">저장</button>
@@ -307,6 +294,95 @@
         </div>
       </div>
      <% } %>
+  	</div>
+  	    <!-- 팝업 : 글쓰기 -->
+    <div class="layerContainerView" tabindex="-1" id="postWriteEditor_popUp" style="display: none;">
+      <div class="layerContainerInnerView">
+        <div class="postEditorLayerView" style="position: relative;">
+          <section class="lyWrap">
+            <div class="lyPostShareWrite" style="margin-top: 77px;">
+              <header class="header">
+                <h1 class="title">글쓰기</h1>
+              </header>
+              <div class="main">
+                <div class="postWrite">
+                  <div class="postWriteForm">
+                    <textarea class="contentEditor cke_editable"></textarea>
+                  </div>
+                  <div class="buttonArea">
+                    <ul class="toolbarList">
+                      <li class="toolbarListItem">
+                        <label class="photo">
+                          <input type="file">
+                          <span class="photoIcon"></span>
+                        </label>
+                      </li>
+                    </ul>
+                    <div class="writeSubmitBox">
+                      <div class="buttonSubmit">
+                        <button type="submit" class="uButton">게시</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <footer class="footer">
+                <button class="btnLyClose"></button>
+              </footer>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+    <!-- 팝업 : 새 채팅 -->
+    <div class="layerContainerView" id="newChatWrap_popUp" style="display: none;">
+      <div class="layerContainerInnerView">
+        <section class="lyWrap">
+          <div class="lyContent -w400">
+            <header class="header">
+              <h1 class="title">공개채팅방 만들기</h1>
+            </header>
+            <div class="main -tSpaceNone">
+              <label for="chatName" class="title -sub2" style="margin-top: 20px">
+                채팅방 이름
+              </label>
+              <div class="uInput" style="height: 36px; padding: 0 10px; margin-bottom: 20px;">
+                <input type="text" placeholder="채팅방 이름을 입력해주세요.">
+                <span class="border"></span>
+              </div>
+            </div>
+            <footer class="footer">
+              <button class="uButton -confirm -sizeL">완료</button>
+              <button class="btnLyClose"></button>
+            </footer>
+          </div>
+        </section>
+      </div>
+    </div>
   </div>
+  <!-- JavaScript -->
+    <script>
+    // 팝업 닫기
+    $(function(){
+   	  $("#postWriteBtn").click(function() {
+        $("#postWriteEditor_popUp").css('display', 'block');
+      })
+      //글쓰기 버튼 팝업
+      $(".newChattingBtn").click(function() {
+        $("#newChatWrap_popUp").css('display', 'block');
+      }) 
+      
+      $(".btnLyClose").click(function() {
+        $(".layerContainerView").css('display', 'none');
+      })
+      // 오른쪽 상단 채팅 버튼 팝업
+      $(".btnIconStyle").click(function(){
+	    	$("#newChatWrap_popUp").css('display', 'block');
+	    })
+    });
+    
+    
+    
+    </script>
 </body>
 </html>

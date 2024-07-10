@@ -70,32 +70,17 @@
             <a href="band_main.jsp?member_idx=<%=member_idx %>" class="logo">
             </a>
           </h1>
-<!--           검색창 -->
-<!--           <form action> -->
-<!--             <fieldset> -->
-<!--               <div class="search_input"> -->
-<!--                 <input type="text" id="input_serach_view" class="inputBandSearch" role="search" placeholder="밴드, 페이지, 게시글 검색" autocomplete="off"> -->
-<!--                 <button type="submit" class="btn_search"> -->
-<!--                 </button> -->
-<!--               </div> -->
-<!--             </fieldset> -->
-<!--           </form> -->
         </div>
         <!-- 위젯 -->
         <div id="header_widget_area">
           <ul class="widgetList">
-<!--             <li> -->
-<!--               <button class="btnIconStyle"> -->
-<!--                 <span class="uIconNews bg_white"></span> -->
-<!--               </button> -->
-<!--             </li> -->
             <li class="ml_14">
               <button class="btnIconStyle">
                 <span class="uIconChat bg_white"></span>
               </button>
             </li>
             <li class="ml_24 positionR">
-             <a href="band_profile.jsp?member_idx=<%=member_idx%>">
+             <a href="band_profile.jsp?member_idx=<%=member_idx%>&meet_idx=<%=meet_idx%>">
               <button class="btnMySetting">
                 <span class="uProfile">
                   <span class="profileInner">
@@ -367,16 +352,19 @@
    	  $("#postWriteBtn").click(function() {
         $("#postWriteEditor_popUp").css('display', 'block');
       })
+      //글쓰기 버튼 팝업
       $(".newChattingBtn").click(function() {
         $("#newChatWrap_popUp").css('display', 'block');
       }) 
+      
       $(".btnLyClose").click(function() {
         $(".layerContainerView").css('display', 'none');
       })
+      // 오른쪽 상단 채팅 버튼 팝업
+      $(".btnIconStyle").click(function(){
+	    	$("#newChatWrap_popUp").css('display', 'block');
+	    })
     });
-    $(".btnIconStyle").click(function(){
-    	$("#newChatWrap_popUp").css('display', 'block');
-    })
     
     
     
