@@ -1,3 +1,4 @@
+<%@page import="dao.NoJoinMeetDAO"%>
 <%@page import="dto.MeetMemberProfilePrintDTO"%>
 <%@page import="dao.MeetMemberProfilePrintDAO"%>
 <%@page import="dto.MeetIntroduceWriteDTO"%>
@@ -17,6 +18,8 @@
   <link rel="stylesheet" href="../assets/css/clear.css">
   <link rel="stylesheet" href="../assets/css/band_header.css">
   <link rel="stylesheet" href="../assets/css/setting_leader_band_name.css">
+  <link rel="stylesheet" href="../assets/css/band.css">
+  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
   <title>밴드 생성</title>
 </head>
 <body>
@@ -34,25 +37,23 @@
         <!-- 위젯 -->
         <div id="header_widget_area">
           <ul class="widgetList">
-<!--             <li> -->
-<!--               <button class="btnIconStyle"> -->
-<!--                 <span class="uIconNews"></span> -->
-<!--               </button> -->
-<!--             </li> -->
-            <li class="ml_14">
-              <button class="btnIconStyle">
-                <span class="uIconChat"></span>
-              </button>
-            </li>
             <li class="ml_24 positionR">
               <button class="btnMySetting">
                 <span class="uProfile">
                   <span class="profileInner">
-                   <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
-                   width="30" height="30">
+                    <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
+                    width="30" height="30">
                   </span>
                 </span>
               </button>
+              <!-- 프로필 클릭 시 드롭다운 -->
+              <div class="menuModalLayer profileDropDown" id="off" style="display: none">
+                <ul class="menuModalList">
+                  <li class="menuMadalItem">
+                    <a href="#" class="menuModalLink">로그아웃</a>
+                  </li>
+                </ul>
+              </div>
             </li>
           </ul>
         </div>
@@ -223,6 +224,20 @@
       </main>
     </div>
   </div>
-  </div>
+  <script>
+  $(function(){
+  // 프로필 클릭 시 드롭다운 (프로필 설정, 로그아웃)
+   	$(".btnMySetting").click(function() {
+  	  let onOff = $(".profileDropDown").attr('id');
+  	  if (onOff == 'off') {
+		  $(".profileDropDown").attr('id', 'on');
+		  $(".profileDropDown").css('display', 'block');
+	  } else {
+		  $(".profileDropDown").attr('id', 'off');
+		  $(".profileDropDown").css('display', 'none');
+	}
+   }) 
+  });
+  </script>
 </body>
 </html>

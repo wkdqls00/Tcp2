@@ -34,7 +34,9 @@
   <link rel="stylesheet" href="../assets/css/band_main.css">
   <link rel="stylesheet" href="../assets/css/clear.css">
   <link rel="stylesheet" href="../assets/css/band_header.css"> 
+  <link rel="stylesheet" href="../assets/css/band.css">
   <title>BAND - 메인 페이지</title>
+  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
   <div class="wrap">
@@ -55,11 +57,19 @@
               <button class="btnMySetting">
                 <span class="uProfile">
                   <span class="profileInner">
-                    <img src="	https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
+                    <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
                     width="30" height="30">
                   </span>
                 </span>
               </button>
+              <!-- 프로필 클릭 시 드롭다운 -->
+              <div class="menuModalLayer profileDropDown" id="off" style="display: none">
+                <ul class="menuModalList">
+                  <li class="menuMadalItem">
+                    <a href="#" class="menuModalLink">로그아웃</a>
+                  </li>
+                </ul>
+              </div>
             </li>
           </ul>
         </div>
@@ -102,7 +112,7 @@
       </div>
     </div>
   </div>
-  <div id="wrap">
+  <div id="wrap" style="background-color: transparent;">
     <!-- main 메인 -->
     <div id="main">
       <ul id="band_card_list">
@@ -355,5 +365,20 @@
         </address>
       </div>
   </footer>
+  <script>
+  $(function(){
+	// 프로필 클릭 시 드롭다운 (프로필 설정, 로그아웃)
+      $(".btnMySetting").click(function() {
+	  	let onOff = $(".profileDropDown").attr('id');
+	  	if (onOff == 'off') {
+			$(".profileDropDown").attr('id', 'on');
+			$(".profileDropDown").css('display', 'block');
+		} else {
+			$(".profileDropDown").attr('id', 'off');
+			$(".profileDropDown").css('display', 'none');
+		}
+      }) 
+  });
+  </script>
 </body>
 </html>

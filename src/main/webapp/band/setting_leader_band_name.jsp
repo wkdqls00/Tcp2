@@ -26,7 +26,9 @@
   <link rel="stylesheet" href="../assets/css/clear.css">
   <link rel="stylesheet" href="../assets/css/band_header.css">
   <link rel="stylesheet" href="../assets/css/setting_leader_band_name.css">
+  <link rel="stylesheet" href="../assets/css/band.css">
   <title>밴드 이름 설정</title>
+  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
   <div class="wrap">
@@ -43,15 +45,9 @@
         <!-- 위젯 -->
         <div id="header_widget_area">
           <ul class="widgetList">
-<!--             <li class="ml_14"> -->
-<!--               <button class="btnIconStyle"> -->
-<!--                 <span class="uIconChat"></span> -->
-<!--               </button> -->
-<!--             </li> -->
-            <!-- 가입했을 시 프로필 출력 -->
-           <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
+           <!-- 가입했을 시 프로필 출력 -->
             <li class="ml_24 positionR">
-            <a href="band_profile.jsp?meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>">
+            <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
               <button class="btnMySetting">
                 <span class="uProfile">
                   <span class="profileInner">
@@ -65,9 +61,30 @@
                   </span>
                 </span>
               </button>
-             </a>
+            <% } else { %>
+            <button class="btnMySetting">
+                <span class="uProfile">
+                  <span class="profileInner">
+                   <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
+                   width="30" height="30">
+                  </span>
+                </span>
+              </button>
+              <% } %>
+              <!-- 프로필 클릭 시 드롭다운 -->
+              <div class="menuModalLayer profileDropDown" id="off" style="display: none">
+                <ul class="menuModalList">
+                <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
+                  <li class="menuMadalItem">
+                    <a href="band_profile.jsp?meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="menuModalLink">프로필 설정</a>
+                  </li>
+                <% } %>
+                  <li class="menuMadalItem">
+                    <a href="#" class="menuModalLink">로그아웃</a>
+                  </li>
+                </ul>
+              </div>
             </li>
-           	<% } %>
           </ul>
         </div>
       </div>
@@ -241,7 +258,19 @@
     </div>
   </div>
   <script>
-  	
+  	$(function(){
+  	// 프로필 클릭 시 드롭다운 (프로필 설정, 로그아웃)
+      	$(".btnMySetting").click(function() {
+	  	  let onOff = $(".profileDropDown").attr('id');
+	  	  if (onOff == 'off') {
+			  $(".profileDropDown").attr('id', 'on');
+			  $(".profileDropDown").css('display', 'block');
+		  } else {
+			  $(".profileDropDown").attr('id', 'off');
+			  $(".profileDropDown").css('display', 'none');
+		}
+      })
+  	});
   </script>
 </body>
 </html>
