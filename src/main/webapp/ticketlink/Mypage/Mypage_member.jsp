@@ -37,7 +37,7 @@ int totalT = (int)hs.getAttribute("totalT");
                     <h1 class="logo"><a href="../html/main.html">로고</a></h1>
                     <ul class="nav">
                         <li><a href="#">공연/전시</a></li>
-                        <li><a href="#">커뮤니티</a></li>
+                        <li><a href="/Tcp2/band/band_main.jsp">커뮤니티</a></li>
                     </ul>
                 </div>
             </div>
@@ -48,7 +48,7 @@ int totalT = (int)hs.getAttribute("totalT");
                         <li class="gnb_link"><a href="#">공연</a></li>
                         <li class="gnb_link"><a href="#">전시</a></li>
                         <li class="gnb_link"><a href="#">랭킹</a></li>
-                        <li class="gnb_link"><a href="#">커뮤니티</a></li>
+                        <li class="gnb_link"><a href="/Tcp2/band/band_main.jsp">커뮤니티</a></li>
                     </ul>
                 </div>
             </div>

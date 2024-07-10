@@ -7,8 +7,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	int m_idx = Integer.parseInt(request.getParameter("member_idx"));
-
+// 	/* int m_idx = Integer.parseInt(request.getParameter("member_idx")); */
+	HttpSession hs = request.getSession();
+	int m_idx = (int)hs.getAttribute("userIdx");
 	// 내 가입 밴드 출력
 	MeetIntroduceWriteDAO mbwDao = new MeetIntroduceWriteDAO();
 	
@@ -21,6 +22,7 @@
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
+	
 %>
 
 <!DOCTYPE html>

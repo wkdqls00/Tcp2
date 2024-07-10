@@ -2,20 +2,23 @@ package dao;
 
 import java.sql.*;
 
-import project.DatabaseUtil;
-
-public class LoginDao {
+public class LoginDaoBAND {
 	
 	public int responseIdx(String paramId, String paramPw) {
 		
-		DatabaseUtil d = new DatabaseUtil();
-        Connection conn = d.getConn();
-
+		String driver = "oracle.jdbc.driver.OracleDriver";
+		String url = "jdbc:oracle:thin:@localhost:1521:xe";
+		String id = "project0584";
+		String pw = "123456";
+		
+		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		int userIdx = -1;
 		
 		try {
+			Class.forName(driver);
+			conn = DriverManager.getConnection(url, id, pw);
 			
 			String sql = "SELECT member_idx, name FROM member WHERE id = ? AND pw = ? AND withdrawal = 'N'";
 			pstmt = conn.prepareStatement(sql);
@@ -27,6 +30,8 @@ public class LoginDao {
 			if (rs.next()) {
 				userIdx = rs.getInt(1);
 			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
