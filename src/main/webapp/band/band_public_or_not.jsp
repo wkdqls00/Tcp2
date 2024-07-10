@@ -1,3 +1,5 @@
+<%@page import="dao.MeetPostListPrintDAO"%>
+<%@page import="dto.MeetPostListPrintDTO"%>
 <%@page import="dao.NoJoinMeetDAO"%>
 <%@page import="dto.ChatListDTO"%>
 <%@page import="java.util.ArrayList"%>
@@ -54,7 +56,12 @@
 	// 밴드 공개 여부
 	BandPublicOkDAO bDao = new BandPublicOkDAO();
 	BandPublicOkDTO bOkDTO = bDao.selectBandPublicOkDTO(meet_idx);
-		
+	
+	// 밴드 글 목록 출력
+	MeetPostListPrintDAO mPrintDAO = new MeetPostListPrintDAO();
+	ArrayList<MeetPostListPrintDTO> mPrintListDTO = new ArrayList<>();
+	
+	mPrintListDTO = mPrintDAO.selectMeetPostListPrintDTO(meet_idx);
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -172,9 +179,16 @@
             <div class="btnBox">
               <button class="uButton bg_blue" id="postWriteBtn">글쓰기</button>
             </div>
-            <!-- 밴드 소개 설정 -->
+            <!-- 밴드 소개 설정 : 리더일 시 출력 -->
             <div class="bandInfoBox">
-              <a href="band_information.jsp?meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="showBandInfo">밴드 소개 설정
+             <% try {
+            	 if (mPrintDAO.adminCheck(member_idx, meet_idx)) { %>
+              <a href="#" class="showBandInfo">밴드 소개 설정
+             <% 	} 
+             	} catch(Exception e) {
+             		e.printStackTrace();
+             	}
+             	%>
                 <span class="uIconArrow"></span>
               </a>
             </div>
