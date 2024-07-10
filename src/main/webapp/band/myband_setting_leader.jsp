@@ -87,9 +87,6 @@
   <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/band_leave_popup.css'>
   <title>BAND - <%= miDto.getMeet_name() %> - Setting - Leader</title>
   <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-  <script>
-  	
-  </script>  
 </head>
 <body>
   <div id="wrap">
@@ -107,31 +104,45 @@
         <!-- 위젯 -->
         <div id="header_widget_area">
           <ul class="widgetList">
-            <li class="ml_14">
-              <button class="btnIconStyle">
-                <span class="uIconChat bg_white"></span>
-              </button>
-            </li>
+            <!-- 가입했을 시 프로필 출력 -->
             <li class="ml_24 positionR">
-             <a href="band_profile.jsp?member_idx=<%=member_idx%>&meet_idx=<%=meet_idx%>">
+           <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
               <button class="btnMySetting">
                 <span class="uProfile">
                   <span class="profileInner">
-                  <% try {
-                	  if (mMemberProfilePrintDTO.getProfile() != null) { %>
-                  		<img src="<%= mMemberProfilePrintDTO.getProfile() %>"
+               	   <% if (mMemberProfilePrintDTO.getProfile() != null) { %>
+               		<img src="<%= mMemberProfilePrintDTO.getProfile() %>"
                     width="30" height="30">
                     <% } else { %>
                    <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
                    width="30" height="30">
-                  	<% } 
-                  	} catch (Exception e) {
-                  		e.printStackTrace();
-                  	} %>
+                  	<% } %>
                   </span>
                 </span>
               </button>
-             </a>
+            <% } else { %>
+            <button class="btnMySetting">
+                <span class="uProfile">
+                  <span class="profileInner">
+                   <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
+                   width="30" height="30">
+                  </span>
+                </span>
+              </button>
+              <% } %>
+              <!-- 프로필 클릭 시 드롭다운 -->
+              <div class="menuModalLayer profileDropDown" id="off" style="display: none">
+                <ul class="menuModalList">
+                <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
+                  <li class="menuMadalItem">
+                    <a href="band_profile.jsp?meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="menuModalLink">프로필 설정</a>
+                  </li>
+                <% } %>
+                  <li class="menuMadalItem">
+                    <a href="#" class="menuModalLink">로그아웃</a>
+                  </li>
+                </ul>
+              </div>
             </li>
           </ul>
         </div>
@@ -256,6 +267,8 @@
 	            </div>
             </form>
           </div>
+          <%try {
+        	  if (mPrintDAO.adminCheck(member_idx, meet_idx)) {%>
           <h2 class="setting_title">밴드 정보 관리</h2>
           <ul class="setting_list">
             <li class="setting_item">
@@ -361,9 +374,20 @@
           </ul>
           <%
           	}
+           }
+          }	catch(Exception e) {
+        		  e.printStackTrace();
+        	  }
           %>
           <h2 class="hide_title"></h2>
           <ul class="setting_list">
+            <li class="setting_item">
+              <div class="item_content">밴드 삭제</div>
+              <div class="item_side">
+                <button type="button" class="delete_btn">삭제하기</button>
+              </div>
+            </li>
+            <% if(mPrintDAO.adminCheck(member_idx, meet_idx)) { %>
             <li class="setting_item">
               <div class="item_content">
                 <span class="label">밴드 탈퇴</span>
@@ -372,12 +396,7 @@
                 <button type="button" class="band_leave_btn">탈퇴하기</button>
               </div>
             </li>
-            <li class="setting_item">
-              <div class="item_content">밴드 삭제</div>
-              <div class="item_side">
-                <button type="button" class="delete_btn">삭제하기</button>
-              </div>
-            </li>
+            <% } %>
           </ul>
         </section>
       </main>
@@ -461,6 +480,7 @@
       </div>
     </section>
   </div>
+  
   <!-- 밴드 탈퇴 : 팝업 -->
   <div class="layer_wrap" id="bandLeave_popUp" style="display: none;">
     <section class="lyWrap">
@@ -489,7 +509,7 @@
       </div>
     </section>
    </div>
-    <!-- 팝업 : 글쓰기 -->
+  <!-- 팝업 : 글쓰기 -->
     <div class="layerContainerView" tabindex="-1" id="postWriteEditor_popUp" style="display: none;">
       <div class="layerContainerInnerView">
         <div class="postEditorLayerView" style="position: relative;">
@@ -588,6 +608,17 @@
          $(".layerContainerView").css('display', 'none');
        })
        
+      // 프로필 클릭 시 드롭다운 (프로필 설정, 로그아웃)
+      $(".btnMySetting").click(function() {
+	  	let onOff = $(".profileDropDown").attr('id');
+	  	if (onOff == 'off') {
+			$(".profileDropDown").attr('id', 'on');
+			$(".profileDropDown").css('display', 'block');
+		} else {
+			$(".profileDropDown").attr('id', 'off');
+			$(".profileDropDown").css('display', 'none');
+		}
+      })
     });
     
 
