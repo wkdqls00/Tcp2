@@ -100,7 +100,7 @@
         <div class="logo_search_area">
           <!-- 로고 -->
           <h1 class = "logo_area">
-            <a href="band_main.jsp?meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="logo">
+            <a href="band_main.jsp?member_idx=<%=member_idx %>" class="logo">
             </a>
           </h1>
 <!--           검색창 -->
@@ -131,13 +131,17 @@
               <button class="btnMySetting">
                 <span class="uProfile">
                   <span class="profileInner">
-               	   <% if (mMemberProfilePrintDTO.getProfile() != null) { %>
+               	   <% try {
+               	   	if (mMemberProfilePrintDTO.getProfile() != null) { %>
                		<img src="<%= mMemberProfilePrintDTO.getProfile() %>"
                     width="30" height="30">
                     <% } else { %>
                    <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
                    width="30" height="30">
-                  	<% } %>
+                  	<% } 
+                  	} catch (Exception e) {
+                  		e.printStackTrace();
+                  	} %>
                   </span>
                 </span>
               </button>

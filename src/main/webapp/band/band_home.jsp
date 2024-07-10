@@ -133,6 +133,7 @@
            <!-- 가입했을 시 프로필 출력 -->
            <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
             <li class="ml_24 positionR">
+            <a href="band_profile.jsp?meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>">
               <button class="btnMySetting">
                 <span class="uProfile">
                   <span class="profileInner">
@@ -146,6 +147,7 @@
                   </span>
                 </span>
               </button>
+             </a>
             </li>
            	<% } %>
           </ul>
@@ -965,7 +967,11 @@
 		} else {
 			$(this).attr('id', 'downArrow');
 		}
-	  })	
+	  })
+	  //오른쪽 상단 채팅 버튼 클릭시 새 채팅 화면
+	   $(".btnIconStyle").click(function(){
+    	$("#newChatWrap_popUp").css('display', 'block');
+    })
     });
   </script>
 </body>

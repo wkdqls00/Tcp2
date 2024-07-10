@@ -159,6 +159,7 @@ legend {
   font-size: 14px;
   font-weight: 400;
   color: #222;
+  cursor: pointer;
 }
 .cover_change::before {
   width: 30px;
