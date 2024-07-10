@@ -103,37 +103,23 @@
             <a href="band_main.jsp?member_idx=<%=member_idx %>" class="logo">
             </a>
           </h1>
-<!--           검색창 -->
-<!--           <form action> -->
-<!--             <fieldset> -->
-<!--               <div class="search_input"> -->
-<!--                 <input type="text" id="input_serach_view" class="inputBandSearch" role="search" placeholder="밴드, 페이지, 게시글 검색" autocomplete="off"> -->
-<!--                 <button type="submit" class="btn_search"> -->
-<!--                 </button> -->
-<!--               </div> -->
-<!--             </fieldset> -->
-<!--           </form> -->
         </div>
         <!-- 위젯 -->
         <div id="header_widget_area">
           <ul class="widgetList">
-<!--             <li> -->
-<!--               <button class="btnIconStyle"> -->
-<!--                 <span class="uIconNews bg_white"></span> -->
-<!--               </button> -->
-<!--             </li> -->
             <li class="ml_14">
               <button class="btnIconStyle">
                 <span class="uIconChat bg_white"></span>
               </button>
             </li>
             <li class="ml_24 positionR">
+             <a href="band_profile.jsp?member_idx=<%=member_idx%>&meet_idx=<%=meet_idx%>">
               <button class="btnMySetting">
                 <span class="uProfile">
                   <span class="profileInner">
-               	   <% try {
-               	   	if (mMemberProfilePrintDTO.getProfile() != null) { %>
-               		<img src="<%= mMemberProfilePrintDTO.getProfile() %>"
+                  <% try {
+                	  if (mMemberProfilePrintDTO.getProfile() != null) { %>
+                  		<img src="<%= mMemberProfilePrintDTO.getProfile() %>"
                     width="30" height="30">
                     <% } else { %>
                    <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
@@ -145,6 +131,7 @@
                   </span>
                 </span>
               </button>
+             </a>
             </li>
           </ul>
         </div>
@@ -200,7 +187,7 @@
             </div>
             <!-- 멤버 수 -->
             <p class="member">
-              <a href="#" class="member_count">멤버 <%= miDto.getMeet_member_count() %></a>
+              <a class="member_count">멤버 <%= miDto.getMeet_member_count() %></a>
             </p>
             <!-- 글쓰기 버튼 -->
             <div class="btnBox">
@@ -501,25 +488,106 @@
         </footer>
       </div>
     </section>
-  </div>
-  
+   </div>
+    <!-- 팝업 : 글쓰기 -->
+    <div class="layerContainerView" tabindex="-1" id="postWriteEditor_popUp" style="display: none;">
+      <div class="layerContainerInnerView">
+        <div class="postEditorLayerView" style="position: relative;">
+          <section class="lyWrap">
+            <div class="lyPostShareWrite" style="margin-top: 77px;">
+              <header class="header">
+                <h1 class="title">글쓰기</h1>
+              </header>
+              <div class="main">
+                <div class="postWrite">
+                  <div class="postWriteForm">
+                    <textarea class="contentEditor cke_editable"></textarea>
+                  </div>
+                  <div class="buttonArea">
+                    <ul class="toolbarList">
+                      <li class="toolbarListItem">
+                        <label class="photo">
+                          <input type="file">
+                          <span class="photoIcon"></span>
+                        </label>
+                      </li>
+                    </ul>
+                    <div class="writeSubmitBox">
+                      <div class="buttonSubmit">
+                        <button type="submit" class="uButton">게시</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <footer class="footer">
+                <button class="btnLyClose"></button>
+              </footer>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+    <!-- 팝업 : 새 채팅 -->
+    <div class="layerContainerView" id="newChatWrap_popUp" style="display: none;">
+      <div class="layerContainerInnerView">
+        <section class="lyWrap">
+          <div class="lyContent -w400">
+            <header class="header">
+              <h1 class="title">공개채팅방 만들기</h1>
+            </header>
+            <div class="main -tSpaceNone">
+              <label for="chatName" class="title -sub2" style="margin-top: 20px">
+                채팅방 이름
+              </label>
+              <div class="uInput" style="height: 36px; padding: 0 10px; margin-bottom: 20px;">
+                <input type="text" placeholder="채팅방 이름을 입력해주세요.">
+                <span class="border"></span>
+              </div>
+            </div>
+            <footer class="footer">
+              <button class="uButton -confirm -sizeL">완료</button>
+              <button class="btnLyClose"></button>
+            </footer>
+          </div>
+        </section>
+      </div>
+    </div>
   <!-- JavaScript -->
   <script>
     $(function() {
+      // 삭제 팝업
       $(".delete_btn").click(function() {
         $("#bandDelete_popUp").css('display', 'block');
-      });
+      })
+      
+      // 탈퇴 팝업
       $(".band_leave_btn").click(function() {
         $("#bandLeave_popUp").css('display', 'block');
-      });
-      $(".newChattingBtn").click(function() {
-        $("#newChatWrap_popUp").css('display', 'block');
-      });
-      $(".btnCancel").click(function() {
-        $(".layer_wrap").css('display', 'none');
-      });
+      })
       $('input:checkbox[name="join_ok"]').is(":checked")==true
       
+       //글쓰기 버튼 팝업
+      $("#postWriteBtn").click(function() {
+         $("#postWriteEditor_popUp").css('display', 'block');
+       })
+       
+       // 채팅 팝업
+       $(".btnIconStyle").click(function() {
+         $("#newChatWrap_popUp").css('display', 'block');
+       }) 
+       $(".newChattingBtn").click(function() {
+         $("#newChatWrap_popUp").css('display', 'block');
+       }) 
+       
+       // 팝업 닫기
+      $(".btnCancel").click(function() {
+        $(".layer_wrap").css('display', 'none');
+      })
+       $(".btnLyClose").click(function() {
+         $(".layerContainerView").css('display', 'none');
+       })
+       
     });
     
 

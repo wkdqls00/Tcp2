@@ -155,7 +155,7 @@
             </div>
             <!-- 멤버 수 -->
             <p class="member">
-              <a href="band_member_list.jsp?meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="member_count">멤버 <%= miDto.getMeet_member_count() %></a>
+              <a class="member_count">멤버 <%= miDto.getMeet_member_count() %></a>
             </p>
             <!-- 글쓰기 버튼 -->
             <div class="btnBox">
