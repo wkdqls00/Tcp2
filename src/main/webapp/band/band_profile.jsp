@@ -32,9 +32,6 @@
 	
 	chatListDto = cDao.selectChatListDTO(meet_idx);
 	
-	// 밴드 가입 여부
-	NoJoinMeetDAO njDao = new NoJoinMeetDAO();
-	
 	// 밴드 공개 여부
 	BandPublicOkDAO bDao = new BandPublicOkDAO();
 	BandPublicOkDTO bOkDTO = bDao.selectBandPublicOkDTO(meet_idx);
@@ -79,9 +76,8 @@
                 <span class="uIconChat bg_white"></span>
               </button>
             </li>
-            <!-- 가입했을 시 프로필 출력 -->
+            <!-- 프로필 출력 -->
             <li class="ml_24 positionR">
-           <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
               <button class="btnMySetting">
                 <span class="uProfile">
                   <span class="profileInner">
@@ -95,24 +91,12 @@
                   </span>
                 </span>
               </button>
-            <% } else { %>
-            <button class="btnMySetting">
-                <span class="uProfile">
-                  <span class="profileInner">
-                   <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
-                   width="30" height="30">
-                  </span>
-                </span>
-              </button>
-              <% } %>
               <!-- 프로필 클릭 시 드롭다운 -->
               <div class="menuModalLayer profileDropDown" id="off" style="display: none">
                 <ul class="menuModalList">
-                <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
                   <li class="menuMadalItem">
                     <a href="band_profile.jsp?meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="menuModalLink">프로필 설정</a>
                   </li>
-                <% } %>
                   <li class="menuMadalItem">
                     <a href="#" class="menuModalLink">로그아웃</a>
                   </li>
@@ -184,7 +168,7 @@
             <div class="bandInfoBox">
              <% try {
             	 if (mPrintDAO.adminCheck(member_idx, meet_idx)) { %>
-              <a href="#" class="showBandInfo">밴드 소개 설정
+              <a href="band_information.jsp?meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="showBandInfo">밴드 소개 설정
              <% 	} 
              	} catch(Exception e) {
              		e.printStackTrace();
@@ -193,8 +177,8 @@
                 <span class="uIconArrow"></span>
               </a>
             </div>
-            <!-- 밴드 안내 문구 -->
-            <% if (bOkDTO.getPublic_ok() == "Y") { %>
+            <!-- 밴드 안내 문구 : 공개 여부 -->
+            <% if (bOkDTO.getPublic_ok().equals("Y")) { %>
             <p class="bandTypeDesc">누구나 밴드를 검색해 찾을 수 있고, 밴드 소개와 게시물을 볼 수 있습니다.</p>
             <% } else { %>
             <p class="bandTypeDesc">밴드와 게시글이 공개되지 않습니다. 초대를 통해서만 가입할 수 있습니다.</p>
@@ -253,7 +237,6 @@
         </div>
       </main>
        <!-- 메인 내용 오른쪽 채팅방 목록 : 가입했을 시 출력 -->
-      <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
       <div id="banner">
         <div id="bannerInner">
           <div class="chatSticky">
@@ -297,7 +280,6 @@
           </div>
         </div>
       </div>
-     <% } %>
     </div>
     <!-- 팝업 : 글쓰기 -->
     <div class="layerContainerView" tabindex="-1" id="postWriteEditor_popUp" style="display: none;">
@@ -365,7 +347,7 @@
     </div>
    </div>
 <!-- JavaScript -->
-    <script>
+  <script>
     // 팝업 닫기
     $(function(){
    	  $("#postWriteBtn").click(function() {
@@ -395,9 +377,6 @@
 		}
       })
     });
-    
-    
-    
-    </script>
+  </script>
 </body>
 </html>

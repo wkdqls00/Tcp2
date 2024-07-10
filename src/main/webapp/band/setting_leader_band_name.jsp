@@ -47,7 +47,6 @@
           <ul class="widgetList">
            <!-- 가입했을 시 프로필 출력 -->
             <li class="ml_24 positionR">
-            <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
               <button class="btnMySetting">
                 <span class="uProfile">
                   <span class="profileInner">
@@ -61,16 +60,6 @@
                   </span>
                 </span>
               </button>
-            <% } else { %>
-            <button class="btnMySetting">
-                <span class="uProfile">
-                  <span class="profileInner">
-                   <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
-                   width="30" height="30">
-                  </span>
-                </span>
-              </button>
-              <% } %>
               <!-- 프로필 클릭 시 드롭다운 -->
               <div class="menuModalLayer profileDropDown" id="off" style="display: none">
                 <ul class="menuModalList">

@@ -198,7 +198,7 @@
 	            </div>
             </form>
             <!-- 밴드 안내 문구 -->
-            <% if (bOkDTO.getPublic_ok() == "Y") { %>
+            <% if (bOkDTO.getPublic_ok().equals("Y")) { %>
             <p class="bandTypeDesc">누구나 밴드를 검색해 찾을 수 있고, 밴드 소개와 게시물을 볼 수 있습니다.</p>
             <% } else { %>
             <p class="bandTypeDesc">밴드와 게시글이 공개되지 않습니다. 초대를 통해서만 가입할 수 있습니다.</p>

@@ -30,17 +30,17 @@
 	}
 %>
 <%
-	//밴드 왼쪽 소개
+	// 밴드 왼쪽 소개
 	int meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
 	MeetIntroduceWriteDAO miDao = new MeetIntroduceWriteDAO();
 	MeetIntroduceWriteDTO miDto = miDao.selectMeetIntroduceWriteDTO(meet_idx);
 	
-	//밴드공개 여부
+	// 밴드공개 여부
 	BandPublicOkDAO bpoDAO = new BandPublicOkDAO();
 	BandPublicOkDTO bpoDTO = bpoDAO.selectBandPublicOkDTO(meet_idx);
 	int member_idx = Integer.parseInt(request.getParameter("member_idx"));
 	
-	//내 프로필 출력
+	// 내 프로필 출력
 	MeetMemberProfilePrintDAO mMemberProfilePrintDAO = new MeetMemberProfilePrintDAO();
 	MeetMemberProfilePrintDTO mMemberProfilePrintDTO = mMemberProfilePrintDAO.selectMeetMemberProfilePrintDTO(meet_idx, member_idx);
 
@@ -49,9 +49,6 @@
 	ArrayList<ChatListDTO> chatListDto = new ArrayList<>();
 	
 	chatListDto = cDao.selectChatListDTO(meet_idx);
-	
-	// 밴드 가입 여부
-	NoJoinMeetDAO njDao = new NoJoinMeetDAO();
 	
 	// 밴드 공개 여부
 	BandPublicOkDAO bDao = new BandPublicOkDAO();
@@ -85,7 +82,7 @@
         <div class="logo_search_area">
           <!-- 로고 -->
           <h1 class = "logo_area">
-            <a href="band_main.jsp?meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="logo">
+            <a href="band_main.jsp?meet_idx=<%= meet_idx %>&member_idx=<%= member_idx %>" class="logo">
             </a>
           </h1>
         </div>
@@ -99,7 +96,6 @@
             </li>
             <!-- 가입했을 시 프로필 출력 -->
             <li class="ml_24 positionR">
-            <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
               <button class="btnMySetting">
                 <span class="uProfile">
                   <span class="profileInner">
@@ -113,24 +109,12 @@
                   </span>
                 </span>
               </button>
-            <% } else { %>
-            <button class="btnMySetting">
-                <span class="uProfile">
-                  <span class="profileInner">
-                   <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
-                   width="30" height="30">
-                  </span>
-                </span>
-              </button>
-              <% } %>
               <!-- 프로필 클릭 시 드롭다운 -->
               <div class="menuModalLayer profileDropDown" id="off" style="display: none">
                 <ul class="menuModalList">
-                <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
                   <li class="menuMadalItem">
                     <a href="band_profile.jsp?meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="menuModalLink">프로필 설정</a>
                   </li>
-                <% } %>
                   <li class="menuMadalItem">
                     <a href="#" class="menuModalLink">로그아웃</a>
                   </li>
@@ -202,7 +186,7 @@
             <div class="bandInfoBox">
              <% try {
             	 if (mPrintDAO.adminCheck(member_idx, meet_idx)) { %>
-              <a href="#" class="showBandInfo">밴드 소개 설정
+              <a href="band_information.jsp?meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="showBandInfo">밴드 소개 설정
              <% 	} 
              	} catch(Exception e) {
              		e.printStackTrace();
@@ -212,7 +196,7 @@
               </a>
             </div>
             <!-- 밴드 안내 문구 -->
-            <% if (bOkDTO.getPublic_ok() == "Y") { %>
+            <% if (bOkDTO.getPublic_ok().equals("Y")) { %>
             <p class="bandTypeDesc">누구나 밴드를 검색해 찾을 수 있고, 밴드 소개와 게시물을 볼 수 있습니다.</p>
             <% } else { %>
             <p class="bandTypeDesc">밴드와 게시글이 공개되지 않습니다. 초대를 통해서만 가입할 수 있습니다.</p>
@@ -281,8 +265,7 @@
           </section>
         </div>
       </main>
-      <!-- 메인 내용 오른쪽 채팅방 목록 : 가입했을 시 출력 -->
-      <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
+      <!-- 메인 내용 오른쪽 채팅방 목록 -->
       <div id="banner">
         <div id="bannerInner">
           <div class="chatSticky">
@@ -326,9 +309,8 @@
           </div>
         </div>
       </div>
-     <% } %>
   	</div>
-  	    <!-- 팝업 : 글쓰기 -->
+    <!-- 팝업 : 글쓰기 -->
     <div class="layerContainerView" tabindex="-1" id="postWriteEditor_popUp" style="display: none;">
       <div class="layerContainerInnerView">
         <div class="postEditorLayerView" style="position: relative;">
@@ -394,24 +376,28 @@
     </div>
   </div>
   <!-- JavaScript -->
-    <script>
-    // 팝업 닫기
+  <script>
     $(function(){
+      // 글쓰기 버튼 팝업
    	  $("#postWriteBtn").click(function() {
         $("#postWriteEditor_popUp").css('display', 'block');
       })
-      //글쓰기 버튼 팝업
+      
+      // 새로운 채팅 팝업
       $(".newChattingBtn").click(function() {
         $("#newChatWrap_popUp").css('display', 'block');
       }) 
       
+      // 팝업 닫기
       $(".btnLyClose").click(function() {
         $(".layerContainerView").css('display', 'none');
       })
+      
       // 오른쪽 상단 채팅 버튼 팝업
       $(".btnIconStyle").click(function(){
 	    $("#newChatWrap_popUp").css('display', 'block');
 	  })
+	  
 	  // 프로필 클릭 시 드롭다운 (프로필 설정, 로그아웃)
       $(".btnMySetting").click(function() {
   	    let onOff = $(".profileDropDown").attr('id');
@@ -423,10 +409,8 @@
 		  $(".profileDropDown").css('display', 'none');
 	    }
       })
+      
     });
-    
-    
-    
-    </script>
+  </script>
 </body>
 </html>
