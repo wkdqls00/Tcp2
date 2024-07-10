@@ -10,6 +10,7 @@
 // 	/* int m_idx = Integer.parseInt(request.getParameter("member_idx")); */
 	HttpSession hs = request.getSession();
 	int m_idx = (int)hs.getAttribute("userIdx");
+	int member_idx = (int)hs.getAttribute("userIdx");
 	// 내 가입 밴드 출력
 	MeetIntroduceWriteDAO mbwDao = new MeetIntroduceWriteDAO();
 	

@@ -1,3 +1,6 @@
+<%@page import="dao.NoJoinMeetDAO"%>
+<%@page import="dto.ChatListDTO"%>
+<%@page import="dao.ChatListDAO"%>
 <%@page import="dto.MeetPostListPrintDTO"%>
 <%@page import="dao.MeetPostListPrintDAO"%>
 <%@page import="dto.BandPublicOkDTO"%>
@@ -63,6 +66,14 @@
 	
 	mPrintListDTO = mPrintDAO.selectMeetPostListPrintDTO(meet_idx);
 	
+	// 채팅 목록 출력
+	ChatListDAO cDao = new ChatListDAO();
+	ArrayList<ChatListDTO> chatListDto = new ArrayList<>();
+	
+	chatListDto = cDao.selectChatListDTO(meet_idx);
+	
+	// 밴드 가입 여부
+	NoJoinMeetDAO njDao = new NoJoinMeetDAO();
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -74,8 +85,11 @@
   <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/band_header.css'>
   <link rel="stylesheet" type="text/css" media="screen" href="../assets/css/myband_setting.css">
   <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/band_leave_popup.css'>
-  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
   <title>BAND - <%= miDto.getMeet_name() %> - Setting - Leader</title>
+  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+  <script>
+  	
+  </script>  
 </head>
 <body>
   <div id="wrap">
@@ -86,7 +100,7 @@
         <div class="logo_search_area">
           <!-- 로고 -->
           <h1 class = "logo_area">
-            <a href="#" class="logo">
+            <a href="band_main.jsp?meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="logo">
             </a>
           </h1>
           <!-- 검색창 -->
@@ -166,7 +180,6 @@
           <div class="sticky_side_bar">
             <!-- 밴드 이미지 -->
             <div class="side_cover">
-              <a href="#">
                 <div class="cover_img">
                   <span class="cover_inner">
                   <img
@@ -176,7 +189,6 @@
                    	>
                   </span>
                 </div>
-              </a>
               <!-- 밴드 이름 -->
               <div class="band_name">
                 <a class="band_name_txt"><%= miDto.getMeet_name() %></a>
@@ -378,7 +390,8 @@
           </ul>
         </section>
       </main>
-      <!-- 메인 내용 오른쪽 채팅방 목록 -->
+      <!-- 메인 내용 오른쪽 채팅방 목록 : 가입했을 시 출력 -->
+      <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
       <div id="banner">
         <div id="bannerInner">
           <div class="chatSticky">
@@ -400,18 +413,20 @@
                 <div class="nano">
                   <div class="nano_content">
                     <ul class="chat">
+                    <% for (ChatListDTO cDto2 : chatListDto) { %>
                       <li>
-                        <button class="itemLink">
+                        <button class="itemLink" onclick="window.open('chat.jsp', '', 'width=415, height=643')">
                           <span class="thum">
-                            <img src="https://coresos-phinf.pstatic.net/a/34g065/e_5a2Ud018admg69oqx3t5mng_5ksoqj.png?type=s75"
+                            <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240603162344/images/template/multi_profile_60x60.png"
                             height="30" width="30">
                           </span>
                           <span class="cont">
-                            <strong class="text">6조 밴드</strong>
-                            <span class="sub">밴드 전체 멤버들과 함께 하는 채팅방</span>
+                            <strong class="text"><%= cDto2.getTitle() %></strong>
+                            <span class="sub"><%= cDto2.getContent() %></span>
                           </span>
                         </button>
                       </li>
+                      <% } %>
                     </ul>
                   </div>
                 </div>
@@ -420,6 +435,7 @@
           </div>
         </div>
       </div>
+     <% } %>
     </div>
   </div>
   <!-- 밴드 삭제 : 팝업 -->
