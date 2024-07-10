@@ -47,30 +47,10 @@
             <a href="#" class="logo">
             </a>
           </h1>
-          <!-- 검색창 -->
-          <form action>
-            <fieldset>
-              <div class="search_input">
-                <input type="text" id="input_serach_view" class="inputBandSearch" role="search" placeholder="밴드, 페이지, 게시글 검색" autocomplete="off">
-                <button type="submit" class="btn_search">
-                </button>
-              </div>
-            </fieldset>
-          </form>
         </div>
         <!-- 위젯 -->
         <div id="header_widget_area">
           <ul class="widgetList">
-            <li>
-              <button class="btnIconStyle">
-                <span class="uIconNews"></span>
-              </button>
-            </li>
-            <li class="ml_14">
-              <button class="btnIconStyle">
-                <span class="uIconChat"></span>
-              </button>
-            </li>
             <li class="ml_24 positionR">
               <button class="btnMySetting">
                 <span class="uProfile">
@@ -148,7 +128,7 @@
             <div id="cover_band">
               <div class="uCoverImage -border">
                 <span class="coverInner">
-                  <img class="coverImg" src="https://coresos-phinf.pstatic.net/a/362iaf/2_bjbUd018svc11thlaza5db29_d46snt.png?type=cover_a264" alt>
+                  <img class="coverImg" src="<%= mbDto.getUrl() %>" alt>
                 </span>
               </div>
             </div>
@@ -174,7 +154,6 @@
           <span class="setting_local">홍제동</span>
           소모임
           <button type="button" class="open_keyword_btn">지역 선택</button>
-          <button type="button" class="recruit_btn">모집하기</button>
         </h2>
       </div>
       <div id="content2">
