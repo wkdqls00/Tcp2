@@ -29,7 +29,7 @@ public class MybandDAO {
         Connection conn = d.getConn();
         
         String sql = 
-        		"SELECT e.name, e.url, (SELECT COUNT(*) FROM meet_member WHERE meet_idx=m.meet_idx) "
+        		"SELECT m.meet_idx, e.name, e.url, (SELECT COUNT(*) FROM meet_member WHERE meet_idx=m.meet_idx) "
         		+ "FROM meet_member m, meet e "
         		+ "WHERE m.meet_idx = e.meet_idx "
         		+ "AND m.member_idx = ? "
@@ -43,11 +43,12 @@ public class MybandDAO {
         ResultSet rs = d.getRs(pstmt);
         try {
             while (rs.next()) {
-            	String meet_name = rs.getString(1);
-            	String url = rs.getString(2);
-            	int meet_member_count = rs.getInt(3);
+            	int meet_idx = rs.getInt(1);
+            	String meet_name = rs.getString(2);
+            	String url = rs.getString(3);
+            	int meet_member_count = rs.getInt(4);
             	
-    			MybandDTO mybandDTO = new MybandDTO(meet_name, url, meet_member_count); // 저장한 값으로 SeatStatus 객체 생성
+    			MybandDTO mybandDTO = new MybandDTO(meet_idx, meet_name, url, meet_member_count); // 저장한 값으로 SeatStatus 객체 생성
                 list.add(mybandDTO);
             }
         } catch (SQLException e) {

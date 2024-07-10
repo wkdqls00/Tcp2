@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
   
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,7 +25,7 @@
                 <span>종원링크</span>
             </h1>
             </div>
-            <form id="loginFrm" name="loginFrm" action="/Tcp2/LoginSuccessToMain"  method="post" >
+            <form id="loginFrm" name="loginFrm" action="${pageContext.request.contextPath}/LoginSuccessToMain"  method="post" >
                 <div class="loginInner">
                     <div class="loginForm">
                         <div class="inputBox">

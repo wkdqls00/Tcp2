@@ -144,7 +144,7 @@
        	%>
         <li class="band_card_item">
           <div id="band_inner">
-            <a href="#" class="band_cover_link">
+            <a href="band_home.jsp?member_idx=<%=member_idx%>&meet_idx=<%=mbDto.getMeet_idx()%>" class="band_cover_link">
             <div id="cover_band">
               <div class="uCoverImage -border">
                 <span class="coverInner">
