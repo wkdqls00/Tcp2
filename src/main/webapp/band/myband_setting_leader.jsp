@@ -28,6 +28,7 @@
 %>
 <%
 	int meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
+	int member_idx = Integer.parseInt(request.getParameter("member_idx"));
 
 	MeetMemberSettingPrintDAO mmspDAO = new MeetMemberSettingPrintDAO();
 	ArrayList<MeetMemberSettingPrintDTO> mmspListDAO = new ArrayList<>();
@@ -39,10 +40,8 @@
 	}
 %>
 <%
-	int member_idx = Integer.parseInt(request.getParameter("member_idx"));
 	MeetMemberProfilePrintDAO mmppDAO = new MeetMemberProfilePrintDAO();
 	MeetMemberProfilePrintDTO mmppDTO = mmppDAO.selectMeetMemberProfilePrintDTO(meet_idx, member_idx);
-	
 %>
 <%
 	MeetSettingPrintDAO mspDAO = new MeetSettingPrintDAO();
@@ -72,8 +71,6 @@
 	
 	chatListDto = cDao.selectChatListDTO(meet_idx);
 	
-	// 밴드 가입 여부
-	NoJoinMeetDAO njDao = new NoJoinMeetDAO();
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -104,9 +101,8 @@
         <!-- 위젯 -->
         <div id="header_widget_area">
           <ul class="widgetList">
-            <!-- 가입했을 시 프로필 출력 -->
+            <!-- 프로필 출력 -->
             <li class="ml_24 positionR">
-           <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
               <button class="btnMySetting">
                 <span class="uProfile">
                   <span class="profileInner">
@@ -120,24 +116,12 @@
                   </span>
                 </span>
               </button>
-            <% } else { %>
-            <button class="btnMySetting">
-                <span class="uProfile">
-                  <span class="profileInner">
-                   <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
-                   width="30" height="30">
-                  </span>
-                </span>
-              </button>
-              <% } %>
               <!-- 프로필 클릭 시 드롭다운 -->
               <div class="menuModalLayer profileDropDown" id="off" style="display: none">
                 <ul class="menuModalList">
-                <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
                   <li class="menuMadalItem">
                     <a href="band_profile.jsp?meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="menuModalLink">프로필 설정</a>
                   </li>
-                <% } %>
                   <li class="menuMadalItem">
                     <a href="#" class="menuModalLink">로그아웃</a>
                   </li>
@@ -348,7 +332,6 @@
                   </span>
                 </label>
               </div>
-             
             </li>
             <li class="setting_item -minHeightAuto">
               <div class="-flexible" style="min-height: auto; padding-top: 28px;">
@@ -357,7 +340,7 @@
                 </div>
                 <div class="item_side">
                   <label class="check_switch -switch">
-                    <input type="checkbox" class="check_input" <%=joinok(dto.getSub_qok()) %>>
+                    <input type="checkbox" class="check_input" <%=joinok(dto.getSub_qok()) %> id="join_ok_checkBox">
                   <span class="check_label">
                     <span class="shape"></span>
                   </span>
@@ -365,15 +348,19 @@
               </div>
               </div>
               <div class="textareaBox">
-                <div class="uTextarea" style="height: 76px">
-                  <textArea class="_joinQuestionTextarea" id="qnaText" maxlength="100" placeholder="새로운 멤버가 밴드 가입을 신청할 때 물어볼 질문을 작성해 주세요."><%=dto.getSub_q()%></textArea>
+              <!-- 가입질문 여부에 따라 textarea 출력 / 미출력 -->
+              <% // if (dto.getSub_qok().equals("Y")) { %>
+                <div class="uTextarea" style="height: 76px" id="join_ok_area">
+                  <textArea class="_joinQuestionTextarea" 
+                  id="qnaText" maxlength="100" 
+                  placeholder="새로운 멤버가 밴드 가입을 신청할 때 물어볼 질문을 작성해 주세요."><% if (dto.getSub_q() != null) { %><%=dto.getSub_q()%><% } %></textArea>
                   <span class="border"></span>
                 </div>
+              <% } %>
               </div>
             </li>
           </ul>
           <%
-          	}
            }
           }	catch(Exception e) {
         		  e.printStackTrace();
@@ -401,7 +388,6 @@
         </section>
       </main>
       <!-- 메인 내용 오른쪽 채팅방 목록 : 가입했을 시 출력 -->
-      <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
       <div id="banner">
         <div id="bannerInner">
           <div class="chatSticky">
@@ -445,7 +431,6 @@
           </div>
         </div>
       </div>
-     <% } %>
     </div>
   </div>
   <!-- 밴드 삭제 : 팝업 -->
@@ -619,6 +604,15 @@
 			$(".profileDropDown").css('display', 'none');
 		}
       })
+      
+      // 가입질문 체크 시 textarea 출력
+      $("#join_ok_checkBox").change(function() {
+		if($("#join_ok_checkBox").is(":checked")) {
+			$("#join_ok_area").css('display', 'block');
+		} else {
+			$("#join_ok_area").css('display', 'none');
+		}
+	  })	
     });
     
 
