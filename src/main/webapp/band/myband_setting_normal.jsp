@@ -34,24 +34,24 @@
             </a>
           </h1>
           <!-- 검색창 -->
-          <form action>
-            <fieldset>
-              <div class="search_input">
-                <input type="text" id="input_serach_view" class="inputBandSearch" role="search" placeholder="밴드, 페이지, 게시글 검색" autocomplete="off">
-                <button type="submit" class="btn_search">
-                </button>
-              </div>
-            </fieldset>
-          </form>
+<!--           <form action> -->
+<!--             <fieldset> -->
+<!--               <div class="search_input"> -->
+<!--                 <input type="text" id="input_serach_view" class="inputBandSearch" role="search" placeholder="밴드, 페이지, 게시글 검색" autocomplete="off"> -->
+<!--                 <button type="submit" class="btn_search"> -->
+<!--                 </button> -->
+<!--               </div> -->
+<!--             </fieldset> -->
+<!--           </form> -->
         </div>
         <!-- 위젯 -->
         <div id="header_widget_area">
           <ul class="widgetList">
-            <li>
-              <button class="btnIconStyle">
-                <span class="uIconNews"></span>
-              </button>
-            </li>
+<!--             <li> -->
+<!--               <button class="btnIconStyle"> -->
+<!--                 <span class="uIconNews"></span> -->
+<!--               </button> -->
+<!--             </li> -->
             <li class="ml_14">
               <button class="btnIconStyle">
                 <span class="uIconChat"></span>
