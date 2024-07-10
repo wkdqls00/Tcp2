@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import project.DatabaseUtil;
+
 /**
  * Servlet implementation class Modify_passwordServlet
  */
@@ -25,31 +27,22 @@ public class Modify_addressAction extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
-        
-	    String driver = "oracle.jdbc.driver.OracleDriver";
-	    String url = "jdbc:oracle:thin:@localhost:1521:xe";
-	    String db_id = "user6";
-	    String db_pw = "1234";
+        DatabaseUtil d = new DatabaseUtil();
+	    Connection conn = d.getConn();
+	    PreparedStatement pstmt = null;
+	    
 	    String address = request.getParameter("input_newAddress");
 	    String detailed_address = request.getParameter("input_newAddressD");
 	    HttpSession hs = request.getSession();
 	    int idx = (int) hs.getAttribute("userIdx");
-	  
-        Connection connection = null;
-        PreparedStatement pstmt = null;
+	 
+   
         
        
         try {
-        	 
-            // JDBC 드라이버 로드
-            Class.forName(driver);
 
-            // 데이터베이스 연결
-            connection = DriverManager.getConnection(url, db_id, db_pw);
-
-            // SQL 준비
             String sql = "UPDATE member SET address = ?, detailed_address = ? WHERE member_idx = ?";
-            pstmt = connection.prepareStatement(sql);
+            pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, address);
             pstmt.setString(2, detailed_address);
             pstmt.setInt(3, idx);
@@ -57,7 +50,7 @@ public class Modify_addressAction extends HttpServlet {
             int updateCount = pstmt.executeUpdate();
             System.out.println("SQL 실행 성공, 업데이트된 행 수: " + updateCount);
             
-            // 출력
+          
             if (updateCount > 0) {
             	
                 System.out.println("주소 변경됨");
@@ -68,13 +61,13 @@ public class Modify_addressAction extends HttpServlet {
            
             RequestDispatcher rd = request.getRequestDispatcher("/Modify_memberServlet");
             rd.forward(request, response);
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             // 자원 해제
             try {
                 if (pstmt != null) pstmt.close();
-                if (connection != null) connection.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }

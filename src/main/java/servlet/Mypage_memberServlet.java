@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import project.DatabaseUtil;
+
 /**
  * Servlet implementation class Mypage_memberServlet
  */
@@ -32,30 +34,22 @@ public class Mypage_memberServlet extends HttpServlet {
 		
 		HttpSession hs = request.getSession();
 		int idx = (int) hs.getAttribute("userIdx");
-		String driver = "oracle.jdbc.driver.OracleDriver";
-		String url = "jdbc:oracle:thin:@localhost:1521:xe";
-		String db_id = "user6";
-		String db_pw = "1234";
+		
+		DatabaseUtil d = new DatabaseUtil();
+	    Connection conn = d.getConn();
 		
 
-		Connection connection = null;
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
 
 		try {
-			// JDBC 드라이버 로드
-			Class.forName(driver);
-
-			// 데이터베이스 연결
-			connection = DriverManager.getConnection(url, db_id, db_pw);
-
-			// SQL
+			
 			String sql = "SELECT REPLACE(id, SUBSTR(id,3,4),'****'), " 
 					+ "REPLACE (phone, SUBSTR(phone,5,4),'****'), "
 					+ "REPLACE (address,SUBSTR(address,0),'***') " 
 					+ "FROM member " + "WHERE member_idx = ?";
 			
-			pstmt = connection.prepareStatement(sql);
+			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, idx);
 			resultSet = pstmt.executeQuery();
 
@@ -79,7 +73,7 @@ public class Mypage_memberServlet extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("/ticketlink/Mypage/Mypage_member.jsp"); // 이 jsp파일로 저 값들을 가져가겠다는 거 (rd는페이지 넘김X)
 			rd.forward(request, response);
 
-		} catch (SQLException | ClassNotFoundException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			// 5. 자원 해제
@@ -88,8 +82,8 @@ public class Mypage_memberServlet extends HttpServlet {
 					resultSet.close();
 				if (pstmt != null)
 					pstmt.close();
-				if (connection != null)
-					connection.close();
+				if (conn != null)
+					conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

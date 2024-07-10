@@ -13,18 +13,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import project.DatabaseUtil;
+
 @WebServlet("/SignupDaoServlet")
 public class SignupDao extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    private static final String db_url = "jdbc:oracle:thin:@localhost:1521:xe";
-    private static final String db_id = "user6";
-    private static final String db_pw = "1234";
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
-
+        DatabaseUtil d = new DatabaseUtil();
+        Connection conn = d.getConn();
+        
         String nickname = request.getParameter("nickname");
         String email = request.getParameter("email");
         String id = request.getParameter("id");
@@ -50,12 +51,10 @@ public class SignupDao extends HttpServlet {
             gender = "W";
         }
 
-        Connection conn = null;
         PreparedStatement pstmt = null;
 
         try {
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            conn = DriverManager.getConnection(db_url, db_id, db_pw);
+           
 
             String sql = 
                       "INSERT INTO MEMBER (MEMBER_IDX, NICKNAME, EMAIL, ID, PW, NAME, "
@@ -89,7 +88,7 @@ public class SignupDao extends HttpServlet {
             } else {
             	System.out.println("업데이트 실패");
             }
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             response.getWriter().println("에러 발생: " + e.getMessage());
         } finally {

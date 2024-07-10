@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import project.DatabaseUtil;
+
 /**
  * Servlet implementation class Modify_passwordServlet
  */
@@ -21,28 +23,19 @@ public class Modify_passwordAction extends HttpServlet {
 		doPost(request, response);
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String driver = "oracle.jdbc.driver.OracleDriver";
-		String url = "jdbc:oracle:thin:@localhost:1521:xe";
-		String db_id = "user6";
-		String db_pw = "1234";
+		DatabaseUtil d = new DatabaseUtil();
+	    Connection conn = d.getConn();
 		String input_pw = request.getParameter("newPw");
 		HttpSession hs = request.getSession();
 		int idx = (int)hs.getAttribute("userIdx");
 		
-		Connection connection = null;
         PreparedStatement pstmt = null;
         ResultSet resultSet = null;
 
 	        try {
-	            // JDBC 드라이버 로드
-	            Class.forName(driver);
-
-	            // 데이터베이스 연결
-	            connection = DriverManager.getConnection(url, db_id, db_pw);
-
-	            // SQL 
+	          
 	            String sql = "UPDATE member SET pw = ? WHERE member_idx = ?";
-	            pstmt = connection.prepareStatement(sql);
+	            pstmt = conn.prepareStatement(sql);
 	            pstmt.setString(1, input_pw);
 	            pstmt.setInt(2, idx);
 	            resultSet = pstmt.executeQuery();
@@ -54,14 +47,14 @@ public class Modify_passwordAction extends HttpServlet {
 	                System.out.println("비밀번호 변경실패");
 	            }
 	            	response.sendRedirect("/Tcp2/ticketlink/Login/Login.jsp");
-	        } catch (SQLException | ClassNotFoundException e) {
+	        } catch (SQLException e) {
 	            e.printStackTrace();
 	        } finally {
 	            // 5. 자원 해제
 	            try {
 	                if (resultSet != null) resultSet.close();
 	                if (pstmt != null) pstmt.close();
-	                if (connection != null) connection.close();
+	                if (conn != null) conn.close();
 	            } catch (SQLException e) {
 	                e.printStackTrace();
 	            }

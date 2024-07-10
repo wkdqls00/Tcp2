@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,12 +16,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import project.DatabaseUtil;
+
 @WebServlet("/CheckId")
 public class CheckId extends HttpServlet {
 
-    private static final String DB_URL = "jdbc:oracle:thin:@localhost:1521:xe";
-    private static final String DB_USER = "user6";
-    private static final String DB_PASSWORD = "1234";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -31,7 +31,8 @@ public class CheckId extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	request.setCharacterEncoding("UTF-8");
     	response.setContentType("text/html;charset=UTF-8");
-    	
+	   	DatabaseUtil d = new DatabaseUtil();
+	    Connection conn = d.getConn();
     	String id = request.getParameter("id");
         String regex = "^(?=.*[a-zA-Z])(?=.*\\d)[a-zA-Z0-9]{6,20}$";
         boolean isIdTaken = false;
@@ -47,30 +48,26 @@ public class CheckId extends HttpServlet {
         	response.getWriter().write("잘못된 형식의 아이디입니다.");
         	return;
         }
-
         try {
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
-                String sql = "SELECT COUNT(*) FROM member WHERE id = ?";
-                try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-                    stmt.setString(1, id);
-                    try (ResultSet rs = stmt.executeQuery()) {
-                        if (rs.next() && rs.getInt(1) > 0) {
-                            isIdTaken = true;
-                        }
-                    }
-                }
-            }
-        } catch (Exception e) {
-            throw new ServletException("DB interaction failed", e);
+    
+        String sql = "SELECT COUNT(*) FROM member WHERE id = ?";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1, id);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next() && rs.getInt(1) > 0) {
+            isIdTaken = true;
+        } 
+        } catch (SQLException e) {
+        	e.printStackTrace();
         }
-
+        
         if (isIdTaken) {
             response.getWriter().write("이미 사용중인 아이디입니다.");
         } else {
             response.getWriter().write("사용 가능한 아이디입니다.");
-        }
-    }
+        }   
+                
+    } 
     
     public boolean matchesRegex(String id, String regex) {
     	Pattern pattern = Pattern.compile(regex);

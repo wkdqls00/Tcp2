@@ -9,13 +9,11 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import dto.Ticket_checkDto;
+import project.DatabaseUtil;
 
 
 public class Ticket_checkDao {
-	  private static String driver = "oracle.jdbc.driver.OracleDriver";
-      private static String url = "jdbc:oracle:thin:@localhost:1521:xe";
-	  private static String db_id = "user6";//본인 계정 ID입력
-	  private static String db_pw = "1234";//본인 계정 PW입력
+
     // 메인 메서드
     public static void main(String[] args) {
         Ticket_checkDao tcdao = new Ticket_checkDao();
@@ -28,13 +26,13 @@ public class Ticket_checkDao {
     
     public ArrayList<Ticket_checkDto> checkReservationY(int member_idx, int max, int min) {
         ArrayList<Ticket_checkDto> list = new ArrayList<>();
-       
-        Connection conn = null;
+    	DatabaseUtil d = new DatabaseUtil();
+        Connection conn = d.getConn();
+        
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
-        	Class.forName(driver);
-			conn = DriverManager.getConnection(url, db_id, db_pw);
+        
 			
 			 String sql =
 		             "SELECT * FROM (SELECT ROWNUM row_n, a.*  " + 
@@ -53,7 +51,7 @@ public class Ticket_checkDao {
 			 pstmt.setInt(2, max);
 			 pstmt.setInt(3, min);
 		     rs = pstmt.executeQuery();
-		} catch (SQLException | ClassNotFoundException e) {
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -81,14 +79,12 @@ public class Ticket_checkDao {
     
     public ArrayList< Ticket_checkDto> checkReservationR(int member_idx, int max, int min) {
         ArrayList< Ticket_checkDto> list = new ArrayList<>();
-      
-       
-        Connection conn = null;
+    	DatabaseUtil d = new DatabaseUtil();
+        Connection conn = d.getConn();
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
-        	Class.forName(driver);
-			conn = DriverManager.getConnection(url, db_id, db_pw);
+        	
 			
 			String sql =
 		             "SELECT * FROM (SELECT ROWNUM row_n, a.*  " + 
@@ -107,7 +103,7 @@ public class Ticket_checkDao {
 			 pstmt.setInt(2, max);
 			 pstmt.setInt(3, min);
 		     rs = pstmt.executeQuery();
-		} catch (SQLException | ClassNotFoundException e) {
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -135,12 +131,12 @@ public class Ticket_checkDao {
     
     public int check_countY(int member_idx) {
     	int count = 0;
-    	 Connection conn = null;
+    	DatabaseUtil d = new DatabaseUtil();
+        Connection conn = d.getConn();
          PreparedStatement pstmt = null;
          ResultSet rs = null;
          try {
-         	Class.forName(driver);
- 			conn = DriverManager.getConnection(url, db_id, db_pw);
+       
  			
  			 String sql =
  					 "SELECT COUNT(*) FROM (SELECT pay.payment_idx, p.name, p.start_date, pay.status, pi.start_time " + 
@@ -159,7 +155,7 @@ public class Ticket_checkDao {
  		     if (rs.next()) {
  		    	 count = rs.getInt(1);
  		     }
- 		} catch (SQLException | ClassNotFoundException e) {
+ 		} catch (SQLException e) {
  			e.printStackTrace();
  		} finally {
          	if (rs != null) {try {rs.close();} catch (SQLException e) {e.printStackTrace();}}
@@ -176,8 +172,7 @@ public class Ticket_checkDao {
          PreparedStatement pstmt = null;
          ResultSet rs = null;
          try {
-         	Class.forName(driver);
- 			conn = DriverManager.getConnection(url, db_id, db_pw);
+      
  			
  			 String sql =
  					 "SELECT COUNT(*) FROM (SELECT pay.payment_idx, p.name, p.start_date, pay.status, pi.start_time " + 
@@ -196,7 +191,7 @@ public class Ticket_checkDao {
  		     if (rs.next()) {
  		    	 count = rs.getInt(1);
  		     }
- 		} catch (SQLException | ClassNotFoundException e) {
+ 		} catch (SQLException  e) {
  			e.printStackTrace();
  		} finally {
          	if (rs != null) {try {rs.close();} catch (SQLException e) {e.printStackTrace();}}
@@ -209,12 +204,12 @@ public class Ticket_checkDao {
     
     public int check_total_countY(int member_idx) {
     	int count = 0;
-    	 Connection conn = null;
+    	DatabaseUtil d = new DatabaseUtil();
+        Connection conn = d.getConn();
          PreparedStatement pstmt = null;
          ResultSet rs = null;
          try {
-         	Class.forName(driver);
- 			conn = DriverManager.getConnection(url, db_id, db_pw);
+         	
  			
  			 String sql =
  					 "SELECT COUNT(*) FROM (SELECT pay.payment_idx, p.name, p.start_date, pay.status, pi.start_time " + 
@@ -233,7 +228,7 @@ public class Ticket_checkDao {
  		     if (rs.next()) {
  		    	 count = rs.getInt(1);
  		     }
- 		} catch (SQLException | ClassNotFoundException e) {
+ 		} catch (SQLException e) {
  			e.printStackTrace();
  		} finally {
          	if (rs != null) {try {rs.close();} catch (SQLException e) {e.printStackTrace();}}
