@@ -15,8 +15,8 @@ import project.DatabaseUtil;
 /**
  * Servlet implementation class Find_idResult
  */
-@WebServlet("/Find_idNamePhoneServlet")
-public class Find_idNamePhoneServlet extends HttpServlet {
+@WebServlet("/Find_pwServlet")
+public class Find_pwServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
@@ -26,8 +26,7 @@ public class Find_idNamePhoneServlet extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 		DatabaseUtil d = new DatabaseUtil();
         Connection conn = d.getConn();
-        String name = request.getParameter("name");
-        String phone = request.getParameter("phone");
+        String id = request.getParameter("input_id");
         
         
         PreparedStatement pstmt = null;
@@ -35,20 +34,20 @@ public class Find_idNamePhoneServlet extends HttpServlet {
         
         try {
 	        	String sql = 
-	        			"SELECT COUNT(*) FROM member WHERE name = ? AND phone = ? " ;
+	        			"SELECT COUNT(*) FROM member WHERE id = ?" ;
 	        	pstmt = conn.prepareStatement(sql);
-	        	pstmt.setString(1, name);
-	        	pstmt.setString(2, phone);
+	        	pstmt.setString(1, id);
+	        
 	        	
 	        	rs = pstmt.executeQuery();
 	        	
 	        	if(rs.next() && rs.getInt(1) > 0) {
 	        		System.out.println("회원있음");
-	        		response.getWriter().write("인증번호가 전송되었습니다.");
+	        		response.sendRedirect("/Tcp2/ticketlink/Login/Find_pw.jsp");
 	        	} else {
 	        		System.out.println("뭔가 문제가 있음");
-	        		request.setAttribute("NamePhone", false);
-	        		response.getWriter().write("입력하신 정보로 회원가입된 아이디가 없습니다.");
+	        		request.setAttribute("error", true);
+	        		request.getRequestDispatcher("/ticketlink/Login/Find_pw_idcheck.jsp").forward(request, response);
 	        	}
 	        	
         	} catch(SQLException e) {

@@ -6,8 +6,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="/zproject_backup/css/find_id.css">
-    <link rel="stylesheet" href="/zproject_backup/css/find_pw.css">
+    <link rel="stylesheet" href="/Tcp2/assets/css/find_id.css">
+    <style>
+	    h3 {
+	    	margin: 40px 0;
+		}
+		.error {
+		    display: none;
+		    margin-top: 5px;
+		    font-size: 14px;
+		    color: #ef3e4e;
+	    }
+	   	.notDisabled {
+	   		display: block;
+	   	}
+    </style>
 </head>
 <body>
     <!--홈페이지상단-->
@@ -17,8 +30,8 @@
                 <a href="https://www.naver.com" class="header_logo"><span class="hidden">사이트이름</span></a>
                 <ul class="my_menu">
                     <li>
-                        <a href="#">로그아웃</a>
-                        <a href="#">회원가입</a>
+                        <a href="/Tcp2/ticketlink/Login/Login.jsp">로그인</a>
+                        <a href="/Tcp2/ticketlink/Login/Join_content.jsp">회원가입</a>
                     </li>
                 </ul>
             </div>
@@ -32,14 +45,14 @@
             <div class="search_tabWrap">
                 <div class="search_tab">
                     <div class="tab">
-                        <a href="">아이디 찾기</a>
+                        <a href="/Tcp2/ticketlink/Login/Find_id.jsp">아이디 찾기</a>
                     </div>
                     <div class="tab current">
-                        <a href="">비밀번호 찾기</a>
+                        <a href="#">비밀번호 찾기</a>
                     </div>
                 </div>
             </div>
-            <form action="" id="toServlet">
+            <form action="/Tcp2/Find_pwServlet" id="toServlet">
             <div class="search_contentWrap">
                 <div class="search_content">
                     <h3>아이디 확인 후 비밀번호를 재설정 할 수 있습니다</h3>
@@ -47,8 +60,9 @@
                         <input type="text" id="input_id" name="input_id" placeholder="아이디">
                         <span class="del_btn"></span>
                     </div>
+                     <span class="error">입력하신 아이디는 없는 회원정보입니다.</span>
                     <div class="activeButton">
-                        <button type="button">아이디 확인</button>
+                        <button type="submit">아이디 확인</button>
                     </div>
                 </div>
             </div>
@@ -91,6 +105,12 @@
          	let params = "name=" + encodeURIComponent(name) + "&phone=" + encodeURIComponent(phone);
          	xhr.send(params);
            };
+           
+           // 없는 아이디 입력하면 error문자 뜨게
+           let error = <%=request.getAttribute("error")%>;
+           if(error !== false && error != null) {
+        	   document.querySelector(".error").classList.add("notDisabled");
+           } 
     </script>
 </body>
 </html>

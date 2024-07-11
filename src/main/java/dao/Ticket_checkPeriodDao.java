@@ -19,7 +19,7 @@ public class Ticket_checkPeriodDao {
         ArrayList<Ticket_checkDto> list = null;    
         ArrayList<Ticket_checkDto> list2 = null; 
         list = tcpdao.checkDayY(24, 5, 1, 90);
-        list2 = tcpdao.checkMonthY(24, 5, 1, 2024, "04");
+        list2 = tcpdao.checkMonthY(24, 5, 1, 2024, "04", "pay.pay_date");
         for (Ticket_checkDto checkReservation : list2) {
            System.out.println(checkReservation);
         }
@@ -206,7 +206,7 @@ public class Ticket_checkPeriodDao {
          return count_;
      }
     
-    public ArrayList<Ticket_checkDto> checkMonthY(int member_idx, int max, int min, int year, String month) {
+    public ArrayList<Ticket_checkDto> checkMonthY(int member_idx, int max, int min, int year, String month, String viOrRe) {
         ArrayList<Ticket_checkDto> list = new ArrayList<>();
         String ym = year + "-" + month;
 	   	DatabaseUtil d = new DatabaseUtil();
@@ -224,7 +224,7 @@ public class Ticket_checkPeriodDao {
 		             "AND p.play_idx = pi.play_idx " + 
 		             "AND pay.member_idx = m.member_idx " + 
 		             "AND pay.status = 'Y' " +
-		             "AND TO_CHAR(pay.pay_date, 'YYYY-MM') = ? " +
+		             "AND TO_CHAR("+ viOrRe +", 'YYYY-MM') = ? " +
 		             "ORDER BY payment_idx DESC)a WHERE ROWNUM <= ?) " + 
 		             "WHERE row_n >= ?";
 			 
@@ -261,7 +261,7 @@ public class Ticket_checkPeriodDao {
         return list;
     }
     
-    public int checkMonthY_count(int member_idx, int year, String month) {
+    public int checkMonthY_count(int member_idx, int year, String month, String viOrRe) {
     	String ym = year + "-" + month;
     	int count = 0;
 	   	DatabaseUtil d = new DatabaseUtil();
@@ -278,7 +278,7 @@ public class Ticket_checkPeriodDao {
 					 "AND p.play_idx = pi.play_idx " + 
 					 "AND pay.member_idx = m.member_idx " + 
 					 "AND pay.status = 'Y' " + 
-					 "AND TO_CHAR(pay.pay_date, 'YYYY-MM') = ? " +
+					 "AND TO_CHAR(" + viOrRe + ", 'YYYY-MM') = ? " +
 					 "ORDER BY payment_idx DESC";
 			 
 			 pstmt = conn.prepareStatement(sql);
@@ -299,7 +299,7 @@ public class Ticket_checkPeriodDao {
         return count_;
     }
     
-    public ArrayList<Ticket_checkDto> checkMonthR(int member_idx, int max, int min, int year, String month) {
+    public ArrayList<Ticket_checkDto> checkMonthR(int member_idx, int max, int min, int year, String month, String viOrRe) {
     	ArrayList<Ticket_checkDto> list = new ArrayList<>();
         String ym = year + "-" + month;
 	   	 DatabaseUtil d = new DatabaseUtil();
@@ -317,7 +317,7 @@ public class Ticket_checkPeriodDao {
 		             "AND p.play_idx = pi.play_idx " + 
 		             "AND pay.member_idx = m.member_idx " + 
 		             "AND pay.status = 'R' " +
-		             "AND TO_CHAR(pay.pay_date, 'YYYY-MM') = ? " +
+		             "AND TO_CHAR(" + viOrRe + ", 'YYYY-MM') = ? " +
 		             "ORDER BY payment_idx DESC)a WHERE ROWNUM <= ?) " + 
 		             "WHERE row_n >= ?";
 			 
@@ -353,7 +353,7 @@ public class Ticket_checkPeriodDao {
         return list;
     }
     
-    public int checkMonthR_count(int member_idx, int year, String month) {
+    public int checkMonthR_count(int member_idx, int year, String month, String viOrRe) {
     	String ym = year + "-" + month;
     	int count = 0;
    	 DatabaseUtil d = new DatabaseUtil();
@@ -370,7 +370,7 @@ public class Ticket_checkPeriodDao {
 					 "AND p.play_idx = pi.play_idx " + 
 					 "AND pay.member_idx = m.member_idx " + 
 					 "AND pay.status = 'R' " + 
-					 "AND TO_CHAR(pay.pay_date, 'YYYY-MM') = ? " +
+					 "AND TO_CHAR(" + viOrRe + ", 'YYYY-MM') = ? " +
 					 "ORDER BY payment_idx DESC";
 			 
 			 pstmt = conn.prepareStatement(sql);

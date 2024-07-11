@@ -160,7 +160,7 @@
                                 <dt>월 별 조회</dt> <!--월 별 조회-->
                                 <dd style="float: left;">
                                     <div class="selectbox binding">
-                                        <a href="" class="select ng-binding">예매일</a>
+                                        <a href="" class="select ng-binding" id="viOrRe">예매일</a>
                                         <ul class="select_list ng-hiding" style="display: block;">
                                             <li class="ng-scope"><a href="">예매일</a></li>
                                             <li class="ng-scope"><a href="">관람일</a></li>

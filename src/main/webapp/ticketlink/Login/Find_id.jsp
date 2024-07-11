@@ -16,8 +16,8 @@
                 <a href="https://www.naver.com" class="header_logo"><span class="hidden">사이트이름</span></a>
                 <ul class="my_menu">
                     <li>
-                        <a href="#">로그아웃</a>
-                        <a href="#">회원가입</a>
+                        <a href="/Tcp2/ticketlink/Login/Login.jsp">로그인</a>
+                        <a href="/Tcp2/ticketlink/Login/Join_content.jsp">회원가입</a>
                     </li>
                 </ul>
             </div>
@@ -34,7 +34,7 @@
                         <a href="">아이디 찾기</a>
                     </div>
                     <div class="tab">
-                        <a href="">비밀번호 찾기</a>
+                        <a href="/Tcp2/ticketlink/Login/Find_pw_idcheck.jsp">비밀번호 찾기</a>
                     </div>
                 </div>
             </div>
@@ -154,7 +154,7 @@
 		let name = document.getElementById("input_memberName").value;
 		let phone = document.getElementById("input_memberPh").value;
 	 	var xhr = new XMLHttpRequest();
-	    xhr.open("POST", "/Tcp2/Find_idNamePhoneServlet", true);
+	    xhr.open("POST", "/Tcp2/Find_idNamePhoneAction", true);
 	    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 	    xhr.onreadystatechange = function() {
 	        if (xhr.readyState === 4 && xhr.status === 200) {
@@ -194,8 +194,20 @@
 		        alert("인증번호가 다릅니다.");
 		        return;
 		    }
-			
 		});
+		
+		// 인증번호 다시받기 버튼
+		document.getElementById("certify_re").addEventListener('click', function() {
+			verificationCode = generateVerificationCode();
+	        isCodeValid = true;
+	        console.log("인증번호: " + verificationCode);
+
+	        const fiveMinutes = 60 * 5;
+	        const display = document.getElementById('timer');
+	        startTimer(fiveMinutes, display);
+		});
+		
+		
 	
 </script>
 </body>

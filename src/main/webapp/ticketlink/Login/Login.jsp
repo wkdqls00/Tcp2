@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-  
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -61,9 +60,9 @@
                     </div>
                     <div class="findList">
                         <ul>
-                            <li><a href="">아이디 찾기</a></li>
-                            <li><a href="">비밀번호 찾기</a></li>
-                            <li><a href="http://localhost:9090/Tcp2/ticketlink/Login/joinContent.html">회원가입</a></li>
+                            <li><a href="/Tcp2/ticketlink/Login/Find_id.jsp">아이디 찾기</a></li>
+                            <li><a href="/Tcp2/ticketlink/Login/Find_pw_idcheck.jsp">비밀번호 찾기</a></li>
+                            <li><a href="/Tcp2/ticketlink/Login/Join_content.jsp">회원가입</a></li>
                         </ul>
                     </div>
                     <div class="snsLogin">

@@ -29,18 +29,26 @@ public class Ticket_checkMonthRServlet extends HttpServlet {
 		HttpSession hs = request.getSession();
 		int userIdx = (int)hs.getAttribute("userIdx");
 		int year = Integer.parseInt(request.getParameter("year"));
+		String viOrRe = request.getParameter("viOrRe");
 		String month = (request.getParameter("month"));
 		int page = 1;
 		String page_ = request.getParameter("currP");
+		
 		if (page_ != null && !page_.equals("")) {
 			page = Integer.parseInt(page_);
+		}
+		
+		if (viOrRe.equals("예매일")) {
+			viOrRe = "pay.pay_date";
+		} else if(viOrRe.equals("관람일")) {
+			viOrRe = "p.start_date";
 		}
 		
 		int max = page * 5;
 		int min = 1 + (page-1) * 10;
 		Ticket_checkPeriodDao tcpdao = new Ticket_checkPeriodDao();
-		ArrayList<Ticket_checkDto> list = tcpdao.checkMonthR(userIdx, max, min, year, month);
-		int count = tcpdao.checkMonthR_count(userIdx, year, month);
+		ArrayList<Ticket_checkDto> list = tcpdao.checkMonthR(userIdx, max, min, year, month, viOrRe);
+		int count = tcpdao.checkMonthR_count(userIdx, year, month, viOrRe);
 		request.setAttribute("list", list);
 		request.setAttribute("count", count);
 		

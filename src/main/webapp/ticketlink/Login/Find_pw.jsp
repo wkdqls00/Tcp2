@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="/zproject_backup/css/find_id.css">
+    <link rel="stylesheet" href="/Tcp2/assets/css/find_id.css">
 </head>
 <body>
     <!--홈페이지상단-->
@@ -16,8 +16,8 @@
                 <a href="https://www.naver.com" class="header_logo"><span class="hidden">사이트이름</span></a>
                 <ul class="my_menu">
                     <li>
-                        <a href="#">로그아웃</a>
-                        <a href="#">회원가입</a>
+                        <a href="/Tcp2/ticketlink/Login/Login.jsp">로그인</a>
+                        <a href="/Tcp2/ticketlink/Login/Join_content.jsp">회원가입</a>
                     </li>
                 </ul>
             </div>
@@ -31,10 +31,10 @@
             <div class="search_tabWrap">
                 <div class="search_tab">
                     <div class="tab">
-                        <a href="">아이디 찾기</a>
+                        <a href="/Tcp2/ticketlink/Login/Find_id.jsp">아이디 찾기</a>
                     </div>
                     <div class="tab current">
-                        <a href="">비밀번호 찾기</a>
+                        <a href="/Tcp2/ticketlink/Login/Find_pw_idcheck.jsp">비밀번호 찾기</a>
                     </div>
                 </div>
             </div>
@@ -59,15 +59,16 @@
                                     <div class="hasBtn_wrap numbersend">
                                         <div class="input_style">
                                             <input type="text" id="certify_ph" class="input_certifyN" maxlength="6" placeholder="인증번호 6자리">
+                                            <span id="timer"></span>
                                         </div>
                                         <div class="button_style">
-                                            <button type="button">다시 받기</button>
+                                            <button type="button" id="certify_re">다시 받기</button>
                                         </div>
                                     </div>
                                     <div class="error_message">인증번호가 일치하지 않아요. 다시 확인해 주세요.</div>
                                     <div class="confirm_wrap">
                                         <div class="activeButton">
-											<button type="button" class="certBtn disabled">인증번호 받기</button>
+											<button type="button" class="certBtn disabled" onclick="toNPservlet()">인증번호 받기</button>
 											<button type="button" class="confirmBtn" style="display: none;" >확인</button>
 										</div>
                                     </div>
@@ -113,9 +114,8 @@
             btn.classList.add("disabled");
         }
     });
-
-
-
+	
+    // 인증번호 함수
     let timerInterval;
     let verificationCode;
     let isCodeValid = false;
@@ -149,7 +149,7 @@
 		let name = document.getElementById("input_memberName").value;
 		let phone = document.getElementById("input_memberPh").value;
 	 	var xhr = new XMLHttpRequest();
-	    xhr.open("POST", "/Tcp2/Find_idNamePhoneServlet", true);
+	    xhr.open("POST", "/Tcp2/Find_idNamePhoneAction", true);
 	    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 	    xhr.onreadystatechange = function() {
 	        if (xhr.readyState === 4 && xhr.status === 200) {
@@ -185,10 +185,23 @@
         let userCode = document.getElementById('certify_ph').value;
         if (isCodeValid && userCode == verificationCode) {
             alert("인증되었습니다!");
+            // 여기다가 이제 핸드폰번호로 임시비밀번호 보내주는 코드 짜야함
         } else {
             alert("인증번호가 다릅니다.");
         }
     });
+    
+ // 인증번호 다시받기 버튼
+	document.getElementById("certify_re").addEventListener('click', function() {
+		verificationCode = generateVerificationCode();
+        isCodeValid = true;
+        console.log("인증번호: " + verificationCode);
+
+        const fiveMinutes = 60 * 5;
+        const display = document.getElementById('timer');
+        startTimer(fiveMinutes, display);
+	});
+	
 </script>
 </body>
 </html>

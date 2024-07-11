@@ -77,8 +77,8 @@
                 <a href="https://www.naver.com" class="header_logo"><span class="hidden">사이트이름</span></a>
                 <ul class="my_menu">
                     <li>
-                        <a href="#">로그아웃</a>
-                        <a href="#">회원가입</a>
+                        <a href="/Tcp2/ticketlink/Login/Login.jsp">로그인</a>
+                        <a href="/Tcp2/ticketlink/Login/Join_content.jsp">회원가입</a>
                     </li>
                 </ul>
             </div>
