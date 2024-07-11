@@ -31,7 +31,7 @@
             <div class="utill">
                 <div class="inner">
                     <ul>
-                        <li class="utill_link"><a href="#">로그인</a></li>
+                        <li class="utill_link"><a href="#">로그아웃</a></li>
                         <li class="utill_link"><a href="#">예매확인/취소</a></li>
                         <li class="utill_link"><a href="#">회원가입</a></li>
                         <li class="utill_link"><a href="#">고객센터</a></li>
@@ -249,17 +249,18 @@
                            <%
                             String year = request.getParameter("year");
                             String month = request.getParameter("month");
+                            String viOrRe = request.getParameter("viOrRe");
                             int currP = 1;
                             String currP_ = request.getParameter("currP");
                             if (currP_ != null && !currP_.equals(""))
                             	currP = Integer.parseInt(currP_);
                           
                             %>
-                            <a href="/Tcp2/Ticket_checkMonthYServlet?year=<%=year%>&month=<%=month%>&currP=1" class="first">맨앞</a>
-                            <a href="/Tcp2/Ticket_checkMonthYServlet?year=<%=year%>&month=<%=month%>&currP=<%=Math.max(currP -1, 1)%>" class="prev">이전</a>
+                            <a href="/Tcp2/Ticket_checkMonthYServlet?viOrRe=<%=viOrRe %>&year=<%=year%>&month=<%=month%>&currP=1" class="first">맨앞</a>
+                            <a href="/Tcp2/Ticket_checkMonthYServlet?viOrRe=<%=viOrRe %>&year=<%=year%>&month=<%=month%>&currP=<%=Math.max(currP -1, 1)%>" class="prev">이전</a>
                             <strong><%=currP%></strong>
-                            <a href="/Tcp2/Ticket_checkMonthYServlet?year=<%=year%>&month=<%=month%>&currP=<%=currP + 1%>" class="next">다음</a>
-                            <a href="/Tcp2/Ticket_checkMonthYServlet?year=<%=year%>&month=<%=month%>&currP=<%=count%>" class="end">맨뒤</a>
+                            <a href="/Tcp2/Ticket_checkMonthYServlet?viOrRe=<%=viOrRe %>&year=<%=year%>&month=<%=month%>&currP=<%=currP + 1%>" class="next">다음</a>
+                            <a href="/Tcp2/Ticket_checkMonthYServlet?viOrRe=<%=viOrRe %>&year=<%=year%>&month=<%=month%>&currP=<%=count%>" class="end">맨뒤</a>
                         </div>
                         <div class="note">
                             <h6>

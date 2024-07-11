@@ -36,7 +36,7 @@ public class Ticket_checkPeriodServletR extends HttpServlet {
 		}
 		
 		int max = page * 5;
-		int min = 1 + (page-1) * 10;
+		int min = 1 + (page-1) * 5;
 		Ticket_checkPeriodDao tcpdao = new Ticket_checkPeriodDao();
 		ArrayList<Ticket_checkDto> list = tcpdao.checkDayR(userIdx, max, min, day);
 		int count = tcpdao.checkDayR_count(userIdx, day);

@@ -29,7 +29,8 @@ public class Ticket_checkMonthRServlet extends HttpServlet {
 		HttpSession hs = request.getSession();
 		int userIdx = (int)hs.getAttribute("userIdx");
 		int year = Integer.parseInt(request.getParameter("year"));
-		String viOrRe = request.getParameter("viOrRe");
+		String viOrRe_ = request.getParameter("viOrRe");
+		String viOrRe = null;
 		String month = (request.getParameter("month"));
 		int page = 1;
 		String page_ = request.getParameter("currP");
@@ -38,9 +39,9 @@ public class Ticket_checkMonthRServlet extends HttpServlet {
 			page = Integer.parseInt(page_);
 		}
 		
-		if (viOrRe.equals("예매일")) {
+		if (viOrRe_.equals("예매일")) {
 			viOrRe = "pay.pay_date";
-		} else if(viOrRe.equals("관람일")) {
+		} else if(viOrRe_.equals("관람일")) {
 			viOrRe = "p.start_date";
 		}
 		
