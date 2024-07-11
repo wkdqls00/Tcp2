@@ -376,6 +376,7 @@
             	 if (mPDto.getFile_url() != null) {
             		 photoList.add(mPDto.getFile_url());
             	 }
+            	 
             	 %>
            		<div class="postLayoutView" id="<%= mPDto.getPost_idx() %>">
            		<article class="contentsCard">
