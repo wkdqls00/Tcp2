@@ -1,3 +1,4 @@
+<%@page import="dao.UpdateDelOkDAO"%>
 <%@page import="dto.BandPublicOkDTO"%>
 <%@page import="dao.BandPublicOkDAO"%>
 <%@page import="dto.ChatListDTO"%>
@@ -77,6 +78,11 @@
 	BandPublicOkDAO bDao = new BandPublicOkDAO();
 	BandPublicOkDTO bOkDTO = bDao.selectBandPublicOkDTO(meet_idx);
 	
+	//게시글 삭제 여부
+	UpdateDelOkDAO udoDAO = new UpdateDelOkDAO();
+	
+	//meet_member_idx 꺼내오기
+	int meet_member_idx = mPrintDAO.postMeetMemberIdx(member_idx);
 %>
 
 <!DOCTYPE html>
@@ -430,10 +436,20 @@
                      <button class="postSet">글 옵션</button>
                      <div class="lyMenu" style="display: none">
                        <ul>
-                         <li>
-                           <a href="#">삭제하기</a>
-                         </li>
-                         <li>
+                       	<li>
+                       	<form action="../UpdateDelOkServlet" method="post">
+                       	  <input type="hidden" name="meet_idx" value="<%=meet_idx%>">
+                       	  <input type="hidden" name="member_idx" value="<%=member_idx%>">
+                       	  <input type="hidden" name="post_idx" value="<%= mPDto.getPost_idx() %>">
+                       	  <input type="submit" style="width: 100%;
+						   height: 37px;
+						   position: absolute;
+						   left: 0;
+						   cursor:pointer;">
+                          <a href="#" id="postDeleteBtn">삭제하기</a>
+                       	</form>
+                       	</li>
+                        <li>
                            <a href="#">수정하기</a>
                          </li>
                        </ul>
@@ -475,11 +491,16 @@
                  <div class="postAdded">
                    <div class="postAddBox">
                      <div class="addCol">
-                       <button class="addStatus">
-                         <span class="uFaceIcon"></span>
-                         <span>좋아요
-                         </span>
-                       </button>
+                       <form action="../InsertPostGoodServlet" method="post">
+		            	  <input type="hidden" value="<%=meet_idx %>" name="meet_idx">
+		            	  <input type="hidden" value="<%=member_idx %>" name="member_idx">
+		            	  <input type="hidden" value="<%=meet_member_idx %>" name="meet_member_idx">
+		            	  <input type="hidden" value="<%=mPDto.getPost_idx() %>" name="post_idx">
+	                      <button type="submit" class="addStatus">
+	                       <span class="uFaceIcon"></span>
+	                       <span>좋아요</span>
+	                     </button>
+                       </form>
                      </div>
                      <div class="addCol">
                        <button class="addStatus addComment">

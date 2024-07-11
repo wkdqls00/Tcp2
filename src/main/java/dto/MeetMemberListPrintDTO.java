@@ -4,7 +4,11 @@ public class MeetMemberListPrintDTO {
 	String nickname;
 	String admin_ok;
 	String profile;
+	int meet_member_idx;
 	
+	public MeetMemberListPrintDTO(int meet_member_idx) {
+		this.meet_member_idx = meet_member_idx;
+	}
 	public MeetMemberListPrintDTO(String nickname, String admin_ok, String profile) {
 		this.nickname = nickname;
 		this.admin_ok = admin_ok;
@@ -13,6 +17,9 @@ public class MeetMemberListPrintDTO {
 	@Override
 	public String toString() {
 		return "MeetMemberListPrintDTO [nickname=" + nickname + ", admin_ok=" + admin_ok + ", profile=" + profile + "]";
+	}
+	public int getMeet_member_idx() {
+		return meet_member_idx;
 	}
 	public String getNickname() {
 		return nickname;
