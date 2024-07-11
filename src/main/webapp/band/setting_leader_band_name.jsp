@@ -10,16 +10,19 @@
 <%
 	int meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
 	int member_idx = Integer.parseInt(request.getParameter("member_idx"));
+	
 	MeetSettingPrintDAO mspDAO = new MeetSettingPrintDAO();
 	MeetSettingPrintDTO mspDTO = mspDAO.selectMeetSettingPrintDTO(meet_idx);
-	//내 프로필 출력
+	
+	// 내 프로필 출력
 	MeetMemberProfilePrintDAO mMemberProfilePrintDAO = new MeetMemberProfilePrintDAO();
 	MeetMemberProfilePrintDTO mMemberProfilePrintDTO = mMemberProfilePrintDAO.selectMeetMemberProfilePrintDTO(meet_idx, member_idx);
+	
 	// 밴드 가입 여부
 	NoJoinMeetDAO njDao = new NoJoinMeetDAO();
 %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">

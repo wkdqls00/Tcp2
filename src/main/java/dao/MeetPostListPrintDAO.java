@@ -161,4 +161,25 @@ public class MeetPostListPrintDAO {
 		conn.close();
 		return result;
     }
+    
+    public void postViewAdd(int post_idx) {
+    	DatabaseUtil d = new DatabaseUtil();
+        Connection conn = d.getConn();
+        
+        String sql = 
+        		"UPDATE post "
+        		+ "SET views = post.views + 1 "
+        		+ "WHERE post_idx = ?";
+        PreparedStatement pstmt = d.getPstmt(conn, sql);
+        try {
+        	pstmt.setInt(1, post_idx);
+        	
+			int result = pstmt.executeUpdate();
+			System.out.println(result + "행 성공적으로 업데이트됨");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			d.close(conn, pstmt);
+		}
+    }
 }
