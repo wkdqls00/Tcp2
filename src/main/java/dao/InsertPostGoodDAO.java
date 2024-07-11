@@ -16,6 +16,10 @@ public class InsertPostGoodDAO {
         DatabaseUtil d = new DatabaseUtil();
         Connection conn = d.getConn();
 
+        // SELECT COUNT(*) WHERE ... ---> 0 또는 1
+        // 1 이면 ---> 0으로 만듦 : DELETE FROM ...
+        // 0 이면 ---> 1로 만듦 : INSERT (이미 밑에...)
+        
         String sql = 
         		"INSERT INTO post_good(post_idx, meet_member_idx) "
         		+ "VALUES (?,?)";

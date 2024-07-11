@@ -204,81 +204,47 @@
           </div>
         </div>
       </aside>
-      <!-- 메인 내용 가운데 멤버 목록 -->
-      <main class="band_main">
-        <div class="memberSection">
-          <!-- 멤버 검색 영역 -->
-          <div class="mHeaderWrap">
-            <header class="header">
-              <h1 class="title">멤버
-                <em class="count sf_blue"><%=miDto.getMeet_member_count() %></em>
-              </h1>
-            </header>
-            <div class="uInputSearch">
-              <input type="text" placeholder="멤버 검색" id="keyword">
-              <button class="search" type="submit"></button>
-              <span class="border"></span>
-            </div>
-          </div>
-          <!-- 가입 신청 대기 -->
-          <% try {
-        	  if (mPrintDAO.adminCheck(member_idx, meet_idx)) {%>
-          <div class="joinRequestWrap">
-          	<div class="memberManageMenu">
-          	  <div class="menuName">
-          	    <span class="circleIcon">
-          		  <span class="personIcon"></span>
-          		</span>
-          		<a href="#" class="arrowTextLink">
-          		가입 신청자
-          	    </a>
-          	  </div>
-          	  <a href="#" class="joinStatus">가입대기 1</a>
-          	</div>
-          </div>
-          <% 	}
-        	  } catch (Exception e) {
-        	  		e.printStackTrace();
-        	  }%>
-          <!-- 멤버 목록 -->
-          <div class="memberWrap">
-            <div class="memberListWrap">
-              <div class="memberListView">
-                <div class="subTitle">
-                  <h2 class="title">멤버</h2>
-                  <div class="uSelect">
-                  </div>
-                </div>
-                <% 
-                	for(MeetMemberListPrintDTO dto : mmlpDTO) {
-                %>
-                <ul class="memberList">
-                  <li class="uFlexItem">
-                    <a class="uProfile">
-                      <span class="profileInner">
-                        <img src="<%=dto.getProfile() %>"
-                        width="50" height="50">
-                      </span>
-                    </a>
-                    <div class="body">
-                      <span class="text -flex">
-                        <span class="ellipsis"><%=dto.getNickname() %></span>
-                        <% if (dto.getAdmin_ok().equals("Y")) { %>
-                        <em class="leader">리더</em>
-                        <% } else {  %>
-                       	<em></em>
-                       	<% } %>
-                      </span>
-                    </div>
-                  </li>
-                </ul>
-                <%
-                	}
-                %>
-              </div>
-            </div>
-          </div>
-        </div>
+      <!-- 가입 신청 목록 -->
+      <main class="mainContent">
+      	<section class="requestJoinSection">
+      		<div class="headerWrap">
+      			<header class="joinHeader">
+      				<h1 class="joinTitle">가입 신청자
+      					<em class="joinCount">2</em>
+      				</h1>
+      			</header>
+      		</div>
+      		<div class="requestJoinMember">
+      			<ul class="requestJoinMemberList">
+      				<li class="requestJoinMemberItem">
+      					<div class="flexItem">
+      						<a href="#" role="button" class="joinProfile">
+      							<span class="joinProfileInner">
+      								<img src="#" width="40" height="40">
+      							</span>
+      						</a>
+      						<span class="joinBody">
+      							<span class="textFlex">
+      								<span class="ellipsis">이준영</span>
+      							</span>
+      							<span class="requestJoinInfo">
+      								<span class="ellipsisDate">2024년 7월 11일 신청</span>
+      							</span>
+      						</span>
+      						<span class="joinEtc">
+      							<button type="button" class="acceptBtn">수락</button>
+      							<button type="button" class="refuseBtn">거절</button>
+      						</span>
+      					</div>
+      					<dl class="qna">
+      						<dt class="questionText">껄껄</dt>
+      						<dd class="answerText">낄낄</dd>
+      					</dl>
+      					<div class="buttonBox"></div>
+      				</li>
+      			</ul>
+      		</div>
+      	</section>
       </main>
      <!-- 메인 내용 오른쪽 채팅방 목록 : 가입했을 시 출력 -->
       <div id="banner">

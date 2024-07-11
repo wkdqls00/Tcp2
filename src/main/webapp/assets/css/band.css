@@ -2930,3 +2930,312 @@ body {
   text-align: left;
   white-space: nowrap;
 }
+
+.joinRequestWrap {
+	position: relative;
+    margin-top: -1px;
+    padding: 0 22px 25px;
+    background: #fff;
+    border-bottom: 1px solid #ebebeb;
+}
+.memberManageMenu {
+	display: flex;
+	align-items: center;
+}
+.menuName {
+	display: flex;
+	align-items: center;
+	flex: 1 1 auto;
+}
+.circleIcon {
+	display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 23px;
+    height: 23px;
+    margin-right: 7px;
+    border-radius: 19px;
+    background-color: #222;
+}
+.personIcon {
+	margin-left: 2px;
+	width: 14px;
+    height: 14px;
+    mask-size: 14px 14px;
+    background-color: #fff;
+    mask-image: url(https://ssl.pstatic.net/cmstatic/webclient/dres/20240628151159/images/spr_svg.svg#normal_check_person_fill);
+}
+.arrowTextLink {
+	font-size: 13px;
+    font-weight: 600;
+    color: #222;
+    display: flex;
+    align-items: center;
+}
+.arrowTextLink::after {
+	width: 12px;
+    height: 12px;
+    mask-image: url(https://ssl.pstatic.net/cmstatic/webclient/dres/20240628151159/images/spr_svg.svg#normal_arrow);
+    mask-size: 12px 12px;
+    background-color: #888;
+    flex: 0 0 auto;
+    display: inline-block;
+    margin-left: 3px;
+    vertical-align: top;
+    content: '';
+}
+.joinStatus {
+	font-size: 12px;
+    font-weight: 500;
+    color: #555;
+    flex: 0 0 auto;
+    height: 30px;
+    padding: 0 12px;
+    border-radius: 45px;
+    background-color: #f7f7f7;
+    line-height: 30px;
+}
+.buttonRequest {
+	width: 100%;
+    padding: 20px 0;
+    border-bottom: 1px solid #ebebeb;
+    font-size: 14px;
+    color: #333;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+}
+.memberRequestIcon {
+	display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    margin-right: 12px;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+}
+
+.requestText {
+	margin-right: 3px;
+}
+
+.joinQnRoomCount {
+	color: #1ba7e9 !important;
+}
+
+.mainContent {
+	flex: 0 0 auto;
+	width: 540px;
+	padding-bottom: 20px;
+	display: block;
+}
+
+.requestJoinSection {
+	background-color: #fff;
+    box-shadow: 0 1.4px 1.3px 0 rgba(62, 73, 89, 0.1);
+}
+
+.headerWrap {
+	position: relative;
+    padding: 0 22px;
+    border-bottom: 1px solid #e7e7e7;
+}
+
+.joinHeader {
+	overflow-wrap: break-word;
+    word-break: break-word;
+    position: relative;
+    display: flex;
+    height: 61px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.joinTitle {
+    font-size: 18px;
+    font-weight: 600;
+    color: #222;
+}
+
+.joinCount {
+    margin-left: 5px;
+    font-size: 18px;
+    font-weight: 500;
+    color: #1ba7e9 !important;
+}
+
+.requestJoinMember {
+	margin-top: -1px;
+}
+
+.requestJoinMemberItem {
+	padding: 22px;
+	border-top: 1px solid rgba(0,0,0,0.05);
+}
+
+.flexItem {
+    display: flex;
+    align-items: center;
+}
+
+.joinProfile {
+    display: block;
+    margin-right: 12px;
+    position: relative;
+    vertical-align: top;
+    font-size: 0;
+}
+
+.joinProfileInner {
+    width: 40px;
+    height: 40px;
+    display: block;
+    overflow: hidden;
+    position: relative;
+    background-color: #ebebeb;
+    border-radius: 50%;
+    font-size: 0;
+}
+
+.joinProfileInner::before {
+	width: 20px;
+    height: 20px;
+    overflow: hidden;
+    display: block;
+    background-repeat: no-repeat;
+    content: '';
+    background-image: url(https://ssl.pstatic.net/cmstatic/webclient/dres/20240628151159/images/spr_icons.png);
+    background-position: -572px -690px;
+    margin: -10px 0 0 -10px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+}
+
+.requestJoinProfile {
+	position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    vertical-align: top;
+}
+
+.joinBody {
+	flex: 1 1;
+    min-width: 0;
+    line-height: 1.4;
+    display: block;
+}
+.textFlex {
+	font-size: 14px;
+    font-weight: 700;
+    color: var(#222);
+    margin-top: 3px;
+    line-height: 1.4;
+}
+.ellipsis {
+	display: block;
+    overflow: hidden;
+    max-width: 100%;
+    white-space: nowrap;
+    word-break: normal;
+    overflow-wrap: normal;
+    text-overflow: ellipsis;
+}
+
+.requestJoinInfo {
+	display: flex;
+    margin-top: 2px;
+}
+
+.ellipsisDate {
+	display: block;
+    font-size: 12px;
+    font-weight: 400;
+    color: #999;
+    overflow: hidden;
+    max-width: 100%;
+    white-space: nowrap;
+    word-break: normal;
+    overflow-wrap: normal;
+    text-overflow: ellipsis;
+}
+
+.joinEtc {
+	display: block;
+	margin-left: 26px;
+	text-align: right;
+	font-size: 0;
+}
+
+.acceptBtn {
+	color: #fff !important;
+	background: #2ecc71 !important;
+	min-width: 41px;
+    height: 26px;
+    padding: 0 10px;
+    font-size: 12px;
+    line-height: 1;
+    position: relative;
+    border-radius: 1px;
+    font-weight: 500;
+    vertical-align: top;
+    white-space: nowrap;
+    cursor: pointer;
+    border: 0;
+}
+.refuseBtn {
+	border: 1px solid #ccc;
+    background: #fff;
+    color: #555;
+    min-width: 41px;
+    height: 26px;
+    padding: 0 10px;
+    font-size: 12px;
+    line-height: 1;
+    position: relative;
+    border-radius: 1px;
+    font-weight: 500;
+    vertical-align: top;
+    white-space: nowrap;
+    cursor: pointer;
+    margin-left: 5px !important;
+}
+.qna {
+    margin: 16px 0 0 0;
+    padding: 18px 20px 17px;
+    border: 1px solid #ebebeb;
+    background: #fcfcfc;
+}
+.questionText {
+	font-size: 13px;
+    font-weight: 400;
+    color: #999;
+    overflow-wrap: break-word;
+}
+.answerText {
+	font-size: 13px;
+    font-weight: 400;
+    color: #444;
+    margin-top: 6px;
+    line-height: 1.31;
+    overflow-wrap: break-word;
+    margin: 0;
+    padding: 0;
+}
+.buttonBox {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 9px !important;
+}
+
+
+
+
+
+
+
+
+
+
+

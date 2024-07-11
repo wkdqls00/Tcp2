@@ -98,6 +98,24 @@
   <script>
   	$(function() {
 		$(".postEmpty").load("band_no_write_div.html");
+		
+		$(".postAddBox .addCol:first-child").click(function() {
+			let meet_member_idx = <%= meet_member_idx %>;
+			let post_idx = $(this).closest(".postLayoutView").attr("id");
+			$.ajax({
+				url: '${pageContext.request.contextPath}/AjaxPostGoodServlet',
+				data: {post_idx : post_idx, meet_member_idx : meet_member_idx},
+				type: 'get',
+				success: function(response){
+					var likeCount = $(".uEmotionView > .count").attr("id");
+					likeCount = parseInt(likeCount);
+					$(".uEmotionView > .count").html(likeCount + 1);
+				},
+				error: function(){
+					console.log('ajax 통신 실패');		
+				}
+			});
+		});
   	})
   </script>
   <style>
@@ -470,7 +488,7 @@
 				               <span class="uFaceIcon"></span>
 				             </span>
 				           </span>
-				           <span class="count"><%= lCountDTO.getLike() %></span>
+				           <span class="count" id="<%= lCountDTO.getLike() %>"><%= lCountDTO.getLike() %></span>
 				         </button>
 				         <button class="comment">댓글<span class="count"><%= clListDTO.size() %></span>
 				         </button>
@@ -490,18 +508,12 @@
    			  <!-- 댓글 쓰기, 좋아요 버튼 : 가입했을 시 출력 -->
 			   <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
                  <div class="postAdded">
-                   <div class="postAddBox">
+                   <div class="postAddBox"> 
                      <div class="addCol">
-                       <form action="../InsertPostGoodServlet" method="post">
-		            	  <input type="hidden" value="<%=meet_idx %>" name="meet_idx">
-		            	  <input type="hidden" value="<%=member_idx %>" name="member_idx">
-		            	  <input type="hidden" value="<%=meet_member_idx %>" name="meet_member_idx">
-		            	  <input type="hidden" value="<%=mPDto.getPost_idx() %>" name="post_idx">
-	                      <button type="submit" class="addStatus">
-	                       <span class="uFaceIcon"></span>
-	                       <span>좋아요</span>
-	                     </button>
-                       </form>
+	                    <button type="button" class="addStatus">
+	                      <span class="uFaceIcon"></span>
+	                     <span>좋아요</span>
+	                   </button>
                      </div>
                      <div class="addCol">
                        <button class="addStatus addComment">
