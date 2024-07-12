@@ -31,7 +31,7 @@
             <div class="search_tabWrap">
                 <div class="search_tab">
                     <div class="tab current">
-                        <a href="">아이디 찾기</a>
+                        <a href="/Tcp2/ticketlink/Login/Find_id.jsp">아이디 찾기</a>
                     </div>
                     <div class="tab">
                         <a href="/Tcp2/ticketlink/Login/Find_pw_idcheck.jsp">비밀번호 찾기</a>

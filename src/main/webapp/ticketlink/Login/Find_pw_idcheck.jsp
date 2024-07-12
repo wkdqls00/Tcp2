@@ -108,7 +108,7 @@
            
            // 없는 아이디 입력하면 error문자 뜨게
            let error = <%=request.getAttribute("error")%>;
-           if(error !== false && error != null) {
+           if(error !== false && error !== null) {
         	   document.querySelector(".error").classList.add("notDisabled");
            } 
     </script>

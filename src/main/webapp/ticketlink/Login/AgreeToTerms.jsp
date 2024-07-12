@@ -7,9 +7,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="/Tcp2/assets/css/agreeToTerms.css">
     <title>약관동의</title>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <style>
+   	    .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.7);
+            z-index: 10;
+            display: none;
+       	}
+       	.g-recaptcha {
+       		position: absolute;
+		    left: 35%;
+		    top: 15%;
+		    z-index: 11;
+       	}
+    </style>
 </head>
 <body>
-
+	<div class="overlay" id="overlay"></div>
+	<div class="g-recaptcha" data-sitekey="6Lerfg0qAAAAAAukEzArdUcJnbf16ra6BELU4ngX" data-callback="recaptchaCallback"></div>
     <div class="memberContainer">
         <div class="header">
             <a href="" class="headerLogo"><span></span></a>
@@ -158,6 +178,17 @@
         document.querySelector(".uBtn").addEventListener("mouseleave", function() {
             this.classList.remove("special");
         });
+        
+     	// reCAPTCHA 완료 콜백 함수
+        function recaptchaCallback() {
+            document.getElementById('overlay').style.display = 'none';
+            document.querySelector('.g-recaptcha').style.display = 'none';
+        }
+
+        // 페이지 로드 시 오버레이로 화면 가리기
+        window.onload = function() {
+            document.getElementById('overlay').style.display = 'block';
+        };
     </script>
     
 </body>

@@ -46,15 +46,17 @@
         .btn_box {
             display: flex;
         }
-        .btn_box > button{
+        .btn_box > a{
             width: 100%;
             height: 52px;
             border-radius: 12px;
             font-weight: bold;
             font-size: 17px;
             box-sizing: border-box;
+            text-align: center;
+            line-height: 50px;
         }
-        .btn_box button + button {
+        .btn_box a + a {
             margin-left: 10px;
         }
         .white_btn {
@@ -92,10 +94,10 @@
             <div class="search_tabWrap">
                 <div class="search_tab">
                     <div class="tab current">
-                        <a href="">아이디 찾기</a>
+                        <a href="/Tcp2/ticketlink/Login/Find_id.jsp">아이디 찾기</a>
                     </div>
                     <div class="tab">
-                        <a href="">비밀번호 찾기</a>
+                        <a href="/Tcp2/ticketlink/Login/Find_pw_idcheck.jsp">비밀번호 찾기</a>
                     </div>
                 </div>
             </div>
@@ -114,8 +116,8 @@
                         </ul>
                     </div>
                     <div class="btn_box">
-                        <button type="button" class="white_btn">비밀번호 찾기</button>
-                        <button type="button" class="red_btn">로그인</button>
+                        <a href="/Tcp2/ticketlink/Login/Find_pw_idcheck.jsp" class="white_btn">비밀번호 찾기</a>
+                        <a href="/Tcp2/ticketlink/Login/Login.jsp" class="red_btn">로그인</a>
                     </div>
                 </div>
             </div>
