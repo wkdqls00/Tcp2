@@ -116,6 +116,7 @@
 				}
 			});
 		});
+		
   	})
   </script>
   <style>
@@ -495,7 +496,7 @@
 				       </span>
 				     </div>
 				     <!-- 조회수 -->
-				     <div class="postCountRight">
+				     <div class="postCountRight" id="<%= mPDto.getViews() %>">
 				       <span class="shareRead">
 				         <span class="read">
 				           <span class="count">
@@ -656,7 +657,7 @@
 			                        <time class="time"><%= mPDto.getReg_date() %></time>
 			                      </div>
 			                    </div>
-			                    <button class="btnLyClose" style="z-index: 20; top: 30px;"></button>
+			                    <button class="btnLyClose" style="z-index: 20; top: 30px;" id="postDetailClose"></button>
 			                  </div>
 			                  <div class="postMain">
 			                    <!-- 읽은 사람 수 출력 -->
@@ -753,6 +754,16 @@
 								                 			<% } %>
 								               </time>
 			                                </div>
+			                              </div>
+			                            </div>
+			                            <div class="feedback" style="display: none;">
+			                              <button class="commentEdit"></button>
+			                              <div class="lyMenu">
+			                                <ul>
+			                                  <li>
+			                                    <a href="#">댓글 삭제</a>
+			                                  </li>
+			                                </ul>
 			                              </div>
 			                            </div>
 			                            <% } %>
@@ -986,11 +997,36 @@
       $(".newChattingBtn").click(function() {
         $("#newChatWrap_popUp").css('display', 'block');
       })
-      // 글 디테일 클릭 이벤트
+      
+      // 글 디테일 클릭 이벤트, 조회수 Ajax
       $(".postListItemView").click(function() {
-		let postIdx = $(this).parent().parent().attr('id');
-		$("#postDetail" + postIdx).css('display', 'block');
-	  })
+		let post_idx = $(this).parent().parent().attr('id');
+		let view = $(".postCountRight").attr('id');
+		view = parseInt(view);
+
+		$.ajax({
+			url: '${pageContext.request.contextPath}/AjaxViewAddServlet',
+			data: {post_idx : post_idx},
+			type: 'get',
+			success: function(response){
+				$("#postDetail" + post_idx).css('display', 'block');
+				
+			},
+			error: function() {
+				console.log('ajax 통신 실패');
+			}
+		});
+		
+		view++;
+		$("#" + post_idx).find(".read").find(".count").html(view);
+		$("#postDetail" + post_idx).find(".postReaders").find(".sf_color").html(view + "명");
+		
+	  });
+      
+      $("#postDetailClose").click(function() {
+	  	location.reload();
+      })
+      
 	  // 팝업 닫기
       $(".btnLyClose").click(function() {
         $(".layerContainerView").css('display', 'none');
