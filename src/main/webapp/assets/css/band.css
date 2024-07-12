@@ -3305,6 +3305,46 @@ body {
 	border: 0;
 }
 
+/* 댓글 삭제 버튼 */
 
+.feedback {
+  right: 36px;
+  position: absolute;
+  top: 17px;
+}
+
+.feedback .commentEdit {
+  mask-image: url(https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/spr_svg.svg#normal_option);
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  mask-size: 20px 20px;
+  vertical-align: top;
+  opacity: .7;
+  background-color: #d5d6e1;
+}
+
+.feedback .lyMenu {
+  right: 0;
+  z-index: 200;
+  position: absolute;
+  background: #fff;
+  box-shadow: 0px 4px 13px rgba(0, 0, 0, 0.15), 0px 0px 2px 1px rgba(0, 0, 0, 0.02);
+  border-radius: 16px;
+  padding: 12px 0;
+  margin-top: 6px;
+}
+
+.lyMenu li a {
+  font-size: 13px;
+  font-weight: 400;
+  color: #222;
+  display: block;
+  min-height: 32px;
+  padding: 8px 18px;
+  line-height: 1.2;
+  text-align: left;
+  white-space: nowrap;
+}
 
 

@@ -709,11 +709,11 @@
 			                   <div class="dPostCommentMainView">
 			                    <div>
 			                      <div class="sCommentList">
-			                        <div class="cComment">
-			                          <div class="DCommentView">
 			                          <% for(CommentListViewDTO clDto : clListDTO) { 
 								         	MeetCommentElapsedTimeDTO mCDto = mCDao.selectMeetCommentElapsedTimeDTO(clDto.getComment_idx());
 							          %>
+			                        <div class="cComment">
+			                          <div class="DCommentView">
 			                            <div class="itemWrap">
 			                              <div class="writeInfo">
 			                              <% if (mPrintDAO.adminCheck(clDto.getMember_idx(), meet_idx)) { %>
@@ -756,9 +756,10 @@
 			                                </div>
 			                              </div>
 			                            </div>
-			                            <div class="feedback" style="display: none;">
+			                            <% if(clDto.getMember_idx() == member_idx) { %>
+			                            <div class="feedback" id="off">
 			                              <button class="commentEdit"></button>
-			                              <div class="lyMenu">
+			                              <div class="lyMenu" style="display: none;">
 			                                <ul>
 			                                  <li>
 			                                    <a href="#">댓글 삭제</a>
@@ -769,6 +770,7 @@
 			                            <% } %>
 			                          </div>
 			                        </div>
+		                            <% } %>
 			                      </div>
 			                    </div>
 			                    <!-- 댓글 입력창 -->
@@ -1001,7 +1003,7 @@
       // 글 디테일 클릭 이벤트, 조회수 Ajax
       $(".postListItemView").click(function() {
 		let post_idx = $(this).parent().parent().attr('id');
-		let view = $(".postCountRight").attr('id');
+		let view = $("#" + post_idx).find(".postCountRight").attr('id');
 		view = parseInt(view);
 
 		$.ajax({
@@ -1025,12 +1027,13 @@
       
       $("#postDetailClose").click(function() {
 	  	location.reload();
-      })
+      });
       
 	  // 팝업 닫기
       $(".btnLyClose").click(function() {
         $(".layerContainerView").css('display', 'none');
       })
+      
       // 프로필 클릭 시 드롭다운 (프로필 설정, 로그아웃)
       $(".btnMySetting").click(function() {
 	  	let onOff = $(".profileDropDown").attr('id');
@@ -1053,6 +1056,20 @@
 		} else {
 			postFunction.attr('id', 'off');
 			postFunction.find(".lyMenu").css('display', 'none');
+		}
+	  })
+	  
+	  // 댓글 삭제 버튼 클릭 이벤트
+	  $(".commentEdit").click(function() {
+		let feedback = $(this).parent();
+		let onOff = $(this).parent().attr('id');
+		
+		if (onOff == 'off') {
+			feedback.attr('id', 'on');
+			feedback.find(".lyMenu").css('display', 'block');
+		} else {
+			feedback.attr('id', 'off');
+			feedback.find(".lyMenu").css('display', 'none');
 		}
 	  })
 	  // 댓글 입력창 댓글쓰기 버튼 눌렀을 시 출력 클릭 이벤트
