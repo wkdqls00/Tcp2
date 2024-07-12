@@ -1,3 +1,6 @@
+<%@page import="dao.UpdateBandDAO"%>
+<%@page import="dto.MeetJoinQuestionWriteDTO"%>
+<%@page import="dao.MeetJoinQuestionWriteDAO"%>
 <%@page import="dto.MeetJoinQnAPrintDTO"%>
 <%@page import="dao.MeetJoinQnAPrintDAO"%>
 <%@page import="dto.BandPublicOkDTO"%>
@@ -29,8 +32,14 @@
 		e.printStackTrace();
 	}
 	
+	
 	//리더 출력
 	MeetPostListPrintDAO mPrintDAO = new MeetPostListPrintDAO();
+	// 가입 신청자 출력
+	MeetMemberListPrintDAO joinWaitDAO = new MeetMemberListPrintDAO();
+	ArrayList<MeetMemberListPrintDTO> jwListDto = new ArrayList<>();	
+	
+	jwListDto = joinWaitDAO.selectJoinWaitMemberList(meet_idx);
 	
 	// 밴드 왼쪽 소개
 	MeetIntroduceWriteDAO miDao = new MeetIntroduceWriteDAO();
@@ -55,6 +64,11 @@
 	
 	MeetJoinQnAPrintDAO mjqpDAO = new MeetJoinQnAPrintDAO();
 	MeetJoinQnAPrintDTO mjqpDTO = mjqpDAO.selectMeetJoinQnAPrintDTO(meet_idx);
+	
+	MeetJoinQuestionWriteDAO mjqwDAO = new MeetJoinQuestionWriteDAO();
+	MeetJoinQuestionWriteDTO mjqwDTO = mjqwDAO.SelectMeetMemberWaitCount(meet_idx);
+	
+	UpdateBandDAO updateDAO = new UpdateBandDAO();
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -66,6 +80,26 @@
   <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/band_header.css'>
   <title>BAND - 멤버 목록</title>
   <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+  <script>
+  	$(function() {
+  		$(".acceptBtn").click(function() {
+  			let meet_idx = <%= meet_idx%>;
+  			let member_idx = $(this).closest(".requestJoinMemberItem").attr("id");
+  			let join_count = parseInt(<%=mjqwDTO.getJoin_wait_count()%>);
+  			$.ajax({
+  				url: '${pageContext.request.contextPath}/AjaxJoinAcceptServlet',
+  				data: {member_idx : member_idx, meet_idx : meet_idx,},
+  				type: 'get',
+  				success: function(response){
+  					$("#" + member_idx).hide();
+  					alert("수락되었습니다.");
+  					$(".joinCount").html(join_count-1);
+  				}
+  			})
+  		})
+  	});
+  	
+  </script>
 </head>
 <body>
   <div id="wrap">
@@ -215,22 +249,24 @@
       		<div class="headerWrap">
       			<header class="joinHeader">
       				<h1 class="joinTitle">가입 신청자
-      					<em class="joinCount">2</em>
+      					<em class="joinCount"><%=mjqwDTO.getJoin_wait_count() %></em>
       				</h1>
       			</header>
       		</div>
+      		<% if(joinWaitDAO.joinWait(meet_idx)) { %>
       		<div class="requestJoinMember">
       			<ul class="requestJoinMemberList">
-      				<li class="requestJoinMemberItem">
+      			<% for(MeetMemberListPrintDTO dto : jwListDto) {%>
+      				<li class="requestJoinMemberItem" id="<%=dto.getMember_idx()%>">
       					<div class="flexItem">
       						<a href="#" role="button" class="joinProfile">
       							<span class="joinProfileInner">
-      								<img src="<%=mMemberProfilePrintDTO.getProfile() %>" width="40" height="40" class="requestJoinProfile">
+<!--       								<img width="40" height="40" class="requestJoinProfile"> -->
       							</span>
       						</a>
       						<span class="joinBody">
       							<span class="textFlex">
-      								<span class="ellipsis"><%=mMemberProfilePrintDTO.getNickname() %></span>
+      								<span class="ellipsis"><%=dto.getNickname() %></span>
       							</span>
       							<span class="requestJoinInfo">
 <!--       								<span class="ellipsisDate">2024년 7월 11일 신청</span> -->
@@ -242,13 +278,15 @@
       						</span>
       					</div>
       					<dl class="qna">
-      						<dt class="questionText"><%=mjqpDTO.getSub_q() %></dt>
-      						<dd class="answerText"><%=mjqpDTO.getSub_a() %></dd>
+      						<dt class="questionText"><%=dto.getSub_q() %></dt>
+      						<dd class="answerText"><%=dto.getSub_a() %></dd>
       					</dl>
       					<div class="buttonBox"></div>
       				</li>
+   					<% } %>
       			</ul>
       		</div>
+      		<% } %>
       	</section>
       </main>
      <!-- 메인 내용 오른쪽 채팅방 목록 : 가입했을 시 출력 -->
