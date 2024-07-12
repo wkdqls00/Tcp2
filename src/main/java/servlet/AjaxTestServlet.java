@@ -14,8 +14,8 @@ import org.json.simple.JSONObject;
 
 import dao.InsertPostGoodDAO;
 
-@WebServlet("/AjaxTest")
-public class AjaxTest extends HttpServlet {
+@WebServlet("/AjaxTestServlet")
+public class AjaxTestServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -23,15 +23,14 @@ public class AjaxTest extends HttpServlet {
 		System.out.println("my_name_test : " + request.getParameter("my_name_test"));
 
 		// (JSON으로 받기). (post_idx)
-		int post_idx = Integer.parseInt(request.getParameter("post_idx"));
-		int meet_member_idx = Integer.parseInt(request.getParameter("meet_member_idx"));
-		//HttpSession session = request.getSession();
-		//int userIdx = (Integer)session.getAttribute("userIdx");
-		System.out.println(post_idx +", " + meet_member_idx);
+		int postIdx = Integer.parseInt(request.getParameter("post_idx"));
+		HttpSession session = request.getSession();
+		int userIdx = (Integer)session.getAttribute("userIdx");
+		System.out.println("userIdx : " + userIdx);
 		
 		// Dao 호출
 		InsertPostGoodDAO goodDao = new InsertPostGoodDAO();
-		goodDao.insertPostGood(post_idx, meet_member_idx);
+		goodDao.insertPostGood(postIdx, userIdx);
 		
 		// JSON으로 보내기.
 		String returnStr = "SUCCESS!";

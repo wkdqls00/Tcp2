@@ -1,3 +1,5 @@
+<%@page import="dto.MeetJoinQnAPrintDTO"%>
+<%@page import="dao.MeetJoinQnAPrintDAO"%>
 <%@page import="dto.BandPublicOkDTO"%>
 <%@page import="dao.BandPublicOkDAO"%>
 <%@page import="dao.NoJoinMeetDAO"%>
@@ -50,6 +52,9 @@
 	// 밴드 공개 여부
 	BandPublicOkDAO bDao = new BandPublicOkDAO();
 	BandPublicOkDTO bOkDTO = bDao.selectBandPublicOkDTO(meet_idx);
+	
+	MeetJoinQnAPrintDAO mjqpDAO = new MeetJoinQnAPrintDAO();
+	MeetJoinQnAPrintDTO mjqpDTO = mjqpDAO.selectMeetJoinQnAPrintDTO(meet_idx);
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -228,7 +233,7 @@
       								<span class="ellipsis"><%=mMemberProfilePrintDTO.getNickname() %></span>
       							</span>
       							<span class="requestJoinInfo">
-      								<span class="ellipsisDate">2024년 7월 11일 신청</span>
+<!--       								<span class="ellipsisDate">2024년 7월 11일 신청</span> -->
       							</span>
       						</span>
       						<span class="joinEtc">
@@ -237,8 +242,8 @@
       						</span>
       					</div>
       					<dl class="qna">
-      						<dt class="questionText">껄껄</dt>
-      						<dd class="answerText">낄낄</dd>
+      						<dt class="questionText"><%=mjqpDTO.getSub_q() %></dt>
+      						<dd class="answerText"><%=mjqpDTO.getSub_a() %></dd>
       					</dl>
       					<div class="buttonBox"></div>
       				</li>
@@ -355,6 +360,26 @@
         </section>
       </div>
     </div>
+    <!-- 팝업 : 가입신청 프로필 버튼 클릭 -->
+    <div class="layerContainerView" id="joinRequestWrap_popUp" style="display: none;">
+    	<section class="lyWrap">
+	    	<button type="button" aria-hidden="true" class="layerFirstElement" style="position: fixed;
+	    	left: 0; top: 0; width: 1px; height: 1px; overflow:hidden; background: transparent; color: transparent">layer focus check First element</button>
+    		<div class="originalProfile">
+<!--     			<header> -->
+<!--     				<h1>프로필 사진 확대 보기</h1> -->
+<!--     			</header> -->
+    			<div class="mainProfile">
+    				<img src="<%=mMemberProfilePrintDTO.getProfile() %>"class="originalProfileImg">
+    			</div>
+    			<footer class="closeBtn">
+    				<button type="button" class="btnLyClose">레이어닫기</button>
+    			</footer>
+    		</div>
+    	</section>
+    	<button type="button" aria-hidden="true" class="layerLastElement" style="position: fixed;
+    	left: 0; top: 0; width: 1px; height: 1px; overflow:hidden; background: transparent; color: transparent">layer focus check last element</button>
+    </div>
   </div>
   <script>
   
@@ -375,6 +400,11 @@
     $(".btnIconStyle").click(function(){
     	$("#newChatWrap_popUp").css('display', 'block');
 	})
+	// 가입신청 프로필 클릭하면 사진 크게 보기
+	$(".joinProfile").click(function(){
+		$("#joinRequestWrap_popUp").css('display', 'block');
+	})
+	//
  	// 프로필 클릭 시 드롭다운 (프로필 설정, 로그아웃)
     $(".btnMySetting").click(function() {
   	  let onOff = $(".profileDropDown").attr('id');
