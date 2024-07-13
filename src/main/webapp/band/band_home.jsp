@@ -99,6 +99,7 @@
   	$(function() {
 		$(".postEmpty").load("band_no_write_div.html");
 		
+		// 좋아요 버튼 +1
 		$(".postAddBox .addCol:first-child").click(function() {
 			let meet_member_idx = <%= meet_member_idx %>;
 			let post_idx = $(this).closest(".postLayoutView").attr("id");
@@ -109,7 +110,12 @@
 				success: function(response){
 					var likeCount = $(".uEmotionView > .count").attr("id");
 					likeCount = parseInt(likeCount);
-					$(".uEmotionView > .count").html(likeCount + 1);
+					
+					if (parseInt($(".uEmotionView > .count").html()) > likeCount) {
+						$(".uEmotionView > .count").html(likeCount);
+					} else {
+						$(".uEmotionView > .count").html(likeCount + 1);
+					}
 				},
 				error: function(){
 					console.log('ajax 통신 실패');		
@@ -311,7 +317,7 @@
         <section>
           <!-- 게시글 검색 form : 가입했을 시 출력 -->
           <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
-          <div class="searchWrap">
+          <!-- <div class="searchWrap">
             <form>
               <div class="inputSearch">
                 <input type="text" id="input_search" placeholder="글 내용, #태그, @작성자 검색"
@@ -319,7 +325,7 @@
                 <button type="submit" class="search"></button>
               </div>
             </form>
-          </div>
+          </div> -->
           <!-- 글쓰기 영역 : 가입했을 시 출력 -->
           <div class="writeWrap">
             <div class="postWrite">
@@ -1012,22 +1018,21 @@
 			type: 'get',
 			success: function(response){
 				$("#postDetail" + post_idx).css('display', 'block');
-				
+				view++;
+				$("#" + post_idx).find(".read").find(".count").html(view);
+				$("#postDetail" + post_idx).find(".postReaders").find(".sf_color").html(view + "명");
+				$("#" + post_idx).find(".postCountRight").attr('id', view);
 			},
 			error: function() {
 				console.log('ajax 통신 실패');
 			}
 		});
 		
-		view++;
-		$("#" + post_idx).find(".read").find(".count").html(view);
-		$("#postDetail" + post_idx).find(".postReaders").find(".sf_color").html(view + "명");
-		
 	  });
       
-      $("#postDetailClose").click(function() {
+      /* $("#postDetailClose").click(function() {
 	  	location.reload();
-      });
+      }); */
       
 	  // 팝업 닫기
       $(".btnLyClose").click(function() {

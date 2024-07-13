@@ -16,7 +16,7 @@ public class InsertPostGoodDAO {
     public void insertPostGood(int post_idx, int meet_member_idx) {
         DatabaseUtil d = new DatabaseUtil();
         Connection conn = d.getConn();
-        String selCount = "SElECT COUNT(*) "
+        String selCount = "SELECT COUNT(*) "
         		+ "FROM post_good "
         		+ "WHERE post_idx = ? "
         		+ "AND meet_member_idx = ?";
