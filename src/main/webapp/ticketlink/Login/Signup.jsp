@@ -24,7 +24,7 @@
      terms4 = (terms4 != null) ? "Y" : "N";
      terms5 = (terms5 != null) ? "Y" : "N";
 %>
-    <form id="form" action="http://localhost:9090/Test/SignupDaoServlet" method="post">
+    <form id="form" action="/Tcp2/SignupDaoServlet" method="post">
        <input type="hidden" name="terms1" value="<%= terms1 %>">
        <input type="hidden" name="terms2" value="<%= terms2 %>">
        <input type="hidden" name="terms3" value="<%= terms3 %>">
@@ -253,7 +253,7 @@
                             </div>
                         </div>
                         <div class="certify_time">
-                            <span classq="time">05:00</span>
+                            <span class="timer"></span>
                         </div>
                     </div>
                     <div class="uBlock check_block"> <!--체크블럭-->
@@ -344,15 +344,7 @@
     </form>
     <script src="/Tcp2/assets/js/signup.js"></script>
     <script>
-	// 가입완료 버튼 누르면 alert 
-		function end(event) {
-			event.preventDefault();
-			var text = document.getElementById("input_name").value;
-			const queryParams = window.location.search;
-			console.log("입력된 이름:", text);
-			alert(`가입 되었습니다.\n환영합니다 ${text}님`);
-			window.location.href = "/Tcp2/ticketlink/Login/Login.jsp"
-		}
+			
 		   // 모든 인풋의 값 입력할 때까지 인증번호 버튼 disabled
 		   let isIdUnique = false; // 아이디 중복 여부  변수
 		   let isNickUnique = false; // 닉네임 중복 여부 변수

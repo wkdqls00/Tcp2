@@ -1,9 +1,16 @@
 package dto;
 
 public class MeetMemberProfilePrintDTO {
+	int member_idx;
 	String profile;
 	String nickname;
 	
+	public int getMember_idx() {
+		return member_idx;
+	}
+	public void setMember_idx(int member_idx) {
+		this.member_idx = member_idx;
+	}
 	public String getProfile() {
 		return profile;
 	}
@@ -21,7 +28,8 @@ public class MeetMemberProfilePrintDTO {
 		return "MeetMemberProfilePrintDTO [profile=" + profile + ", nickname=" + nickname + "]";
 	}
 	
-	public MeetMemberProfilePrintDTO(String nickname, String profile) {
+	public MeetMemberProfilePrintDTO(int member_idx, String nickname, String profile) {
+		this.member_idx = member_idx;
 		this.profile = profile;
 		this.nickname = nickname;
 	}

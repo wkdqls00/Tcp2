@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,10 +10,11 @@
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
     <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+    
     <script>
     Kakao.init('d71651f09cc74945fc403a9f0692a5b7'); // 사용하려는 앱의 JavaScript 키 입력
     </script> 
-  
+   
 </head>
 <body>
     <div class="header"></div>
@@ -24,7 +25,7 @@
                 <span>종원링크</span>
             </h1>
             </div>
-            <form id="loginFrm" name="loginFrm" action="/Tcp2/LoginSuccessToMain"  method="post" >
+            <form id="loginFrm" name="loginFrm" action="${pageContext.request.contextPath}/LoginSuccessToMain"  method="post" >
                 <div class="loginInner">
                     <div class="loginForm">
                         <div class="inputBox">
@@ -60,9 +61,9 @@
                     </div>
                     <div class="findList">
                         <ul>
-                            <li><a href="">아이디 찾기</a></li>
-                            <li><a href="">비밀번호 찾기</a></li>
-                            <li><a href="http://localhost:9090/Tcp2/ticketlink/Login/joinContent.html">회원가입</a></li>
+                            <li><a href="/Tcp2/ticketlink/Login/Find_id.jsp">아이디 찾기</a></li>
+                            <li><a href="/Tcp2/ticketlink/Login/Find_pw_idcheck.jsp">비밀번호 찾기</a></li>
+                            <li><a href="/Tcp2/ticketlink/Login/Join_content.jsp">회원가입</a></li>
                         </ul>
                     </div>
                     <div class="snsLogin">
@@ -79,6 +80,7 @@
                             </li>
                         </ul>
                     </div>
+                    
                 </div>    
             </form>
         </div>

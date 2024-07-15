@@ -1,3 +1,8 @@
+<%@page import="dao.UpdateDelOkDAO"%>
+<%@page import="dto.BandPublicOkDTO"%>
+<%@page import="dao.BandPublicOkDAO"%>
+<%@page import="dto.ChatListDTO"%>
+<%@page import="dao.ChatListDAO"%>
 <%@page import="dto.MeetWriteViewDTO"%>
 <%@page import="dao.MeetWriteViewDAO"%>
 <%@page import="dao.NoJoinMeetDAO"%>
@@ -63,6 +68,21 @@
 	// 팝업 : 글 디테일 뷰
 	MeetWriteViewDAO mwDao = new MeetWriteViewDAO();
 	
+	// 채팅 목록 출력
+	ChatListDAO cDao = new ChatListDAO();
+	ArrayList<ChatListDTO> chatListDto = new ArrayList<>();
+	
+	chatListDto = cDao.selectChatListDTO(meet_idx);
+	
+	// 밴드 공개 여부
+	BandPublicOkDAO bDao = new BandPublicOkDAO();
+	BandPublicOkDTO bOkDTO = bDao.selectBandPublicOkDTO(meet_idx);
+	
+	//게시글 삭제 여부
+	UpdateDelOkDAO udoDAO = new UpdateDelOkDAO();
+	
+	//meet_member_idx 꺼내오기
+	int meet_member_idx = mPrintDAO.postMeetMemberIdx(member_idx);
 %>
 
 <!DOCTYPE html>
@@ -78,6 +98,31 @@
   <script>
   	$(function() {
 		$(".postEmpty").load("band_no_write_div.html");
+		
+		// 좋아요 버튼 +1
+		$(".postAddBox .addCol:first-child").click(function() {
+			let meet_member_idx = <%= meet_member_idx %>;
+			let post_idx = $(this).closest(".postLayoutView").attr("id");
+			$.ajax({
+				url: '${pageContext.request.contextPath}/AjaxPostGoodServlet',
+				data: {post_idx : post_idx, meet_member_idx : meet_member_idx},
+				type: 'get',
+				success: function(response){
+					var likeCount = $(".uEmotionView > .count").attr("id");
+					likeCount = parseInt(likeCount);
+					
+					if (parseInt($(".uEmotionView > .count").html()) > likeCount) {
+						$(".uEmotionView > .count").html(likeCount);
+					} else {
+						$(".uEmotionView > .count").html(likeCount + 1);
+					}
+				},
+				error: function(){
+					console.log('ajax 통신 실패');		
+				}
+			});
+		});
+		
   	})
   </script>
   <style>
@@ -104,51 +149,57 @@
         <div class="logo_search_area">
           <!-- 로고 -->
           <h1 class = "logo_area">
-            <a href="#" class="logo">
+            <a href="band_main.jsp?meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="logo">
             </a>
           </h1>
-          <!-- 검색창 -->
-          <form action>
-            <fieldset>
-              <div class="search_input">
-                <input type="text" id="input_serach_view" class="inputBandSearch" role="search" placeholder="밴드, 페이지, 게시글 검색" autocomplete="off">
-                <button type="submit" class="btn_search">
-                </button>
-              </div>
-            </fieldset>
-          </form>
         </div>
         <!-- 위젯 -->
         <div id="header_widget_area">
           <ul class="widgetList">
-            <li>
-              <button class="btnIconStyle">
-                <span class="uIconNews bg_white"></span>
-              </button>
-            </li>
             <li class="ml_14">
               <button class="btnIconStyle">
                 <span class="uIconChat bg_white"></span>
               </button>
             </li>
+           <!-- 가입했을 시 프로필 출력 -->
             <li class="ml_24 positionR">
+           <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
               <button class="btnMySetting">
                 <span class="uProfile">
                   <span class="profileInner">
-                  <% try {
-                	  if (mMemberProfilePrintDTO.getProfile() != null) { %>
-                  		<img src="<%= mMemberProfilePrintDTO.getProfile() %>"
+               	   <% if (mMemberProfilePrintDTO.getProfile() != null) { %>
+               		<img src="<%= mMemberProfilePrintDTO.getProfile() %>"
                     width="30" height="30">
                     <% } else { %>
                    <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
                    width="30" height="30">
-                  	<% } 
-                  	} catch (Exception e) {
-                  		e.printStackTrace();
-                  	} %>
+                  	<% } %>
                   </span>
                 </span>
               </button>
+            <% } else { %>
+            <button class="btnMySetting">
+                <span class="uProfile">
+                  <span class="profileInner">
+                   <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
+                   width="30" height="30">
+                  </span>
+                </span>
+              </button>
+              <% } %>
+              <!-- 프로필 클릭 시 드롭다운 -->
+              <div class="menuModalLayer profileDropDown" id="off" style="display: none">
+                <ul class="menuModalList">
+                <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
+                  <li class="menuMadalItem">
+                    <a href="band_profile.jsp?meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="menuModalLink">프로필 설정</a>
+                  </li>
+                <% } %>
+                  <li class="menuMadalItem">
+                    <a href="#" class="menuModalLink">로그아웃</a>
+                  </li>
+                </ul>
+              </div>
             </li>
           </ul>
         </div>
@@ -161,14 +212,26 @@
       <div class="header_lnb bg_blue">
         <ul class="header_lnb_menu">
           <li class="menu_item">
-            <a href="#">
-              <span class="menu_item_txt active">게시글</span>
-            </a>
+            <form action="band_home.jsp" method="post">
+	          <a>
+	          	<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
+   		  	 	<input type="hidden" value="<%=member_idx %>" name="member_idx">
+             	<button type="submit">
+           		  <span class="menu_item_txt active">게시글</span>
+            	</button>
+	          </a>
+            </form>
           </li>
           <li class="menu_item">
-            <a href="#">
-              <span class="menu_item_txt">멤버</span>
-            </a>
+           <form action="band_member_list.jsp" method="post">
+           	<a>	
+   		  	 <input type="hidden" value="<%=meet_idx %>" name="meet_idx">
+   		  	 <input type="hidden" value="<%=member_idx %>" name="member_idx">
+             <button type="submit">
+              <span class="menu_item_txt" style="padding:2px;">멤버</span>
+             </button>
+  	        </a>
+           </form>
           </li>
         </ul>
       </div>
@@ -210,20 +273,40 @@
               <button type="submit" class="uButton" id="joinBtn">밴드 가입하기</button>
             </div>
             <% } %>
-            <!-- 밴드 정보 보기 -->
-            <div class="bandInfoBox">
-              <a href="#" class="showBandInfo">밴드 정보 보기
-                <span class="uIconArrow"></span>
-              </a>
-            </div>
+            <!-- 밴드 소개 설정 : 리더일 시 출력 -->
+            <form action="band_information.jsp" method="post">
+            	<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
+   		  	 	<input type="hidden" value="<%=member_idx %>" name="member_idx">
+	            <div class="bandInfoBox">
+	             <% try {
+	            	 if (mPrintDAO.adminCheck(member_idx, meet_idx)) { %>
+	              <button type="submit" class="showBandInfo">밴드 소개 설정
+	             <% 	} 
+	             	} catch(Exception e) {
+	             		e.printStackTrace();
+	             	}
+	             	%>
+	                <span class="uIconArrow"></span>
+	              </button>
+	            </div>
+            </form>
+            <!-- 밴드 안내 문구 : 공개 여부 -->
+            <% if (bOkDTO.getPublic_ok().equals("Y")) { %>
             <p class="bandTypeDesc">누구나 밴드를 검색해 찾을 수 있고, 밴드 소개와 게시물을 볼 수 있습니다.</p>
+            <% } else { %>
+            <p class="bandTypeDesc">밴드와 게시글이 공개되지 않습니다. 초대를 통해서만 가입할 수 있습니다.</p>
+            <% } %>
             <!-- 밴드 설정 : 가입헀을 시 출력 -->
             <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
             <div class="bandSetting">
-              <a href="#" class="bandSetting_Link">
-                <span class="uIconSetting"></span>
-                밴드 설정
-              </a>
+            	<form action="myband_setting_leader.jsp" method="post">
+	            	<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
+	            	<input type="hidden" value="<%=member_idx %>" name="member_idx">
+	              	<button type="submit" class="bandSetting_Link">
+		                <span class="uIconSetting"></span>
+		                밴드 설정
+	                </button>
+              </form>
             </div>
             <% } %>
           </div>
@@ -234,7 +317,7 @@
         <section>
           <!-- 게시글 검색 form : 가입했을 시 출력 -->
           <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
-          <div class="searchWrap">
+          <!-- <div class="searchWrap">
             <form>
               <div class="inputSearch">
                 <input type="text" id="input_search" placeholder="글 내용, #태그, @작성자 검색"
@@ -242,7 +325,7 @@
                 <button type="submit" class="search"></button>
               </div>
             </form>
-          </div>
+          </div> -->
           <!-- 글쓰기 영역 : 가입했을 시 출력 -->
           <div class="writeWrap">
             <div class="postWrite">
@@ -306,7 +389,8 @@
                 </div>
               <% } else { %>
              <!-- 게시글이 있을 경우 -->
-             <% for (MeetPostListPrintDTO mPDto : mPrintListDTO) {
+             <% 
+             	for (MeetPostListPrintDTO mPDto : mPrintListDTO) {
             	 clListDTO = clViewDAO.selectCommentListViewDTO(mPDto.getPost_idx());
             	 LikeCountDTO lCountDTO = lCountDAO.selectLikeCountDTO(mPDto.getPost_idx());
             	 
@@ -317,6 +401,7 @@
             	 if (mPDto.getFile_url() != null) {
             		 photoList.add(mPDto.getFile_url());
             	 }
+            	 
             	 %>
            		<div class="postLayoutView" id="<%= mPDto.getPost_idx() %>">
            		<article class="contentsCard">
@@ -377,10 +462,20 @@
                      <button class="postSet">글 옵션</button>
                      <div class="lyMenu" style="display: none">
                        <ul>
-                         <li>
-                           <a href="#">삭제하기</a>
-                         </li>
-                         <li>
+                       	<li>
+                       	<form action="../UpdateDelOkServlet" method="post">
+                       	  <input type="hidden" name="meet_idx" value="<%=meet_idx%>">
+                       	  <input type="hidden" name="member_idx" value="<%=member_idx%>">
+                       	  <input type="hidden" name="post_idx" value="<%= mPDto.getPost_idx() %>">
+                       	  <input type="submit" style="width: 100%;
+						   height: 37px;
+						   position: absolute;
+						   left: 0;
+						   cursor:pointer;">
+                          <a href="#" id="postDeleteBtn">삭제하기</a>
+                       	</form>
+                       	</li>
+                        <li>
                            <a href="#">수정하기</a>
                          </li>
                        </ul>
@@ -400,14 +495,14 @@
 				               <span class="uFaceIcon"></span>
 				             </span>
 				           </span>
-				           <span class="count"><%= lCountDTO.getLike() %></span>
+				           <span class="count" id="<%= lCountDTO.getLike() %>"><%= lCountDTO.getLike() %></span>
 				         </button>
 				         <button class="comment">댓글<span class="count"><%= clListDTO.size() %></span>
 				         </button>
 				       </span>
 				     </div>
 				     <!-- 조회수 -->
-				     <div class="postCountRight">
+				     <div class="postCountRight" id="<%= mPDto.getViews() %>">
 				       <span class="shareRead">
 				         <span class="read">
 				           <span class="count">
@@ -420,13 +515,12 @@
    			  <!-- 댓글 쓰기, 좋아요 버튼 : 가입했을 시 출력 -->
 			   <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
                  <div class="postAdded">
-                   <div class="postAddBox">
+                   <div class="postAddBox"> 
                      <div class="addCol">
-                       <button class="addStatus">
-                         <span class="uFaceIcon"></span>
-                         <span>좋아요
-                         </span>
-                       </button>
+	                    <button type="button" class="addStatus">
+	                      <span class="uFaceIcon"></span>
+	                     <span>좋아요</span>
+	                   </button>
                      </div>
                      <div class="addCol">
                        <button class="addStatus addComment">
@@ -508,7 +602,7 @@
                                       <img
                                       <% if(mMemberProfilePrintDTO.getProfile() != null) { %>
                                       	src="<%= mMemberProfilePrintDTO.getProfile() %>"
-                                      	<% }%>
+                                      	<% } %>
                                       width="21" height="21">
                                     </span>
                                   </span>
@@ -569,7 +663,7 @@
 			                        <time class="time"><%= mPDto.getReg_date() %></time>
 			                      </div>
 			                    </div>
-			                    <button class="btnLyClose" style="z-index: 20; top: 30px;"></button>
+			                    <button class="btnLyClose" style="z-index: 20; top: 30px;" id="postDetailClose"></button>
 			                  </div>
 			                  <div class="postMain">
 			                    <!-- 읽은 사람 수 출력 -->
@@ -621,11 +715,11 @@
 			                   <div class="dPostCommentMainView">
 			                    <div>
 			                      <div class="sCommentList">
-			                        <div class="cComment">
-			                          <div class="DCommentView">
 			                          <% for(CommentListViewDTO clDto : clListDTO) { 
 								         	MeetCommentElapsedTimeDTO mCDto = mCDao.selectMeetCommentElapsedTimeDTO(clDto.getComment_idx());
 							          %>
+			                        <div class="cComment">
+			                          <div class="DCommentView">
 			                            <div class="itemWrap">
 			                              <div class="writeInfo">
 			                              <% if (mPrintDAO.adminCheck(clDto.getMember_idx(), meet_idx)) { %>
@@ -668,9 +762,21 @@
 			                                </div>
 			                              </div>
 			                            </div>
+			                            <% if(clDto.getMember_idx() == member_idx) { %>
+			                            <div class="feedback" id="off">
+			                              <button class="commentEdit"></button>
+			                              <div class="lyMenu" style="display: none;">
+			                                <ul>
+			                                  <li>
+			                                    <a href="#">댓글 삭제</a>
+			                                  </li>
+			                                </ul>
+			                              </div>
+			                            </div>
 			                            <% } %>
 			                          </div>
 			                        </div>
+		                            <% } %>
 			                      </div>
 			                    </div>
 			                    <!-- 댓글 입력창 -->
@@ -684,9 +790,15 @@
 			                                  <span class="current uProfile">
 			                                    <span class="profileInner">
 			                                      <img
-			                                      <% if (mMemberProfilePrintDTO.getProfile() != null) { %>
+			                                      <% 
+			                                      try {
+			                                    	  if (mMemberProfilePrintDTO.getProfile() != null) { %>
 			                                      src = "<%= mMemberProfilePrintDTO.getProfile() %>"
-			                                      <% } %>
+			                                      <% }
+		                                    	  } catch(Exception e) {
+		                                    		  e.printStackTrace();
+		                                    	  }
+		                                    	  %>
 			                                      width="21" height="21">
 			                                    </span>
 			                                  </span>
@@ -747,30 +859,20 @@
                 <div class="nano">
                   <div class="nano_content">
                     <ul class="chat">
+                    <% for (ChatListDTO cDto2 : chatListDto) { %>
                       <li>
-                        <button class="itemLink" onclick="window.open('chat.html', '', 'width=415, height=643')">
+                        <button class="itemLink" onclick="window.open('chat.jsp', '', 'width=415, height=643')">
                           <span class="thum">
                             <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240603162344/images/template/multi_profile_60x60.png"
                             height="30" width="30">
                           </span>
                           <span class="cont">
-                            <strong class="text">치이카와, 장예원</strong>
-                            <span class="sub">장예원 : ㅎㅇ</span>
+                            <strong class="text"><%= cDto2.getTitle() %></strong>
+                            <span class="sub"><%= cDto2.getContent() %></span>
                           </span>
                         </button>
                       </li>
-                      <li>
-                        <button class="itemLink">
-                          <span class="thum">
-                            <img src="https://coresos-phinf.pstatic.net/a/34g065/e_5a2Ud018admg69oqx3t5mng_5ksoqj.png?type=s75"
-                            height="30" width="30">
-                          </span>
-                          <span class="cont">
-                            <strong class="text">6조 밴드</strong>
-                            <span class="sub">밴드 전체 멤버들과 함께 하는 채팅방</span>
-                          </span>
-                        </button>
-                      </li>
+                      <% } %>
                     </ul>
                   </div>
                 </div>
@@ -891,7 +993,7 @@
       $(".-cancle").click(function() {
         $("#memberJoinQ_popUp").css('display', 'none');
       })
-    })
+    });
    <% } %>
    $(function() {
       $(".postWriteEventWrapper").click(function() {
@@ -903,15 +1005,52 @@
       $(".newChattingBtn").click(function() {
         $("#newChatWrap_popUp").css('display', 'block');
       })
-      // 글 디테일 클릭 이벤트
+      
+      // 글 디테일 클릭 이벤트, 조회수 Ajax
       $(".postListItemView").click(function() {
-		let postIdx = $(this).parent().parent().attr('id');
-		$("#postDetail" + postIdx).css('display', 'block');
-	  })
+		let post_idx = $(this).parent().parent().attr('id');
+		let view = $("#" + post_idx).find(".postCountRight").attr('id');
+		view = parseInt(view);
+
+		$.ajax({
+			url: '${pageContext.request.contextPath}/AjaxViewAddServlet',
+			data: {post_idx : post_idx},
+			type: 'get',
+			success: function(response){
+				$("#postDetail" + post_idx).css('display', 'block');
+				view++;
+				$("#" + post_idx).find(".read").find(".count").html(view);
+				$("#postDetail" + post_idx).find(".postReaders").find(".sf_color").html(view + "명");
+				$("#" + post_idx).find(".postCountRight").attr('id', view);
+			},
+			error: function() {
+				console.log('ajax 통신 실패');
+			}
+		});
+		
+	  });
+      
+      /* $("#postDetailClose").click(function() {
+	  	location.reload();
+      }); */
+      
 	  // 팝업 닫기
       $(".btnLyClose").click(function() {
         $(".layerContainerView").css('display', 'none');
       })
+      
+      // 프로필 클릭 시 드롭다운 (프로필 설정, 로그아웃)
+      $(".btnMySetting").click(function() {
+	  	let onOff = $(".profileDropDown").attr('id');
+	  	if (onOff == 'off') {
+			$(".profileDropDown").attr('id', 'on');
+			$(".profileDropDown").css('display', 'block');
+		} else {
+			$(".profileDropDown").attr('id', 'off');
+			$(".profileDropDown").css('display', 'none');
+		}
+      })
+	  
       // 글 옵션 버튼 눌렀을 시 클릭 이벤트
       $(".postSet").click(function() {
 		let postFunction = $(this).parent();
@@ -922,6 +1061,20 @@
 		} else {
 			postFunction.attr('id', 'off');
 			postFunction.find(".lyMenu").css('display', 'none');
+		}
+	  })
+	  
+	  // 댓글 삭제 버튼 클릭 이벤트
+	  $(".commentEdit").click(function() {
+		let feedback = $(this).parent();
+		let onOff = $(this).parent().attr('id');
+		
+		if (onOff == 'off') {
+			feedback.attr('id', 'on');
+			feedback.find(".lyMenu").css('display', 'block');
+		} else {
+			feedback.attr('id', 'off');
+			feedback.find(".lyMenu").css('display', 'none');
 		}
 	  })
 	  // 댓글 입력창 댓글쓰기 버튼 눌렀을 시 출력 클릭 이벤트
@@ -943,7 +1096,11 @@
 		} else {
 			$(this).attr('id', 'downArrow');
 		}
-	  })	
+	  })
+	  //오른쪽 상단 채팅 버튼 클릭시 새 채팅 화면
+	  $(".btnIconStyle").click(function(){
+    	$("#newChatWrap_popUp").css('display', 'block');
+      })
     });
   </script>
 </body>

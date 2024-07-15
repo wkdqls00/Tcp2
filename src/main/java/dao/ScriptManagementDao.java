@@ -4,13 +4,10 @@ import java.sql.*;
 import java.util.ArrayList;
 
 import dto.ScriptManagementDto;
+import project.DatabaseUtil;
 
 public class ScriptManagementDao {
-	  private static String driver = "oracle.jdbc.driver.OracleDriver";
-      private static String url = "jdbc:oracle:thin:@localhost:1521:xe";
-	  private static String db_id = "user6";//본인 계정 ID입력
-	  private static String db_pw = "1234";//본인 계정 PW입력  
-    // 메인 메서드
+
     public static void main(String[] args) {
     	ScriptManagementDao smdao = new ScriptManagementDao();
         ArrayList<ScriptManagementDto> list = null;        
@@ -26,15 +23,13 @@ public class ScriptManagementDao {
         System.out.println(smdao.scriptCountC(1));
     }
     
-    // 데이터베이스에서 스크립트 관리 정보를 조회하는 메서드
     public ArrayList<ScriptManagementDto> selectScriptManagementC(int member_idx, int max, int min) {
         ArrayList<ScriptManagementDto> list = new ArrayList<>();
         ResultSet rs = null;
         PreparedStatement pstmt = null;
-        Connection conn = null;
+        DatabaseUtil d = new DatabaseUtil();
+	    Connection conn = d.getConn();
         try {
-        Class.forName(driver);
-        conn = DriverManager.getConnection(url, db_id, db_pw);
 
         // 스크립트 정보를 조회하는 SQL 쿼리
         String sql = 
@@ -55,7 +50,7 @@ public class ScriptManagementDao {
         pstmt.setInt(2, max);
         pstmt.setInt(3, min);
         rs = pstmt.executeQuery(); 
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
         	e.printStackTrace();
         }
         
@@ -84,15 +79,13 @@ public class ScriptManagementDao {
         return list; 
     }
     
-    // 데이터베이스에서 스크립트 관리 정보를 조회하는 메서드
     public ArrayList<ScriptManagementDto> selectScriptManagementE(int member_idx, int max, int min) {
     	 ArrayList<ScriptManagementDto> list = new ArrayList<>();
          ResultSet rs = null;
          PreparedStatement pstmt = null;
-         Connection conn = null;
+         DatabaseUtil d = new DatabaseUtil();
+ 	     Connection conn = d.getConn();
          try {
-         Class.forName(driver);
-         conn = DriverManager.getConnection(url, db_id, db_pw);
 
          // 스크립트 정보를 조회하는 SQL 쿼리
          String sql = 
@@ -113,7 +106,7 @@ public class ScriptManagementDao {
          pstmt.setInt(2, max);
          pstmt.setInt(3, min);
          rs = pstmt.executeQuery(); 
-         } catch (SQLException | ClassNotFoundException e) {
+         } catch (SQLException e) {
          	e.printStackTrace();
          }
          
@@ -145,11 +138,11 @@ public class ScriptManagementDao {
     public int scriptCountC(int member_idx) {
     	 ResultSet rs = null;
          PreparedStatement pstmt = null;
-         Connection conn = null;
+         DatabaseUtil d = new DatabaseUtil();
+ 	     Connection conn = d.getConn();
          int count = 0;
          try {
-             Class.forName(driver);
-             conn = DriverManager.getConnection(url, db_id, db_pw);
+          
              String sql = 
             		 "SELECT COUNT(*) " + 
             		 "FROM script s, member m, payment pm, playinfo pi, play p " + 
@@ -165,7 +158,7 @@ public class ScriptManagementDao {
              pstmt = conn.prepareStatement(sql);
              pstmt.setInt(1, member_idx);
              rs = pstmt.executeQuery(); 
-             } catch (SQLException | ClassNotFoundException e) {
+             } catch (SQLException e) {
              	e.printStackTrace();
              }
              
@@ -192,11 +185,11 @@ public class ScriptManagementDao {
     public int scriptCountE(int member_idx) {
    	 ResultSet rs = null;
         PreparedStatement pstmt = null;
-        Connection conn = null;
+        DatabaseUtil d = new DatabaseUtil();
+	    Connection conn = d.getConn();
         int count = 0;
         try {
-            Class.forName(driver);
-            conn = DriverManager.getConnection(url, db_id, db_pw);
+     
             String sql = 
            		 "SELECT COUNT(*) " + 
            		 "FROM script s, member m, payment pm, playinfo pi, play p " + 
@@ -212,7 +205,7 @@ public class ScriptManagementDao {
             pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, member_idx);
             rs = pstmt.executeQuery(); 
-            } catch (SQLException | ClassNotFoundException e) {
+            } catch (SQLException e) {
             	e.printStackTrace();
             }
             

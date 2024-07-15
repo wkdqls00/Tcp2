@@ -13,18 +13,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import project.DatabaseUtil;
+
 @WebServlet("/SignupDaoServlet")
 public class SignupDao extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    // 데이터베이스 연결 정보
-    private static final String db_url = "jdbc:oracle:thin:@localhost:1521:xe";
-    private static final String db_id = "user6";
-    private static final String db_pw = "1234";
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
+        DatabaseUtil d = new DatabaseUtil();
+        Connection conn = d.getConn();
         
         String nickname = request.getParameter("nickname");
         String email = request.getParameter("email");
@@ -35,7 +35,7 @@ public class SignupDao extends HttpServlet {
         String address = request.getParameter("address");
         String detailed_address = request.getParameter("detailed_address");
         String gender = request.getParameter("gender");
-        String age = request.getParameter("birth");  
+        String age = request.getParameter("birth");
         int koreanAge = calculateKoreanAge(age);
         String birth = request.getParameter("birth");
         String reBirth = formatBirthDate(birth);
@@ -45,29 +45,24 @@ public class SignupDao extends HttpServlet {
         String term4 = request.getParameter("terms4");
         String term5 = request.getParameter("terms5");
 
-        if(gender.equals("1") || gender.equals("3")) {
+        if (gender.equals("1") || gender.equals("3")) {
             gender = "M";
         } else if (gender.equals("2") || gender.equals("4")) {
             gender = "W";
         }
 
-        Connection conn = null;
         PreparedStatement pstmt = null;
 
         try {
-            // JDBC 드라이버 로드
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            
-            // 데이터베이스 연결
-            conn = DriverManager.getConnection(db_url, db_id, db_pw);
+           
 
             String sql = 
-            	      "INSERT INTO MEMBER (MEMBER_IDX, NICKNAME, EMAIL, ID, PW, NAME, "
-            	              + "PHONE, ADDRESS, DETAILED_ADDRESS, GENDER, AGE, BIRTH, "
-            	              + "JOIN_DATE, AGREE1, AGREE2, AGREE3, WITHDRAWAL, AGREE4, AGREE5)  "
-            	              + "VALUES (seq_member.nextval, ?, ?, ?, ?, "
-            	              + "?, ?, ?, ?, ?, ?, TO_DATE(?,'YY-MM-DD'),"
-            	              + "SYSDATE, ?, ?, ?, 'N', ?, ?)";
+                      "INSERT INTO MEMBER (MEMBER_IDX, NICKNAME, EMAIL, ID, PW, NAME, "
+                              + "PHONE, ADDRESS, DETAILED_ADDRESS, GENDER, AGE, BIRTH, "
+                              + "JOIN_DATE, AGREE1, AGREE2, AGREE3, WITHDRAWAL, AGREE4, AGREE5)  "
+                              + "VALUES (seq_member.nextval, ?, ?, ?, ?, "
+                              + "?, ?, ?, ?, ?, ?, TO_DATE(?,'YYYY-MM-DD'),"
+                              + "SYSDATE, ?, ?, ?, 'N', ?, ?)";
 
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, nickname);
@@ -88,12 +83,15 @@ public class SignupDao extends HttpServlet {
             pstmt.setString(16, term5);
 
             int result = pstmt.executeUpdate();
-            response.getWriter().println(result + "행 성공적으로 업데이트됨");
-        } catch (SQLException | ClassNotFoundException e) {
+            if (result > 0) {
+                System.out.println(result + "행 업데이트");
+            } else {
+            	System.out.println("업데이트 실패");
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
-            response.getWriter().println("업데이트 실패: " + e.getMessage());
+            response.getWriter().println("에러 발생: " + e.getMessage());
         } finally {
-            // 리소스 해제
             if (pstmt != null) {
                 try {
                     pstmt.close();
@@ -110,7 +108,6 @@ public class SignupDao extends HttpServlet {
             }
         }
         response.sendRedirect("/Tcp2/ticketlink/Login/Login.jsp");
-
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -118,33 +115,24 @@ public class SignupDao extends HttpServlet {
     }
 
     private int calculateKoreanAge(String birthDateStr) {
-        // 생년월일에서 연도 추출
         int birthYear = Integer.parseInt(birthDateStr.substring(0, 2));
-        
-        // 연도가 2000년 이후인지 1900년대인지 확인
-        if (birthYear <= 23) {  // 2000년 이후 출생자 (현재 기준 2024년이므로 23까지는 2000년 이후 출생자)
+        if (birthYear <= 23) {
             birthYear += 2000;
         } else {
             birthYear += 1900;
         }
-        
-        // 현재 연도
         int currentYear = Year.now().getValue();
-        
-        // 한국 나이 계산
-        int koreanAge = currentYear - birthYear + 1;
-        
-        return koreanAge;
+        return currentYear - birthYear + 1;
     }
-    
+
     private String formatBirthDate(String birthDateStr) {
         int birthYear = Integer.parseInt(birthDateStr.substring(0, 2));
-        if (birthYear <= 23) {  // 2000년 이후 출생자
+        if (birthYear <= 23) {
             birthYear += 2000;
         } else {
             birthYear += 1900;
         }
-        String formattedBirthDate = birthYear + birthDateStr.substring(2, 4) + birthDateStr.substring(4, 6);
-        return formattedBirthDate;  
+        return birthYear + birthDateStr.substring(2, 4) + birthDateStr.substring(4, 6);
     }
 }
+

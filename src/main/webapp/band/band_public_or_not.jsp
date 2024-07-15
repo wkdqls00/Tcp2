@@ -1,3 +1,9 @@
+<%@page import="dao.MeetPostListPrintDAO"%>
+<%@page import="dto.MeetPostListPrintDTO"%>
+<%@page import="dao.NoJoinMeetDAO"%>
+<%@page import="dto.ChatListDTO"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="dao.ChatListDAO"%>
 <%@page import="dto.MeetMemberProfilePrintDTO"%>
 <%@page import="dao.MeetMemberProfilePrintDAO"%>
 <%@page import="dto.BandPublicOkDTO"%>
@@ -24,20 +30,35 @@
 	}
 %>
 <%
-	//밴드 왼쪽 소개
+	// 밴드 왼쪽 소개
 	int meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
 	MeetIntroduceWriteDAO miDao = new MeetIntroduceWriteDAO();
 	MeetIntroduceWriteDTO miDto = miDao.selectMeetIntroduceWriteDTO(meet_idx);
 	
-	//밴드공개 여부
+	// 밴드공개 여부
 	BandPublicOkDAO bpoDAO = new BandPublicOkDAO();
 	BandPublicOkDTO bpoDTO = bpoDAO.selectBandPublicOkDTO(meet_idx);
 	int member_idx = Integer.parseInt(request.getParameter("member_idx"));
 	
-	//내 프로필 출력
+	// 내 프로필 출력
 	MeetMemberProfilePrintDAO mMemberProfilePrintDAO = new MeetMemberProfilePrintDAO();
 	MeetMemberProfilePrintDTO mMemberProfilePrintDTO = mMemberProfilePrintDAO.selectMeetMemberProfilePrintDTO(meet_idx, member_idx);
 
+	// 채팅 목록 출력
+	ChatListDAO cDao = new ChatListDAO();
+	ArrayList<ChatListDTO> chatListDto = new ArrayList<>();
+	
+	chatListDto = cDao.selectChatListDTO(meet_idx);
+	
+	// 밴드 공개 여부
+	BandPublicOkDAO bDao = new BandPublicOkDAO();
+	BandPublicOkDTO bOkDTO = bDao.selectBandPublicOkDTO(meet_idx);
+	
+	// 밴드 글 목록 출력
+	MeetPostListPrintDAO mPrintDAO = new MeetPostListPrintDAO();
+	ArrayList<MeetPostListPrintDTO> mPrintListDTO = new ArrayList<>();
+	
+	mPrintListDTO = mPrintDAO.selectMeetPostListPrintDTO(meet_idx);
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -55,57 +76,50 @@
 <body>
   <div id="wrap">
     <!-- 최상단 헤더 -->
-    <header class="header_area">
+    <header class="header_area bg_blue">
       <div class="headerInner">
         <!-- 로고, 검색창 영역 -->
         <div class="logo_search_area">
           <!-- 로고 -->
           <h1 class = "logo_area">
-            <a href="#" class="logo">
+            <a href="band_main.jsp?meet_idx=<%= meet_idx %>&member_idx=<%= member_idx %>" class="logo">
             </a>
           </h1>
-          <!-- 검색창 -->
-          <form action>
-            <fieldset>
-              <div class="search_input">
-                <input type="text" id="input_serach_view" class="inputBandSearch" role="search" placeholder="밴드, 페이지, 게시글 검색" autocomplete="off">
-                <button type="submit" class="btn_search">
-                </button>
-              </div>
-            </fieldset>
-          </form>
         </div>
         <!-- 위젯 -->
         <div id="header_widget_area">
           <ul class="widgetList">
-            <li>
-              <button class="btnIconStyle">
-                <span class="uIconNews"></span>
-              </button>
-            </li>
             <li class="ml_14">
               <button class="btnIconStyle">
-                <span class="uIconChat"></span>
+                <span class="uIconChat bg_white"></span>
               </button>
             </li>
+            <!-- 가입했을 시 프로필 출력 -->
             <li class="ml_24 positionR">
               <button class="btnMySetting">
                 <span class="uProfile">
                   <span class="profileInner">
-                  <% try {
-                	  if (mMemberProfilePrintDTO.getProfile() != null) { %>
-                  		<img src="<%= mMemberProfilePrintDTO.getProfile() %>"
+               	   <% if (mMemberProfilePrintDTO.getProfile() != null) { %>
+               		<img src="<%= mMemberProfilePrintDTO.getProfile() %>"
                     width="30" height="30">
                     <% } else { %>
                    <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
                    width="30" height="30">
-                  	<% } 
-                  	} catch (Exception e) {
-                  		e.printStackTrace();
-                  	} %>
+                  	<% } %>
                   </span>
                 </span>
               </button>
+              <!-- 프로필 클릭 시 드롭다운 -->
+              <div class="menuModalLayer profileDropDown" id="off" style="display: none">
+                <ul class="menuModalList">
+                  <li class="menuMadalItem">
+                    <a href="band_profile.jsp?meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="menuModalLink">프로필 설정</a>
+                  </li>
+                  <li class="menuMadalItem">
+                    <a href="#" class="menuModalLink">로그아웃</a>
+                  </li>
+                </ul>
+              </div>
             </li>
           </ul>
         </div>
@@ -117,14 +131,26 @@
       <div class="header_lnb bg_blue">
         <ul class="header_lnb_menu">
           <li class="menu_item">
-            <a href="#">
-              <span class="menu_item_txt active">게시글</span>
-            </a>
+            <form action="band_home.jsp" method="post">
+	          <a>
+	          	<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
+   		  	 	<input type="hidden" value="<%=member_idx %>" name="member_idx">
+             	<button type="submit">
+           		  <span class="menu_item_txt" style="padding:2px;">게시글</span>
+            	</button>
+	          </a>
+            </form>
           </li>
           <li class="menu_item">
-            <a href="#">
-              <span class="menu_item_txt">멤버</span>
-            </a>
+           <form action="band_member_list.jsp" method="post">
+           	<a>	
+   		  	 <input type="hidden" value="<%=meet_idx %>" name="meet_idx">
+   		  	 <input type="hidden" value="<%=member_idx %>" name="member_idx">
+             <button type="submit">
+              <span class="menu_item_txt" style="padding:2px;">멤버</span>
+             </button>
+  	        </a>
+           </form>
           </li>
         </ul>
       </div>
@@ -156,13 +182,25 @@
             <div class="btnBox">
               <button class="uButton bg_blue" id="postWriteBtn">글쓰기</button>
             </div>
-            <!-- 밴드 정보 보기 -->
+            <!-- 밴드 소개 설정 : 리더일 시 출력 -->
             <div class="bandInfoBox">
-              <a href="#" class="showBandInfo">밴드 정보 보기
+             <% try {
+            	 if (mPrintDAO.adminCheck(member_idx, meet_idx)) { %>
+              <a href="band_information.jsp?meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="showBandInfo">밴드 소개 설정
+             <% 	} 
+             	} catch(Exception e) {
+             		e.printStackTrace();
+             	}
+             	%>
                 <span class="uIconArrow"></span>
               </a>
             </div>
+            <!-- 밴드 안내 문구 -->
+            <% if (bOkDTO.getPublic_ok().equals("Y")) { %>
             <p class="bandTypeDesc">누구나 밴드를 검색해 찾을 수 있고, 밴드 소개와 게시물을 볼 수 있습니다.</p>
+            <% } else { %>
+            <p class="bandTypeDesc">밴드와 게시글이 공개되지 않습니다. 초대를 통해서만 가입할 수 있습니다.</p>
+            <% } %>
             <!-- 밴드 설정 -->
             <div class="bandSetting">
               <a href="#" onClick="history.back()"  class="bandSetting_Link">
@@ -218,7 +256,7 @@
               <p class="guide_area_txt">타입 변경시 멤버들에게 알림이 발송됩니다.</p>
             </div>
 	            <div class="btn_footer">
-            		<form action="myband_setting_leader.jsp" method="get">
+            		<form action="myband_setting_leader.jsp" method="post">
 	              		<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
 	              		<input type="hidden" value="<%=member_idx%>" name="member_idx">
 	              		<button type="submit" class="confirm_btn">저장</button>
@@ -249,18 +287,20 @@
                 <div class="nano">
                   <div class="nano_content">
                     <ul class="chat">
+                    <% for (ChatListDTO cDto2 : chatListDto) { %>
                       <li>
-                        <button class="itemLink">
+                        <button class="itemLink" onclick="window.open('chat.jsp', '', 'width=415, height=643')">
                           <span class="thum">
-                            <img src="https://coresos-phinf.pstatic.net/a/34g065/e_5a2Ud018admg69oqx3t5mng_5ksoqj.png?type=s75"
+                            <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240603162344/images/template/multi_profile_60x60.png"
                             height="30" width="30">
                           </span>
                           <span class="cont">
-                            <strong class="text">6조 밴드</strong>
-                            <span class="sub">밴드 전체 멤버들과 함께 하는 채팅방</span>
+                            <strong class="text"><%= cDto2.getTitle() %></strong>
+                            <span class="sub"><%= cDto2.getContent() %></span>
                           </span>
                         </button>
                       </li>
+                      <% } %>
                     </ul>
                   </div>
                 </div>
@@ -269,7 +309,108 @@
           </div>
         </div>
       </div>
+  	</div>
+    <!-- 팝업 : 글쓰기 -->
+    <div class="layerContainerView" tabindex="-1" id="postWriteEditor_popUp" style="display: none;">
+      <div class="layerContainerInnerView">
+        <div class="postEditorLayerView" style="position: relative;">
+          <section class="lyWrap">
+            <div class="lyPostShareWrite" style="margin-top: 77px;">
+              <header class="header">
+                <h1 class="title">글쓰기</h1>
+              </header>
+              <div class="main">
+                <div class="postWrite">
+                  <div class="postWriteForm">
+                    <textarea class="contentEditor cke_editable"></textarea>
+                  </div>
+                  <div class="buttonArea">
+                    <ul class="toolbarList">
+                      <li class="toolbarListItem">
+                        <label class="photo">
+                          <input type="file">
+                          <span class="photoIcon"></span>
+                        </label>
+                      </li>
+                    </ul>
+                    <div class="writeSubmitBox">
+                      <div class="buttonSubmit">
+                        <button type="submit" class="uButton">게시</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <footer class="footer">
+                <button class="btnLyClose"></button>
+              </footer>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+    <!-- 팝업 : 새 채팅 -->
+    <div class="layerContainerView" id="newChatWrap_popUp" style="display: none;">
+      <div class="layerContainerInnerView">
+        <section class="lyWrap">
+          <div class="lyContent -w400">
+            <header class="header">
+              <h1 class="title">공개채팅방 만들기</h1>
+            </header>
+            <div class="main -tSpaceNone">
+              <label for="chatName" class="title -sub2" style="margin-top: 20px">
+                채팅방 이름
+              </label>
+              <div class="uInput" style="height: 36px; padding: 0 10px; margin-bottom: 20px;">
+                <input type="text" placeholder="채팅방 이름을 입력해주세요.">
+                <span class="border"></span>
+              </div>
+            </div>
+            <footer class="footer">
+              <button class="uButton -confirm -sizeL">완료</button>
+              <button class="btnLyClose"></button>
+            </footer>
+          </div>
+        </section>
+      </div>
     </div>
   </div>
+  <!-- JavaScript -->
+  <script>
+    $(function(){
+      // 글쓰기 버튼 팝업
+   	  $("#postWriteBtn").click(function() {
+        $("#postWriteEditor_popUp").css('display', 'block');
+      })
+      
+      // 새로운 채팅 팝업
+      $(".newChattingBtn").click(function() {
+        $("#newChatWrap_popUp").css('display', 'block');
+      }) 
+      
+      // 팝업 닫기
+      $(".btnLyClose").click(function() {
+        $(".layerContainerView").css('display', 'none');
+      })
+      
+      // 오른쪽 상단 채팅 버튼 팝업
+      $(".btnIconStyle").click(function(){
+	    $("#newChatWrap_popUp").css('display', 'block');
+	  })
+	  
+	  // 프로필 클릭 시 드롭다운 (프로필 설정, 로그아웃)
+      $(".btnMySetting").click(function() {
+  	    let onOff = $(".profileDropDown").attr('id');
+  	    if (onOff == 'off') {
+		  $(".profileDropDown").attr('id', 'on');
+		  $(".profileDropDown").css('display', 'block');
+	    } else {
+		  $(".profileDropDown").attr('id', 'off');
+		  $(".profileDropDown").css('display', 'none');
+	    }
+      })
+      
+    });
+  </script>
 </body>
 </html>

@@ -1,16 +1,26 @@
 package dto;
 
 public class MybandDTO {
+	private int meet_idx;
 	private String meet_name;
 	private String url;
 	private int meet_member_count;
 	
-	public MybandDTO(String meet_name, String url, int meet_member_count) {
+	public MybandDTO(int meet_idx, String meet_name, String url, int meet_member_count) {
+		this.meet_idx = meet_idx;
 		this.meet_name = meet_name;
 		this.url = url;
 		this.meet_member_count = meet_member_count;
 	}
 	
+	public int getMeet_idx() {
+		return meet_idx;
+	}
+
+	public void setMeet_idx(int meet_idx) {
+		this.meet_idx = meet_idx;
+	}
+
 	public String getMeet_name() {
 		return meet_name;
 	}

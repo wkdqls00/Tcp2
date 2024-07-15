@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.LoginDao;
+import dao.Ticket_checkDao;
 
 /**
  * Servlet implementation class Ex10Servlet
@@ -32,6 +33,9 @@ public class LoginSuccessToMain extends HttpServlet { // 나중에 toMain 으로
 
 			if(result) {
 			HttpSession hs = request.getSession();
+			Ticket_checkDao tcdao = new Ticket_checkDao();
+			int totalT = tcdao.check_total_countY(userIdx);
+			hs.setAttribute("totalT", totalT); // 세션에다가 총 예매 건을 설정 
 			hs.setAttribute("userIdx", userIdx); // 세션에다가 idx 값을 섫정
 			System.out.println("로그인성공");
 			System.out.println(userIdx);

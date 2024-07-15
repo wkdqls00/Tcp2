@@ -1,11 +1,13 @@
 <%@page import="java.util.ArrayList"%>
-<%@page import="servlet.Ticket_checkDto"%>
+<%@page import="dto.Ticket_checkDto"%>
 <%@page import="dao.Ticket_checkDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
 	ArrayList<Ticket_checkDto> list = (ArrayList<Ticket_checkDto>) request.getAttribute("list");
 	int count = (int)request.getAttribute("count");
+	HttpSession hs = request.getSession();
+	int totalT = (int)hs.getAttribute("totalT");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,7 +31,7 @@
             <div class="utill">
                 <div class="inner">
                     <ul>
-                        <li class="utill_link"><a href="#">로그인</a></li>
+                        <li class="utill_link"><a href="#">로그아웃</a></li>
                         <li class="utill_link"><a href="#">예매확인/취소</a></li>
                         <li class="utill_link"><a href="#">회원가입</a></li>
                         <li class="utill_link"><a href="#">고객센터</a></li>
@@ -42,7 +44,7 @@
                     <h1 class="logo"><a href="../html/main.html">로고</a></h1>
                     <ul class="nav">
                         <li><a href="#">공연/전시</a></li>
-                        <li><a href="#">커뮤니티</a></li>
+                        <li><a href="/Tcp2/band/band_main.jsp">커뮤니티</a></li>
                     </ul>
                 </div>
             </div>
@@ -53,7 +55,7 @@
                         <li class="gnb_link"><a href="#">공연</a></li>
                         <li class="gnb_link"><a href="#">전시</a></li>
                         <li class="gnb_link"><a href="#">랭킹</a></li>
-                        <li class="gnb_link"><a href="#">커뮤니티</a></li>
+                        <li class="gnb_link"><a href="/Tcp2/band/band_main.jsp">커뮤니티</a></li>
                     </ul>
                 </div>
             </div>
@@ -67,15 +69,15 @@
                     </div>
                     <ul class="quick_menu_list">
                         <li class="quick_menu_item reserve">
-                            <a href="">
+                            <a href="/Tcp2/Ticket_checkServlet">
                                 <div class="qmenu_box">
                                     <span class="qmenu_tit">예매내역</span>
-                                    <span class="qmenu_subtit state_number">0</span>
+                                    <span class="qmenu_subtit state_number"><%=totalT %></span>
                                 </div>
                             </a>
                         </li>
                         <li class="quick_menu_item info">
-                            <a href="">
+                            <a href="/Tcp2/Mypage_memberServlet">
                                 <div class="qmenu_box">
                                     <span class="qmenu_tit">회원정보</span>
                                     <span class="qmenu_subtit">수정</span>
@@ -147,25 +149,25 @@
                                 <dt>기간별 조회</dt>
                                 <dd style="float: left"> <!--기간별 조회-->
                                     <ul class="daysort">
-                                        <li><a href=""  class="search">15일</a></li>
-                                        <li><a href="">1개월</a></li>
-                                        <li><a href="">2개월</a></li>
-                                        <li><a href="">3개월</a></li>
+                                        <li><a href="/Tcp2/Ticket_checkPeriodServletR?day=15">15일</a></li>
+                                        <li><a href="/Tcp2/Ticket_checkPeriodServletR?day=30">1개월</a></li>
+                                        <li><a href="/Tcp2/Ticket_checkPeriodServletR?day=60">2개월</a></li>
+                                        <li><a href="/Tcp2/Ticket_checkPeriodServletR?day=90">3개월</a></li>
                                     </ul>
                                 </dd>
                             </dl>
                             <dl class="monthbox fr">
                                 <dt>월 별 조회</dt> <!--월 별 조회-->
-                                <dd style="float: left;">
+                                 <dd style="float: left;">
                                     <div class="selectbox binding">
-                                        <a href="" class="select ng-binding">예매일</a>
+                                        <a href="" class="select ng-binding" id="viOrRe">예매일</a>
                                         <ul class="select_list ng-hiding" style="display: block;">
-                                            <li class="ng-scope"><a href="">예매일</a></li>
-                                            <li class="ng-scope"><a href="">관람일</a></li>
+                                            <li class="ng-scope" id="reser"><a href="">예매일</a></li>
+                                            <li class="ng-scope" id="view"><a href="">관람일</a></li>
                                         </ul>
                                     </div>
                                     <div class="selectbox binding">
-                                        <a href="" class="select ng-binding">연도</a>
+                                        <a href="" class="select ng-binding" id="year">연도</a>
                                         <ul class="select_list ng-hiding" style="display: block;">
                                             <li class="ng-scope"><a href="">2024년</a></li>
                                             <li class="ng-scope"><a href="">2023년</a></li>
@@ -173,7 +175,7 @@
                                         </ul>
                                     </div>
                                     <div class="selectbox binding">
-                                        <a href="" class="select ng-binding">월</a>
+                                        <a href="" class="select ng-binding" id="month">월</a>
                                         <ul class="select_list ng-hiding" style="display: block;">
                                             <li class="ng-scope"><a href="">1월</a></li>
                                             <li class="ng-scope"><a href="">2월</a></li>
@@ -189,7 +191,7 @@
                                             <li class="ng-scope"><a href="">12월</a></li>
                                         </ul>
                                     </div> <!--조회버튼-->
-                                    <a href="" class="btn_blank">조회</a>
+                                    <a href="" class="btn_blank" id="searchMonth">조회</a>
                                 </dd>
                             </dl>
                         </div>
@@ -235,7 +237,7 @@
                                         <td class="fs12 number color_point"><%=dto.getStart_date()%><br><%=dto.getStart_time()%></td>
                                         <td>
                                             <div class="reserve_condition1"><%=status%></div>
-                                            <div class="reserve_condition2">1949.04.15</div>
+                                            <div class="reserve_condition2"><%=dto.getPay_date() %></div>
                                         </td>
                                     </tr>
                                     <%		cnt++;
@@ -374,14 +376,6 @@
             </div>
         </div>
 <script src="/Tcp2/assets/js/ticket_check.js"></script>
-<script>
-	function submitToR() {
-		document.getElementById("ticket_checkR").submit();
-	}
-	function submitToY() {
-		document.getElementById("ticket_checkY").submit();
-	}
-
-</script>
+<script src="/Tcp2/assets/js/toMonthR.js"></script>
 </body>
 </html>

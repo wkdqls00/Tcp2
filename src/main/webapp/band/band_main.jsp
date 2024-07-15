@@ -7,8 +7,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	int m_idx = Integer.parseInt(request.getParameter("member_idx"));
-
+// 	/* int m_idx = Integer.parseInt(request.getParameter("member_idx")); */
+	HttpSession hs = request.getSession();
+	int m_idx = (int)hs.getAttribute("userIdx");
+	int member_idx = (int)hs.getAttribute("userIdx");
 	// 내 가입 밴드 출력
 	MeetIntroduceWriteDAO mbwDao = new MeetIntroduceWriteDAO();
 	
@@ -21,6 +23,7 @@
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
+	
 %>
 
 <!DOCTYPE html>
@@ -31,7 +34,9 @@
   <link rel="stylesheet" href="../assets/css/band_main.css">
   <link rel="stylesheet" href="../assets/css/clear.css">
   <link rel="stylesheet" href="../assets/css/band_header.css"> 
+  <link rel="stylesheet" href="../assets/css/band.css">
   <title>BAND - 메인 페이지</title>
+  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
   <div class="wrap">
@@ -44,39 +49,27 @@
             <a href="#" class="logo">
             </a>
           </h1>
-          <!-- 검색창 -->
-          <form action>
-            <fieldset>
-              <div class="search_input">
-                <input type="text" id="input_serach_view" class="inputBandSearch" role="search" placeholder="밴드, 페이지, 게시글 검색" autocomplete="off">
-                <button type="submit" class="btn_search">
-                </button>
-              </div>
-            </fieldset>
-          </form>
         </div>
         <!-- 위젯 -->
         <div id="header_widget_area">
           <ul class="widgetList">
-            <li>
-              <button class="btnIconStyle">
-                <span class="uIconNews"></span>
-              </button>
-            </li>
-            <li class="ml_14">
-              <button class="btnIconStyle">
-                <span class="uIconChat"></span>
-              </button>
-            </li>
             <li class="ml_24 positionR">
               <button class="btnMySetting">
                 <span class="uProfile">
                   <span class="profileInner">
-                    <img src="	https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
+                    <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
                     width="30" height="30">
                   </span>
                 </span>
               </button>
+              <!-- 프로필 클릭 시 드롭다운 -->
+              <div class="menuModalLayer profileDropDown" id="off" style="display: none">
+                <ul class="menuModalList">
+                  <li class="menuMadalItem">
+                    <a href="#" class="menuModalLink">로그아웃</a>
+                  </li>
+                </ul>
+              </div>
             </li>
           </ul>
         </div>
@@ -90,14 +83,14 @@
         <div id="content_tab_left">
           <div id="tab_myband">
             <div id="myband_btn">
-              <a href = "#" class = "myband_text">
+              <a href = "#main" class = "myband_text">
               내 밴드  
               </a>
             </div>
           </div>
           <div id="tab_meet">
             <div id="meet_btn">
-              <a href="#" class="meet_text">
+              <a href="#main2" class="meet_text">
                 소모임
               </a>
             </div>
@@ -119,13 +112,13 @@
       </div>
     </div>
   </div>
-  <div id="wrap">
+  <div id="wrap" style="background-color: transparent;">
     <!-- main 메인 -->
     <div id="main">
       <ul id="band_card_list">
         <li class="band_card_item">
           <div id="band_inner">
-            <a href="#" class="band_create_link">
+            <a href="band_new_create.jsp?member_idx=<%= member_idx %>" class="band_create_link">
               <div id="cover">
                 <img class="create_band_img">
               </div>
@@ -141,11 +134,11 @@
        	%>
         <li class="band_card_item">
           <div id="band_inner">
-            <a href="#" class="band_cover_link">
+            <a href="band_home.jsp?member_idx=<%=member_idx%>&meet_idx=<%=mbDto.getMeet_idx()%>" class="band_cover_link">
             <div id="cover_band">
               <div class="uCoverImage -border">
                 <span class="coverInner">
-                  <img class="coverImg" src="https://coresos-phinf.pstatic.net/a/362iaf/2_bjbUd018svc11thlaza5db29_d46snt.png?type=cover_a264" alt>
+                  <img class="coverImg" src="<%= mbDto.getUrl() %>" alt>
                 </span>
               </div>
             </div>
@@ -171,7 +164,6 @@
           <span class="setting_local">홍제동</span>
           소모임
           <button type="button" class="open_keyword_btn">지역 선택</button>
-          <button type="button" class="recruit_btn">모집하기</button>
         </h2>
       </div>
       <div id="content2">
@@ -373,5 +365,20 @@
         </address>
       </div>
   </footer>
+  <script>
+  $(function(){
+	// 프로필 클릭 시 드롭다운 (프로필 설정, 로그아웃)
+      $(".btnMySetting").click(function() {
+	  	let onOff = $(".profileDropDown").attr('id');
+	  	if (onOff == 'off') {
+			$(".profileDropDown").attr('id', 'on');
+			$(".profileDropDown").css('display', 'block');
+		} else {
+			$(".profileDropDown").attr('id', 'off');
+			$(".profileDropDown").css('display', 'none');
+		}
+      }) 
+  });
+  </script>
 </body>
 </html>

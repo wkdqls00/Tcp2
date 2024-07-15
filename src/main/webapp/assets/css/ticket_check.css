@@ -335,3 +335,6 @@ ul, ol {
     background-color: #242428;
     color: #fff !important;
 }
+.qmenu_subtit:hover {
+	text-decoration: underline;
+}

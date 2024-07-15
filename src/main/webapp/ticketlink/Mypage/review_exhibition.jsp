@@ -6,6 +6,8 @@
 <%
 	ArrayList<ScriptManagementDto> list = (ArrayList<ScriptManagementDto>) request.getAttribute("list");
 	int count = (int)request.getAttribute("count");
+	HttpSession hs = request.getSession();
+	int totalT = (int)hs.getAttribute("totalT");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,7 +30,7 @@
             <div class="utill">
                 <div class="inner">
                     <ul>
-                        <li class="utill_link"><a href="#">로그인</a></li>
+                        <li class="utill_link"><a href="#">로그아웃</a></li>
                         <li class="utill_link"><a href="#">예매확인/취소</a></li>
                         <li class="utill_link"><a href="#">회원가입</a></li>
                         <li class="utill_link"><a href="#">고객센터</a></li>
@@ -41,7 +43,7 @@
                     <h1 class="logo"><a href="../html/main.html">로고</a></h1>
                     <ul class="nav">
                         <li><a href="#">공연/전시</a></li>
-                        <li><a href="#">커뮤니티</a></li>
+                        <li><a href="/Tcp2/band/band_main.jsp">커뮤니티</a></li>
                     </ul>
                 </div>
             </div>
@@ -52,7 +54,7 @@
                         <li class="gnb_link"><a href="#">공연</a></li>
                         <li class="gnb_link"><a href="#">전시</a></li>
                         <li class="gnb_link"><a href="#">랭킹</a></li>
-                        <li class="gnb_link"><a href="#">커뮤니티</a></li>
+                        <li class="gnb_link"><a href="/Tcp2/band/band_main.jsp">커뮤니티</a></li>
                     </ul>
                 </div>
             </div>
@@ -66,15 +68,15 @@
                 </div>
                 <ul class="quick_menu_list">
                     <li class="quick_menu_item reserve">
-                        <a href="">
+                        <a href="/Tcp2/Ticket_checkServlet">
                             <div class="qmenu_box">
                                 <span class="qmenu_tit">예매내역</span>
-                                <span class="qmenu_subtit state_number">0</span>
+                                <span class="qmenu_subtit state_number"><%=totalT %></span>
                             </div>
                         </a>
                     </li>
                     <li class="quick_menu_item info">
-                        <a href="">
+                        <a href="/Tcp2/Mypage_memberServlet">
                             <div class="qmenu_box">
                                 <span class="qmenu_tit">회원정보</span>
                                 <span class="qmenu_subtit">수정</span>

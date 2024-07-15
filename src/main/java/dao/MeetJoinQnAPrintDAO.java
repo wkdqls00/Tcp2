@@ -51,4 +51,37 @@ public class MeetJoinQnAPrintDAO {
         
         return meetJoinQnAPrintDTO;
     }
+    
+    public MeetJoinQnAPrintDTO selectMeetJoinSubAPrintDTO(int meet_idx, int member_idx) throws SQLException {
+        DatabaseUtil d = new DatabaseUtil();
+        Connection conn = d.getConn();
+
+        String sql = 
+        		"SELECT sub_a "
+        		+ "FROM meet_member "
+        		+ "WHERE meet_idx = ? "
+        		+ "AND member_idx = ?";
+
+        PreparedStatement pstmt = d.getPstmt(conn, sql);
+        
+        pstmt.setInt(1, meet_idx);
+        pstmt.setInt(2,member_idx);
+
+        ResultSet rs = pstmt.executeQuery();
+        MeetJoinQnAPrintDTO meetJoinQnAPrintDTO = null;
+        
+        try {
+            while (rs.next()) {
+            	String sub_a = rs.getString(1);
+            	
+            	meetJoinQnAPrintDTO = new MeetJoinQnAPrintDTO(sub_a); // 저장한 값으로 SeatStatus 객체 생성
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+			d.close(conn, pstmt, rs);
+        }
+        
+        return meetJoinQnAPrintDTO;
+    }
 }

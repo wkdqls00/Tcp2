@@ -1,0 +1,240 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+    background-color: #f8f8f8;
+    height: 100%;
+    margin: 0;
+}
+a {
+    text-decoration: none;
+    color: #202020;
+}
+p, ul, li{
+    margin: 0;
+    list-style-type: none;
+}
+button {
+    cursor: pointer;
+    border: 0;
+}
+input::placeholder {
+    font-size: 12px;
+}
+.common_header {
+    padding: 0 16px;
+    position: relative;
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,0.08)
+}
+.header_inner {
+    display: flex;
+    height: 88px;
+    line-height: 68px;
+    max-width: 1280px;
+    align-items: center;
+    margin: 0 auto;
+
+}
+.inner {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+.header_logo {
+    position: relative;
+    display: inline-flex;
+    width: 151px;
+    height: 70px; /* 38px */
+    text-decoration: none;
+    background: url(https://th.bing.com/th/id/OIP.GcpUB3UxsaArPwX00cYZmQHaEK?w=304&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7) no-repeat center;
+}
+.hidden {
+    position: absolute;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+}
+.my_menu {
+    display: flex;
+    justify-content: space-around;
+    margin-left: auto;
+}
+.content {
+    margin: 60px auto;
+    max-width: 500px;
+    background-color: #fff;
+    padding: 50px;
+}
+.info_searchHeader {
+    text-align: center;
+    margin-bottom: 25px;
+}
+.search_tab {
+    display: flex;
+    height: 36px;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    box-sizing: border-box;
+}
+.search_tab a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    font-size: 15px;
+    color: #666;
+}
+.tab {
+    position: relative;
+    width: 50%;
+    height: 100%;
+    text-align: center;
+}
+.tab.current a {
+    color: black;
+    font-weight: bold;
+}
+.tab.current::after {
+    content: '';
+    display: block;
+    width: 100%;
+    border: 1px solid black;
+}
+.titleWrap {
+    position: relative;
+}
+.title_btn {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 20px 0 20px 32px;
+    box-sizing: border-box;
+    border: 0;
+    text-align: left;
+    font-size: 0;
+    background-color: white;
+    margin-top: 1px;
+}
+.search_content.current .title_btn {
+    padding-bottom: 8px;
+    background-image: url("https://openimage.interpark.com/UI/login/icon_radio_on.svg");
+}
+.title_text {
+    font-size: 15px;
+}
+.content_inner {
+    padding: 0 0 20px 32px;
+}
+.message {
+    font-size: 14px;
+    color: #666;
+    padding-bottom: 8px;
+}
+.input_form {
+    margin-top: 12px;
+}
+.input_style {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 48px;
+}
+.hasBtn_wrap div {
+    display: none;
+}
+.hasBtn_wrap .input_style {
+    width: calc(100% - 88px);
+}
+.input_style input {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 12px 30px 12px 12px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    background-color: #fff;
+    box-sizing: border-box;
+    font-size: 15px;
+    color: #1c1c1e;
+}
+.input_form .input_style + .input_style {
+    margin-top: 15px;
+}
+.del_btn {
+    position: absolute;
+    right: 0;
+    bottom: 16px;
+    display: none;
+    position: absolute;
+    top: 16px;
+    right: 1.2rem;
+    z-index: 1;
+    width: 16px;
+    height: 16px;
+    background: url("https://openimage.interpark.com/UI/login/mobile/input_del.svg") center center no-repeat;
+    background-size: 100%;
+    cursor: pointer;
+}
+.hasBtn_wrap {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 12px;
+}
+.button_style {
+    position: relative;
+    display: block;
+    width: 80px;
+    height: 48px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    background-color: #fff;
+    box-sizing: border-box;
+    margin-left: 8px;
+    padding: 0;
+}
+.button_style button {
+    display: block;
+    width: 100%;
+    height: 100%;
+    font-weight: bold;
+    font-size: 13px;
+    color: #1c1c1e;
+    background: transparent;
+}
+.error_message {
+    padding-bottom: 4px;
+    font-size: 13px;
+    color: #ff322e;
+    display: none;
+}
+.activeButton {
+    height: 52px;
+    margin-top: 15px;
+}
+.activeButton button {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    background-color: #ef3e4e;
+    font-weight: bold;
+    font-size: 17px;
+    color: #fff;
+    transition: 1s;
+}
+.disabled {
+    background-color: gray !important;
+    pointer-events: none;
+}
+#timer {
+    color: #ef3e4e;
+    position: absolute;
+    width: 40px;
+    height: 13px;
+    right: 7px;
+    bottom: 18px;
+    font-size: 15px;
+}
