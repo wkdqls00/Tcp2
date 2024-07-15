@@ -85,19 +85,38 @@
   		$(".acceptBtn").click(function() {
   			let meet_idx = <%= meet_idx%>;
   			let member_idx = $(this).closest(".requestJoinMemberItem").attr("id");
-  			let join_count = parseInt(<%=mjqwDTO.getJoin_wait_count()%>);
+  			let join_count = $(".requestJoinMemberList").children().length;
   			$.ajax({
   				url: '${pageContext.request.contextPath}/AjaxJoinAcceptServlet',
-  				data: {member_idx : member_idx, meet_idx : meet_idx,},
+  				data: {member_idx : member_idx, meet_idx : meet_idx},
   				type: 'get',
   				success: function(response){
-  					$("#" + member_idx).hide();
+  					$("#" + member_idx).remove();
   					alert("수락되었습니다.");
   					$(".joinCount").html(join_count-1);
   				}
-  			})
-  		})
+  			});
+  		});
   	});
+  	$(function(){
+  		$(".refuseBtn").click(function() {
+	 		let meet_idx = <%=meet_idx%>;
+	  		let member_idx = $(this).closest(".requestJoinMemberItem").attr("id");
+			let join_count = $(".requestJoinMemberList").children().length;
+	  		$.ajax({
+	  			url: '${pageContext.request.contextPath}/AjaxJoinDeleteServlet',
+	  			data: {member_idx : member_idx, meet_idx : meet_idx},
+	  			type: 'get',
+	  			success: function(response) {
+	  				$("#" + member_idx).remove();
+	  				alert("삭제되었습니다.");
+	  				$(".joinCount").html(join_count-1);
+	  				
+	  			}	
+		  	});
+  		});
+  	});
+ 		
   	
   </script>
 </head>
@@ -249,7 +268,7 @@
       		<div class="headerWrap">
       			<header class="joinHeader">
       				<h1 class="joinTitle">가입 신청자
-      					<em class="joinCount"><%=mjqwDTO.getJoin_wait_count() %></em>
+      					<em class="joinCount" id="<%=mjqwDTO.getJoin_wait_count() %>"><%=mjqwDTO.getJoin_wait_count() %></em>
       				</h1>
       			</header>
       		</div>

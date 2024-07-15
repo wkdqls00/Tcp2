@@ -1,3 +1,5 @@
+<%@page import="dto.MeetJoinQuestionWriteDTO"%>
+<%@page import="dao.MeetJoinQuestionWriteDAO"%>
 <%@page import="dto.BandPublicOkDTO"%>
 <%@page import="dao.BandPublicOkDAO"%>
 <%@page import="dao.NoJoinMeetDAO"%>
@@ -50,6 +52,12 @@
 	// 밴드 공개 여부
 	BandPublicOkDAO bDao = new BandPublicOkDAO();
 	BandPublicOkDTO bOkDTO = bDao.selectBandPublicOkDTO(meet_idx);
+	// 가입 신청자 출력
+	MeetMemberListPrintDAO joinWaitDAO = new MeetMemberListPrintDAO();
+	ArrayList<MeetMemberListPrintDTO> jwListDto = new ArrayList<>();
+	
+	MeetJoinQuestionWriteDAO mjqwDAO = new MeetJoinQuestionWriteDAO();
+	MeetJoinQuestionWriteDTO mjqwDTO = mjqwDAO.SelectMeetMemberWaitCount(meet_idx);
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -222,7 +230,8 @@
           </div>
           <!-- 가입 신청 대기 -->
           <% try {
-        	  if (mPrintDAO.adminCheck(member_idx, meet_idx)) {%>
+         	  if (mPrintDAO.adminCheck(member_idx, meet_idx)) {%> 
+          <% if(joinWaitDAO.joinWait(meet_idx)) { %>
           <div class="joinRequestWrap">
           	<div class="memberManageMenu">
           	  <div class="menuName">
@@ -233,13 +242,19 @@
           		가입 신청자
           	    </a>
           	  </div>
-          	  <a href="#" class="joinStatus">가입대기 1</a>
+          	  <form action="join_request.jsp" method="post">
+          	  <input type="hidden" value="<%=member_idx %>" name="member_idx">
+          	  <input type="hidden" value="<%= meet_idx%>" name="meet_idx">
+          	  <button type="submit" class="joinStatus">가입대기 <%=mjqwDTO.getJoin_wait_count() %></button>
+			<% } %>
+			</form>
           	</div>
           </div>
           <% 	}
-        	  } catch (Exception e) {
-        	  		e.printStackTrace();
-        	  }%>
+         	  } catch (Exception e) {
+         	  		e.printStackTrace();
+         	  }
+         	  %> 
           <!-- 멤버 목록 -->
           <div class="memberWrap">
             <div class="memberListWrap">
@@ -256,8 +271,7 @@
                   <li class="uFlexItem">
                     <a class="uProfile">
                       <span class="profileInner">
-                        <img src="<%=dto.getProfile() %>"
-                        width="50" height="50">
+                        <img src="<%=dto.getProfile() %>" width="50" height="50">
                       </span>
                     </a>
                     <div class="body">
