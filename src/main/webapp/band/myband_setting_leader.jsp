@@ -109,16 +109,15 @@
 			}
   		})
   	});
-  // 가입 질문하기
+  // 가입 질문 받기 버튼
   $(function (){
 	  $(".sub_qok").click(function() {
 		  let meet_idx = <%= meet_idx %>
 		  let sub_qok = $(this).attr("id");
-		  let sub_q = $("#qnaText").val();
 		  if(sub_qok =='Y') {
 			  $.ajax({
 	  				url: '${pageContext.request.contextPath}/AjaxUpdateJoinQServlet',
-	  				data: {meet_idx : meet_idx, sub_qok : 'N', sub_q : sub_q},
+	  				data: {meet_idx : meet_idx, sub_qok : 'N'},
 	  				type: 'get',
 	  				success: function(response) {
 	  				}
@@ -126,12 +125,29 @@
 		  }else if(sub_qok == 'N') {
 			  $.ajax({
 	  				url: '${pageContext.request.contextPath}/AjaxUpdateJoinQServlet',
-	  				data: {meet_idx : meet_idx, sub_qok : 'Y', sub_q : sub_q},
+	  				data: {meet_idx : meet_idx, sub_qok : 'Y'},
 	  				type: 'get',
 	  				success: function(response) {
 	  				}
 				})
 		  }
+	  })
+	  // 가입 질문하기 textarea 변경 버튼
+	  $("#subQBtn").click(function() {
+		  let meet_idx = <%=meet_idx%>;
+		  let sub_q = $("#qnaText").val();
+		  $.ajax({
+				url: '${pageContext.request.contextPath}/AjaxUpdateJoinQuestionServlet',
+				data: {meet_idx : meet_idx, sub_q : sub_q},
+				type: 'get',
+				success: function(response){
+					alert("저장되었습니다.");
+					location.reload();
+				},
+				error: function(){
+					console.log('ajax 통신 실패');	
+				}
+			});
 	  })
   });
   </script>
@@ -407,6 +423,8 @@
                   placeholder="새로운 멤버가 밴드 가입을 신청할 때 물어볼 질문을 작성해 주세요."><% if (dto.getSub_q() != null) { %><%=dto.getSub_q()%><% } %></textArea>
                   <span class="border"></span>
                 </div>
+                <button type="button" id="subQBtn" class="band_update_btn" style="float: right; margin-top: 12px;
+                ">변경</button>
               <% } %>
               </div>
             </li>

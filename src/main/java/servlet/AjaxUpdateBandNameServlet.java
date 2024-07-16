@@ -1,25 +1,26 @@
 package servlet;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dao.UpdateJoinQuestionDAO;
+import dao.UpdateBandDAO;
 
-@WebServlet("/AjaxUpdateJoinQServlet")
-public class AjaxUpdateJoinQServlet extends HttpServlet {
+@WebServlet("/AjaxUpdateBandNameServlet")
+public class AjaxUpdateBandNameServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+       
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String name = request.getParameter("name");
 		int meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
-		String sub_qok = request.getParameter("sub_qok");
 		
-		System.out.println(meet_idx + ", " + sub_qok);
+		System.out.println(name + ", " + meet_idx);
 		
-		UpdateJoinQuestionDAO updateDAO = new UpdateJoinQuestionDAO();
-		updateDAO.updateJoinQuestion(sub_qok, meet_idx);
+		UpdateBandDAO updateDAO = new UpdateBandDAO();
+		updateDAO.updateBandName(name, meet_idx);
 	}
 }

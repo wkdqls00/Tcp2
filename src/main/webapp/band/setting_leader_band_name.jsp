@@ -32,6 +32,28 @@
   <link rel="stylesheet" href="../assets/css/band.css">
   <title>밴드 이름 설정</title>
   <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+  <script>
+  	$(function() {
+  		// 밴드 이름, 커버 설정
+  		$("._btnConfirm").click(function() {
+  			let meet_idx = <%=meet_idx %>;
+  			let name = $("._input_band_name").val();
+  			
+  			$.ajax({
+				url: '${pageContext.request.contextPath}/AjaxUpdateBandNameServlet',
+				data: {meet_idx : meet_idx, name : name},
+				type: 'get',
+				success: function(response){
+					alert("저장되었습니다.");
+					location.href = "myband_setting_leader.jsp?meet_idx=" + <%=meet_idx%> + "&member_idx=" + <%=member_idx%>;
+				},
+				error: function(){
+					console.log('ajax 통신 실패');	
+				}
+			});
+  		})
+  	});
+  </script>
 </head>
 <body>
   <div class="wrap">
@@ -87,7 +109,7 @@
       <main id="aside_content">
         <section class="band_make">
           <h2 class="band_name_cover">밴드 이름 및 커버</h2>
-          <form action="myband_setting_leader.jsp" class="form">
+<!--           <form action="myband_setting_leader.jsp" class="form"> -->
             <fieldset>
               <legend class="band_name_cover">밴드 이름 및 커버
               </legend>
@@ -244,7 +266,7 @@
                 <button type="submit" class="_btnConfirm">완료</button>
               </div>
             </fieldset>
-          </form>
+<!--           </form> -->
         </section>
       </main>
     </div>
