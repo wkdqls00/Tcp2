@@ -17,14 +17,18 @@
             height: 100%;
             background: rgba(255, 255, 255, 0.7);
             z-index: 10;
-            display: none;
+            display: block;
        	}
        	.g-recaptcha {
-       		position: absolute;
-		    left: 35%;
-		    top: 15%;
+       	    position: absolute;
+		    left: 40%;
+		    top: 45%;
 		    z-index: 11;
        	}
+       	.success {
+       		left: 0;
+       	}
+       	
     </style>
 </head>
 <body>
@@ -161,7 +165,7 @@
             var nextStepButton = document.querySelector("button[data-id='nextStep']");
             if (allChecked) {
                 nextStepButton.disabled = false; // 버튼 체크 활성화
-                nextStepButton.style.backgroundColor = "#1769ff"; // 원하는 색상으로 변경
+                nextStepButton.style.backgroundColor = "#1769ff"; // 색깔변경
             } else {
                 nextStepButton.disabled = true; // 버튼 체크 비활성화
                 nextStepButton.style.backgroundColor = ""; // 기본 색상으로 돌아가게
@@ -182,14 +186,8 @@
      	// reCAPTCHA 완료 콜백 함수
         function recaptchaCallback() {
             document.getElementById('overlay').style.display = 'none';
-            document.querySelector('.g-recaptcha').style.display = 'none';
+            document.querySelector('.g-recaptcha').classList.add('success');
         }
-
-        // 페이지 로드 시 오버레이로 화면 가리기
-        window.onload = function() {
-            document.getElementById('overlay').style.display = 'block';
-        };
     </script>
-    
 </body>
 </html>

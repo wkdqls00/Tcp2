@@ -27,7 +27,7 @@ public class NewPostCommentDAO {
         	pstmt.setString(4, delete_ok);
 
         	int result = pstmt.executeUpdate();
-			System.out.println(result + "행 성공적으로 업데이트됨");
+			System.out.println(result + "행 성공적으로 추가됨.");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

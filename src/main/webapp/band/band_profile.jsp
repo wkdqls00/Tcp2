@@ -54,6 +54,29 @@
   <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/band_profile.css'>
   <title>BAND - PROFILE</title>
   <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+  <script>
+  	$(function() {
+  		// 닉네임 설정
+  		$(".btnSave").click(function() {
+  			let nickname = $("._descriptionInput").val();
+  			let member_idx = <%=member_idx%>;
+  			let meet_idx = <%=meet_idx%>;
+  			
+  			$.ajax({
+				url: '${pageContext.request.contextPath}/AjaxNicknameSettingServlet',
+				data: {meet_idx : meet_idx, member_idx : member_idx, nickname : nickname},
+				type: 'get',
+				success: function(response){
+					alert("닉네임이 변경되었습니다.");
+					location.reload();
+				},
+				error: function(){
+					console.log('ajax 통신 실패');	
+				}
+			});
+  		})
+  	});
+  </script>
 </head>
 <body>
   <div id="wrap">

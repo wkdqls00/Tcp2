@@ -98,10 +98,6 @@
         </div>
         <!-- 동네 밴드 목록편집 버튼 -->
         <div id="content_tab_right">
-          <!-- <div id="tab_list_edit">
-            <img src="/assets/img/list_edit.png">
-            <a href="#" class="list_edit_text">목록 편집</a>
-          </div> -->
           <div id="tab_place_band">
             <a href="#" class="btn_option" target="_blank">
               <span class="local_icon"></span>

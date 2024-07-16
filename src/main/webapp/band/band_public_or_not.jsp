@@ -69,9 +69,40 @@
   <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/band.css'>
   <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/band_header.css'>
   
-  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-   
   <title>Band public_or_not</title>
+  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+  <script>
+  // 밴드 공개 --> 비공개 변경
+  	$(function(){
+  		$("#secret").click(function() {
+  			let meet_idx = <%= meet_idx %>;
+  			let public_ok = 'N';
+  			$.ajax({
+  				url: '${pageContext.request.contextPath}/AjaxPublicOkServlet',
+  				data: {meet_idx : meet_idx, public_ok : public_ok},
+  				type: 'get',
+  				success: function(response) {
+  					alert("밴드가 비공개로 바뀌었습니다.");
+  				}
+  			})
+  		})
+  	});
+  // 밴드 비공개 --> 공개 변경
+  $(function(){
+	$("#public").click(function(){
+		let meet_idx = <%=meet_idx%>;
+		let public_ok = 'Y';
+		$.ajax({
+			url: '${pageContext.request.contextPath}/AjaxPublicOkServlet',
+			data: {meet_idx : meet_idx, public_ok : public_ok},
+			type: 'get',
+			success: function(response) {
+				alert("밴드가 공개로 바뀌었습니다.");
+			}
+		})
+	}) 
+  });
+  </script>
 </head>
 <body>
   <div id="wrap">

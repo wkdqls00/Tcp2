@@ -136,7 +136,6 @@
   display: flex;
 }
 #band_card_list {
-  height: 210px;
   margin-bottom: 25px !important;
   display: flex;
   flex-wrap: wrap;

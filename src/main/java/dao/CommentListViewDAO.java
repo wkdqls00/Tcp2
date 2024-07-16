@@ -35,7 +35,8 @@ public class CommentListViewDAO {
         		+ "WHERE m.member_idx = m_m.member_idx "
         		+ "AND c.meet_member_idx = m_m.meet_member_idx "
         		+ "AND p.post_idx = c.post_idx "
-        		+ "AND p.post_idx = ?";
+        		+ "AND p.post_idx = ?"
+        		+ "ORDER BY c.reg_date";
         
         PreparedStatement pstmt = d.getPstmt(conn, sql);
         

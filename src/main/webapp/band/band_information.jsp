@@ -63,6 +63,31 @@
   <link rel="stylesheet" type="text/css" media="screen" href="../assets/css/band_information.css">
   <title>BAND - Information - Setting</title>
   <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+  <script>
+ 
+ 	 	$(function() {
+ 	 	// 밴드 소개글, 지역 설정	
+  		$(".btnConfirm").click(function() {
+  			let title = $("#bandIntroduce").val();
+  			let meet_idx = <%=meet_idx%>;
+  			let area = $(".textButton").attr("id");
+  			
+  			$.ajax({
+				url: '${pageContext.request.contextPath}/AjaxUpdateBandIntroductionServlet',
+				data: {meet_idx : meet_idx, title : title, area : area},
+				type: 'get',
+				success: function(response){
+					alert("저장되었습니다.");
+					location.href = "myband_setting_leader.jsp?meet_idx=" + <%=meet_idx%> + "&member_idx=" + <%=member_idx%>;
+				},
+				error: function(){
+					console.log('ajax 통신 실패');	
+				}
+			});
+  			
+  		})
+  	});
+  </script>
 </head>
 <body>
   <div id="wrap">
@@ -227,7 +252,7 @@
               <!-- 소개글 입력 -->
               <div class="textareaBox _introDescription">
                 <div class="uTextarea">
-                  <textarea class="_introDescription" id="bandIntroduce" cols="30" rows="10" maxlength="500" placeholder="밴드 소개말을 입력하세요." style="height: 100%"><%=miwDTO.getTitle() %></textarea>
+                  <textarea class="_introDescription" id="bandIntroduce" cols="30" rows="10" maxlength="500" placeholder="밴드 소개말을 입력하세요." style="height: 100%"value="<%=miwDTO.getTitle() %>"><%=miwDTO.getTitle() %></textarea>
                   <span class="border"></span>
                 </div>
               </div>
@@ -235,7 +260,7 @@
               <div class="_locationText" style="display:flex;">
                 <div class="introOptionBox">
                   <div class="addressText">
-                    <button type="button" class="textButton"><% if(miwDTO.getArea() != null) {%>
+                    <button type="button" class="textButton" id="<%=miwDTO.getArea() %>"><% if(miwDTO.getArea() != null) {%>
                     <%=miwDTO.getArea() %>
                     <%} else {%>
                     주소를 등록해주세요.
@@ -247,11 +272,7 @@
               <!-- 저장 버튼 -->
               <div class="introOption">
                 <div class="introOptionBox2">
-                 <form action="myband_setting_leader.jsp" method="post">
-	           		<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
-	            	<input type="hidden" value="<%=member_idx %>" name="member_idx">
-	                <button type="submit" class="btnConfirm">변경</button>
-              	</form>
+	                <button type="button" class="btnConfirm">변경</button>
                </div>
               </div>
           </div>
