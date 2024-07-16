@@ -84,6 +84,57 @@
   <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/band_leave_popup.css'>
   <title>BAND - <%= miDto.getMeet_name() %> - Setting - Leader</title>
   <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+  <script>
+  // 가입 신청 받기 라디오 버튼 
+  	$(function() {
+  		$(".join_ok_input").click(function(){
+  			let meet_idx = <%=meet_idx%>;
+			let join_ok = $(this).attr("id");
+			if(join_ok == 'Y'){
+	  			$.ajax({
+	  				url: '${pageContext.request.contextPath}/AjaxUpdateJoinApplyServlet',
+	  				data: {meet_idx : meet_idx, join_ok : 'N' },
+	  				type: 'get',
+	  				success: function(response) {
+	  				}
+  				})
+			} else if(join_ok == 'N'){
+				$.ajax({
+	  				url: '${pageContext.request.contextPath}/AjaxUpdateJoinApplyServlet',
+	  				data: {meet_idx : meet_idx, join_ok : 'Y'},
+	  				type: 'get',
+	  				success: function(response) {
+	  				}
+  				})
+			}
+  		})
+  	});
+  // 가입 질문하기
+  $(function (){
+	  $(".sub_qok").click(function() {
+		  let meet_idx = <%= meet_idx %>
+		  let sub_qok = $(this).attr("id");
+		  let sub_q = $("#qnaText").val();
+		  if(sub_qok =='Y') {
+			  $.ajax({
+	  				url: '${pageContext.request.contextPath}/AjaxUpdateJoinQServlet',
+	  				data: {meet_idx : meet_idx, sub_qok : 'N', sub_q : sub_q},
+	  				type: 'get',
+	  				success: function(response) {
+	  				}
+				})
+		  }else if(sub_qok == 'N') {
+			  $.ajax({
+	  				url: '${pageContext.request.contextPath}/AjaxUpdateJoinQServlet',
+	  				data: {meet_idx : meet_idx, sub_qok : 'Y', sub_q : sub_q},
+	  				type: 'get',
+	  				success: function(response) {
+	  				}
+				})
+		  }
+	  })
+  });
+  </script>
 </head>
 <body>
   <div id="wrap">
@@ -326,7 +377,7 @@
               %>
               <div class="item_side">
                 <label class="check_switch">
-                  <input type="checkbox" class="check_input" name="join_ok" <%=joinok(dto.getJoin_ok())%> >
+                  <input type="checkbox" class="check_input join_ok_input" id="<%=dto.getJoin_ok()%>" name="join_ok" <%=joinok(dto.getJoin_ok())%> >
                   <span class="check_label">
                     <span class="shape"></span>
                   </span>
@@ -340,7 +391,7 @@
                 </div>
                 <div class="item_side">
                   <label class="check_switch -switch">
-                    <input type="checkbox" class="check_input" <%=joinok(dto.getSub_qok()) %> id="join_ok_checkBox">
+                    <input type="checkbox" class="check_input sub_qok" id="<%=dto.getSub_qok() %>" <%=joinok(dto.getSub_qok()) %> id="join_ok_checkBox">
                   <span class="check_label">
                     <span class="shape"></span>
                   </span>
