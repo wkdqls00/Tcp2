@@ -173,6 +173,26 @@
 		
 		})
 		
+		// 댓글 삭제 (Delete Update)
+		$(".commentDeleteBtn").click(function() {
+
+			let comment_idx = $(this).closest(".cComment").attr("id");
+			
+			$.ajax({
+				url: '${pageContext.request.contextPath}/AjaxCommentDeleteUpdateServlet',
+				data: {comment_idx : comment_idx},
+				type: 'get',
+				success: function(response){
+					alert("댓글이 삭제되었습니다.");
+					$("#" + comment_idx + ".cComment").hide();
+					$("#comment" + comment_idx).hide();
+				},
+				error: function(){
+					console.log('ajax 통신 실패');	
+				}
+			});
+		})
+		
   	})
   </script>
   <style>
@@ -592,7 +612,7 @@
 				         <% for(CommentListViewDTO clDto : clListDTO) { 
 				         	MeetCommentElapsedTimeDTO mCDto = mCDao.selectMeetCommentElapsedTimeDTO(clDto.getComment_idx());
 				         %>
-				           <div class="itemWrap">
+				           <div class="itemWrap" id="comment<%=clDto.getComment_idx()%>">
 				             <div class="writeInfo">
 				             <% if (mPrintDAO.adminCheck(clDto.getMember_idx(), meet_idx)) {%>
 				               <a href="#" class="uProfile -leader">
@@ -774,7 +794,7 @@
 			                          <% for(CommentListViewDTO clDto : clListDTO) { 
 								         	MeetCommentElapsedTimeDTO mCDto = mCDao.selectMeetCommentElapsedTimeDTO(clDto.getComment_idx());
 							          %>
-			                        <div class="cComment">
+			                        <div class="cComment" id="<%= clDto.getComment_idx() %>">
 			                          <div class="DCommentView">
 			                            <div class="itemWrap">
 			                              <div class="writeInfo">
@@ -810,11 +830,11 @@
 								                 	if (day > 10 && time > 23 && minute > 60) { 
 								                 		result = clDto.getReg_date();
 								                 	} else if (day < 10 && time > 24 && minute > 60) {
-								                 		result = day + "";
+								                 		result = day + "일 전";
 								                 	} else if (day < 10 && time < 24 && minute > 60) {
-								                 		result = time + "";
-								                 	} else if (day < 10 && time < 24 && minute < 60) {
-								                 		result = minute + "";
+								                 		result = time + "시간 전";
+								                 	} else if (day < 10 && time < 24 && minute < 60 && minute != 0) {
+								                 		result = minute + "분 전";
 								                 	} else if (day == 0 && time == 0 && minute == 0) {
 								                 		result = "방금 전";
 								                 	}
@@ -830,7 +850,7 @@
 			                              <div class="lyMenu" style="display: none;">
 			                                <ul>
 			                                  <li>
-			                                    <a href="#">댓글 삭제</a>
+			                                    <a href="#" class="commentDeleteBtn">댓글 삭제</a>
 			                                  </li>
 			                                </ul>
 			                              </div>

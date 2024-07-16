@@ -9,22 +9,21 @@ import project.DatabaseUtil;
 public class MeetCommentDeleteUpdateDAO {
 	public static void main(String[] args) {
 		MeetCommentDeleteUpdateDAO mcddao = new MeetCommentDeleteUpdateDAO();
-		   mcddao.meetCommentDeleteUpdate(3, "Y");
+		   mcddao.meetCommentDeleteUpdate(3);
 	   }
 
-	    public void meetCommentDeleteUpdate(int meet_comment_idx, String delete_ok) {
+	    public void meetCommentDeleteUpdate(int meet_comment_idx) {
 	        DatabaseUtil d = new DatabaseUtil();
 	        Connection conn = d.getConn();
 
 	        String sql = 
 	              "UPDATE meet_comment "
-	              + "SET delete_ok = ? "
+	              + "SET delete_ok = 'Y' "
 	              + "WHERE meet_comment_idx = ?";
 	        
 	        PreparedStatement pstmt = d.getPstmt(conn, sql);
 	        try {
-		        pstmt.setString(1, delete_ok);
-		        pstmt.setInt(2, meet_comment_idx);
+		        pstmt.setInt(1, meet_comment_idx);
 		        
 		        int result = pstmt.executeUpdate();
 		        System.out.println(result + "행 성공적으로 업데이트됨");
