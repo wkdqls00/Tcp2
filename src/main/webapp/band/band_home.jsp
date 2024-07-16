@@ -616,14 +616,25 @@
 				               <!-- 댓글 작성 시간 출력 -->
 				                 <time class="time">
 				                 	<% 
-				                 	int day = Integer.parseInt(mCDto.getDay());
-				                 	int time = Integer.parseInt(mCDto.getTime());
-				                 	int minute = Integer.parseInt(mCDto.getMinute());
-				                 	if (day > 10) { %>
-				                 	<%= clDto.getReg_date() %>
-				                 	<% } else { %>
-				                 			<%= day %>일 전
-			                 			<% } %>
+					                 	int day = Integer.parseInt(mCDto.getDay());
+					                 	int time = Integer.parseInt(mCDto.getTime());
+					                 	int minute = Integer.parseInt(mCDto.getMinute());
+					                 	
+					                 	String result = null;
+					                 	
+					                 	if (day > 10 && time > 23 && minute > 60) { 
+					                 		result = clDto.getReg_date();
+					                 	} else if (day < 10 && time > 24 && minute > 60) {
+					                 		result = day + "일 전";
+					                 	} else if (day < 10 && time < 24 && minute > 60) {
+					                 		result = time + "시간 전";
+					                 	} else if (day < 10 && time < 24 && minute < 60 && minute != 0) {
+					                 		result = minute + "분 전";
+					                 	} else if (day == 0 && time == 0 && minute == 0) {
+					                 		result = "방금 전";
+					                 	}
+					                 	%>
+					                 	<%= result %>
 				                 </time>
 				               </div>
 				             </div>
@@ -794,15 +805,21 @@
 								                 	int time = Integer.parseInt(mCDto.getTime());
 								                 	int minute = Integer.parseInt(mCDto.getMinute());
 								                 	
-								                 	if (day > 10) { %>
-									                <%= clDto.getReg_date() %>
-									                <% } else if (time > 23) { %>
-									                 	<%= day %>일 전
-								                 	<% } else if (minute > 60) { %>
-								                 			<%= time %>시간 전
-								                 		<% } else { %>
-								                 			<%= minute %>분 전
-								                 			<% } %>
+								                 	String result = null;
+								                 	
+								                 	if (day > 10 && time > 23 && minute > 60) { 
+								                 		result = clDto.getReg_date();
+								                 	} else if (day < 10 && time > 24 && minute > 60) {
+								                 		result = day + "";
+								                 	} else if (day < 10 && time < 24 && minute > 60) {
+								                 		result = time + "";
+								                 	} else if (day < 10 && time < 24 && minute < 60) {
+								                 		result = minute + "";
+								                 	} else if (day == 0 && time == 0 && minute == 0) {
+								                 		result = "방금 전";
+								                 	}
+								                 	%>
+								                 	<%= result %>
 								               </time>
 			                                </div>
 			                              </div>

@@ -24,10 +24,10 @@ public class MeetCommentElapsedTimeDAO {
         Connection conn = d.getConn();
 
         String sql = 
-        		"SELECT  "
-        		+ "  TRUNC(sysdate - reg_date, 0), "
-        		+ "  TRUNC(sysdate - reg_date) * 24 , "
-        		+ "  MOD(TRUNC((sysdate - reg_date )* 24 * 60, 0),60) "
+        		"SELECT "
+        		+ "TRUNC(sysdate) - TO_DATE(TO_CHAR(reg_date, 'YYYYMMDD'), 'YYYYMMDD') AS 일, "
+        		+ "TRUNC((TO_DATE(TO_CHAR(sysdate, 'YYYY-MM-DD HH24:MI:SS'), 'YYYY-MM-DD HH24:MI:SS') - TO_DATE(TO_CHAR(reg_date, 'YYYY-MM-DD HH24:MI:SS'), 'YYYY-MM-DD HH24:MI:SS')) * 24) AS 시간, "
+        		+ "TRUNC((TO_DATE(TO_CHAR(sysdate, 'YYYY-MM-DD HH24:MI:SS'), 'YYYY-MM-DD HH24:MI:SS') - TO_DATE(TO_CHAR(reg_date, 'YYYY-MM-DD HH24:MI:SS'), 'YYYY-MM-DD HH24:MI:SS')) * 24 * 60) AS 분 "
         		+ "FROM meet_comment "
         		+ "WHERE meet_comment_idx = ?";
         
