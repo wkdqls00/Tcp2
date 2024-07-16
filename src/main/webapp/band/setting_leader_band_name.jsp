@@ -266,7 +266,7 @@
                 <button type="submit" class="_btnConfirm">완료</button>
               </div>
             </fieldset>
-<!--           </form> -->
+          </form>
         </section>
       </main>
     </div>
