@@ -99,9 +99,11 @@
   	$(function() {
 		$(".postEmpty").load("band_no_write_div.html");
 		
+		let meet_member_idx = <%= meet_member_idx %>;
+		let meet_idx = <%= meet_idx %>;
+		
 		// 좋아요 버튼 +1
 		$(".postAddBox .addCol:first-child").click(function() {
-			let meet_member_idx = <%= meet_member_idx %>;
 			let post_idx = $(this).closest(".postLayoutView").attr("id");
 			$.ajax({
 				url: '${pageContext.request.contextPath}/AjaxPostGoodServlet',
@@ -122,6 +124,54 @@
 				}
 			});
 		});
+		
+		// 글쓰기 (Insert)
+		$(".writeSubmitBox").find(".uButton").click(function() {
+			var formData = new FormData();
+			let file_url = $("input[name='postFileUrl']");
+			var files = file_url[0].files;
+			alert(file_url);
+
+			let content = $(".cke_editable").val();
+			
+			/* if ($("#postInputFile")[0].length == undefined) {
+				file_url = "null";
+			} else {
+				file_url = $("#postInputFile")[0].files;
+			} */
+			
+			/* $.ajax({
+				url: '${pageContext.request.contextPath}/AjaxPostInsertServlet',
+				data: {meet_idx : meet_idx, meet_member_idx : meet_member_idx, content : content, file_url : file_url },
+				type: 'get',
+				success: function(response){
+				},
+				error: function(){
+					console.log('ajax 통신 실패');		
+				}
+			})	 */
+		})
+		
+		// 댓글 쓰기 (Insert)
+		$(".cCommentWrite").find(".writeSubmit").click(function() {
+		
+			let post_idx = $(this).closest(".postLayoutView").attr("id");
+			let content = $(".commentWrite").val();
+			
+			$.ajax({
+				url: '${pageContext.request.contextPath}/AjaxPostCommentInsertServlet',
+				data: {post_idx : post_idx, meet_member_idx : meet_member_idx, content : content},
+				type: 'get',
+				success: function(response){
+					alert("댓글 작성 완료되었습니다.");
+					location.reload();
+				},
+				error: function(){
+					console.log('ajax 통신 실패');	
+				}
+			});
+		
+		})
 		
   	})
   </script>
@@ -569,16 +619,11 @@
 				                 	int day = Integer.parseInt(mCDto.getDay());
 				                 	int time = Integer.parseInt(mCDto.getTime());
 				                 	int minute = Integer.parseInt(mCDto.getMinute());
-				                 	
 				                 	if (day > 10) { %>
 				                 	<%= clDto.getReg_date() %>
-				                 	<% } else if (time > 23) { %>
+				                 	<% } else { %>
 				                 			<%= day %>일 전
-			                 			<% } else if (minute > 60) { %>
-			                 					<%= time %>시간 전
-			                 				<% } else { %>
-			                 					<%= minute %>분 전
-			                 					<% } %>
+			                 			<% } %>
 				                 </time>
 				               </div>
 				             </div>
@@ -626,7 +671,7 @@
                           </div>
                           <!-- 댓글 submit -->
                           <div class="submitWrap">
-                            <button type="submit" class="writeSubmit">보내기</button>
+                            <button class="writeSubmit">보내기</button>
                           </div>
                         </div>
                       </section>
@@ -936,7 +981,7 @@
                     <ul class="toolbarList">
                       <li class="toolbarListItem">
                         <label class="photo">
-                          <input type="file">
+                          <input type="file" accept="image/*" id="postInputFile" name="postFileUrl">
                           <span class="photoIcon"></span>
                         </label>
                       </li>
@@ -1029,10 +1074,6 @@
 		});
 		
 	  });
-      
-      /* $("#postDetailClose").click(function() {
-	  	location.reload();
-      }); */
       
 	  // 팝업 닫기
       $(".btnLyClose").click(function() {

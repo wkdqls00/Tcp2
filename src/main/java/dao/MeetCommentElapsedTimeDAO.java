@@ -24,7 +24,10 @@ public class MeetCommentElapsedTimeDAO {
         Connection conn = d.getConn();
 
         String sql = 
-        		"SELECT TRUNC(sysdate - reg_date, 0), TRUNC(sysdate - reg_date) * 24, 60 + MOD(TRUNC((sysdate - reg_date )* 24 * 60, 0),60) "
+        		"SELECT  "
+        		+ "  TRUNC(sysdate - reg_date, 0), "
+        		+ "  TRUNC(sysdate - reg_date) * 24 , "
+        		+ "  MOD(TRUNC((sysdate - reg_date )* 24 * 60, 0),60) "
         		+ "FROM meet_comment "
         		+ "WHERE meet_comment_idx = ?";
         
