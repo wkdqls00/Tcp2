@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import dao.TicketCountDao;
 import dao.Ticket_checkDao;
 import dto.Ticket_checkDto;
 
@@ -38,6 +39,14 @@ public class Ticket_checkServlet extends HttpServlet {
 		Ticket_checkDao tcDao = new Ticket_checkDao();
 		ArrayList<Ticket_checkDto> list = tcDao.checkReservationY(userIdx, max, min);
 		int count = tcDao.check_countY(userIdx);
+		
+		TicketCountDao tCountDao = new TicketCountDao();
+		ArrayList<Integer> countList = new ArrayList<>();
+		for(Ticket_checkDto l : list) {
+			countList.add(tCountDao.ticketCount(l.getPayment_idx()));
+		}
+		
+		request.setAttribute("countList", countList);
 		request.setAttribute("list", list);
 		request.setAttribute("count", count);
 		RequestDispatcher rd = request.getRequestDispatcher("/ticketlink/Mypage/Ticket_check.jsp");

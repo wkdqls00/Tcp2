@@ -16,11 +16,15 @@ public class Ticket_checkDao {
 
     // 메인 메서드
     public static void main(String[] args) {
-        Ticket_checkDao tcdao = new Ticket_checkDao();
-        ArrayList<Ticket_checkDto>  list = null;        
-        list = tcdao.checkReservationY(24, 5, 1);
+//        Ticket_checkDao tcdao = new Ticket_checkDao();
+//        ArrayList<Ticket_checkDto>  list = null;        
+//        list = tcdao.checkReservationY(24, 5, 1);
 //        for (Ticket_checkDto checkReservation : list) {
 //           System.out.println(checkReservation);
+//        }
+//       ArrayList<Ticket_checkDto> tcdto = new Ticket_checkDao().checkReservationY(24, 5, 1);
+//        for (Ticket_checkDto 종원 : tcdto ) {
+//        	System.out.println(종원 + "바보");
 //        }
     }
     
