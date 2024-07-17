@@ -40,8 +40,8 @@
     </style>
 </head>
 <body>
-	<!-- <div class="overlay" id="overlay"></div> -->
-	<!-- <div class="g-recaptcha" data-sitekey="6Lerfg0qAAAAAAukEzArdUcJnbf16ra6BELU4ngX" data-callback="recaptchaCallback"></div> -->
+	<div class="overlay" id="overlay"></div>
+	<div class="g-recaptcha" data-sitekey="6Lerfg0qAAAAAAukEzArdUcJnbf16ra6BELU4ngX" data-callback="recaptchaCallback"></div>
     <div class="memberContainer">
         <div class="header">
             <a href="" class="headerLogo"><span></span></a>

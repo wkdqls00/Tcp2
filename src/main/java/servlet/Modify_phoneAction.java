@@ -1,4 +1,4 @@
-package dao;
+package servlet;
 
 import java.io.IOException;
 import java.sql.*;
@@ -17,7 +17,7 @@ import project.DatabaseUtil;
  * Servlet implementation class Modify_passwordServlet
  */
 @WebServlet("/Modify_phoneDao")
-public class Modify_phoneDao extends HttpServlet {
+public class Modify_phoneAction extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -35,11 +35,8 @@ public class Modify_phoneDao extends HttpServlet {
 	    HttpSession hs = request.getSession();
 	    int idx = (int) hs.getAttribute("userIdx");
 
-        
-        Connection connection = null;
         PreparedStatement pstmt = null;
         
-       
         try {
         	 
             String sql = "UPDATE member "
@@ -68,7 +65,7 @@ public class Modify_phoneDao extends HttpServlet {
             // 자원 해제
             try {
                 if (pstmt != null) pstmt.close();
-                if (connection != null) connection.close();
+                if (conn != null) conn.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }

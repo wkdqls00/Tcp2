@@ -20,9 +20,9 @@ public class Ticket_checkPeriodDao {
         ArrayList<Ticket_checkDto> list2 = null; 
         list = tcpdao.checkDayY(24, 5, 1, 90);
         list2 = tcpdao.checkMonthY(24, 5, 1, 2024, "04", "pay.pay_date");
-        for (Ticket_checkDto checkReservation : list2) {
-           System.out.println(checkReservation);
-        }
+//        for (Ticket_checkDto checkReservation : list2) {
+//           System.out.println(checkReservation);
+//        }
     }
     
     public ArrayList<Ticket_checkDto> checkDayY(int member_idx, int max, int min, int day) {

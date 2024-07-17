@@ -155,6 +155,7 @@
                                         <th scope="col">상품명</th>
                                         <th scope="col">후기내용</th>
                                         <th scope="col">작성일</th>
+                                        <th scope="col"></th>
                                     </tr>
                                 </thead>
                                
@@ -164,6 +165,12 @@
                                         <td class="tl"><a href=""><%=l.getPlay_name()%></a></td>
                                         <td class="tl"><a href=""><%=l.getContent() %>...</a></td>
                                         <td class="fs12"><%=l.getReg_date()%></td>
+                                        <td>
+	                                        <form action="/Tcp2/DeleteScriptAction" method="post" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+							                    <input type="hidden" name="script_idx" value="<%= l.getScript_idx() %>">
+							                    <input type="submit" value="삭제" class="delete_ScriptBtn">
+	              							</form>
+              							</td>
                                     </tr>
                                 <%}%>
                                 </tbody>

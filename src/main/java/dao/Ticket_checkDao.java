@@ -19,9 +19,9 @@ public class Ticket_checkDao {
         Ticket_checkDao tcdao = new Ticket_checkDao();
         ArrayList<Ticket_checkDto>  list = null;        
         list = tcdao.checkReservationY(24, 5, 1);
-        for (Ticket_checkDto checkReservation : list) {
-           System.out.println(checkReservation);
-        }
+//        for (Ticket_checkDto checkReservation : list) {
+//           System.out.println(checkReservation);
+//        }
     }
     
     public ArrayList<Ticket_checkDto> checkReservationY(int member_idx, int max, int min) {

@@ -33,13 +33,14 @@ public class ScriptManagementDao {
 
         // 스크립트 정보를 조회하는 SQL 쿼리
         String sql = 
-				"SELECT * FROM (SELECT ROWNUM rn, a.* FROM (SELECT star_rating, p.name, title, SUBSTR(content,1,20), TO_CHAR(s.reg_date, 'YYYY.MM.DD') " + 
+				"SELECT * FROM (SELECT ROWNUM rn, a.* FROM (SELECT star_rating, p.name, title, SUBSTR(content,1,20), TO_CHAR(s.reg_date, 'YYYY.MM.DD'), s.script_idx " + 
 				"FROM script s, member m, payment pm, playinfo pi, play p " + 
 				"WHERE m.member_idx = ? " + 
 				"AND s.member_idx = m.member_idx " + 
 				"AND s.payment_idx = pm.payment_idx " + 
 				"AND pm.playinfo_idx = pi.playinfo_idx " + 
 				"AND p.play_idx = pi.play_idx " + 
+				"AND del_ok = 'N' " + 
 				"AND genre_idx BETWEEN 1 AND 3 " + 
 				"ORDER BY reg_date DESC)a WHERE ROWNUM <= ?) " + 
 				"WHERE rn >= ?";
@@ -61,8 +62,8 @@ public class ScriptManagementDao {
             	 String title = rs.getString(4);
             	 String content = rs.getString(5);
             	 String reg_date = rs.getString(6);
-            	 
-            	 ScriptManagementDto scriptManagementDTO = new ScriptManagementDto(star_rating, play_name, title, content, reg_date); 
+            	 int script_idx = rs.getInt(7);
+            	 ScriptManagementDto scriptManagementDTO = new ScriptManagementDto(star_rating, play_name, title, content, reg_date, script_idx); 
                 list.add(scriptManagementDTO); 
             }
         } catch (SQLException e) {
@@ -89,7 +90,7 @@ public class ScriptManagementDao {
 
          // 스크립트 정보를 조회하는 SQL 쿼리
          String sql = 
- 				"SELECT * FROM (SELECT ROWNUM rn, a.* FROM (SELECT star_rating, p.name, title, SUBSTR(content,1,20), TO_CHAR(s.reg_date, 'YYYY.MM.DD') " + 
+ 				"SELECT * FROM (SELECT ROWNUM rn, a.* FROM (SELECT star_rating, p.name, title, SUBSTR(content,1,20), TO_CHAR(s.reg_date, 'YYYY.MM.DD'), s.script_idx " + 
  				"FROM script s, member m, payment pm, playinfo pi, play p " + 
  				"WHERE m.member_idx = ? " + 
  				"AND s.member_idx = m.member_idx " + 
@@ -97,6 +98,7 @@ public class ScriptManagementDao {
  				"AND pm.playinfo_idx = pi.playinfo_idx " + 
  				"AND p.play_idx = pi.play_idx " + 
  				"AND genre_idx = 4 " + 
+ 				"AND del_ok = 'N' " +
  				"ORDER BY reg_date DESC)a WHERE ROWNUM <= ?) " + 
  				"WHERE rn >= ?";
  				
@@ -117,8 +119,8 @@ public class ScriptManagementDao {
              	 String title = rs.getString(4);
              	 String content = rs.getString(5);
              	 String reg_date = rs.getString(6);
-             	 
-             	 ScriptManagementDto scriptManagementDTO = new ScriptManagementDto(star_rating, play_name, title, content, reg_date); 
+             	 int script_idx = rs.getInt(7);
+             	 ScriptManagementDto scriptManagementDTO = new ScriptManagementDto(star_rating, play_name, title, content, reg_date, script_idx); 
                  list.add(scriptManagementDTO); 
              }
          } catch (SQLException e) {

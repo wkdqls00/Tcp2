@@ -191,7 +191,7 @@
                                             <li class="ng-scope"><a href="">12월</a></li>
                                         </ul>
                                     </div> <!--조회버튼-->
-                                    <a href="" class="btn_blank">조회</a>
+                                    <a href="" class="btn_blank" id="searchMonth">조회</a>
                                 </dd>
                             </dl>
                         </div>
