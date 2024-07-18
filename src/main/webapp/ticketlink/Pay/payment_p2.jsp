@@ -152,7 +152,7 @@ int total = 0;
       <div class="cancel" style="margin-top: 0px;"><span class="canceltitle">취소수수료:</span>티켓금액의 0%~30%</div>
       <div class="prenextbutton">
         <div><button class="prenextbtn" onclick="history.back()">이전단계</button></div>
-        <div><button class="prenextbtn" onclick="location.href='../../payment_p2?pi=<%=playinfo_idx%>&pm=<%=payment_idx%>&totalamount=<%=total%>'">다음단계</button></div>
+        <div><button class="prenextbtn" onclick="location.href='../../Payment_p2?pi=<%=playinfo_idx%>&pm=<%=payment_idx%>&totalamount=<%=total%>'">다음단계</button></div>
       </div>
     </div>
   </main>

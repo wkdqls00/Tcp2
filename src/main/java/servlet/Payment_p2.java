@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import dao.PaymentDAO;
 
 
-@WebServlet("/payment_p2")
+@WebServlet("/Payment_p2")
 public class Payment_p2 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

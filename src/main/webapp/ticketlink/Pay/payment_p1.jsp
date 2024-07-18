@@ -17,7 +17,6 @@
 </head>
 <body>
 <%//2871, 62866
-int member_idx = 1;
 int playinfo_idx = Integer.parseInt(request.getParameter("pi"));
 ArrayList<GetPlayIdxDTO> idxlist = new GetPlayIdxDAO().getidxlist(playinfo_idx);
 System.out.println(idxlist.get(0));
@@ -53,7 +52,7 @@ ArrayList<SeatDTO> seat = new SeatDAO().getSeatlist(playhall_idx);//공연좌석
       </div>
       <div id="playhallseat">
         <img src="../../assets/img/ticklink/<%=new GetSeatImg().getSeatImg(playhall_idx)%>" alt="">
-        <form action="../../payment_p1" id="nextForm">
+        <form action="../../Payment_p1" id="nextForm">
         <input type="hidden" id="selectedSeats" name="selectedSeats" value="">
                 <input type="hidden" name="idx" value="<%=playinfo_idx%>">
         
