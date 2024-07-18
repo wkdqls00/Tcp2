@@ -20,10 +20,8 @@
     <div class="header"></div>
     <div id="container" class="container login">
         <div class="loginWrap">
-            <div class="loginLogo">
-            <h1 style="margin: 0;">
-                <span>종원링크</span>
-            </h1>
+            <div class="loginLogo nav_box">
+            <h1 class="logo"><a href="../html/main.html"></a></h1>
             </div>
             <form id="loginFrm" name="loginFrm" action="${pageContext.request.contextPath}/LoginSuccessToMain"  method="post" >
                 <div class="loginInner">
