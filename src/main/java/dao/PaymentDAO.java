@@ -11,18 +11,20 @@ public class PaymentDAO {
 
 
     public static void main(String[] args) {
-    	PaymentDAO pmdao = new PaymentDAO();
-       pmdao.insertPayment(13, 2,163);
-//       pmdao.updatePayment1();
-//    	pmdao.updatePayment2("카카오페이", , 13);//type, payment_idx, member_idx
+    	int payment_idx = 210;
+    	int total_amount = 95000;
+    	new PaymentDAO().updatePayment1(payment_idx, total_amount);
+
     }
     
-    public void insertPayment(int member_idx, int playinfo_idx, int seat_idx) {
+    public int insertPayment(int member_idx, int playinfo_idx, String[] seat_idxList) {
         DatabaseUtil d = new DatabaseUtil();
         Connection conn = d.getConn();
+        int payment_idx = 0;
+        
         try {
             conn.setAutoCommit(false);
-            String sql = "INSERT INTO payment (PAYMENT_IDX, MEMBER_IDX, TIME_LIMIT, STATUS,PLAYINFO_IDX) " +
+            String sql = "INSERT INTO payment (PAYMENT_IDX, MEMBER_IDX, TIME_LIMIT, STATUS, PLAYINFO_IDX) " +
                     "VALUES (seq_payment.nextval, ?,SYSDATE,'N',?)";
             PreparedStatement pstmt = d.getPstmt(conn, sql);
             pstmt.setInt(1, member_idx);
@@ -34,18 +36,19 @@ public class PaymentDAO {
             sql = "SELECT seq_payment.currval FROM dual";
             pstmt = d.getPstmt(conn, sql);
             ResultSet rs = pstmt.executeQuery();
-            int payment_idx = 0;
             if (rs.next()) {
                 payment_idx = rs.getInt(1);
             }
-            pstmt.close();
             sql = "INSERT INTO PAYMENTSEAT(PAYMENT_IDX,SEAT_IDX,PLAYINFO_IDX) " +
                     "VALUES (?, ?, ?)";
+            result = 0;
             pstmt = conn.prepareStatement(sql);
-            pstmt.setLong(1, payment_idx);
-            pstmt.setInt(2, seat_idx);
-            pstmt.setInt(3, playinfo_idx);
-            result = pstmt.executeUpdate();
+            for(int i = 0; i < seat_idxList.length; i++) {
+            	pstmt.setInt(1, payment_idx);
+            	pstmt.setInt(2, Integer.parseInt(seat_idxList[i]));
+            	pstmt.setInt(3, playinfo_idx);
+            	result += pstmt.executeUpdate();
+            }
             System.out.println(result + "행 성공적으로 삽입됨");
             conn.commit();
         } catch (SQLException e) {
@@ -54,23 +57,25 @@ public class PaymentDAO {
                 conn.rollback();
             } catch (SQLException e1) {
                 e1.printStackTrace();
-            }
+            } 
         } finally {
-            d.close(conn, null);
+        	d.close(conn, null);
         }
+        return payment_idx;
     }
         
-    public void updatePayment1(int payment_idx) {
+    public void updatePayment1(int payment_idx, int total_amount) {
         DatabaseUtil d = new DatabaseUtil();
         Connection conn = d.getConn();
 
         String sql = 
-        		"UPDATE payment SET agree1 = 'Y', agree2 = 'Y', agree3 = 'Y' " + 
+        		"UPDATE payment SET total_amount = ? " + 
         		"WHERE payment_idx = ?";
         
         PreparedStatement pstmt = d.getPstmt(conn, sql);
         try {
-			pstmt.setInt(1, payment_idx);
+			pstmt.setInt(1, total_amount);
+			pstmt.setInt(2, payment_idx);
 			int result = pstmt.executeUpdate();
 			System.out.println(result + "행 성공적으로 업데이트됨");
 		} catch (SQLException e) {

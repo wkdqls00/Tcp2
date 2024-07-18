@@ -22,7 +22,7 @@ public class Selectpayment_p1DAO {
         Connection conn = d.getConn();
 
         String sql =
-        		"SELECT p.name, ph.name, pi.play_date, pi.start_time " + 
+        		"SELECT p.name, ph.name, pi.play_date, pi.start_time ,p.poster_url " + 
         		"FROM playinfo pi INNER JOIN play p ON p.play_idx = pi.play_idx " + 
         		"INNER JOIN playhall ph ON p.playhall_idx = ph.playhall_idx " + 
         		"WHERE pi.playinfo_idx = ?";
@@ -42,7 +42,8 @@ public class Selectpayment_p1DAO {
                 String playhall_name = rs.getString(2);
                 String date = rs.getString(3);
                 String time = rs.getString(4);
-                Selectpayment_p1DTO selectpayment_p1DTO = new Selectpayment_p1DTO(play_name, playhall_name, date, time);
+                String poster_url = rs.getString(5);
+                Selectpayment_p1DTO selectpayment_p1DTO = new Selectpayment_p1DTO(play_name, playhall_name, date, time, poster_url);
                 list.add(selectpayment_p1DTO);
             }
         } catch (SQLException e) {
