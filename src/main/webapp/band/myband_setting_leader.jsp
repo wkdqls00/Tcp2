@@ -1,3 +1,5 @@
+<%@page import="dto.JoinConditionPrintDTO"%>
+<%@page import="dao.JoinConditionPrintDAO"%>
 <%@page import="dao.NoJoinMeetDAO"%>
 <%@page import="dto.ChatListDTO"%>
 <%@page import="dao.ChatListDAO"%>
@@ -17,6 +19,21 @@
 <%@page import="dao.BandDeleteDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%!
+     public String gender(String gender) {
+    	String result = "";
+    	if (gender != null) {
+	    	if(gender.equals("M")){
+	    		result = "남자";
+	    	} else if (gender.equals("F")){
+	    		result = "여자";
+	    	} 
+    	} else {
+    		result = "제한없음";
+    	}
+    	return result;
+    }
+    %>
 <%!
 	public String joinok(String input){
 		if(input.equals("Y")){
@@ -71,6 +88,8 @@
 	
 	chatListDto = cDao.selectChatListDTO(meet_idx);
 	
+	JoinConditionPrintDAO jcpDAO = new JoinConditionPrintDAO();
+	JoinConditionPrintDTO jcpListDAO = jcpDAO.selectJoinConditionPrintDTO(meet_idx);
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -340,7 +359,11 @@
             <li class="setting_item">
               <div class="item_content">
                 <span class="label">밴드 공개</span>
+                <% if (bOkDTO.getPublic_ok().equals("Y")) { %>
+                <span class="subtxt">공개</span>
+                <% } else { %>
                 <span class="subtxt">비공개</span>
+                <% } %>
               </div>
               <div class="item_side">
                <form action="band_public_or_not.jsp" method="get">
@@ -355,7 +378,7 @@
             <li class="setting_item">
               <div class="item_content">
                 <span class="label">가입 조건 설정</span>
-                <span class="subtxt">성별 제한없음, 나이 제한없음</span>
+                <span class="subtxt">성별 <%= gender(jcpListDAO.getGender())%>, 나이 <%=jcpListDAO.getAge() %>년생</span>
               </div>
               <div class="item_side">
                <form action="band_joining_condition.jsp" method="post">

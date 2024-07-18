@@ -68,7 +68,7 @@
 				type: 'get',
 				success: function(response){
 					alert("닉네임이 변경되었습니다.");
-					location.reload();
+					location.href = "myband_setting_leader.jsp?meet_idx=" + <%=meet_idx%> + "&member_idx=" + <%=member_idx%>;
 				},
 				error: function(){
 					console.log('ajax 통신 실패');	
