@@ -24,7 +24,7 @@ int totalT = (int)hs.getAttribute("totalT");
             <div class="utill">
                 <div class="inner">
                     <ul>
-                        <li class="utill_link"><a href="#">로그아웃</a></li>
+                        <li class="utill_link"><a href="/Tcp2/LogoutAction">로그아웃</a></li>
                         <li class="utill_link"><a href="#">예매확인/취소</a></li>
                         <li class="utill_link"><a href="#">회원가입</a></li>
                         <li class="utill_link"><a href="#">고객센터</a></li>
