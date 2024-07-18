@@ -5,6 +5,7 @@
     pageEncoding="UTF-8"%>
 <%
 	ArrayList<Ticket_checkDto> list = (ArrayList<Ticket_checkDto>) request.getAttribute("list");
+	ArrayList<Integer> countList = (ArrayList<Integer>)request.getAttribute("countList");
 	int count = (int)request.getAttribute("count");
 	HttpSession hs = request.getSession();
 	int totalT = (int)hs.getAttribute("totalT");
@@ -227,13 +228,13 @@
                                 			String status = dto.getStatus();
                                 			if(status.equals("Y")) status = "결제완료";
                                 			else status = "환불완료";
-                                			if(cnt == 5) break;
+                                			if(cnt == 10) break;
                                 	%>
                                     <tr>
                                         <td class="fs12 point_number"><a href=""><%=dto.getPayment_idx()%></a></td>
                                         <td class="tl ng-scope"><a href=""><%=dto.getName() %></a></td>
                                         <td class="fs12 number ng-binding"><%=dto.getStart_date()%></td>
-                                        <td class="ng-binding">1장</td>
+                                        <td class="ng-binding"><%=countList.get(cnt) %>장</td>
                                         <td class="fs12 number color_point"><%=dto.getStart_date()%><br><%=dto.getStart_time()%></td>
                                         <td>
                                             <div class="reserve_condition1"><%=status%></div>

@@ -229,7 +229,7 @@
                                 			String status = dto.getStatus();
                                 			if(status.equals("Y")) status = "결제완료";
                                 			else status = "환불완료";
-                                			if(cnt == 5) break;
+                                			if(cnt >= 10) break;
                                 	%>
                                     <tr>
                                         <td class="fs12 point_number"><a href=""><%=dto.getPayment_idx()%></a></td>

@@ -47,7 +47,7 @@ public class Ticket_checkDao {
 		             "AND p.play_idx = pi.play_idx " + 
 		             "AND pay.member_idx = m.member_idx " + 
 		             "AND pay.status = 'Y' " +
-		             "ORDER BY payment_idx DESC)a WHERE ROWNUM <= ?) " + 
+		             "ORDER BY pay.pay_date DESC)a WHERE ROWNUM <= ?) " + 
 		             "WHERE row_n >= ?";
 			 
 			 pstmt = conn.prepareStatement(sql);
@@ -99,7 +99,7 @@ public class Ticket_checkDao {
 		             "AND p.play_idx = pi.play_idx " + 
 		             "AND pay.member_idx = m.member_idx " + 
 		             "AND pay.status = 'R' " +
-		             "ORDER BY payment_idx DESC)a WHERE ROWNUM <= ?) " + 
+		             "ORDER BY pay.pay_date DESC)a WHERE ROWNUM <= ?) " + 
 		             "WHERE row_n >= ?";
 			 
 			 pstmt = conn.prepareStatement(sql);
@@ -166,7 +166,7 @@ public class Ticket_checkDao {
      		if (pstmt != null) {try {pstmt.close();} catch (SQLException e) {e.printStackTrace();}}
      		if (conn != null) {try {conn.close();} catch (SQLException e) {e.printStackTrace();}}
          }
-         int count_ = (int)Math.ceil(count/5.0);
+         int count_ = (int)Math.ceil(count/10.0);
          return count_;
      }
     
@@ -203,7 +203,7 @@ public class Ticket_checkDao {
      		if (pstmt != null) {try {pstmt.close();} catch (SQLException e) {e.printStackTrace();}}
      		if (conn != null) {try {conn.close();} catch (SQLException e) {e.printStackTrace();}}
          }
-         int count_ = (int)Math.ceil(count/5.0);
+         int count_ = (int)Math.ceil(count/10.0);
          return count_;
      }
     

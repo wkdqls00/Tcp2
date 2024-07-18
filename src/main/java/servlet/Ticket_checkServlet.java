@@ -33,8 +33,8 @@ public class Ticket_checkServlet extends HttpServlet {
 			currP = Integer.parseInt(currP_);
 		}
 		
-		int max = currP * 5;
-		int min = 1 + (currP - 1)*5;
+		int max = currP * 10;
+		int min = 1 + (currP - 1)*10;
 		
 		Ticket_checkDao tcDao = new Ticket_checkDao();
 		ArrayList<Ticket_checkDto> list = tcDao.checkReservationY(userIdx, max, min);
@@ -51,8 +51,8 @@ public class Ticket_checkServlet extends HttpServlet {
 		request.setAttribute("count", count);
 		RequestDispatcher rd = request.getRequestDispatcher("/ticketlink/Mypage/Ticket_check.jsp");
 		rd.forward(request, response);
-		for (Ticket_checkDto l : list) {
-			System.out.println(l);
-		}
+//		for (Ticket_checkDto l : list) {
+//			System.out.println(l);
+//		}
 	}
 }
