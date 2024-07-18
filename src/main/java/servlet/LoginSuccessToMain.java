@@ -39,7 +39,7 @@ public class LoginSuccessToMain extends HttpServlet { // 나중에 toMain 으로
 			hs.setAttribute("userIdx", userIdx); // 세션에다가 idx 값을 섫정
 			System.out.println("로그인성공");
 			System.out.println(userIdx);
-			response.sendRedirect("/Tcp2/Ticket_checkServlet"); // 로그인 성공하면 idx를 세션에 저장하고 넘어감
+			response.sendRedirect("/Tcp2/Ticket_checkServlet"); // 로그인 성공하면 idx를 세션에 저장하고 넘어감 지금은 일단 마이페이지로 경로 해놓음
 			} else { 
 				request.setAttribute("loginError", true); // 이게 아마 loginError라는 속성을 만들고 true라는 값을 줌, 로그인 페이지에서 조건문으로 이 속성이 null이 아니면 에러문 block 으로
 				System.out.println("로그인실패");

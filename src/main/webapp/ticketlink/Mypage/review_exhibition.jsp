@@ -30,11 +30,11 @@
             <div class="utill">
                 <div class="inner">
                     <ul>
-                        <li class="utill_link"><a href="#">로그아웃</a></li>
-                        <li class="utill_link"><a href="#">예매확인/취소</a></li>
-                        <li class="utill_link"><a href="#">회원가입</a></li>
+                         <li class="utill_link"><a href="/Tcp2/LogoutAction">로그아웃</a></li>
+                        <li class="utill_link"><a href="/Tcp2/Ticket_checkServlet">예매확인/취소</a></li>
+                        <li class="utill_link"><a href="/Tcp2/ticketlink/join_content.jsp">회원가입</a></li>
                         <li class="utill_link"><a href="#">고객센터</a></li>
-                        <li class="utill_link"><a href="#">마이페이지</a></li>
+                        <li class="utill_link"><a href="/Tcp2/Modify_memberServlet">마이페이지</a></li>
                     </ul>
                 </div> 
             </div>
