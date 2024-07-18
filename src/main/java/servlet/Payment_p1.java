@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import dao.PaymentDAO;
 
 @WebServlet("/payment_p1")
-public class payment_p1 extends HttpServlet {
+public class Payment_p1 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
