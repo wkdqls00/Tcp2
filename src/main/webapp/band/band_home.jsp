@@ -193,6 +193,14 @@
 			});
 		})
 		
+		// 최신순, 오래된 순
+		
+		if ($(".buttonSorting").attr("id") == "downArrow") {
+			<% String order = "DESC"; %>
+		} else {
+			<% order = "ASC"; %>
+		}
+		
   	})
   </script>
   <style>
@@ -460,6 +468,7 @@
               <% } else { %>
              <!-- 게시글이 있을 경우 -->
              <% 
+             	// mPrintListDTO = mPrintDAO.selectMeetPostListPrintDTO(meet_idx, order);
              	for (MeetPostListPrintDTO mPDto : mPrintListDTO) {
             	 clListDTO = clViewDAO.selectCommentListViewDTO(mPDto.getPost_idx());
             	 LikeCountDTO lCountDTO = lCountDAO.selectLikeCountDTO(mPDto.getPost_idx());
