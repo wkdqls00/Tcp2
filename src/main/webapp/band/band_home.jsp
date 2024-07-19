@@ -433,7 +433,7 @@
                   <li class="areaSelectItem">
                     <a href="#" class="areaButton">
                       <span class="iconLocal"></span>
-                      <%= mDto.getArea() %>
+                      <%= mDto.getArea_detail() %>
                     </a>
                   </li>
                 </ul>

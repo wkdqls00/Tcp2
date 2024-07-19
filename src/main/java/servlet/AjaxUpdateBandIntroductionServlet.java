@@ -18,8 +18,8 @@ public class AjaxUpdateBandIntroductionServlet extends HttpServlet {
 		String title = request.getParameter("title");
 		String area = request.getParameter("area");
 		int meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
-		
-		System.out.println(title + area + meet_idx);
+		String name = request.getParameter("name");
+		System.out.println(title + area + meet_idx + name);
 		
 		UpdateBandDAO updateDAO = new UpdateBandDAO();
 		updateDAO.updateBandIntroduction(title, meet_idx);
