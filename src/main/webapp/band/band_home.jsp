@@ -1,28 +1,6 @@
-<%@page import="dao.UpdateDelOkDAO"%>
-<%@page import="dto.BandPublicOkDTO"%>
-<%@page import="dao.BandPublicOkDAO"%>
-<%@page import="dto.ChatListDTO"%>
-<%@page import="dao.ChatListDAO"%>
-<%@page import="dto.MeetWriteViewDTO"%>
-<%@page import="dao.MeetWriteViewDAO"%>
-<%@page import="dao.NoJoinMeetDAO"%>
-<%@page import="dto.MeetCommentElapsedTimeDTO"%>
-<%@page import="dao.MeetCommentElapsedTimeDAO"%>
-<%@page import="dto.MeetMemberProfilePrintDTO"%>
-<%@page import="dao.MeetMemberProfilePrintDAO"%>
-<%@page import="dto.LikeCountDTO"%>
-<%@page import="dao.LikeCountDAO"%>
-<%@page import="dto.CommentListViewDTO"%>
-<%@page import="dao.CommentListViewDAO"%>
+<%@page import="dao.*"%>
+<%@page import="dto.*"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="dto.MeetPostListPrintDTO"%>
-<%@page import="dao.MeetPostListPrintDAO"%>
-<%@page import="dto.MeetJoinQnAPrintDTO"%>
-<%@page import="dao.MeetJoinQnAPrintDAO"%>
-<%@page import="dto.MeetInfoWriteDTO"%>
-<%@page import="dao.MeetInfoWriteDAO"%>
-<%@page import="dto.MeetIntroduceWriteDTO"%>
-<%@page import="dao.MeetIntroduceWriteDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
