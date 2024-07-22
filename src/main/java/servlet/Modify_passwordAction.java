@@ -42,7 +42,7 @@ public class Modify_passwordAction extends HttpServlet {
 
 	            // 출력?
 	            if (pstmt.executeUpdate() > 0) {
-	                System.out.println("비밀번호 변경됨");
+	                System.out.println(idx + "번 회원 비밀번호 변경됨");
 	            } else {
 	                System.out.println("비밀번호 변경실패");
 	            }

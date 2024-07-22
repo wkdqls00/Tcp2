@@ -1,4 +1,4 @@
-body {
+	body {
     font-family: "Notosans", -apple-system, BlinkMacSystemFont, Apple SD Gothic Neo, "Malgun Gothic", Arial, sans-serif;
 }
 a {
@@ -68,7 +68,7 @@ table thead th {
     color: #242428;
     line-height: 22px;
     text-align: center;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: bold;
 }
 .tl {
@@ -149,4 +149,13 @@ table thead th {
 }
 .paging a.prev::after, .paging a.first::after {
     transform: translate(-50%, -50%) rotate(180deg);
+}
+.delete_ScriptBtn {
+	border: none;
+    background: #fff;
+    color: #ef3e4e;
+    cursor: pointer;
+}
+.delete_ScriptBtn:hover {
+	text-decoration: underline;
 }

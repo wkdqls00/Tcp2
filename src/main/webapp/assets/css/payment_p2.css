@@ -119,19 +119,22 @@ main{
 }
 .reservationinfoborder{
   width: 270px;
-  height: 72px;
   border: 1px solid #ECEDF2;
   margin-left: 9px;
+
+}
+.reservationinfodiv{
   display: flex;
   justify-content: space-between;
+  width: 270px;
   padding-left: 10px;
   padding-right: 10px;
-  padding-top: 15px;
+  padding-top: 5px;  
 }
-.reservationinfoborder > div:nth-child(1){
+.reservationinfoborder1{
   font-weight: 600;
 }
-.reservationinfoborder > div:nth-child(2){
+.reservationinfoborder2{
   font-weight: bold;
   color: red;
 }

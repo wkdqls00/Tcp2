@@ -1,28 +1,6 @@
-<%@page import="dao.UpdateDelOkDAO"%>
-<%@page import="dto.BandPublicOkDTO"%>
-<%@page import="dao.BandPublicOkDAO"%>
-<%@page import="dto.ChatListDTO"%>
-<%@page import="dao.ChatListDAO"%>
-<%@page import="dto.MeetWriteViewDTO"%>
-<%@page import="dao.MeetWriteViewDAO"%>
-<%@page import="dao.NoJoinMeetDAO"%>
-<%@page import="dto.MeetCommentElapsedTimeDTO"%>
-<%@page import="dao.MeetCommentElapsedTimeDAO"%>
-<%@page import="dto.MeetMemberProfilePrintDTO"%>
-<%@page import="dao.MeetMemberProfilePrintDAO"%>
-<%@page import="dto.LikeCountDTO"%>
-<%@page import="dao.LikeCountDAO"%>
-<%@page import="dto.CommentListViewDTO"%>
-<%@page import="dao.CommentListViewDAO"%>
+<%@page import="dao.*"%>
+<%@page import="dto.*"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="dto.MeetPostListPrintDTO"%>
-<%@page import="dao.MeetPostListPrintDAO"%>
-<%@page import="dto.MeetJoinQnAPrintDTO"%>
-<%@page import="dao.MeetJoinQnAPrintDAO"%>
-<%@page import="dto.MeetInfoWriteDTO"%>
-<%@page import="dao.MeetInfoWriteDAO"%>
-<%@page import="dto.MeetIntroduceWriteDTO"%>
-<%@page import="dao.MeetIntroduceWriteDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
@@ -172,6 +150,34 @@
 			});
 		
 		})
+		
+		// 댓글 삭제 (Delete Update)
+		$(".commentDeleteBtn").click(function() {
+
+			let comment_idx = $(this).closest(".cComment").attr("id");
+			
+			$.ajax({
+				url: '${pageContext.request.contextPath}/AjaxCommentDeleteUpdateServlet',
+				data: {comment_idx : comment_idx},
+				type: 'get',
+				success: function(response){
+					alert("댓글이 삭제되었습니다.");
+					$("#" + comment_idx + ".cComment").hide();
+					$("#comment" + comment_idx).hide();
+				},
+				error: function(){
+					console.log('ajax 통신 실패');	
+				}
+			});
+		})
+		
+		// 최신순, 오래된 순
+		
+		if ($(".buttonSorting").attr("id") == "downArrow") {
+			<% String order = "DESC"; %>
+		} else {
+			<% order = "ASC"; %>
+		}
 		
   	})
   </script>
@@ -405,7 +411,7 @@
                   <li class="areaSelectItem">
                     <a href="#" class="areaButton">
                       <span class="iconLocal"></span>
-                      <%= mDto.getArea() %>
+                      <%= mDto.getArea_detail() %>
                     </a>
                   </li>
                 </ul>
@@ -440,6 +446,7 @@
               <% } else { %>
              <!-- 게시글이 있을 경우 -->
              <% 
+             	// mPrintListDTO = mPrintDAO.selectMeetPostListPrintDTO(meet_idx, order);
              	for (MeetPostListPrintDTO mPDto : mPrintListDTO) {
             	 clListDTO = clViewDAO.selectCommentListViewDTO(mPDto.getPost_idx());
             	 LikeCountDTO lCountDTO = lCountDAO.selectLikeCountDTO(mPDto.getPost_idx());
@@ -592,7 +599,7 @@
 				         <% for(CommentListViewDTO clDto : clListDTO) { 
 				         	MeetCommentElapsedTimeDTO mCDto = mCDao.selectMeetCommentElapsedTimeDTO(clDto.getComment_idx());
 				         %>
-				           <div class="itemWrap">
+				           <div class="itemWrap" id="comment<%=clDto.getComment_idx()%>">
 				             <div class="writeInfo">
 				             <% if (mPrintDAO.adminCheck(clDto.getMember_idx(), meet_idx)) {%>
 				               <a href="#" class="uProfile -leader">
@@ -774,7 +781,7 @@
 			                          <% for(CommentListViewDTO clDto : clListDTO) { 
 								         	MeetCommentElapsedTimeDTO mCDto = mCDao.selectMeetCommentElapsedTimeDTO(clDto.getComment_idx());
 							          %>
-			                        <div class="cComment">
+			                        <div class="cComment" id="<%= clDto.getComment_idx() %>">
 			                          <div class="DCommentView">
 			                            <div class="itemWrap">
 			                              <div class="writeInfo">
@@ -810,11 +817,11 @@
 								                 	if (day > 10 && time > 23 && minute > 60) { 
 								                 		result = clDto.getReg_date();
 								                 	} else if (day < 10 && time > 24 && minute > 60) {
-								                 		result = day + "";
+								                 		result = day + "일 전";
 								                 	} else if (day < 10 && time < 24 && minute > 60) {
-								                 		result = time + "";
-								                 	} else if (day < 10 && time < 24 && minute < 60) {
-								                 		result = minute + "";
+								                 		result = time + "시간 전";
+								                 	} else if (day < 10 && time < 24 && minute < 60 && minute != 0) {
+								                 		result = minute + "분 전";
 								                 	} else if (day == 0 && time == 0 && minute == 0) {
 								                 		result = "방금 전";
 								                 	}
@@ -830,7 +837,7 @@
 			                              <div class="lyMenu" style="display: none;">
 			                                <ul>
 			                                  <li>
-			                                    <a href="#">댓글 삭제</a>
+			                                    <a href="#" class="commentDeleteBtn">댓글 삭제</a>
 			                                  </li>
 			                                </ul>
 			                              </div>

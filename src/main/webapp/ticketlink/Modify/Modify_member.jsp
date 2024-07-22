@@ -30,7 +30,7 @@
                 <a href="https://www.naver.com" class="header_logo"><span class="hidden">사이트이름</span></a>
                 <ul class="my_menu">
                     <li>
-                        <a href="#">로그아웃</a>
+                        <a href="/Tcp2/LogoutAction">로그아웃</a>
                     </li>
                 </ul>
             </div>

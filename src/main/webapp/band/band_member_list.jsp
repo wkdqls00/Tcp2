@@ -238,7 +238,7 @@
           	    <span class="circleIcon">
           		  <span class="personIcon"></span>
           		</span>
-          		<a href="#" class="arrowTextLink">
+          		<a href="join_request.jsp?meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>"  class="arrowTextLink">
           		가입 신청자
           	    </a>
           	  </div>

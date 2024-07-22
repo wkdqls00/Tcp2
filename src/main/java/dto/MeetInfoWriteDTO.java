@@ -2,11 +2,29 @@ package dto;
 
 public class MeetInfoWriteDTO {
 	private String title;
-	private String area;
+	private String area_detail;
+	private String name;
 	
-	public MeetInfoWriteDTO(String title, String area) {
+	public MeetInfoWriteDTO(String title, String area_detail, String name) {
 		this.title = title;
-		this.area = area;
+		this.area_detail = area_detail;
+		this.name = name;
+	}
+
+	public String getArea_detail() {
+		return area_detail;
+	}
+
+	public void setArea_detail(String area_detail) {
+		this.area_detail = area_detail;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getTitle() {
@@ -17,18 +35,10 @@ public class MeetInfoWriteDTO {
 		this.title = title;
 	}
 
-	public String getArea() {
-		return area;
-	}
 
-	public void setArea(String area) {
-		this.area = area;
-	}
+	
 
-	@Override
-	public String toString() {
-		return  title + ", " + area;
-	}
+	
 	
 	
 	

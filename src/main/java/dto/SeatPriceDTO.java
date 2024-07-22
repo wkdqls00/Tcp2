@@ -2,9 +2,9 @@ package dto;
 
 public class SeatPriceDTO {
 	private String rank;
-	private int price;
+	private String price;
 
-	public SeatPriceDTO(String rank, int price) {
+	public SeatPriceDTO(String rank, String price) {
 		this.rank = rank;
 		this.price = price;
 	}
@@ -13,7 +13,7 @@ public class SeatPriceDTO {
 		return rank;
 	}
 	
-	public int getPrice() {
+	public String getPrice() {
 		return price;
 	}
 

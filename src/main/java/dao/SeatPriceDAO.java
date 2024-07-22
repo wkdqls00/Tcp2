@@ -13,14 +13,8 @@ public class SeatPriceDAO {
 
     // 메인 메서드
     public static void main(String[] args) {
-        SeatPriceDAO spdao = new SeatPriceDAO();
-        ArrayList<SeatPriceDTO>  list = null;        
-        list = spdao.selectSeatPrice(1);
-        list.get(0).getPrice();
-        list.get(0).getRank();
-        for (SeatPriceDTO seatPrice : list) {
-        	System.out.println(seatPrice);
-        }
+    	ArrayList<SeatPriceDTO> pricelist = new SeatPriceDAO().selectSeatPrice(697);//등급별가격 
+    	for(SeatPriceDTO s : pricelist) System.out.println(s);
     }
     
     public ArrayList<SeatPriceDTO> selectSeatPrice(int play_idx) {
@@ -32,7 +26,14 @@ public class SeatPriceDAO {
         		"SELECT seat_rank, ticket_price " + 
         		"FROM price pr " + 
         		"WHERE play_idx = ? " + 
-        		"ORDER BY pr.ticket_price DESC";
+        		"ORDER BY  " + 
+        		"    CASE  " + 
+        		"        WHEN seat_rank = 'VIP' THEN 1 " + 
+        		"        WHEN seat_rank = 'R' THEN 2 " + 
+        		"        WHEN seat_rank = 'S' THEN 3 " + 
+        		"        WHEN seat_rank = 'A' THEN 4 " + 
+        		"        ELSE 5 " + 
+        		"	END";
         
         PreparedStatement pstmt = d.getPstmt(conn, sql);
         
@@ -46,7 +47,7 @@ public class SeatPriceDAO {
         try {
             while (rs.next()) {
                 String rank = rs.getString(1);
-                int price = rs.getInt(2);
+                String price = rs.getString(2);
                 SeatPriceDTO seatPriceDTO = new SeatPriceDTO(rank, price);
                 list.add(seatPriceDTO);
             }

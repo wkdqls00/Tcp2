@@ -23,9 +23,11 @@ public class MeetInfoWriteDAO {
         Connection conn = d.getConn();
 
         String sql = 
-        		"SELECT title, m.area "
-        		+ "FROM meet_rec_write r, meet m "
+        		"SELECT r.title, ma.area_detail, a.name "
+        		+ "FROM meet_rec_write r, meet m, area a, meet_area ma "
         		+ "WHERE r.meet_idx = m.meet_idx "
+        		+ "AND m.meet_area_idx = ma.meet_area_idx "
+        		+ "AND a.area_idx = ma.area_idx "
         		+ "AND m.meet_idx = ?";
 
         PreparedStatement pstmt = d.getPstmt(conn, sql);
@@ -37,9 +39,9 @@ public class MeetInfoWriteDAO {
         
 	    if (rs.next()) {
 	    	String title = rs.getString(1); 
-	    	String area = rs.getString(2); 
-	    	
-	    	meetInfoWriteDTO = new MeetInfoWriteDTO(title, area); // 저장한 값으로 SeatStatus 객체 생성
+	    	String area_detail = rs.getString(2); 
+	    	String name = rs.getString(3);
+	    	meetInfoWriteDTO = new MeetInfoWriteDTO(title, area_detail, name); // 저장한 값으로 SeatStatus 객체 생성
 	    }
 	    
 	    return meetInfoWriteDTO;

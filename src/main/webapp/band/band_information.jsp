@@ -70,11 +70,12 @@
   		$(".btnConfirm").click(function() {
   			let title = $("#bandIntroduce").val();
   			let meet_idx = <%=meet_idx%>;
-  			let area = $(".textButton").attr("id");
+  			let area_detail = $(".textButton").attr("id");
+  			let name = $(".textButton").val();
   			
   			$.ajax({
 				url: '${pageContext.request.contextPath}/AjaxUpdateBandIntroductionServlet',
-				data: {meet_idx : meet_idx, title : title, area : area},
+				data: {meet_idx : meet_idx, title : title, area_detail : area_detail, name : name},
 				type: 'get',
 				success: function(response){
 					alert("저장되었습니다.");
@@ -260,8 +261,8 @@
               <div class="_locationText" style="display:flex;">
                 <div class="introOptionBox">
                   <div class="addressText">
-                    <button type="button" class="textButton" id="<%=miwDTO.getArea() %>"><% if(miwDTO.getArea() != null) {%>
-                    <%=miwDTO.getArea() %>
+                    <button type="button" class="textButton" id="<%=miwDTO.getArea_detail() %>" value="<%=miwDTO.getName()%>"><% if(miwDTO.getArea_detail() != null) {%>
+                     <%=miwDTO.getName() %> <%=miwDTO.getArea_detail() %>
                     <%} else {%>
                     주소를 등록해주세요.
                     <% } %>

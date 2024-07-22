@@ -1,3 +1,6 @@
+<%@page import="dto.SelectMeetAreaIdxDTO"%>
+<%@page import="dto.SelectBandAreaDTO"%>
+<%@page import="dao.SelectBandDAO"%>
 <%@page import="dao.MeetIntroduceWriteDAO"%>
 <%@page import="dto.MeetIntroduceWriteDTO"%>
 <%@page import="dao.MybandDAO"%>
@@ -11,6 +14,7 @@
 	HttpSession hs = request.getSession();
 	int m_idx = (int)hs.getAttribute("userIdx");
 	int member_idx = (int)hs.getAttribute("userIdx");
+	
 	// 내 가입 밴드 출력
 	MeetIntroduceWriteDAO mbwDao = new MeetIntroduceWriteDAO();
 	
@@ -23,6 +27,24 @@
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
+	
+	SelectBandDAO selectDao = new SelectBandDAO();
+	
+	//소모임 지역 idx
+	SelectMeetAreaIdxDTO selectDto = selectDao.selectMeetAreaIdxDTO(member_idx);
+	int meet_area_idx = selectDto.getMeet_area_idx();
+	
+	//지역별 소모임 출력
+	ArrayList<SelectBandAreaDTO> areaListDao = new ArrayList<>();
+	try {
+		areaListDao = selectDao.selectBandAreaDTO(meet_area_idx);
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+	SelectBandAreaDTO areaDetailDto = selectDao.selectAreaDetailDTO(meet_area_idx);
+	
+	//멤버 수 출력
+	MeetIntroduceWriteDAO miDao = new MeetIntroduceWriteDAO();
 	
 %>
 
@@ -157,7 +179,7 @@
     <div id="main2">
       <div id="local_meet_band">
         <h2 id="local_title">
-          <span class="setting_local">홍제동</span>
+          <span class="setting_local"><%=areaDetailDto.getArea_detail() %></span>
           소모임
           <button type="button" class="open_keyword_btn">지역 선택</button>
         </h2>
@@ -177,165 +199,38 @@
         </span>
       </h3>
     </div>
-    
     <!-- 소모임 멤버 모집글 -->
     <div id="band_find_wrap">
         <div id="band_list">
+    	<% for(SelectBandAreaDTO aDto : areaListDao) {
+    		MeetIntroduceWriteDTO miDto = miDao.selectMeetIntroduceWriteDTO(aDto.getMeet_idx());
+    		%>
           <div id="band_item_view">
             <div id="band_meet_content">
               <div id="band_meet_content_text">
-                <h3 class="band_meet_content_title">1파크골프 라운딩 나가실분을 찾습니다
+                <h3 class="band_meet_content_title"><%=aDto.getName() %>
                 </h3>
-                <div class="band_meet_content_main">안녕하세요 작년부터 취미삼아 클럽활동하면서 주변분들께 파크골프을 소개하는 밴드을 만들어봅니다 많은분들이 파크골프와 함께 하였으면 합니다
-                </div>
+                <div class="band_meet_content_main"><%=aDto.getTitle() %></div>
                 <div id="band_meet_content_tag">
-                  <button class="local_tag">연희동</button>
+                  <button class="local_tag"><%=aDto.getArea_detail() %></button>
                 </div>
               </div>
               <div id="band_meet_content_img">
-                <img src="https://coresos-phinf.pstatic.net/a/34g0j0/b_fa2Ud018adm10u2w62ocihzm_5ksoqj.png?type=cover_a264" class="band_cover_img">
+                <img src="<%=aDto.getUrl() %>" class="band_cover_img">
               </div>
-              <a href="#" class="band_meet_content_link"></a>
+              <a type="button" href="band_home.jsp?meet_idx=<%=aDto.getMeet_idx() %>&member_idx=<%=member_idx %>" class="band_meet_content_link" style="width:500px; height:150px"></a>
             </div>
             <div id="band_meet_info_wrap">
               <div id="meet_info_box">
                 <div id="meet_together">
-                  <span class="-emphasis">42</span>
+                  <span class="-emphasis"><%= miDto.getMeet_member_count() %></span>
                   명 참여중
                 </div>
               </div>
             </div>
           </div>
-          <div id="band_item_view">
-            <div id="band_meet_content">
-              <div id="band_meet_content_text">
-                <h3 class="band_meet_content_title">*당구로 친목 도모합시다*
-                </h3>
-                <div class="band_meet_content_main">소일거리로 당구을 치고있습니다.연희동 남가좌동 홍은동 근처 혼자 게임하기 적적하신 분은 함께 친목 도모하며 게임합시다. 제가 자주가는 게임장은 백련시장 OK당구장 입니다. 퇴직후 오시는분들이많아 연령대가 많은분들이지만 편안히 게임 할수있습니다. 오셔서함께 한게임합시다.
-                </div>
-                <div id="band_meet_content_tag">
-                  <button class="local_tag">연희동</button>
-                </div>
-              </div>
-              <div id="band_meet_content_img">
-                <img src="https://coresos-phinf.pstatic.net/a/2ih02d/b_j6hUd018adm1l0s618835kad_fql4mk.jpg?type=cover_a264" class="band_cover_img">
-              </div>
-              <a href="#" class="band_meet_content_link"></a>
-            </div>
-            <div id="band_meet_info_wrap">
-              <div id="meet_info_box">
-                <div id="meet_together">
-                  <span class="-emphasis">57</span>
-                  명 참여중
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="band_item_view">
-            <div id="band_meet_content">
-              <div id="band_meet_content_text">
-                <h3 class="band_meet_content_title">공연홀릭(공연,뮤지컬,연극,콘서트,전시...)공연 보러가요.
-                </h3>
-                <div class="band_meet_content_main">뮤지컬 연극 콘서트 공연 좋아하시는 분들 함께 문화생활해요.
-                </div>
-                <div id="band_meet_content_tag">
-                  <button class="local_tag">홍제동</button>
-                </div>
-              </div>
-              <div id="band_meet_content_img">
-                <img src="https://coresos-phinf.pstatic.net/a/35hd7b/i_hf8Ud018svc3so0rp2bqbtl_co8uf6.jpg?type=cover_a264" class="band_cover_img">
-              </div>
-              <a href="#" class="band_meet_content_link"></a>
-            </div>
-            <div id="band_meet_info_wrap">
-              <div id="meet_info_box">
-                <div id="meet_together">
-                  <span class="-emphasis">68</span>
-                  명 참여중
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="band_item_view">
-            <div id="band_meet_content">
-              <div id="band_meet_content_text">
-                <h3 class="band_meet_content_title">연희락
-                </h3>
-                <div class="band_meet_content_main">함께 맛깔스런 음식점 가서 대화하고, 즐기기, 등산도 하고, 영화 감상, 뮤지컬도 관람, 국내외 여행
-                </div>
-                <div id="band_meet_content_tag">
-                  <button class="local_tag">연희동</button>
-                </div>
-              </div>
-              <div id="band_meet_content_img">
-                <img src="https://coresos-phinf.pstatic.net/a/34g065/e_5a2Ud018admg69oqx3t5mng_5ksoqj.png?type=cover_a264" class="band_cover_img">
-              </div>
-              <a href="#" class="band_meet_content_link"></a>
-            </div>
-            <div id="band_meet_info_wrap">
-              <div id="meet_info_box">
-                <div id="meet_together">
-                  <span class="-emphasis">28</span>
-                  명 참여중
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="band_item_view">
-            <div id="band_meet_content">
-              <div id="band_meet_content_text">
-                <h3 class="band_meet_content_title">남가좌동 당나귀 독서모임
-                </h3>
-                <div class="band_meet_content_main">책을 주제로 편하게 소통할수 있는 공간입니다. 누구나 참여가능하고 어려운 주제를 다루지 않습니다. 하지만 특정 주제에 대해 다양한 관점을 공유합니다~
-                </div>
-                <div id="band_meet_content_tag">
-                  <button class="local_tag">남가좌동</button>
-                </div>
-              </div>
-              <div id="band_meet_content_img">
-                <img src="https://coresos-phinf.pstatic.net/a/36ch0e/c_690Ud018svcpd39zwazvmzs_byb7eh.jpg?type=cover_a264" class="band_cover_img">
-              </div>
-              <a href="#" class="band_meet_content_link"></a>
-            </div>
-            <div id="band_meet_info_wrap">
-              <div id="meet_info_box">
-                <div id="meet_together">
-                  <span class="-emphasis">137</span>
-                  명 참여중
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="band_item_view">
-            <div id="band_meet_content">
-              <div id="band_meet_content_text">
-                <h3 class="band_meet_content_title">뚜벅뚜벅  걸어요
-                </h3>
-                <div class="band_meet_content_main">안녕하세요 
-                  걷는거 만큼 좋은 운동도 없는듯 싶어요
-                  나 혼자 걷는 걷기 운동도 좋구
-                  함게 걷는 운동도 좋찮아요
-                  기회되면 함게 뚜벅뚜벅 걸어요
-                </div>
-                <div id="band_meet_content_tag">
-                  <button class="local_tag">신촌동</button>
-                </div>
-              </div>
-              <div id="band_meet_content_img">
-                <img src="https://coresos-phinf.pstatic.net/a/3679cg/7_14bUd018svc18hnktiqlahox_flckfa.jpg?type=cover_a264" class="band_cover_img">
-              </div>
-              <a href="#" class="band_meet_content_link"></a>
-            </div>
-            <div id="band_meet_info_wrap">
-              <div id="meet_info_box">
-                <div id="meet_together">
-                  <span class="-emphasis">126</span>
-                  명 참여중
-                </div>
-              </div>
-            </div>
-          </div>
-      </div>
+    	<% } %>
+       </div>
     </div>
       <!-- footer -->
     </div>

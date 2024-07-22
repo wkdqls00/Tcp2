@@ -20,9 +20,9 @@ public class Ticket_checkPeriodDao {
         ArrayList<Ticket_checkDto> list2 = null; 
         list = tcpdao.checkDayY(24, 5, 1, 90);
         list2 = tcpdao.checkMonthY(24, 5, 1, 2024, "04", "pay.pay_date");
-        for (Ticket_checkDto checkReservation : list2) {
-           System.out.println(checkReservation);
-        }
+//        for (Ticket_checkDto checkReservation : list2) {
+//           System.out.println(checkReservation);
+//        }
     }
     
     public ArrayList<Ticket_checkDto> checkDayY(int member_idx, int max, int min, int day) {
@@ -44,7 +44,7 @@ public class Ticket_checkPeriodDao {
 		             "AND pay.member_idx = m.member_idx " + 
 		             "AND pay.status = 'Y' " +
 		             "AND pay.pay_date BETWEEN SYSDATE - "+ day +" AND SYSDATE " +
-		             "ORDER BY payment_idx DESC)a WHERE ROWNUM <= ?) " + 
+		             "ORDER BY pay.pay_date DESC)a WHERE ROWNUM <= ?) " + 
 		             "WHERE row_n >= ?";
 			 
 			 pstmt = conn.prepareStatement(sql);
@@ -112,7 +112,7 @@ public class Ticket_checkPeriodDao {
      		if (pstmt != null) {try {pstmt.close();} catch (SQLException e) {e.printStackTrace();}}
      		if (conn != null) {try {conn.close();} catch (SQLException e) {e.printStackTrace();}}
          }
-         int count_ = (int)Math.ceil(count/5.0);
+         int count_ = (int)Math.ceil(count/10.0);
          return count_;
      }
     
@@ -135,7 +135,7 @@ public class Ticket_checkPeriodDao {
 		             "AND pay.member_idx = m.member_idx " + 
 		             "AND pay.status = 'R' " +
 		             "AND pay.pay_date BETWEEN SYSDATE - "+ day +" AND SYSDATE " +
-		             "ORDER BY payment_idx DESC)a WHERE ROWNUM <= ?) " + 
+		             "ORDER BY pay.pay_date DESC)a WHERE ROWNUM <= ?) " + 
 		             "WHERE row_n >= ?";
 			 
 			 pstmt = conn.prepareStatement(sql);
@@ -202,7 +202,7 @@ public class Ticket_checkPeriodDao {
      		if (pstmt != null) {try {pstmt.close();} catch (SQLException e) {e.printStackTrace();}}
      		if (conn != null) {try {conn.close();} catch (SQLException e) {e.printStackTrace();}}
          }
-         int count_ = (int)Math.ceil(count/5.0);
+         int count_ = (int)Math.ceil(count/10.0);
          return count_;
      }
     
@@ -225,7 +225,7 @@ public class Ticket_checkPeriodDao {
 		             "AND pay.member_idx = m.member_idx " + 
 		             "AND pay.status = 'Y' " +
 		             "AND TO_CHAR("+ viOrRe +", 'YYYY-MM') = ? " +
-		             "ORDER BY payment_idx DESC)a WHERE ROWNUM <= ?) " + 
+		             "ORDER BY pay.pay_date DESC)a WHERE ROWNUM <= ?) " + 
 		             "WHERE row_n >= ?";
 			 
 			 pstmt = conn.prepareStatement(sql);
@@ -295,7 +295,7 @@ public class Ticket_checkPeriodDao {
     		if (pstmt != null) {try {pstmt.close();} catch (SQLException e) {e.printStackTrace();}}
     		if (conn != null) {try {conn.close();} catch (SQLException e) {e.printStackTrace();}}
         }
-        int count_ = (int)Math.ceil(count/5.0);
+        int count_ = (int)Math.ceil(count/10.0);
         return count_;
     }
     
@@ -318,7 +318,7 @@ public class Ticket_checkPeriodDao {
 		             "AND pay.member_idx = m.member_idx " + 
 		             "AND pay.status = 'R' " +
 		             "AND TO_CHAR(" + viOrRe + ", 'YYYY-MM') = ? " +
-		             "ORDER BY payment_idx DESC)a WHERE ROWNUM <= ?) " + 
+		             "ORDER BY pay.pay_date DESC)a WHERE ROWNUM <= ?) " + 
 		             "WHERE row_n >= ?";
 			 
 			 pstmt = conn.prepareStatement(sql);
@@ -388,7 +388,7 @@ public class Ticket_checkPeriodDao {
     		if (pstmt != null) {try {pstmt.close();} catch (SQLException e) {e.printStackTrace();}}
     		if (conn != null) {try {conn.close();} catch (SQLException e) {e.printStackTrace();}}
         }
-        int count_ = (int)Math.ceil(count/5.0);
+        int count_ = (int)Math.ceil(count/10.0);
         return count_;
     }
     

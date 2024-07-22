@@ -28,7 +28,15 @@
        	.success {
        		left: 0;
        	}
-       	
+       .popup {
+		  display: block;
+		  z-index: 100;
+		}
+		.popup-content {
+		  width: 600px;
+		  max-height: 300px;
+		  overflow-y: auto;
+		}
     </style>
 </head>
 <body>
@@ -61,7 +69,7 @@
                                             </span>
                                         </div>
                                     </label>
-                                    <div class="checkboxCont"><a href="#" class="btn btnLink">[필수] 이용약관</a></div>
+                                    <div class="checkboxCont"><a href="/Tcp2/ticketlink/Login/Terms1.html" class="btn btnLink" id="terms1" data-file-path="/Tcp2/ticketlink/Login/Terms1.html">[필수] 이용약관</a></div>
                                 </div>
                                 <div class="uCheckbox">
                                     <label for="check2" class="label2">
@@ -71,7 +79,7 @@
                                             </span>
                                         </div>
                                     </label>
-                                    <div class="checkboxCont"><a href="#" class="btn btnLink">[필수] 전자금융거래 이용약관</a></div>
+                                    <div class="checkboxCont"><a href="/Tcp2/ticketlink/Login/Terms2.html" class="btn btnLink" id="terms2" data-file-path="/Tcp2/ticketlink/Login/Terms2.html">[필수] 전자금융거래 이용약관</a></div>
                                 </div>
                                 <div class="uCheckbox">
                                     <label for="check3" class="label2">
@@ -81,7 +89,7 @@
                                             </span>
                                         </div>
                                     </label>
-                                    <div class="checkboxCont"><a href="#" class="btn btnLink">[필수] 개인정보 수집 동의서</a></div>
+                                    <div class="checkboxCont"><a href="" class="btn btnLink" id="terms3" data-file-path="/Tcp2/ticketlink/Login/Terms3.html">[필수] 개인정보 수집 동의서</a></div>
                                 </div>
                             </div>
                     </div>
@@ -95,7 +103,7 @@
                                         <span class="text"></span>
                                     </div>
                                 </label>
-                                <div class="checkboxCont"><a href="#" class="btn btnLink">[선택] 개인정보 수집동의서</a></div>
+                                <div class="checkboxCont"><a href="" class="btn btnLink" id="terms4" data-file-path="/Tcp2/ticketlink/Login/Terms4.html">[선택] 개인정보 수집동의서</a></div>
                             </div>
                             <div class="uCheckbox">
                                 <label for="check5" class="label2">
@@ -104,7 +112,7 @@
                                         <span class="text"></span>
                                     </div>
                                 </label>
-                                <div class="checkboxCont"><a href="#" class="btn btnLink">[선택] 위치기반서비스 이용약관</a></div>
+                                <div class="checkboxCont"><a href="" class="btn btnLink" id="terms5" data-file-path="/Tcp2/ticketlink/Login/Terms5.html">[선택] 위치기반서비스 이용약관</a></div>
                             </div>
                         </div>
                     </div>
@@ -118,7 +126,7 @@
         </form>    
         <div class="footer"></div>
     </div>
-
+	<script src="/Tcp2/assets/js/Terms.js"></script>
     <script>
         // 전체동의 누르면 다 체크되게
         document.getElementById('checkAll').addEventListener('change', function() {
@@ -185,8 +193,10 @@
         
      	// reCAPTCHA 완료 콜백 함수
         function recaptchaCallback() {
-            document.getElementById('overlay').style.display = 'none';
-            document.querySelector('.g-recaptcha').classList.add('success');
+     		let reCap = document.querySelector('.g-recaptcha');
+     		let overlay =  document.getElementById('overlay');
+     		overlay.style.display = 'none';
+            reCap.classList.add('success');
         }
     </script>
 </body>

@@ -13,9 +13,6 @@
 <%@page import="dao.JoinConditionPrintDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%
-    	String notCondition = "제한없음";
-    %>
     <%!
      public String gender(String gender) {
     	String result = "";
@@ -79,11 +76,40 @@
 
   <title>BAND - Setting - Join - Condition</title>
   <script>
-	<% if (jcpListDAO.getGender() == "남자") { %>
-		$(function({
-						
-		});
-	<% } %>
+
+  $(function() {
+	  // 성별 체크박스 값 넣기
+		$(".genderBtn").click(function() {
+			let gender = $('input[name=check]:checked').val();
+			let meet_idx = <%=meet_idx%>;
+			
+			$.ajax({
+  				url: '${pageContext.request.contextPath}/AjaxBandJoinConditionGender',
+  				data: {meet_idx : meet_idx, gender : gender},
+  				type: 'get',
+  				success: function(response) {
+  					alert("변경되었습니다.");
+  					location.reload();
+  				}
+			})
+		})
+		// 나이 selectbox 값 넣기
+		$(".ageBtn").click(function() {
+			alert("!!!")
+			let meet_idx = <%=meet_idx %>;
+			let age = $('select#maxAge').val();
+			
+			$.ajax({
+  				url: '${pageContext.request.contextPath}/AjaxBandJoinConditionAgeServlet',
+  				data: {meet_idx : meet_idx, age : age},
+  				type: 'get',
+  				success: function(response) {
+  					alert("변경되었습니다.");
+  					location.reload();
+  				}
+			})
+		})
+	});
 </script>
 </head>
 <body>
@@ -240,7 +266,7 @@
             <li class="setting_item">
               <div class="itemContent">
                 <span class="label">성별</span>
-                <span class="subTxt"><%= gender(jcpListDAO.getGender())%></span>
+                <span class="subTxt gender" id="<%=jcpListDAO.getGender() %>"><%= gender(jcpListDAO.getGender())%></span>
               </div>
               <div class="itemSide">
                 <button type="button" class="change_btn gender_btn">변경</button>
@@ -311,7 +337,6 @@
     </div>
   </div>
   <!-- 나이 조건 설정 : 팝업 -->
- <form action="../../UpdateBandSettingServlet" method="post">
  <input type="hidden" name="meet_idx" value="<%=request.getParameter("meet_idx") %>">
   <section class="lyWrap" id="ageChange_popUp" style="display: none;">
     <div class="ageContent">
@@ -323,7 +348,7 @@
           <div class="tableList">
               <span class="age_select">
                 <select id="maxAge" class="selectMaxYear">
-                  <option value="none" selected>제한없음</option>
+                  <option value="0">제한없음</option>
                   <option value="2024">2024년생</option>
                   <option value="2023">2023년생</option>
                   <option value="2022">2022년생</option>
@@ -406,7 +431,7 @@
       </div>
       <footer class="modalFooter">
         <button type="button" class="btnCancel">취소</button>
-        <button type="button" class="btnConfirm">확인</button>
+        <button type="button" class="btnConfirm ageBtn">확인</button>
       </footer>
     </div>
   </section>
@@ -422,7 +447,7 @@
             <ul class="selectArea">
               <li>
                 <label for="radio_view3" class="check_gender">
-                  <input type="radio" id="radio_view1" name="check" class="checkInput" value="none" checked="checked">
+                  <input type="radio" id="null" name="check" class="checkInput" value="">
                   <span class="checkLabel">
                     <span class="shape"></span>
                     <span class="text">제한없음</span>
@@ -431,7 +456,7 @@
               </li>
               <li>
                 <label for="radio_view2" class="check_gender">
-                  <input type="radio" id="radio_view2" name="check" class="checkInput" value="male">
+                  <input type="radio" id="M" name="check" class="checkInput" value="M">
                   <span class="checkLabel">
                     <span class="shape"></span>
                     <span class="text">남자</span>
@@ -440,7 +465,7 @@
               </li>
               <li>
                 <label for="radio_view1" class="check_gender">
-                  <input type="radio" id="radio_view3" name="check" class="checkInput" value="female">
+                  <input type="radio" id="F" name="check" class="checkInput" value="F">
                   <span class="checkLabel">
                     <span class="shape"></span>
                     <span class="text">여자</span>
@@ -452,12 +477,11 @@
         </div>
         <footer class="modalFooter">
           <button type="button" class="btnCancel">취소</button>
-          <button type="button" class="btnConfirm">확인</button>
+          <button type="button" class="btnConfirm genderBtn">확인</button>
         </footer>
       </div>
     </section>
   </div>
-  </form>
   <!-- 팝업 : 글쓰기 -->
     <div class="layerContainerView" tabindex="-1" id="postWriteEditor_popUp" style="display: none;">
       <div class="layerContainerInnerView">
@@ -538,12 +562,13 @@
         $(".lyWrap").css('display', 'none');
         $("#genderChange_popUp").css('display', 'none');
       })
-      $(".btnConfirm").click(function(){
-    	  let a = $("input[name='check']:checked").val();
-      });
-      	$("#postWriteBtn").click(function() {
-          $("#postWriteEditor_popUp").css('display', 'block');
-        })
+      $("#postWriteBtn").click(function() {
+         $("#postWriteEditor_popUp").css('display', 'block');
+       })
+       // 성별 라디오 체크
+       $('input:radio[name="check"]:input[id="<%=jcpListDAO.getGender() %>"]').prop('checked', true);
+      // 나이 제한 selectbox
+      $("#maxAge").val("<%=jcpListDAO.getAge() %>").prop("selected", true);
         //글쓰기 버튼 팝업
         $(".newChattingBtn").click(function() {
           $("#newChatWrap_popUp").css('display', 'block');

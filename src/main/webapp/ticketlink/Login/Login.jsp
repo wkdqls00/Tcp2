@@ -10,20 +10,16 @@
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
     <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
-    
     <script>
     Kakao.init('d71651f09cc74945fc403a9f0692a5b7'); // 사용하려는 앱의 JavaScript 키 입력
     </script> 
-   
 </head>
 <body>
     <div class="header"></div>
     <div id="container" class="container login">
         <div class="loginWrap">
-            <div class="loginLogo">
-            <h1 style="margin: 0;">
-                <span>종원링크</span>
-            </h1>
+            <div class="loginLogo nav_box">
+            <h1 class="logo"><a href="../html/main.html"></a></h1>
             </div>
             <form id="loginFrm" name="loginFrm" action="${pageContext.request.contextPath}/LoginSuccessToMain"  method="post" >
                 <div class="loginInner">

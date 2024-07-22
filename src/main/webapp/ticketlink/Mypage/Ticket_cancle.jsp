@@ -5,6 +5,7 @@
     pageEncoding="UTF-8"%>
 <%
 	ArrayList<Ticket_checkDto> list = (ArrayList<Ticket_checkDto>) request.getAttribute("list");
+	ArrayList<Integer> countList = (ArrayList<Integer>)request.getAttribute("countList");
 	int count = (int)request.getAttribute("count");
 	HttpSession hs = request.getSession();
 	int totalT = (int)hs.getAttribute("totalT");
@@ -31,11 +32,11 @@
             <div class="utill">
                 <div class="inner">
                     <ul>
-                        <li class="utill_link"><a href="#">로그아웃</a></li>
-                        <li class="utill_link"><a href="#">예매확인/취소</a></li>
-                        <li class="utill_link"><a href="#">회원가입</a></li>
+                        <li class="utill_link"><a href="/Tcp2/LogoutAction">로그아웃</a></li>
+                        <li class="utill_link"><a href="/Tcp2/Ticket_checkServlet">예매확인/취소</a></li>
+                        <li class="utill_link"><a href="/Tcp2/ticketlink/join_content.jsp">회원가입</a></li>
                         <li class="utill_link"><a href="#">고객센터</a></li>
-                        <li class="utill_link"><a href="#">마이페이지</a></li>
+                        <li class="utill_link"><a href="/Tcp2/Modify_memberServlet">마이페이지</a></li>
                     </ul>
                 </div> 
             </div>
@@ -227,13 +228,13 @@
                                 			String status = dto.getStatus();
                                 			if(status.equals("Y")) status = "결제완료";
                                 			else status = "환불완료";
-                                			if(cnt == 5) break;
+                                			if(cnt == 10) break;
                                 	%>
                                     <tr>
                                         <td class="fs12 point_number"><a href=""><%=dto.getPayment_idx()%></a></td>
                                         <td class="tl ng-scope"><a href=""><%=dto.getName() %></a></td>
                                         <td class="fs12 number ng-binding"><%=dto.getStart_date()%></td>
-                                        <td class="ng-binding">1장</td>
+                                        <td class="ng-binding"><%=countList.get(cnt) %>장</td>
                                         <td class="fs12 number color_point"><%=dto.getStart_date()%><br><%=dto.getStart_time()%></td>
                                         <td>
                                             <div class="reserve_condition1"><%=status%></div>
