@@ -13,29 +13,33 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>좌석선택</title>
-  <link rel="stylesheet" href="../../assets/css/payment_p1.css">
+  <link rel="stylesheet" href="/Tcp2/assets/css/payment_p1.css">
 </head>
 <body>
 <%//2871, 62866
 int playinfo_idx = Integer.parseInt(request.getParameter("pi"));
-ArrayList<GetPlayIdxDTO> idxlist = new GetPlayIdxDAO().getidxlist(playinfo_idx);
+@SuppressWarnings("unchecked")
+ArrayList<GetPlayIdxDTO> idxlist = (ArrayList<GetPlayIdxDTO>) request.getAttribute("idxlist");
 System.out.println(idxlist.get(0));
-int play_idx = idxlist.get(0).getPlay_idx();
-int playhall_idx = idxlist.get(0).getPlayhall_idx();
-SeatStatusDAO ssdao = new SeatStatusDAO();//남은좌석수
-ArrayList<SeatStatusDTO>  list = ssdao.getSeatStatus(playhall_idx, playinfo_idx);//등급별 좌석수
-ArrayList<String> slist = ssdao.selectSeatChart(playinfo_idx);//예약된 좌석list
-ArrayList<SeatPriceDTO> pricelist = new SeatPriceDAO().selectSeatPrice(play_idx);//등급별가격 
-ArrayList<Selectpayment_p1DTO> playinfo = new Selectpayment_p1DAO().Selectpayment_p1(playinfo_idx);//공연이름 공연장이름 날짜 시간
-String[] color = {"#ED1C24", "#3F48CC", "#FFF200", "#22B14C"};
-ArrayList<SeatDTO> seat = new SeatDAO().getSeatlist(playhall_idx);//공연좌석배치설계리스트
+@SuppressWarnings("unchecked")
+ArrayList<SeatStatusDTO> list = (ArrayList<SeatStatusDTO>) request.getAttribute("list");
+@SuppressWarnings("unchecked")
+ArrayList<String> slist = (ArrayList<String>) request.getAttribute("slist");
+@SuppressWarnings("unchecked")
+ArrayList<SeatPriceDTO> pricelist = (ArrayList<SeatPriceDTO>) request.getAttribute("pricelist");
+@SuppressWarnings("unchecked")
+ArrayList<Selectpayment_p1DTO> playinfo = (ArrayList<Selectpayment_p1DTO>)request.getAttribute("playinfo");
+String[] color = (String[])request.getAttribute("color");
+@SuppressWarnings("unchecked")
+ArrayList<SeatDTO> seat = (ArrayList<SeatDTO>) request.getAttribute("seat");
+String seatImg = (String)request.getAttribute("seatImg");
 %>
 
   <header>
-    <img src="../../assets/img/ticklink/종튼.png" alt="">
+    <img src="/Tcp2/assets/img/ticklink/종튼.png" alt="">
   </header>
   <div id="paystepup1">
-    <img src="../../assets/img/ticklink/결제단계1.png" alt="">
+    <img src="/Tcp2/assets/img/ticklink/결제단계1.png" alt="">
   </div>
   <div id="main">
     <div>
@@ -51,24 +55,31 @@ ArrayList<SeatDTO> seat = new SeatDAO().getSeatlist(playhall_idx);//공연좌석
         </div>
       </div>
       <div id="playhallseat">
-        <img src="../../assets/img/ticklink/<%=new GetSeatImg().getSeatImg(playhall_idx)%>" alt="">
-        <form action="../../Payment_p1" id="nextForm">
+        <img src="/Tcp2/assets/img/ticklink/<%=seatImg%>" alt="">
+        <form action="/Tcp2/Payment_p1" id="nextForm">
         <input type="hidden" id="selectedSeats" name="selectedSeats" value="">
                 <input type="hidden" name="idx" value="<%=playinfo_idx%>">
         
         <% 
         String seatRank = "";
-        for(int i = 0; i < seat.size(); i++){
-        	if (pricelist.size() == 1)  seatRank = "B";
-        	else if (pricelist.size() == 2)
-        		seatRank = seat.get(i).getRank().equals("VIP") ? "VIP" : "R";
-        	else if (pricelist.size() == 3)
-        		seatRank = seat.get(i).getRank().equals("VIP") ? "VIP" : (seat.get(i).getRank().equals("R") ? "R" : "S");
-        	else{
-        		seatRank = seat.get(i).getRank();
-        	}
+        for (int i = 0; i < seat.size(); i++) {
+            String rank = seat.get(i).getRank();
+            switch (pricelist.size()) {
+                case 1:
+                    seatRank = "B";
+                    break;
+                case 2:
+                    seatRank = rank.equals("VIP") ? "VIP" : "R";
+                    break;
+                case 3:
+                    seatRank = rank.equals("VIP") ? "VIP" : (rank.equals("R") ? "R" : "S");
+                    break;
+                default:
+                    seatRank = rank;
+                    break;
+            }
         %>
-			<img src="../../assets/img/ticklink/<%=seatRank%>_seat.png" alt="" class="reserved" id ="<%=seat.get(i).getSeat_idx()%>" name="<%=seat.get(i).getSeat_idx()%>" style="top: <%=seat.get(i).getY()%>px; left: <%=seat.get(i).getX()%>px;" data-original-src="../../assets/img/ticklink/<%=seatRank%>_seat.png"> 
+			<img src="/Tcp2/assets/img/ticklink/<%=seatRank%>_seat.png" alt="" class="reserved" id ="<%=seat.get(i).getSeat_idx()%>" name="<%=seat.get(i).getSeat_idx()%>" style="top: <%=seat.get(i).getY()%>px; left: <%=seat.get(i).getX()%>px;" data-original-src="/Tcp2/assets/img/ticklink/<%=seatRank%>_seat.png"> 
 		<%}%>
 		
 		</form>
@@ -89,34 +100,21 @@ ArrayList<SeatDTO> seat = new SeatDAO().getSeatlist(playhall_idx);//공연좌석
           <div class="box_block1">전체</div>
 <%
 for (int i = 0; i < pricelist.size(); i++) {
-	int leftseat[] = new int[4];
-	if(pricelist.size() == 1){
-		color[0] = "#B5E61D";	
-		for(int j = 0; j < list.size(); j++){
-			leftseat[0] += list.get(j).getCount();
-		}
-	}
-	else if(pricelist.size() == 2){
-		leftseat[0] = list.get(0).getCount();
-		for(int j = 1; j < list.size(); j++){
-			leftseat[1] += list.get(j).getCount();
-		}
-	}
-	else if(pricelist.size() == 3){
-		leftseat[0] = list.get(0).getCount();
-		leftseat[1] = list.get(1).getCount();
-		for(int j = 2; j < list.size(); j++){
-			leftseat[2] += list.get(j).getCount();
-		}
-	}
-	else if(pricelist.size() == 4){
-		leftseat[0] = list.get(0).getCount();
-		leftseat[1] = list.get(1).getCount();
-		leftseat[2] = list.get(2).getCount();
-		for(int j = 3; j < list.size(); j++){
-			leftseat[3] += list.get(j).getCount();
-		}
-	}
+    int leftseat[] = new int[4];
+
+    // pricelist의 크기에 따른 색상 설정 (예시)
+    if(pricelist.size() == 1){
+        color[0] = "#B5E61D";	
+    }
+
+    // leftseat 배열에 값 할당
+    for (int j = 0; j < list.size(); j++) {
+        if (j < pricelist.size() - 1) {
+            leftseat[j] = list.get(j).getCount();
+        } else {
+            leftseat[pricelist.size() - 1] += list.get(j).getCount();
+        }
+    }
 	%>
           <div class="box_block2">
             <span class="colorbox" style="background-color:<%=color[i]%>"></span>
@@ -131,7 +129,7 @@ for (int i = 0; i < pricelist.size(); i++) {
           </div>
         </div>
         <div class="whktjrtjswja">
-          <img src="../../assets/img/ticklink/좌석선점어쩌구.png" alt="">
+          <img src="/Tcp2/assets/img/ticklink/좌석선점어쩌구.png" alt="">
         </div>
         <div class="prenextbutton">
           <div><button class="prenextbtn" >이전단계</button></div>
@@ -144,7 +142,7 @@ for (int i = 0; i < pricelist.size(); i++) {
   <script>
   document.addEventListener('DOMContentLoaded', function() {
 	    var images = document.querySelectorAll('.reserved');
-	    var clickedSrc = '../../assets/img/ticklink/선택한좌석.png';
+	    var clickedSrc = '/Tcp2/assets/img/ticklink/선택한좌석.png';
 	    var selectedSeats = [];
 
 	    images.forEach(function(image) {
