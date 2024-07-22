@@ -1,3 +1,9 @@
+<%@page import="dao.*"%>
+<%@page import="dto.*"%>
+<%@page import="java.util.ArrayList"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -7,7 +13,8 @@
     <link rel="stylesheet" type="text/css" href="../assets/css/common.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/reset.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/footer.css">
-    <script src="/assets/js/jquery-1.12.4.min.js"></script>
+    <script src="../assets/js/jquery-1.12.4.min.js"></script>
+    <script src="../assets/js/chatBot.js"></script>
     <!-- 스와이퍼 스크립트 -->
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
@@ -32,24 +39,13 @@
                 
             });
         });
-    
+        
     </script>
-    <script>
-        // var swiper = new Swiper(".mySwiper", {
-        // slidesPerView : 1,
-        // centeredSlides: true,
-        // speed: 500,
-        // effect: fade,
-        // autoplay: {
-        //     delay: 2500,
-        //     disableOnInteraction: false,
-        //   },
-        // });
-      </script>
      <style>
         .card_item_04{margin: 50px 28px 0 0;width: 259px;}
      </style>
 </head>
+	<body>
         <header>
             <div class="utill">
                 <div class="inner">
@@ -91,16 +87,16 @@
                 </div>
                 <ul class="sm_box">
                     <li class="sm_img on">
-                        <a href="/assets/img/ticklink/BigBanner_01.jpg"><img src="../assets/img/ticklink/thumbnail_01.jpg" alt=""></a>
+                        <a href="../assets/img/ticklink/BigBanner_01.jpg"><img src="../assets/img/ticklink/thumbnail_01.jpg" alt=""></a>
                     </li>
                     <li class="sm_img">
-                        <a href="/assets/img/ticklink/BigBanner_02.jpg"><img src="../assets/img/ticklink/thumbnail_02.jpg" alt=""></a>
+                        <a href="../assets/img/ticklink/BigBanner_02.jpg"><img src="../assets/img/ticklink/thumbnail_02.jpg" alt=""></a>
                     </li>
                     <li class="sm_img">
-                        <a href="/assets/img/ticklink/BigBanner_01.jpg"><img src="../assets/img/ticklink/thumbnail_01.jpg" alt=""></a>
+                        <a href="../assets/img/ticklink/BigBanner_01.jpg"><img src="../assets/img/ticklink/thumbnail_01.jpg" alt=""></a>
                     </li>
                     <li class="sm_img">
-                        <a href="/assets/img/ticklink/BigBanner_02.jpg"><img src="../assets/img/ticklink/thumbnail_02.jpg" alt=""></a>
+                        <a href="../assets/img/ticklink/BigBanner_02.jpg"><img src="../assets/img/ticklink/thumbnail_02.jpg" alt=""></a>
                     </li>
                 </ul>   
             </div>
@@ -514,5 +510,12 @@
             </div>
         </footer>
     </div>
+    <script>
+	    (function(){var w=window;if(w.ChannelIO){return w.console.error("ChannelIO script included twice.");}var ch=function(){ch.c(arguments);};ch.q=[];ch.c=function(args){ch.q.push(args);};w.ChannelIO=ch;function l(){if(w.ChannelIOInitialized){return;}w.ChannelIOInitialized=true;var s=document.createElement("script");s.type="text/javascript";s.async=true;s.src="https://cdn.channel.io/plugin/ch-plugin-web.js";var x=document.getElementsByTagName("script")[0];if(x.parentNode){x.parentNode.insertBefore(s,x);}}if(document.readyState==="complete"){l();}else{w.addEventListener("DOMContentLoaded",l);w.addEventListener("load",l);}})();
+	
+	    ChannelIO('boot', {
+	      "pluginKey": "60ba9da0-33fe-48a9-8bcf-3f7d99fa2591"
+	    });
+    </script>
 </body>
 </html>
