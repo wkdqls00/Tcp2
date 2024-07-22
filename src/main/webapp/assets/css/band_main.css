@@ -365,25 +365,6 @@ ol, ul {
   line-height: normal;
   margin-top: 30px !important;
 }
-.close_btn::before {
-  position: static;
-  vertical-align: top;
-  margin-top: 3px;
-  display: inline-block;
-  text-align: left;
-  font-size: 0;
-  z-index: 1000;
-  width: 10px;
-  height: 10px;
-  background-size: 10px 10px;
-  overflow: hidden;
-  display: inline-block;
-  background-repeat: no-repeat;
-  content: '';
-  background-image: url(https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/spr_svg.svg#ico-close-10);
-  opacity: .4;
-}
-
 .help_btn {
   border: 0;
   background-color: transparent;
@@ -391,17 +372,20 @@ ol, ul {
   cursor: pointer;
   overflow: visible;
   text-transform: none;
+  margin-left: 4px !important;
 }
 .help_btn::before {
-  width: 18px;
-  height: 18px;
-  background-size: 18px 18px;
-  overflow: hidden;
-  display: inline-block;
-  background-repeat: no-repeat;
-  content: '';
-  background-image: url(https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/spr_svg.svg#ico-info-18);
+	width: 18px;
+    height: 18px;
+    background-size: 18px 18px;
+    overflow: hidden;
+    display: inline-block;
+    background-repeat: no-repeat;
+    content: '';
+    background-image: url(https://ssl.pstatic.net/cmstatic/webclient/dres/20240710165144/images/spr_svg.svg#ico-info-18);
 }
+
+
 .help {
   overflow: hidden !important;
   position: absolute !important;
@@ -416,7 +400,6 @@ ol, ul {
   font-size: 14px;
   font-weight: 400;
   color: #000;
-  display: none;
   position: absolute;
   left: 0;
   top: 100%;
@@ -428,6 +411,7 @@ ol, ul {
   box-shadow: 0 0 20px 5px rgba(144, 152, 156, .1);
   border-radius: 10px;
   width: 296px;
+  line-height: normal;
 }
 
 .close_btn {
@@ -435,16 +419,24 @@ ol, ul {
   top: 7px;
   right: 7px;
   padding: 5px;
+  border: 0;
+  background-color: transparent;
+  border-radius: 0;
+  cursor: pointer;
   overflow: visible;
-  width: 10px;
-  height: 10px;
-  background-size: 10px 10px;
-  overflow: hidden;
-  display: inline-block;
-  background-repeat: no-repeat;
-  content: '';
-  background-image: url(https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/spr_svg.svg#ico-close-10);
-  opacity: .4;
+}
+
+.close_btn::before {
+	width: 10px;
+	height: 10px;
+	background-size: 10px 10px;
+	overflow: hidden;
+	display: inline-block;
+	background-repeat: no-repeat;
+	content:'';
+	background-image: url(https://ssl.pstatic.net/cmstatic/webclient/dres/20240710165144/images/spr_svg.svg#ico-close-10);
+	opacity: .4;
+	cursor: pointer;
 }
 .band_meet_content_link {
   margin-bottom: -20px;

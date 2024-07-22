@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import dto.JoinConditionPrintDTO;
+import dto.SelectAllBandDTO;
 import dto.SelectBandAreaDTO;
 import dto.SelectMeetAreaIdxDTO;
 import project.DatabaseUtil;
@@ -24,7 +24,42 @@ public class SelectBandDAO {
         	System.out.println(selectBandAreaDTO);
         }
     }
-    
+    // 모든 밴드 리스트 출력
+    public ArrayList<SelectAllBandDTO> selectAllBandDTO() throws SQLException {
+        ArrayList<SelectAllBandDTO> list = new ArrayList<>();
+        DatabaseUtil d = new DatabaseUtil();
+        Connection conn = d.getConn();
+
+        String sql = 
+        		"SELECT ma.area_detail, m.url, m.name, m.sub_q, mrw.title, m.meet_idx "
+        		+ "FROM meet m, meet_area ma, meet_rec_write mrw "
+        		+ "WHERE m.meet_area_idx = ma.meet_area_idx "
+        		+ "AND mrw.meet_idx = m.meet_idx";
+        		
+
+        PreparedStatement pstmt = d.getPstmt(conn, sql);
+
+        ResultSet rs = d.getRs(pstmt);
+        try {
+            while (rs.next()) {
+            	
+            	String area_detail = rs.getString(1);
+            	String url = rs.getString(2);
+            	String name = rs.getString(3);
+            	String sub_q = rs.getString(4);
+            	String title = rs.getString(5);
+            	int meet_idx = rs.getInt(6);
+
+            	SelectAllBandDTO selectAllBandDTO = new SelectAllBandDTO(area_detail, url, name, sub_q, title, meet_idx); // 저장한 값으로 SeatStatus 객체 생성
+                list.add(selectAllBandDTO);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+			d.close(conn, pstmt, rs);
+        }
+        return list;
+    }
     public ArrayList<SelectBandAreaDTO> selectBandAreaDTO(int meet_area_idx) throws SQLException {
         ArrayList<SelectBandAreaDTO> list = new ArrayList<>();
         DatabaseUtil d = new DatabaseUtil();

@@ -70,7 +70,7 @@ public class SeatStatusDAO {
 	}
 	
 	
-    public ArrayList<String> selectSeatChart(int playinfo_idx) {
+    public ArrayList<String> selectSeatChart(int playinfo_idx) {//해당회차의 예약된 좌석리스트 생성
         ArrayList<String> list = new ArrayList<>();
         DatabaseUtil d = new DatabaseUtil();
         Connection conn = d.getConn();

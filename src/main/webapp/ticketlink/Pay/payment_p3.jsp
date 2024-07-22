@@ -1,16 +1,33 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="dto.*"%>
+<%@page import="dao.*"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <link rel="stylesheet" href="/assets/css/payment_p3.css"></head>
+  <title>결제단계3</title>
+  <link rel="stylesheet" href="/Tcp2/assets/css/payment_p3.css"></head>
 <body>
+<%
+int payment_idx = (int)request.getAttribute("pm");
+@SuppressWarnings("unchecked")
+ArrayList<SelectPayment_p2DTO> p2dto = (ArrayList<SelectPayment_p2DTO>)request.getAttribute("p2dto");
+@SuppressWarnings("unchecked")
+ArrayList<ReservedSeatInfoDTO> rsidto = (ArrayList<ReservedSeatInfoDTO>)request.getAttribute("rsidto");
+String time_limit = (String)request.getAttribute("time_limit");
+int total_amount = (int)request.getAttribute("total_amount");
+
+
+
+%>
   <header>
-    <img src="/assets/img/ticklink/종튼.png" alt=""> 
+    <img src="/Tcp2/assets/img/ticklink/종튼.png" alt=""> 
   </header>
   <div class="paystepup3">
-    <img src="/assets/img/ticklink/결제단계3.png" alt="">
+    <img src="/Tcp2/assets/img/ticklink/결제단계3.png" alt="">
   </div>
   <main>
     <div class="main_1">
@@ -45,25 +62,27 @@
     <div class="main_2">
       <div class="titleimgbox">
         <div>
-          <img src="https://image.toast.com/aaaaab/ticketlink/TKL_2/gloomy_pst_0603.jpg" alt="" style="width: 41px; height: 50px;">
+          <img src="<%=p2dto.get(0).getPoster_url()%>" alt="" style="width: 41px; height: 50px;">
         </div>
-        <div>뮤지컬&lt;사의찬미></div>
+        <div><%=p2dto.get(0).getName()%></div>
       </div>
       <div class="reservationinfo">
         예매정보
       </div>
-      <div class="reservationinfoborder">
-        <div>R석</div>
-        <div>G열15번</div>
+   <div class="reservationinfoborder">
+
+      <%
+      System.out.println(rsidto.size());
+      for(int i = 0; i < rsidto.size(); i++){ %>
+	     <div class="reservationinfodiv">
+	        <div class="reservationinfoborder1"><%=rsidto.get(i).getRank()%>석</div>
+	        <div class="reservationinfoborder2"><%=rsidto.get(i).getSeat_chart()%></div>
+	     </div>
+      <%} %>
       </div>
       <div class="resertable">
         <div>일시</div>
-        <div>2024.06.20(목)16:00</div>
-      </div>
-      <div class="divhrgrey"></div>
-      <div class="resertable">
-        <div>티켓금액</div>
-        <div id="ticketAmount">66,000원</div>
+        <div><%=p2dto.get(0).getPlay_date() + p2dto.get(0).getStart_time()%></div>
       </div>
       <div class="divhrgrey"></div>
       <div class="resertable">
@@ -83,10 +102,10 @@
       <div class="divhrgrey"></div>
       <div class="resertable">
         <div>총결제</div>
-        <div><span id=totalAmount>66,000 </span>원</div>
+        <div><span id=totalAmount><%=String.format("%,d", total_amount)%> </span>원</div>
       </div>
       <div class="divhrblack"></div>
-      <div class="cancel"><span class="canceltitle">취소기한:</span>2024.06.19.17:00</div>
+      <div class="cancel"><span class="canceltitle">취소기한:</span><%=time_limit%></div>
       <div class="cancel" style="margin-top: 0px;"><span class="canceltitle">취소수수료:</span>티켓금액의 0%~30%</div>
       <div class="agreebox3">
         <div class="checkboxdiv3"><input type="checkbox"></div>
