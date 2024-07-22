@@ -9,21 +9,11 @@ import java.util.ArrayList;
 import dto.SelectAllBandDTO;
 import dto.SelectBandAreaDTO;
 import dto.SelectMeetAreaIdxDTO;
+import dto.SelectNicknameDTO;
 import project.DatabaseUtil;
 
 public class SelectBandDAO {
-	public static void main(String[] args) {
-		SelectBandDAO selectDAO = new SelectBandDAO();
-        ArrayList<SelectBandAreaDTO>  list = null;        
-        try {
-        	list = selectDAO.selectBandAreaDTO(2);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        for (SelectBandAreaDTO selectBandAreaDTO : list) {
-        	System.out.println(selectBandAreaDTO);
-        }
-    }
+
     // 모든 밴드 리스트 출력
     public ArrayList<SelectAllBandDTO> selectAllBandDTO() throws SQLException {
         ArrayList<SelectAllBandDTO> list = new ArrayList<>();
@@ -155,30 +145,30 @@ public class SelectBandDAO {
 		return selectAreaDetailDTO;
     }
     
-    public SelectBandAreaDTO selectAreaMeetIdxDTO(int meet_area_idx) throws SQLException {
+    public SelectNicknameDTO selectNicknameDTO(int member_idx) throws SQLException {
         DatabaseUtil d = new DatabaseUtil();
         Connection conn = d.getConn();
 
         String sql = 
-        		"SELECT area_detail "
-        		+ "FROM meet_area "
-        		+ "WHERE meet_area_idx = ?";
+        		"SELECT nickname "
+        		+ "FROM member "
+        		+ "WHERE member_idx = ?";
 
         PreparedStatement pstmt = d.getPstmt(conn, sql);
 
-        pstmt.setInt(1, meet_area_idx);
+        pstmt.setInt(1, member_idx);
 
         ResultSet rs = pstmt.executeQuery();
         
-        SelectBandAreaDTO selectAreaDetailDTO = null;
+        SelectNicknameDTO selectNicknameDTO = null;
         
         if (rs.next()) {
         	
-    			String area_detail = rs.getString(1);
+    			String nickname = rs.getString(1);
     			
-    			selectAreaDetailDTO = new SelectBandAreaDTO(area_detail); // 저장한 값으로 SeatStatus 객체 생성
+    			selectNicknameDTO = new SelectNicknameDTO(nickname); // 저장한 값으로 SeatStatus 객체 생성
         }
     
-		return selectAreaDetailDTO;
+		return selectNicknameDTO;
     }
 }

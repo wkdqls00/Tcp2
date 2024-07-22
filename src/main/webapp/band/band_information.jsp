@@ -253,7 +253,7 @@
               <!-- 소개글 입력 -->
               <div class="textareaBox _introDescription">
                 <div class="uTextarea">
-                  <textarea class="_introDescription" id="bandIntroduce" cols="30" rows="10" maxlength="500" placeholder="밴드 소개말을 입력하세요." style="height: 100%"value="<%=miwDTO.getTitle() %>"><%=miwDTO.getTitle() %></textarea>
+                  <textarea class="_introDescription" id="bandIntroduce" cols="30" rows="10" maxlength="500" placeholder="밴드 소개말을 입력하세요." style="height: 100%" value="<%=miwDTO.getTitle() %>"><%=miwDTO.getTitle() %></textarea>
                   <span class="border"></span>
                 </div>
               </div>

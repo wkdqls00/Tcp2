@@ -61,6 +61,11 @@
 	
 	//meet_member_idx 꺼내오기
 	int meet_member_idx = mPrintDAO.postMeetMemberIdx(member_idx);
+	
+	SelectBandDAO sDao = new SelectBandDAO();
+	SelectNicknameDTO sDto = sDao.selectNicknameDTO(member_idx);
+	//member_idx 로 닉네임 가져오기
+	String nickname = sDto.getNickname();
 %>
 
 <!DOCTYPE html>
@@ -179,8 +184,25 @@
 			<% order = "ASC"; %>
 		}
 		
+		//밴드 가입하기 답변 작성
+		$("#insertBtn").click(function() {
+			let member_idx = <%=member_idx %>;
+			let meet_idx = <%=meet_idx %>;
+			let sub_a = $("#sub_a").val();
+			let nickname = '<%=nickname %>';
+			
+			$.ajax({
+				url: '${pageContext.request.contextPath}/AjaxInsertJoinQWriteServlet',
+				data: {member_idx : member_idx, meet_idx : meet_idx, sub_a : sub_a, nickname : nickname},
+				type: 'get',
+				success: function(response){
+					alert("가입 신청이 완료되었습니다.");
+				}
+			});
+		})
+		
   	})
-  </script>
+  	</script>
   <style>
   	#container.band_main_area {
 	  	<% if (!(njDao.noJoinOk(meet_idx, member_idx))) { %>
@@ -972,7 +994,7 @@
                   <div class="answerInputWrap">
                     <div class="mentions-input">
                       <div class="mentions">
-                        <textarea maxlength="200" placeholder="답변을 작성해주세요."></textarea>
+                        <textarea id="sub_a"  maxlength="200" placeholder="답변을 작성해주세요."></textarea>
                       </div>
                     </div>
                   </div>
@@ -981,7 +1003,7 @@
             </div>
             <div class="modalFooter">
               <button class="uButton -cancle">취소</button>
-              <button class="uButton -confirm">다음</button>
+              <button class="uButton -confirm" id="insertBtn">다음</button>
             </div>
           </div>
         </section>

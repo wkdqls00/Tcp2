@@ -105,7 +105,7 @@
         <div id="content_tab_left">
           <div id="tab_myband">
             <div id="myband_btn">
-              <a href = "#main" class = "myband_text">
+              <a href = "band_main.jsp?member_idx=<%=member_idx %>" class = "myband_text">
               내 밴드  
               </a>
             </div>
