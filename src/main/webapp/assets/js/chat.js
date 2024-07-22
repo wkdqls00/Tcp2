@@ -11,7 +11,7 @@ const urlParams = new URL(location.href).searchParams;
 const pfName = urlParams.get('nickname');
 
 // 엔터 쳤을 때 이벤트
-commentInput.addEventListener("keyup", (event) => {
+commentInput.addEventListener("keydown", (event) => {
   if (event.keyCode === 13) {
     if (!event.shiftKey) {
       event.preventDefault(); 
