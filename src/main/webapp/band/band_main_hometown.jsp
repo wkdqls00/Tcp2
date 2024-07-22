@@ -1,4 +1,3 @@
-<%@page import="dto.SelectAllBandDTO"%>
 <%@page import="dto.SelectMeetAreaIdxDTO"%>
 <%@page import="dto.SelectBandAreaDTO"%>
 <%@page import="dao.SelectBandDAO"%>
@@ -47,9 +46,6 @@
 	//멤버 수 출력
 	MeetIntroduceWriteDAO miDao = new MeetIntroduceWriteDAO();
 	
-	//모든 밴드 출력
-	ArrayList<SelectAllBandDTO> bandListDao = new ArrayList<>();
-	bandListDao = selectDao.selectAllBandDTO();
 %>
 
 <!DOCTYPE html>
@@ -125,7 +121,7 @@
         <!-- 동네 밴드 목록편집 버튼 -->
         <div id="content_tab_right">
           <div id="tab_place_band">
-            <a href="band_main_hometown.jsp?meet_idx=<%=m_idx %>" class="btn_option">
+            <a href="#" class="btn_option" target="_blank">
               <span class="local_icon"></span>
               <span class="option_text">동네 밴드</span>
             </a>
@@ -136,54 +132,14 @@
   </div>
   <div id="wrap" style="background-color: transparent;">
     <!-- main 메인 -->
-    <div id="main">
-      <ul id="band_card_list">
-        <li class="band_card_item">
-          <div id="band_inner">
-            <a href="band_new_create.jsp?member_idx=<%= member_idx %>" class="band_create_link">
-              <div id="cover">
-                <img class="create_band_img">
-              </div>
-              <div id="band_name">
-                <a class="url_text">만들기</a>
-              </div>
-            </a>
-          </div>
-        </li>
-        <!-- 내 밴드 목록 -->
-        <% 
-        for (MybandDTO mbDto : mbListDao) {
-       	%>
-        <li class="band_card_item">
-          <div id="band_inner">
-            <a href="band_home.jsp?member_idx=<%=member_idx%>&meet_idx=<%=mbDto.getMeet_idx()%>" class="band_cover_link">
-            <div id="cover_band">
-              <div class="uCoverImage -border">
-                <span class="coverInner">
-                  <img class="coverImg" src="<%= mbDto.getUrl() %>" alt>
-                </span>
-              </div>
-            </div>
-            <div id="band_name">
-              <p class="url_text"> <%= mbDto.getMeet_name() %> </p>
-              <span class="member">
-                멤버
-                  <em><%= mbDto.getMeet_member_count() %></em>
-               </span>
-            </div>
-            </a>
-          </div>
-        </li>
-        <%
-        }
-        %>
-      </ul>
-    </div>
+
   <!-- 소모임 메인 화면 -->
     <div id="main2">
       <div id="local_meet_band">
-        <h2 id="local_title">
-          소모임 목록
+        <h2 id="local_title" style="padding-top: 38px;">
+          <span class="setting_local"><%=areaDetailDto.getArea_detail() %></span>
+          소모임
+          <button type="button" class="open_keyword_btn">지역 선택</button>
         </h2>
       </div>
       <div id="content2">
@@ -192,7 +148,7 @@
             <button type="button" class="help_btn">
               <span class="help">도움말</span>
             </button>
-            <span class="bubble_help_layer" style="width:348px; display:none;">
+            <span class="bubble_help_layer" style="width:348px; display:none">
               소모임 활동 주제가 분명하고, 오프라인 정모 활동이 활발한 밴드를 선정해 보여드려요!
               <button type="button" class="close_btn">
               <span class="help">닫기</span>
@@ -204,23 +160,23 @@
     <!-- 소모임 멤버 모집글 -->
     <div id="band_find_wrap">
         <div id="band_list">
-    	<% for(SelectAllBandDTO sDto : bandListDao) {
-    		MeetIntroduceWriteDTO miDto = miDao.selectMeetIntroduceWriteDTO(sDto.getMeet_idx());
+    	<% for(SelectBandAreaDTO aDto : areaListDao) {
+    		MeetIntroduceWriteDTO miDto = miDao.selectMeetIntroduceWriteDTO(aDto.getMeet_idx());
     		%>
           <div id="band_item_view">
             <div id="band_meet_content">
               <div id="band_meet_content_text">
-                <h3 class="band_meet_content_title"><%=sDto.getName() %>
+                <h3 class="band_meet_content_title"><%=aDto.getName() %>
                 </h3>
-                <div class="band_meet_content_main"><%=sDto.getTitle() %></div>
+                <div class="band_meet_content_main"><%=aDto.getTitle() %></div>
                 <div id="band_meet_content_tag">
-                  <button class="local_tag"><%=sDto.getArea_detail() %></button>
+                  <button class="local_tag"><%=aDto.getArea_detail() %></button>
                 </div>
               </div>
               <div id="band_meet_content_img">
-                <img src="<%=sDto.getUrl() %>" class="band_cover_img">
+                <img src="<%=aDto.getUrl() %>" class="band_cover_img">
               </div>
-              <a type="button" href="band_home.jsp?meet_idx=<%=sDto.getMeet_idx() %>&member_idx=<%=member_idx %>" class="band_meet_content_link" style="width:500px; height:150px"></a>
+              <a type="button" href="band_home.jsp?meet_idx=<%=aDto.getMeet_idx() %>&member_idx=<%=member_idx %>" class="band_meet_content_link" style="width:500px; height:150px"></a>
             </div>
             <div id="band_meet_info_wrap">
               <div id="meet_info_box">

@@ -183,7 +183,7 @@
             <div class="bandInfoBox">
              <% try {
             	 if (mPrintDAO.adminCheck(member_idx, meet_idx)) { %>
-              <a href="#" class="showBandInfo">밴드 소개 설정
+              <a href="band_information.jsp?meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="showBandInfo">밴드 소개 설정
              <% 	} 
              	} catch(Exception e) {
              		e.printStackTrace();
