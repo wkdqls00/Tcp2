@@ -12,7 +12,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>좌석선택</title>
+  <title>등급/좌석선택</title>
   <link rel="stylesheet" href="/Tcp2/assets/css/payment_p1.css">
 </head>
 <body>

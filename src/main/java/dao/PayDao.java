@@ -11,6 +11,7 @@ import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import dto.CustomerPayinfoDTO;
 import dto.GetPlayIdxDTO;
 import dto.ReservedSeatInfoDTO;
 import dto.SeatDTO;
@@ -379,5 +380,58 @@ public class PayDao {
         	d.close(conn, pstmt, rs);
         }
         return time_limit;
+    }
+    public void updatePayment1(int payment_idx, int total_amount) {
+        DatabaseUtil d = new DatabaseUtil();
+        Connection conn = d.getConn();
+
+        String sql = 
+        		"UPDATE payment SET total_amount = ? " + 
+        		"WHERE payment_idx = ?";
+        
+        PreparedStatement pstmt = d.getPstmt(conn, sql);
+        try {
+			pstmt.setInt(1, total_amount);
+			pstmt.setInt(2, payment_idx);
+			int result = pstmt.executeUpdate();
+			System.out.println(result + "행 성공적으로 업데이트됨");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			d.close(conn, pstmt);
+		}
+    }
+    public ArrayList<CustomerPayinfoDTO> getCustomerPayinfo(int payment_idx) {
+        ArrayList<CustomerPayinfoDTO> list = new ArrayList<>();
+        DatabaseUtil d = new DatabaseUtil();
+        Connection conn = d.getConn();
+
+        String sql =
+        		"SELECT m.name, m.phone, m.email " + 
+        		"FROM Payment pm JOIN member m " + 
+        		"ON m.member_idx = pm.member_idx " + 
+        		"WHERE pm.payment_idx = ?";
+        
+        PreparedStatement pstmt = d.getPstmt(conn, sql);
+        
+        try {
+			pstmt.setInt(1, payment_idx);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+        ResultSet rs = d.getRs(pstmt);
+        try {
+            while (rs.next()) {
+            	String name = rs.getString(1);
+            	String phone = rs.getString(2);
+            	String email = rs.getString(3);
+                list.add(new CustomerPayinfoDTO(name, phone, email));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+        	d.close(conn, pstmt, rs);
+        }
+        return list;	
     }
 }

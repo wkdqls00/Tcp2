@@ -28,7 +28,6 @@ public class Payment_p1 extends HttpServlet {
 		int playinfo_idx = Integer.parseInt(request.getParameter("idx"));
 		ArrayList<GetPlayIdxDTO> idxlist = dao.getidxlist(playinfo_idx);
 		int play_idx = idxlist.get(0).getPlay_idx();
-		int playhall_idx = idxlist.get(0).getPlayhall_idx();
 		ArrayList<SelectPayment_p2DTO> p2dto = dao.Selectpayment_p2(playinfo_idx);
 		ArrayList<SeatPriceDTO> pricelist = dao.selectSeatPrice(play_idx);
 		int payment_idx = 0;		

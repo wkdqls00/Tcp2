@@ -8,7 +8,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>결제단계2</title>
   <link rel="stylesheet" href="/Tcp2/assets/css/payment_p2.css">
 </head>
 <body>
@@ -42,9 +42,7 @@ String time_limit = (String)request.getAttribute("time_limit");
         <b><%=rsidto.size()%>매</b>를 선택하셨습니다.
       </div>
 <%
-System.out.println(rsidto.size());
 for (int i = 0; i < rsidto.size(); i++) { 
-	System.out.println(i);
     String rank = rsidto.get(i).getRank();
     final String seatRank;
     switch (pricelist.size()) {
