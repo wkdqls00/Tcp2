@@ -24,7 +24,7 @@ public class MeetSettingPrintDAO {
         Connection conn = d.getConn();
 
         String sql = 
-        		"SELECT name, url, color "
+        		"SELECT name, url "
         		+ "FROM meet  "
         		+ "WHERE meet_idx = ?";
         		
@@ -39,9 +39,8 @@ public class MeetSettingPrintDAO {
         if(rs.next()) {
     		String name = rs.getString(1);
         	String url = rs.getString(2);
-        	String color = rs.getString(3);
 
-        	meetSettingPrintDTO = new MeetSettingPrintDTO(name, url, color); // 저장한 값으로 SeatStatus 객체 생성
+        	meetSettingPrintDTO = new MeetSettingPrintDTO(name, url); // 저장한 값으로 SeatStatus 객체 생성
         }
         return meetSettingPrintDTO;
      }
