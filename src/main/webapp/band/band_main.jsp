@@ -105,8 +105,10 @@
               <div class="menuModalLayer profileDropDown" id="off" style="display: none">
                 <ul class="menuModalList">
                   <li class="menuMadalItem">
-                  	<!-- <button class="menuModalLink">로그아웃</button> -->
-                    <a href="#" class="menuModalLink">로그아웃</a>
+                  <form action="../LogoutAction">
+                  	<button class="menuModalLink">로그아웃</button>
+                    <!-- <a href="#" class="menuModalLink">로그아웃</a> -->
+                   </form>
                   </li>
                 </ul>
               </div>

@@ -1,16 +1,6 @@
-<%@page import="dto.BandPublicOkDTO"%>
-<%@page import="dao.BandPublicOkDAO"%>
-<%@page import="dao.NoJoinMeetDAO"%>
-<%@page import="dto.ChatListDTO"%>
-<%@page import="dao.ChatListDAO"%>
-<%@page import="dao.MeetMemberProfilePrintDAO"%>
-<%@page import="dto.MeetMemberProfilePrintDTO"%>
-<%@page import="dto.MeetIntroduceWriteDTO"%>
-<%@page import="dao.MeetIntroduceWriteDAO"%>
-<%@page import="dao.UpdateJoinBandSettingDAO"%>
+<%@page import="dto.*"%>
+<%@page import="dao.*"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="dto.JoinConditionPrintDTO"%>
-<%@page import="dao.JoinConditionPrintDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%!
@@ -168,7 +158,9 @@
                   </li>
                 <% } %>
                   <li class="menuMadalItem">
-                    <a href="#" class="menuModalLink">로그아웃</a>
+                    <form action="../LogoutAction">
+                    <button type="submit" class="menuModalLink">로그아웃</button>
+                   </form>
                   </li>
                 </ul>
               </div>

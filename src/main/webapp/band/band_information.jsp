@@ -1,23 +1,12 @@
-<%@page import="dto.MeetPostListPrintDTO"%>
-<%@page import="dao.MeetPostListPrintDAO"%>
-<%@page import="dto.BandPublicOkDTO"%>
-<%@page import="dao.BandPublicOkDAO"%>
-<%@page import="dao.NoJoinMeetDAO"%>
-<%@page import="dto.ChatListDTO"%>
+<%@page import="dto.*"%>
+<%@page import="dao.*"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="dao.ChatListDAO"%>
-<%@page import="dto.MeetMemberProfilePrintDTO"%>
-<%@page import="dao.MeetMemberProfilePrintDAO"%>
-<%@page import="dao.UpdateMeetInfoWriteDAO"%>
-<%@page import="dto.MeetIntroduceWriteDTO"%>
-<%@page import="dao.MeetIntroduceWriteDAO"%>
-<%@page import="dto.MeetInfoWriteDTO"%>
-<%@page import="dao.MeetInfoWriteDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
 	int meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
 	int member_idx = Integer.parseInt(request.getParameter("member_idx"));
+	
 	MeetInfoWriteDAO miwDAO = new MeetInfoWriteDAO();
 	MeetInfoWriteDTO miwDTO = miwDAO.selectMeetInfoWriteDTO(meet_idx);
 	
@@ -141,7 +130,9 @@
                   </li>
                 <% } %>
                   <li class="menuMadalItem">
-                    <a href="#" class="menuModalLink">로그아웃</a>
+                    <form action="../LogoutAction">
+                    <button type="submit" class="menuModalLink">로그아웃</button>
+                   </form>
                   </li>
                 </ul>
               </div>
