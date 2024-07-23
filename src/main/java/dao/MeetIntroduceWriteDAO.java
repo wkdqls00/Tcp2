@@ -14,7 +14,7 @@ public class MeetIntroduceWriteDAO {
 	public static void main(String[] args) {
 		MeetIntroduceWriteDAO mitwdao = new MeetIntroduceWriteDAO();
         try {
-        	System.out.println(mitwdao.selectMeetIntroduceWriteDTO(1)); 
+        	System.out.println(mitwdao.selectMeetIntroduceWriteDTO(8)); 
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -27,8 +27,8 @@ public class MeetIntroduceWriteDAO {
         String sql = 
         		"SELECT meet.name, meet.url, COUNT(m_m.meet_member_idx) "
         		+ "FROM meet meet, meet_member m_m  "
-        		+ "WHERE meet.meet_idx = m_m.meet_idx "
-        		+ "AND m_m.meet_idx = ? "
+        		+ "WHERE meet.meet_idx = m_m.meet_idx(+) "
+        		+ "AND meet.meet_idx = ? "
         		+ "GROUP BY meet.name, meet.url";
         
         PreparedStatement pstmt = d.getPstmt(conn, sql);

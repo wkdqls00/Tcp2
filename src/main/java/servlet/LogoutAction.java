@@ -22,7 +22,7 @@ public class LogoutAction extends HttpServlet {
 		
 		if(hs != null) {
 			hs.invalidate();
-			response.sendRedirect("/Tcp2/ticketlink/main.html");
+			response.sendRedirect("/Tcp2/ticketlink/main.jsp");
 		} else {
 			System.out.println("로그인 되어 있는 상태 아님.");
 		}

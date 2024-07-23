@@ -1,55 +1,63 @@
-<%@page import="dto.SelectAllBandDTO"%>
-<%@page import="dto.SelectMeetAreaIdxDTO"%>
-<%@page import="dto.SelectBandAreaDTO"%>
-<%@page import="dao.SelectBandDAO"%>
-<%@page import="dao.MeetIntroduceWriteDAO"%>
-<%@page import="dto.MeetIntroduceWriteDTO"%>
-<%@page import="dao.MybandDAO"%>
-<%@page import="dto.MybandDTO"%>
+<%@page import="dto.*"%>
+<%@page import="dao.*"%>
 <%@page import="project.DatabaseUtil"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-// 	/* int m_idx = Integer.parseInt(request.getParameter("member_idx")); */
-	HttpSession hs = request.getSession();
-	int m_idx = (int)hs.getAttribute("userIdx");
-	int member_idx = (int)hs.getAttribute("userIdx");
+	// if(session.getAttribute("userIdx") == null) {
+%>
+<script>
+	/* alert("로그인이 필요합니다.");
+	location.href="../ticketlink/Login/Login.jsp"; */
+</script>
+<%		
+	// } else {
+		HttpSession hs = request.getSession();
+		
+		int member_idx = 0;
+		
+		if(session.getAttribute("userIdx") == null) {
+			member_idx = Integer.parseInt(request.getParameter("member_idx"));
+		} else {
+			member_idx = (int)hs.getAttribute("userIdx");
+		}
+		
+		// 내 가입 밴드 출력
+		MeetIntroduceWriteDAO mbwDao = new MeetIntroduceWriteDAO();
+		
+		MybandDAO mbDao = new MybandDAO();
 	
-	// 내 가입 밴드 출력
-	MeetIntroduceWriteDAO mbwDao = new MeetIntroduceWriteDAO();
+		ArrayList<MybandDTO> mbListDao = new ArrayList<>();
 	
-	MybandDAO mbDao = new MybandDAO();
-
-	ArrayList<MybandDTO> mbListDao = new ArrayList<>();
-
-	try { 
-		mbListDao = mbDao.selectMybandDTO(m_idx);
-	} catch (Exception e) {
-		e.printStackTrace();
-	}
-	
-	SelectBandDAO selectDao = new SelectBandDAO();
-	
-	//소모임 지역 idx
-	SelectMeetAreaIdxDTO selectDto = selectDao.selectMeetAreaIdxDTO(member_idx);
-	int meet_area_idx = selectDto.getMeet_area_idx();
-	
-	//지역별 소모임 출력
-	ArrayList<SelectBandAreaDTO> areaListDao = new ArrayList<>();
-	try {
-		areaListDao = selectDao.selectBandAreaDTO(meet_area_idx);
-	} catch (Exception e) {
-		e.printStackTrace();
-	}
-	SelectBandAreaDTO areaDetailDto = selectDao.selectAreaDetailDTO(meet_area_idx);
-	
-	//멤버 수 출력
-	MeetIntroduceWriteDAO miDao = new MeetIntroduceWriteDAO();
-	
-	//모든 밴드 출력
-	ArrayList<SelectAllBandDTO> bandListDao = new ArrayList<>();
-	bandListDao = selectDao.selectAllBandDTO();
+		try { 
+			mbListDao = mbDao.selectMybandDTO(member_idx);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		SelectBandDAO selectDao = new SelectBandDAO();
+		
+		//소모임 지역 idx
+		SelectMeetAreaIdxDTO selectDto = selectDao.selectMeetAreaIdxDTO(member_idx);
+		int meet_area_idx = selectDto.getMeet_area_idx();
+		
+		//지역별 소모임 출력
+		ArrayList<SelectBandAreaDTO> areaListDao = new ArrayList<>();
+		try {
+			areaListDao = selectDao.selectBandAreaDTO(meet_area_idx);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		SelectBandAreaDTO areaDetailDto = selectDao.selectAreaDetailDTO(meet_area_idx);
+		
+		//멤버 수 출력
+		MeetIntroduceWriteDAO miDao = new MeetIntroduceWriteDAO();
+		
+		//모든 밴드 출력
+		ArrayList<SelectAllBandDTO> bandListDao = new ArrayList<>();
+		bandListDao = selectDao.selectAllBandDTO();
+	// }
 %>
 
 <!DOCTYPE html>
@@ -63,6 +71,11 @@
   <link rel="stylesheet" href="../assets/css/band.css">
   <title>BAND - 메인 페이지</title>
   <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+  <style>
+  .member {
+  	font-size: 13px;
+  }
+  </style>
 </head>
 <body>
   <div class="wrap">
@@ -92,6 +105,7 @@
               <div class="menuModalLayer profileDropDown" id="off" style="display: none">
                 <ul class="menuModalList">
                   <li class="menuMadalItem">
+                  	<!-- <button class="menuModalLink">로그아웃</button> -->
                     <a href="#" class="menuModalLink">로그아웃</a>
                   </li>
                 </ul>
@@ -125,7 +139,7 @@
         <!-- 동네 밴드 목록편집 버튼 -->
         <div id="content_tab_right">
           <div id="tab_place_band">
-            <a href="band_main_hometown.jsp?meet_idx=<%=m_idx %>" class="btn_option">
+            <a href="band_main_hometown.jsp?member_idx=<%=member_idx %>" class="btn_option">
               <span class="local_icon"></span>
               <span class="option_text">동네 밴드</span>
             </a>
@@ -160,7 +174,11 @@
             <div id="cover_band">
               <div class="uCoverImage -border">
                 <span class="coverInner">
+                <% if(mbDto.getUrl() != null) { %>
                   <img class="coverImg" src="<%= mbDto.getUrl() %>" alt>
+                  <% } else { %>
+                  <img class="coverImg">
+                  <% } %>
                 </span>
               </div>
             </div>
@@ -210,15 +228,19 @@
           <div id="band_item_view">
             <div id="band_meet_content">
               <div id="band_meet_content_text">
-                <h3 class="band_meet_content_title"><%=sDto.getName() %>
+                <h3 class="band_meet_content_title"><%=sDto.getMeetName() %>
                 </h3>
                 <div class="band_meet_content_main"><%=sDto.getTitle() %></div>
                 <div id="band_meet_content_tag">
-                  <button class="local_tag"><%=sDto.getArea_detail() %></button>
+                  <button class="local_tag"><%=sDto.getAreaDetail() %></button>
                 </div>
               </div>
               <div id="band_meet_content_img">
+              <% if (sDto.getUrl() != null) { %>
                 <img src="<%=sDto.getUrl() %>" class="band_cover_img">
+                <% } else { %>
+                <img class="band_cover_img">
+                <% } %>
               </div>
               <a type="button" href="band_home.jsp?meet_idx=<%=sDto.getMeet_idx() %>&member_idx=<%=member_idx %>" class="band_meet_content_link" style="width:500px; height:150px"></a>
             </div>
