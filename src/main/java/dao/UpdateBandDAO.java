@@ -102,17 +102,17 @@ public class UpdateBandDAO {
     }
     
     //밴드 지역 업데이트
-    public void updateBandArea(String area, int meet_idx) {
+    public void updateBandArea(int meet_area_idx, int meet_idx) {
         DatabaseUtil d = new DatabaseUtil();
         Connection conn = d.getConn();
 
         String sql = 
         		"UPDATE meet "
-        		+ "SET area= ?  "
+        		+ "SET meet_area_idx = ?  "
         		+ "WHERE meet_idx = ?";
         PreparedStatement pstmt = d.getPstmt(conn, sql);
         try {
-        	pstmt.setString(1, area);
+        	pstmt.setInt(1, meet_area_idx);
 			pstmt.setInt(2, meet_idx);
 			int result = pstmt.executeUpdate();
 			System.out.println(result + "행 성공적으로 업데이트됨");
@@ -122,4 +122,5 @@ public class UpdateBandDAO {
 			d.close(conn, pstmt);
 		}
     }
+    
 }

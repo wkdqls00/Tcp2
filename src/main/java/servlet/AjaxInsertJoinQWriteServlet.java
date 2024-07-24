@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.MeetJoinQuestionWriteDAO;
+import dao.NoJoinMeetDAO;
 
 @WebServlet("/AjaxInsertJoinQWriteServlet")
 public class AjaxInsertJoinQWriteServlet extends HttpServlet {
@@ -20,7 +21,15 @@ public class AjaxInsertJoinQWriteServlet extends HttpServlet {
 		String sub_a = request.getParameter("sub_a");
 		String nickname = request.getParameter("nickname");
 		
-		MeetJoinQuestionWriteDAO mjqwDAO = new MeetJoinQuestionWriteDAO();
-		mjqwDAO.meetJoinQuestionWrite(member_idx, meet_idx, sub_a, nickname);
+		
+		NoJoinMeetDAO njmDao = new NoJoinMeetDAO();
+		try {
+			if(!(njmDao.noWaitJoinOk(meet_idx, member_idx))) {
+			MeetJoinQuestionWriteDAO mjqwDAO = new MeetJoinQuestionWriteDAO();
+			mjqwDAO.meetJoinQuestionWrite(member_idx, meet_idx, sub_a, nickname);
+			} 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

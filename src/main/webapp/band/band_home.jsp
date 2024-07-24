@@ -197,7 +197,13 @@
 				data: {member_idx : member_idx, meet_idx : meet_idx, sub_a : sub_a, nickname : nickname},
 				type: 'get',
 				success: function(response){
+					<% if(!(njDao.noWaitJoinOk(meet_idx, member_idx))){ %>
 					alert("가입 신청이 완료되었습니다.");
+					location.reload();
+					<% } else {%>
+					alert("이미 가입 신청이 되어있습니다.");
+					location.reload();
+					<% } %>
 				}
 			});
 		})
@@ -434,9 +440,9 @@
                 <h2 class="bandIntroTitle">밴드 소개</h2>
                 <ul class="areaSelect">
                   <li class="areaSelectItem">
-                    <a href="#" class="areaButton">
+                    <a class="areaButton">
                       <span class="iconLocal"></span>
-                      <%= mDto.getArea_detail() %>
+                      <%=mDto.getName()%> <%= mDto.getArea_detail() %>
                     </a>
                   </li>
                 </ul>

@@ -85,7 +85,6 @@
 		})
 		// 나이 selectbox 값 넣기
 		$(".ageBtn").click(function() {
-			alert("!!!")
 			let meet_idx = <%=meet_idx %>;
 			let age = $('select#maxAge').val();
 			

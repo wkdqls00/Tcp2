@@ -16,13 +16,12 @@ public class AjaxUpdateBandIntroductionServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String title = request.getParameter("title");
-		String area = request.getParameter("area");
 		int meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
-		String name = request.getParameter("name");
-		System.out.println(title + area + meet_idx + name);
+		int meet_area_idx = Integer.parseInt(request.getParameter("meet_area_idx"));
+		System.out.println(title + meet_idx + meet_area_idx);
 		
 		UpdateBandDAO updateDAO = new UpdateBandDAO();
 		updateDAO.updateBandIntroduction(title, meet_idx);
-		updateDAO.updateBandArea(area, meet_idx);
+		updateDAO.updateBandArea(meet_area_idx, meet_idx);
 	}
 }

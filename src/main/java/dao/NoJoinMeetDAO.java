@@ -72,7 +72,37 @@ public class NoJoinMeetDAO {
         String sql = "SELECT COUNT(*) "
         		+ "FROM meet_member "
         		+ "WHERE member_idx = ? "
-        		+ "AND meet_idx = ?";
+        		+ "AND meet_idx = ? "
+        		+ "AND join_wait = 'N'";
+        
+        PreparedStatement pstmt = d.getPstmt(conn, sql);
+        
+        pstmt.setInt(1, member_idx);
+        pstmt.setInt(2, meet_idx);
+        
+        ResultSet rs = pstmt.executeQuery();
+        
+        int result = 0;
+        
+        if (rs.next()) {
+        	result = rs.getInt(1);
+        }
+        
+        rs.close();
+		pstmt.close();
+		conn.close();
+		
+		return result == 1;
+    }
+    public boolean noWaitJoinOk(int meet_idx, int member_idx) throws Exception {
+    	DatabaseUtil d = new DatabaseUtil();
+        Connection conn = d.getConn();
+        
+        String sql = "SELECT COUNT(*) "
+        		+ "FROM meet_member "
+        		+ "WHERE member_idx = ? "
+        		+ "AND meet_idx = ?"
+        		+ "AND join_wait = 'Y'";
         
         PreparedStatement pstmt = d.getPstmt(conn, sql);
         
