@@ -9,21 +9,11 @@ import java.util.ArrayList;
 import dto.SelectAllBandDTO;
 import dto.SelectBandAreaDTO;
 import dto.SelectMeetAreaIdxDTO;
+import dto.SelectNicknameDTO;
 import project.DatabaseUtil;
 
 public class SelectBandDAO {
-	public static void main(String[] args) {
-		SelectBandDAO selectDAO = new SelectBandDAO();
-        ArrayList<SelectBandAreaDTO>  list = null;        
-        try {
-        	list = selectDAO.selectBandAreaDTO(2);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        for (SelectBandAreaDTO selectBandAreaDTO : list) {
-        	System.out.println(selectBandAreaDTO);
-        }
-    }
+
     // 모든 밴드 리스트 출력
     public ArrayList<SelectAllBandDTO> selectAllBandDTO() throws SQLException {
         ArrayList<SelectAllBandDTO> list = new ArrayList<>();
@@ -31,26 +21,29 @@ public class SelectBandDAO {
         Connection conn = d.getConn();
 
         String sql = 
-        		"SELECT ma.area_detail, m.url, m.name, m.sub_q, mrw.title, m.meet_idx "
-        		+ "FROM meet m, meet_area ma, meet_rec_write mrw "
+        		"SELECT a.name, ma.area_detail, m.url, m.name, m.sub_q, mrw.title, m.meet_idx "
+        		+ "FROM meet m, area a, meet_area ma, meet_rec_write mrw "
         		+ "WHERE m.meet_area_idx = ma.meet_area_idx "
-        		+ "AND mrw.meet_idx = m.meet_idx";
+        		+ "AND a.area_idx = ma.area_idx "
+        		+ "AND mrw.meet_idx = m.meet_idx "
+        		+ "AND public_ok = 'Y' "
+        		+ "ORDER BY m.meet_idx";
         		
-
         PreparedStatement pstmt = d.getPstmt(conn, sql);
 
         ResultSet rs = d.getRs(pstmt);
         try {
             while (rs.next()) {
             	
-            	String area_detail = rs.getString(1);
-            	String url = rs.getString(2);
-            	String name = rs.getString(3);
-            	String sub_q = rs.getString(4);
-            	String title = rs.getString(5);
-            	int meet_idx = rs.getInt(6);
+            	String areaName = rs.getString(1);
+            	String areaDetail = rs.getString(2);
+            	String url = rs.getString(3);
+            	String meetName = rs.getString(4);
+            	String sub_q = rs.getString(5);
+            	String title = rs.getString(6);
+            	int meet_idx = rs.getInt(7);
 
-            	SelectAllBandDTO selectAllBandDTO = new SelectAllBandDTO(area_detail, url, name, sub_q, title, meet_idx); // 저장한 값으로 SeatStatus 객체 생성
+            	SelectAllBandDTO selectAllBandDTO = new SelectAllBandDTO(areaName, areaDetail, url, meetName, sub_q, title, meet_idx); // 저장한 값으로 SeatStatus 객체 생성
                 list.add(selectAllBandDTO);
             }
         } catch (SQLException e) {
@@ -155,30 +148,30 @@ public class SelectBandDAO {
 		return selectAreaDetailDTO;
     }
     
-    public SelectBandAreaDTO selectAreaMeetIdxDTO(int meet_area_idx) throws SQLException {
+    public SelectNicknameDTO selectNicknameDTO(int member_idx) throws SQLException {
         DatabaseUtil d = new DatabaseUtil();
         Connection conn = d.getConn();
 
         String sql = 
-        		"SELECT area_detail "
-        		+ "FROM meet_area "
-        		+ "WHERE meet_area_idx = ?";
+        		"SELECT nickname "
+        		+ "FROM member "
+        		+ "WHERE member_idx = ?";
 
         PreparedStatement pstmt = d.getPstmt(conn, sql);
 
-        pstmt.setInt(1, meet_area_idx);
+        pstmt.setInt(1, member_idx);
 
         ResultSet rs = pstmt.executeQuery();
         
-        SelectBandAreaDTO selectAreaDetailDTO = null;
+        SelectNicknameDTO selectNicknameDTO = null;
         
         if (rs.next()) {
         	
-    			String area_detail = rs.getString(1);
+    			String nickname = rs.getString(1);
     			
-    			selectAreaDetailDTO = new SelectBandAreaDTO(area_detail); // 저장한 값으로 SeatStatus 객체 생성
+    			selectNicknameDTO = new SelectNicknameDTO(nickname); // 저장한 값으로 SeatStatus 객체 생성
         }
     
-		return selectAreaDetailDTO;
+		return selectNicknameDTO;
     }
 }

@@ -50,9 +50,9 @@
             <div class="utill">
                 <div class="inner">
                     <ul>
-                        <li class="utill_link"><a href="#">로그인</a></li>
+                        <li class="utill_link"><a href="Login/Login.jsp">로그인</a></li>
                         <li class="utill_link"><a href="#">예매확인/취소</a></li>
-                        <li class="utill_link"><a href="#">회원가입</a></li>
+                        <li class="utill_link"><a href="Login/Signup.jsp">회원가입</a></li>
                         <li class="utill_link"><a href="#">고객센터</a></li>
                         <li class="utill_link"><a href="#">마이페이지</a></li>
                     </ul>
@@ -60,10 +60,10 @@
             </div>
             <div class="nav_box">
                 <div class="inner navbox">
-                    <h1 class="logo"><a href="../html/main.html">로고</a></h1>
+                    <h1 class="logo"><a href="main.jsp">로고</a></h1>
                     <ul class="nav">
                         <li><a href="#">공연/전시</a></li>
-                        <li><a href="#">커뮤니티</a></li>
+                        <li><a href="../band/band_main.jsp">커뮤니티</a></li>
                     </ul>
                 </div>
             </div>

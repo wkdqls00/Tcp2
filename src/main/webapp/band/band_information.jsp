@@ -1,25 +1,20 @@
-<%@page import="dto.MeetPostListPrintDTO"%>
-<%@page import="dao.MeetPostListPrintDAO"%>
-<%@page import="dto.BandPublicOkDTO"%>
-<%@page import="dao.BandPublicOkDAO"%>
-<%@page import="dao.NoJoinMeetDAO"%>
-<%@page import="dto.ChatListDTO"%>
+<%@page import="dto.*"%>
+<%@page import="dao.*"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="dao.ChatListDAO"%>
-<%@page import="dto.MeetMemberProfilePrintDTO"%>
-<%@page import="dao.MeetMemberProfilePrintDAO"%>
-<%@page import="dao.UpdateMeetInfoWriteDAO"%>
-<%@page import="dto.MeetIntroduceWriteDTO"%>
-<%@page import="dao.MeetIntroduceWriteDAO"%>
-<%@page import="dto.MeetInfoWriteDTO"%>
-<%@page import="dao.MeetInfoWriteDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
 	int meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
 	int member_idx = Integer.parseInt(request.getParameter("member_idx"));
+	
 	MeetInfoWriteDAO miwDAO = new MeetInfoWriteDAO();
 	MeetInfoWriteDTO miwDTO = miwDAO.selectMeetInfoWriteDTO(meet_idx);
+	
+	// 위치 등록
+	
+	ArrayList<MeetInfoWriteDTO> areaListDTO = new ArrayList<>();
+	areaListDTO = miwDAO.meetInfoWriteListDTO();
+	
 	
 	// 밴드 왼쪽 소개
 	MeetIntroduceWriteDAO miDao = new MeetIntroduceWriteDAO();
@@ -50,6 +45,8 @@
 	ArrayList<MeetPostListPrintDTO> mPrintListDTO = new ArrayList<>();
 	
 	mPrintListDTO = mPrintDAO.selectMeetPostListPrintDTO(meet_idx);
+	
+	
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -70,12 +67,11 @@
   		$(".btnConfirm").click(function() {
   			let title = $("#bandIntroduce").val();
   			let meet_idx = <%=meet_idx%>;
-  			let area_detail = $(".textButton").attr("id");
-  			let name = $(".textButton").val();
+  			let meet_area_idx = $("#area_detailSelect option:selected").val();
   			
   			$.ajax({
 				url: '${pageContext.request.contextPath}/AjaxUpdateBandIntroductionServlet',
-				data: {meet_idx : meet_idx, title : title, area_detail : area_detail, name : name},
+				data: {meet_idx : meet_idx, title : title, meet_area_idx : meet_area_idx},
 				type: 'get',
 				success: function(response){
 					alert("저장되었습니다.");
@@ -85,8 +81,8 @@
 					console.log('ajax 통신 실패');	
 				}
 			});
-  			
   		})
+  		
   	});
   </script>
 </head>
@@ -141,7 +137,9 @@
                   </li>
                 <% } %>
                   <li class="menuMadalItem">
-                    <a href="#" class="menuModalLink">로그아웃</a>
+                    <form action="../LogoutAction">
+                    <button type="submit" class="menuModalLink">로그아웃</button>
+                   </form>
                   </li>
                 </ul>
               </div>
@@ -253,7 +251,7 @@
               <!-- 소개글 입력 -->
               <div class="textareaBox _introDescription">
                 <div class="uTextarea">
-                  <textarea class="_introDescription" id="bandIntroduce" cols="30" rows="10" maxlength="500" placeholder="밴드 소개말을 입력하세요." style="height: 100%"value="<%=miwDTO.getTitle() %>"><%=miwDTO.getTitle() %></textarea>
+                  <textarea class="_introDescription" id="bandIntroduce" cols="30" rows="10" maxlength="500" placeholder="밴드 소개말을 입력하세요." style="height: 100%" value="<%=miwDTO.getTitle() %>"><%=miwDTO.getTitle() %></textarea>
                   <span class="border"></span>
                 </div>
               </div>
@@ -261,19 +259,24 @@
               <div class="_locationText" style="display:flex;">
                 <div class="introOptionBox">
                   <div class="addressText">
-                    <button type="button" class="textButton" id="<%=miwDTO.getArea_detail() %>" value="<%=miwDTO.getName()%>"><% if(miwDTO.getArea_detail() != null) {%>
-                     <%=miwDTO.getName() %> <%=miwDTO.getArea_detail() %>
-                    <%} else {%>
-                    주소를 등록해주세요.
-                    <% } %>
-                    </button>
+                  	<select id="areaSelect">
+                  		<% for(MeetInfoWriteDTO areaDto : areaListDTO) { %>                  		
+                  		<option value="<%=areaDto.getName()%>" idx="<%=areaDto.getArea_idx()%>"><%=areaDto.getName() %></option>
+                  		<% } %>
+                  	</select>
+                  	<select id="area_detailSelect">
+                  		<% areaListDTO = miwDAO.meetInfoAreaListDTO();
+                  		for(MeetInfoWriteDTO adDto : areaListDTO) { %>
+                  		<option value="<%=adDto.getMeet_area_idx() %>" id="<%=adDto.getMeet_area_idx() %>" idx="<%=adDto.getArea_idx()%>"><%=adDto.getArea_detail() %></option>
+                  		<% } %>
+                  	</select>
                   </div>
                 </div>
               </div>
               <!-- 저장 버튼 -->
               <div class="introOption">
                 <div class="introOptionBox2">
-	                <button type="button" class="btnConfirm">변경</button>
+	                <button type="button" class="btnConfirm" id="areaBtn">변경</button>
                </div>
               </div>
           </div>
@@ -420,6 +423,21 @@
 			$(".profileDropDown").css('display', 'none');
 		}
       })
+      // 지역 selectbox
+      $("#areaSelect").val("<%=miwDTO.getName() %>").prop("selected", true);
+ 	  $("#area_detailSelect").val("<%=miwDTO.getMeet_area_idx()%>").prop("selected", true);
+ 	  
+ 	  $("#areaSelect").change(function () {
+		let a = $("#areaSelect>option:selected").attr("idx");
+		
+		$("#area_detailSelect > option").hide();
+		
+		$("#area_detailSelect > option").each(function() {
+	        if ($(this).attr("idx") == a) {
+	            $(this).show();
+	        }
+	    });
+	})
   });
   </script>
 </body>

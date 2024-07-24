@@ -1,15 +1,6 @@
-<%@page import="dto.MeetPostListPrintDTO"%>
-<%@page import="dao.MeetPostListPrintDAO"%>
-<%@page import="dto.BandPublicOkDTO"%>
-<%@page import="dao.BandPublicOkDAO"%>
-<%@page import="dao.NoJoinMeetDAO"%>
-<%@page import="dto.ChatListDTO"%>
-<%@page import="dao.ChatListDAO"%>
-<%@page import="dao.MeetIntroduceWriteDAO"%>
-<%@page import="dto.MeetIntroduceWriteDTO"%>
-<%@page import="dto.MeetMemberProfilePrintDTO"%>
+<%@page import="dto.*"%>
+<%@page import="dao.*"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="dao.MeetMemberProfilePrintDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
@@ -44,7 +35,7 @@
 		
 %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -121,7 +112,9 @@
                     <a href="band_profile.jsp?meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="menuModalLink">프로필 설정</a>
                   </li>
                   <li class="menuMadalItem">
-                    <a href="#" class="menuModalLink">로그아웃</a>
+                    <form action="../LogoutAction">
+                    <button type="submit" class="menuModalLink">로그아웃</button>
+                   </form>
                   </li>
                 </ul>
               </div>

@@ -1,10 +1,5 @@
-<%@page import="dao.NoJoinMeetDAO"%>
-<%@page import="dto.MeetMemberProfilePrintDTO"%>
-<%@page import="dao.MeetMemberProfilePrintDAO"%>
-<%@page import="dto.MeetIntroduceWriteDTO"%>
-<%@page import="dao.MeetIntroduceWriteDAO"%>
-<%@page import="dto.MeetSettingPrintDTO"%>
-<%@page import="dao.MeetSettingPrintDAO"%>
+<%@page import="dao.*"%>
+<%@page import="dto.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
@@ -50,7 +45,9 @@
               <div class="menuModalLayer profileDropDown" id="off" style="display: none">
                 <ul class="menuModalList">
                   <li class="menuMadalItem">
-                    <a href="#" class="menuModalLink">로그아웃</a>
+                    <form action="../LogoutAction">
+                    <button type="submit" class="menuModalLink">로그아웃</button>
+                   </form>
                   </li>
                 </ul>
               </div>

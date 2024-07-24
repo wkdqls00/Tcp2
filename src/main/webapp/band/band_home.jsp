@@ -5,8 +5,9 @@
     pageEncoding="UTF-8"%>
     
 <%
+	HttpSession hs = request.getSession();
+	int member_idx = (int)hs.getAttribute("userIdx");
 	int meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
-	int member_idx = Integer.parseInt(request.getParameter("member_idx"));
 	
 	// 내 프로필 출력
 	MeetMemberProfilePrintDAO mMemberProfilePrintDAO = new MeetMemberProfilePrintDAO();
@@ -61,6 +62,11 @@
 	
 	//meet_member_idx 꺼내오기
 	int meet_member_idx = mPrintDAO.postMeetMemberIdx(member_idx);
+	
+	SelectBandDAO sDao = new SelectBandDAO();
+	SelectNicknameDTO sDto = sDao.selectNicknameDTO(member_idx);
+	//member_idx 로 닉네임 가져오기
+	String nickname = sDto.getNickname();
 %>
 
 <!DOCTYPE html>
@@ -179,8 +185,31 @@
 			<% order = "ASC"; %>
 		}
 		
+		//밴드 가입하기 답변 작성
+		$("#insertBtn").click(function() {
+			let member_idx = <%=member_idx %>;
+			let meet_idx = <%=meet_idx %>;
+			let sub_a = $("#sub_a").val();
+			let nickname = '<%=nickname %>';
+			
+			$.ajax({
+				url: '${pageContext.request.contextPath}/AjaxInsertJoinQWriteServlet',
+				data: {member_idx : member_idx, meet_idx : meet_idx, sub_a : sub_a, nickname : nickname},
+				type: 'get',
+				success: function(response){
+					<% if(!(njDao.noWaitJoinOk(meet_idx, member_idx))){ %>
+					alert("가입 신청이 완료되었습니다.");
+					location.reload();
+					<% } else {%>
+					alert("이미 가입 신청이 되어있습니다.");
+					location.reload();
+					<% } %>
+				}
+			});
+		})
+		
   	})
-  </script>
+  	</script>
   <style>
   	#container.band_main_area {
 	  	<% if (!(njDao.noJoinOk(meet_idx, member_idx))) { %>
@@ -205,7 +234,7 @@
         <div class="logo_search_area">
           <!-- 로고 -->
           <h1 class = "logo_area">
-            <a href="band_main.jsp?meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="logo">
+            <a href="band_main.jsp" class="logo">
             </a>
           </h1>
         </div>
@@ -252,7 +281,9 @@
                   </li>
                 <% } %>
                   <li class="menuMadalItem">
-                    <a href="#" class="menuModalLink">로그아웃</a>
+                  <form action="../LogoutAction">
+                    <button type="submit" class="menuModalLink">로그아웃</button>
+                   </form>
                   </li>
                 </ul>
               </div>
@@ -409,9 +440,9 @@
                 <h2 class="bandIntroTitle">밴드 소개</h2>
                 <ul class="areaSelect">
                   <li class="areaSelectItem">
-                    <a href="#" class="areaButton">
+                    <a class="areaButton">
                       <span class="iconLocal"></span>
-                      <%= mDto.getArea_detail() %>
+                      <%=mDto.getName()%> <%= mDto.getArea_detail() %>
                     </a>
                   </li>
                 </ul>
@@ -972,7 +1003,7 @@
                   <div class="answerInputWrap">
                     <div class="mentions-input">
                       <div class="mentions">
-                        <textarea maxlength="200" placeholder="답변을 작성해주세요."></textarea>
+                        <textarea id="sub_a"  maxlength="200" placeholder="답변을 작성해주세요."></textarea>
                       </div>
                     </div>
                   </div>
@@ -981,7 +1012,7 @@
             </div>
             <div class="modalFooter">
               <button class="uButton -cancle">취소</button>
-              <button class="uButton -confirm">다음</button>
+              <button class="uButton -confirm" id="insertBtn">다음</button>
             </div>
           </div>
         </section>

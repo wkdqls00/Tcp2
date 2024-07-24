@@ -4,8 +4,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <% 
-//	HttpSession hs = request.getSession();
-//	int member_idx = (int)hs.getAttribute("userIdx");
+	Integer member_idx = (Integer)request.getSession().getAttribute("userIdx");
+System.out.println(member_idx);
 %>
 <!DOCTYPE html>
 <html lang="en">

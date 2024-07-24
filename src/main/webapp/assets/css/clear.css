@@ -140,3 +140,7 @@ input {
   color: #444;;
   border-radius: 0;
 }
+
+form {
+	margin: 0;
+}

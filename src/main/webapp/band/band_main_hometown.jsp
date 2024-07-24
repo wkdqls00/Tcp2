@@ -1,10 +1,5 @@
-<%@page import="dto.SelectMeetAreaIdxDTO"%>
-<%@page import="dto.SelectBandAreaDTO"%>
-<%@page import="dao.SelectBandDAO"%>
-<%@page import="dao.MeetIntroduceWriteDAO"%>
-<%@page import="dto.MeetIntroduceWriteDTO"%>
-<%@page import="dao.MybandDAO"%>
-<%@page import="dto.MybandDTO"%>
+<%@page import="dto.*"%>
+<%@page import="dao.*"%>
 <%@page import="project.DatabaseUtil"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -88,7 +83,9 @@
               <div class="menuModalLayer profileDropDown" id="off" style="display: none">
                 <ul class="menuModalList">
                   <li class="menuMadalItem">
-                    <a href="#" class="menuModalLink">로그아웃</a>
+                    <form action="../LogoutAction">
+                    <button type="submit" class="menuModalLink">로그아웃</button>
+                   </form>
                   </li>
                 </ul>
               </div>
@@ -105,7 +102,7 @@
         <div id="content_tab_left">
           <div id="tab_myband">
             <div id="myband_btn">
-              <a href = "#main" class = "myband_text">
+              <a href = "band_main.jsp?member_idx=<%=member_idx %>" class = "myband_text">
               내 밴드  
               </a>
             </div>

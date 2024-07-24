@@ -21,7 +21,7 @@ public class MeetJoinQuestionWriteDAO {
 
         String sql = 
         		"INSERT INTO MEET_MEMBER (MEET_MEMBER_IDX, MEMBER_IDX, MEET_IDX, ADMIN_OK, LEAVE_OK, PROFILE, SUB_A, NICKNAME, JOIN_WAIT) "
-        		+ "VALUES (seq_meet_member.nextval, ?, ?, 'N', 'N', null, ?, ?, 'N')";
+        		+ "VALUES (seq_meet_member.nextval, ?, ?, 'N', 'N', null, ?, ?, 'Y')";
         PreparedStatement pstmt = d.getPstmt(conn, sql);
         try {
         	pstmt.setInt(1, member_idx);
