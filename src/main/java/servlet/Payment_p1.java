@@ -19,9 +19,9 @@ public class Payment_p1 extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		int member_idx = 2;
 		response.setContentType("text/html; charset=UTF-8");
 		PrintWriter out = response.getWriter();
+		Integer member_idx = (Integer)request.getSession().getAttribute("userIdx");
 		String selectedSeats = request.getParameter("selectedSeats");
 		
 		PayDao dao = new PayDao();
@@ -44,7 +44,7 @@ public class Payment_p1 extends HttpServlet {
 			out.println("</script>");
 		} else {
 			String[] seatIds = selectedSeats.split(",");
-			payment_idx = new PaymentDAO().insertPayment(member_idx, playinfo_idx, seatIds);//결제테이블 isnert하고 리턴값으로 payment_idx 가져옴
+			payment_idx = dao.insertPayment(member_idx, playinfo_idx, seatIds);//결제테이블 isnert하고 리턴값으로 payment_idx 가져옴
 			ArrayList<ReservedSeatInfoDTO> rsidto = dao.selectSeat(payment_idx);//결제하려는좌석 
 			String time_limit = dao.getTimeLimit(payment_idx);
 			request.setAttribute("pi", playinfo_idx);

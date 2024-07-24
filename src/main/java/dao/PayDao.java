@@ -25,6 +25,52 @@ public class PayDao {
 	public static void main(String[] args) {
 		
 	}
+    public int insertPayment(int member_idx, int playinfo_idx, String[] seat_idxList) {
+        DatabaseUtil d = new DatabaseUtil();
+        Connection conn = d.getConn();
+        int payment_idx = 0;
+        
+        try {
+            conn.setAutoCommit(false);
+            String sql = "INSERT INTO payment (PAYMENT_IDX, MEMBER_IDX, TIME_LIMIT, STATUS, PLAYINFO_IDX) " +
+                    "VALUES (seq_payment.nextval, ?,SYSDATE,'N',?)";
+            PreparedStatement pstmt = d.getPstmt(conn, sql);
+            pstmt.setInt(1, member_idx);
+            pstmt.setInt(2, playinfo_idx);
+            int result = pstmt.executeUpdate();
+            System.out.println(result + "행 성공적으로 삽입됨");
+            pstmt.close();
+
+            sql = "SELECT seq_payment.currval FROM dual";
+            pstmt = d.getPstmt(conn, sql);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                payment_idx = rs.getInt(1);
+            }
+            sql = "INSERT INTO PAYMENTSEAT(PAYMENT_IDX,SEAT_IDX,PLAYINFO_IDX) " +
+                    "VALUES (?, ?, ?)";
+            result = 0;
+            pstmt = conn.prepareStatement(sql);
+            for(int i = 0; i < seat_idxList.length; i++) {
+            	pstmt.setInt(1, payment_idx);
+            	pstmt.setInt(2, Integer.parseInt(seat_idxList[i]));
+            	pstmt.setInt(3, playinfo_idx);
+            	result += pstmt.executeUpdate();
+            }
+            System.out.println(result + "행 성공적으로 삽입됨");
+            conn.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            try {
+                conn.rollback();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            } 
+        } finally {
+        	d.close(conn, null);
+        }
+        return payment_idx;
+    }
 	public ArrayList<GetPlayIdxDTO> getidxlist(int playinfo_idx){ //playinfo_idx -> play_idx, playinfo_idx
 		ArrayList<GetPlayIdxDTO> list = new ArrayList<>();
 		DatabaseUtil d = new DatabaseUtil();
@@ -434,4 +480,31 @@ public class PayDao {
         }
         return list;	
     }
+    
+    public void updatePayment2(int payment_idx) {
+        DatabaseUtil d = new DatabaseUtil();
+        Connection conn = d.getConn();
+
+        String sql = 
+        		"UPDATE payment SET " + 
+        		"pay_date = sysdate, " + 
+        		"agree1 = 'Y', " + 
+        		"agree2 = 'Y', " + 
+        		"agree3 = 'Y', " + 
+        		"status = 'Y', " + 
+        		"type = '무통장입금' " + 
+        		"WHERE payment_idx = ?";
+        
+        PreparedStatement pstmt = d.getPstmt(conn, sql);
+        try {
+			pstmt.setInt(1, payment_idx);
+			int result = pstmt.executeUpdate();
+			System.out.println(result + "행 성공적으로 업데이트됨");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			d.close(conn, pstmt);
+		}
+    }
+    
 }

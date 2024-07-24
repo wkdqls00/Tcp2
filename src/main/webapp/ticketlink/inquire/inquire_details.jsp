@@ -1,3 +1,7 @@
+<%@page import="dto.ShowInquiryInfoDTO"%>
+<%@page import="java.util.ArrayList"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -105,6 +109,10 @@
   </style>
 </head>
 <body>
+<%
+	@SuppressWarnings("unchecked")
+	ArrayList<ShowInquiryInfoDTO> list = (ArrayList<ShowInquiryInfoDTO>)request.getAttribute("list");
+%>
   <div class="container">
     <div style="font-size: 14px;">문의하신 내용은 다음과 같은 절차로 처리됩니다. 최대한 빠르게 처리할 수 있도록 노력하고 있습니다.</div>
     <div class="greyarea">
@@ -134,12 +142,15 @@
       <div class="title3">유형</div>
       <div class="title4">접수일</div>
     </div>
+    <%
+    for(int i = 0; i < list.size(); i++) {%>
     <div class="contentdiv">
-      <div class="content1">처리 대기</div>
-      <div class="content2"><a href="/Tcp2/ticketlink/inquire/inquire_content.html">나김종원인데</a></div>
-      <div class="content3">기타 관련 문의</div>
-      <div class="content4">2024.06.20</div>
+      <div class="content1"><%=list.get(i).getProcess_st()%></div>
+      <div class="content2"><a href="/Tcp2/ShowInquirydetails?bno=<%=list.get(i).getInquiry_idx()%>"><%=list.get(i).getTitle()%></a></div>
+      <div class="content3"><%=list.get(i).getType()%></div>
+      <div class="content4"><%=list.get(i).getDate()%></div>
     </div>
+    <%} %>
   </div>
   <script>
 

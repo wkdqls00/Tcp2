@@ -258,6 +258,8 @@
 <body>
   <div id="container">
     <div>문의하기</div>
+        <form id="inquiryForm" onsubmit="return validateForm()">
+    
     <div class="inquirydiv">
       <div class="itemdiv">
         <div class="item1">유형<span class="colred">*</span></div>
@@ -280,7 +282,7 @@
           </select>
         </div>
         <div class="content2">
-          <input type="text" class="email" id="emailUser"> @ <input type="text" class="email" id="emailDomain"><br>
+          <input type="text" class="email" id="emailUser" name="email"> @ <input type="text" class="email" id="emailDomain" name="emaildomain"><br>
           <select name="email" id="emailSelector">
             <option value="">직접입력</option>
             <option value="naver.com">naver.com</option>
@@ -294,16 +296,16 @@
           </select>
       </div>
         <div class="content3">
-          <input type="text" id="reservationnum">
+          <input type="text" id="reservationnum" name="reservationnum">
         </div>
         <div class="content4">
-          <input type="text" id="product">
+          <input type="text" id="product" name="product">
         </div>
         <div class="content5">
-          <input type="text" id="title">
+          <input type="text" id="title" name="title">
         </div>
         <div class="content6">
-          <textarea name="content" id="content"></textarea>
+          <textarea name="content" id="content" ></textarea>
         </div>
         <div class="content7">
           <div class="file-input-container">
@@ -312,20 +314,22 @@
             <div id="file_name" class="file-name"></div>
           </div>
           <div class="addfileinfo">
-            10MB 이내 모든 이미지 및 허용된 확장자 파일을 최대 5개까지<br>첨부 가능합니다.!
+            10MB 이내 모든 이미지 및 허용된 확장자 파일을 최대 1개까지<br>첨부 가능합니다.!
           </div>
         </div>
+        
       </div>
     </div>
     <div class="agree">
       수집하는 개인 정보[(필수) 이메일, 문의내용, (선택) 첨부 파일]는 문의 내용 처리 및 고객 불만을 해결하기 위해 사용되며, <b>관련<br> 법령에 따라 3년간 보관 후 삭제</b>됩니다.<br>
       문의 접수, 처리 및 회신을 위해 꼭 필요한 정보이므로 동의해 주셔야 서비스를 이용하실 수 있습니다
     </div>
-    <div class="agreecheck"><input type="checkbox">
+    <div class="agreecheck"><input type="checkbox" name="agreecheck" id="agreecheck">
       <div class="agreeinfo">위,개인정보 수집 및 활용에 동의합니다.
       </div>
     </div>
-    <div class="endbox"><button class="end" onclick="location.href='/ticketlink/inquire/inquire_success.html'">접수</button></div>
+    <div class="endbox"><button class="end" onclick="goInsert()">접수</button></div>
+    </form>
   </div>
   <script>
     document.getElementById('emailSelector').addEventListener('change', function() {
@@ -341,6 +345,27 @@
         fileNameElement.textContent = fileName;
       });
     })
+    function goInsert() {
+      const title = document.getElementById('title').value.trim();
+      const content = document.getElementById('content').value.trim();
+      const agreeCheck = document.querySelector('.agreecheck input[type="checkbox"]').checked;
+        if (title === ''){
+        	alert('제목은 필수항목입니다.');
+        	return false;
+        }
+        if (content === '') {
+            alert('문의내용은 필수항목입니다.');
+            return false;
+        }
+        if (!agreeCheck) {
+            alert('개인정보 수집 및 활용에 동의해 주세요.');
+            return false;
+        }
+        const form = document.getElementById('inquiryForm');
+        form.action = '/Tcp2/InquireCompleted';
+        form.method = 'post';
+        form.submit();
+    }
 </script>
 </body>
 </html>

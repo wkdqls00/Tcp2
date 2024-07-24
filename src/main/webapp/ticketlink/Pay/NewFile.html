@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>서블릿 창 모드 열기</title>
+    <script>
+        function openServletWindow() {
+            // 서블릿 URL
+            const url = "/Payment_p0";
+            // 새 창 열기
+            window.open(url, "PaymentWindow", "width=800,height=600,scrollbars=yes");
+        }
+    </script>
+</head>
+<body>
+    <h1>서블릿 창 모드 열기</h1>
+    <button onclick="openServletWindow()">결제 페이지 열기</button>
+</body>
+</html>

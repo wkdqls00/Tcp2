@@ -19,7 +19,8 @@ ArrayList<SelectPayment_p2DTO> p2dto = (ArrayList<SelectPayment_p2DTO>)request.g
 ArrayList<ReservedSeatInfoDTO> rsidto = (ArrayList<ReservedSeatInfoDTO>)request.getAttribute("rsidto");
 String time_limit = (String)request.getAttribute("time_limit");
 int total_amount = (int)request.getAttribute("total_amount");
-
+@SuppressWarnings("unchecked")
+ArrayList<CustomerPayinfoDTO> cpdto = (ArrayList<CustomerPayinfoDTO>)request.getAttribute("cpdto");
 
 
 %>
@@ -40,13 +41,13 @@ int total_amount = (int)request.getAttribute("total_amount");
       <div class="ordererinformation">주문자 정보</div>
       <div class="ordererinformationbox1">
         <div class="orderername">이름<span class="colred">*</span></div>
-        <div class="orderernameresult">김종원</div>
+        <div class="orderernameresult"><%=cpdto.get(0).getName()%></div>
         <div class="phonenumber">휴대폰번호<span class="colred">*</span></div>
-        <div><input type="text" value="01095287136" class="inputphonenumber"></div>
+        <div><input type="text" value="<%=cpdto.get(0).getPhone()%>" class="inputphonenumber"></div>
       </div>
       <div class="ordererinformationbox2">
         <div class="orderername">이메일</div>
-        <div><input type="text" value="jwpsp@naver.com" class="inputemail"></div>
+        <div><input type="text" value="<%=cpdto.get(0).getEmail()%>" class="inputemail"></div>
       </div>
       <div class="ordererok">예매자 확인</div>
       <div class="agreebox1">
@@ -113,9 +114,26 @@ int total_amount = (int)request.getAttribute("total_amount");
       </div>
       <div class="prenextbutton">
         <div><button class="prenextbtn" onclick="location.href='/ticketlink/Pay/payment_p2.html'">이전단계</button></div>
-        <div><button class="redprenextbtn" onclick="window.open('/ticketlink/Pay/prepare.html')">결제하기</button></div>
+        <div><button class="redprenextbtn" onclick="checkCheckboxes()">결제하기</button></div>
+        
       </div>
     </div>
   </main>
+
+<script>
+        function checkCheckboxes() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            const allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);
+            
+            if (allChecked) {
+                // 모든 체크박스가 체크되어 있을 때 다음 화면으로 이동
+            	location.href = "/Tcp2/Payment_p3?pm=<%=payment_idx%>";
+            	} else {
+                alert("모든 약관에 동의하셔야 합니다.");
+            }
+        }
+</script>
+
+
 </body>
 </html>
