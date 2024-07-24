@@ -3,7 +3,6 @@ package dto;
 public class MeetSettingPrintDTO {
 	String name;
 	String url;
-	String color;
 	
 	public String getName() {
 		return name;
@@ -17,22 +16,12 @@ public class MeetSettingPrintDTO {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	public String getColor() {
-		return color;
-	}
-	public void setColor(String color) {
-		this.color = color;
-	}
 	
-	@Override
-	public String toString() {
-		return "MeetSettingPrintDTO [name=" + name + ", url=" + url + ", color=" + color + "]";
-	}
 	
-	public MeetSettingPrintDTO(String name, String url, String color) {
+	
+	public MeetSettingPrintDTO(String name, String url) {
 		this.name = name;
 		this.url = url;
-		this.color = color;
 	}
 	
 	
