@@ -5,59 +5,53 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	// if(session.getAttribute("userIdx") == null) {
+	HttpSession hs = request.getSession();
+	
+	if(session.getAttribute("userIdx") == null) {
 %>
-<script>
-	/* alert("로그인이 필요합니다.");
-	location.href="../ticketlink/Login/Login.jsp"; */
-</script>
+	<script>
+		alert("로그인이 필요합니다.");
+		location.href="../ticketlink/Login/Login.jsp";
+	</script>
 <%		
-	// } else {
-		HttpSession hs = request.getSession();
-		
-		int member_idx = 0;
-		
-		if(session.getAttribute("userIdx") == null) {
-			member_idx = Integer.parseInt(request.getParameter("member_idx"));
-		} else {
-			member_idx = (int)hs.getAttribute("userIdx");
-		}
-		
-		// 내 가입 밴드 출력
-		MeetIntroduceWriteDAO mbwDao = new MeetIntroduceWriteDAO();
-		
-		MybandDAO mbDao = new MybandDAO();
+	}
 	
-		ArrayList<MybandDTO> mbListDao = new ArrayList<>();
+	int member_idx = (int)hs.getAttribute("userIdx");
 	
-		try { 
-			mbListDao = mbDao.selectMybandDTO(member_idx);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		SelectBandDAO selectDao = new SelectBandDAO();
-		
-		//소모임 지역 idx
-		SelectMeetAreaIdxDTO selectDto = selectDao.selectMeetAreaIdxDTO(member_idx);
-		int meet_area_idx = selectDto.getMeet_area_idx();
-		
-		//지역별 소모임 출력
-		ArrayList<SelectBandAreaDTO> areaListDao = new ArrayList<>();
-		try {
-			areaListDao = selectDao.selectBandAreaDTO(meet_area_idx);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		SelectBandAreaDTO areaDetailDto = selectDao.selectAreaDetailDTO(meet_area_idx);
-		
-		//멤버 수 출력
-		MeetIntroduceWriteDAO miDao = new MeetIntroduceWriteDAO();
-		
-		//모든 밴드 출력
-		ArrayList<SelectAllBandDTO> bandListDao = new ArrayList<>();
-		bandListDao = selectDao.selectAllBandDTO();
-	// }
+	// 내 가입 밴드 출력
+	MeetIntroduceWriteDAO mbwDao = new MeetIntroduceWriteDAO();
+	
+	MybandDAO mbDao = new MybandDAO();
+
+	ArrayList<MybandDTO> mbListDao = new ArrayList<>();
+
+	try { 
+		mbListDao = mbDao.selectMybandDTO(member_idx);
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+	
+	SelectBandDAO selectDao = new SelectBandDAO();
+	
+	//소모임 지역 idx
+	SelectMeetAreaIdxDTO selectDto = selectDao.selectMeetAreaIdxDTO(member_idx);
+	int meet_area_idx = selectDto.getMeet_area_idx();
+	
+	//지역별 소모임 출력
+	ArrayList<SelectBandAreaDTO> areaListDao = new ArrayList<>();
+	try {
+		areaListDao = selectDao.selectBandAreaDTO(meet_area_idx);
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+	SelectBandAreaDTO areaDetailDto = selectDao.selectAreaDetailDTO(meet_area_idx);
+	
+	//멤버 수 출력
+	MeetIntroduceWriteDAO miDao = new MeetIntroduceWriteDAO();
+	
+	//모든 밴드 출력
+	ArrayList<SelectAllBandDTO> bandListDao = new ArrayList<>();
+	bandListDao = selectDao.selectAllBandDTO();
 %>
 
 <!DOCTYPE html>
