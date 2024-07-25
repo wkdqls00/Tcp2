@@ -30,7 +30,6 @@ public class Payment_p1 extends HttpServlet {
 		int play_idx = idxlist.get(0).getPlay_idx();
 		ArrayList<SelectPayment_p2DTO> p2dto = dao.Selectpayment_p2(playinfo_idx);
 		ArrayList<SeatPriceDTO> pricelist = dao.selectSeatPrice(play_idx);
-		int payment_idx = 0;		
 		out.println("<html>");
 		out.println("<head>");
 		out.println("<title></title>");
@@ -44,7 +43,18 @@ public class Payment_p1 extends HttpServlet {
 			out.println("</script>");
 		} else {
 			String[] seatIds = selectedSeats.split(",");
-			payment_idx = dao.insertPayment(member_idx, playinfo_idx, seatIds);//결제테이블 isnert하고 리턴값으로 payment_idx 가져옴
+			for(int i = 0; i < seatIds.length; i++) {
+				System.out.println(dao.checkpaymentseat(Integer.parseInt(seatIds[i]), playinfo_idx));
+				if(!(dao.checkpaymentseat(Integer.parseInt(seatIds[i]), playinfo_idx))) {
+					System.out.println(seatIds[i] + "실행되는중");
+					out.println("<script type='text/javascript'>");
+					out.println("alert('이미 예약된 좌석입니다. 다시 시도해주세요.');");
+					out.println("location.href='Payment_p0?pi=" + playinfo_idx + "'");
+					out.println("</script>");
+					return;
+				}
+			}
+			int payment_idx = dao.insertPayment(member_idx, playinfo_idx, seatIds);//결제테이블 insert하고 리턴값으로 payment_idx 가져옴
 			ArrayList<ReservedSeatInfoDTO> rsidto = dao.selectSeat(payment_idx);//결제하려는좌석 
 			String time_limit = dao.getTimeLimit(payment_idx);
 			request.setAttribute("pi", playinfo_idx);
