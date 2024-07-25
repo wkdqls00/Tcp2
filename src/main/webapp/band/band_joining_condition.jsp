@@ -237,7 +237,7 @@
             <% } %>
             <!-- 밴드 설정 -->
             <div class="bandSetting">
-              <a href="#" onClick="history.back()" class="bandSetting_Link">
+              <a href="myband_setting_leader.jsp?meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" onClick="history.back()" class="bandSetting_Link">
                 <span class="uIconSetting"></span>
                 밴드 설정
               </a>

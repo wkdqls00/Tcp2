@@ -45,7 +45,6 @@ public class SelectBandAreaDTO {
 				+ name + ", title=" + title + "]";
 	}
 	public SelectBandAreaDTO(String area_name, String area_detail, String url, String name, String title, int meet_idx) {
-		super();
 		this.area_name = area_name;
 		this.area_detail = area_detail;
 		this.url = url;
@@ -60,9 +59,9 @@ public class SelectBandAreaDTO {
 	public void setMeet_idx(int meet_idx) {
 		this.meet_idx = meet_idx;
 	}
-	public SelectBandAreaDTO(String area_detail) {
-		super();
+	public SelectBandAreaDTO(String area_detail, String name) {
 		this.area_detail = area_detail;
+		this.name = name;
 	}
 	public SelectBandAreaDTO(int meet_idx) {
 		super();

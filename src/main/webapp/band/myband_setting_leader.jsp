@@ -364,7 +364,7 @@
             <li class="setting_item">
               <div class="item_content">
                 <span class="label">가입 조건 설정</span>
-                <span class="subtxt">성별 <%= gender(jcpListDAO.getGender())%>, 나이 <%=jcpListDAO.getAge() %>년생</span>
+                <span class="subtxt">성별 <%= gender(jcpListDAO.getGender())%>, 나이 <% if(jcpListDAO.getAge() != 0){ %><%=jcpListDAO.getAge() %> 년생</span><%} %>
               </div>
               <div class="item_side">
                <form action="band_joining_condition.jsp" method="post">

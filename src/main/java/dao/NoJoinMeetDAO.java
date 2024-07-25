@@ -12,19 +12,6 @@ import dto.NoJoinMeetDTO;
 import project.DatabaseUtil;
 
 public class NoJoinMeetDAO {
-	public static void main(String[] args) {
-		NoJoinMeetDAO njdao = new NoJoinMeetDAO();
-        ArrayList<NoJoinMeetDTO>  list = null;        
-        try {
-        	list = njdao.selectNoJoinMeetDTO("Y", "%서울%", 34);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        for (NoJoinMeetDTO noJoinMeetDTO : list) {
-        	System.out.println(noJoinMeetDTO);
-        }
-    }
-    
     public ArrayList<NoJoinMeetDTO> selectNoJoinMeetDTO(String public_ok, String area, int member_idx) throws SQLException {
         ArrayList<NoJoinMeetDTO> list = new ArrayList<>();
         DatabaseUtil d = new DatabaseUtil();

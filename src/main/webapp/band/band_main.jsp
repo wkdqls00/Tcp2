@@ -52,6 +52,9 @@
 	//모든 밴드 출력
 	ArrayList<SelectAllBandDTO> bandListDao = new ArrayList<>();
 	bandListDao = selectDao.selectAllBandDTO();
+	
+	// 밴드 가입 여부
+	NoJoinMeetDAO njDao = new NoJoinMeetDAO();
 %>
 
 <!DOCTYPE html>

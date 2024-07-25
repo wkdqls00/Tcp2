@@ -134,7 +134,7 @@
     <div id="main2">
       <div id="local_meet_band">
         <h2 id="local_title" style="padding-top: 38px;">
-          <span class="setting_local"><%=areaDetailDto.getArea_detail() %></span>
+          <span class="setting_local"><%=areaDetailDto.getName()%> <%=areaDetailDto.getArea_detail() %></span>
           소모임
           <button type="button" class="open_keyword_btn">지역 선택</button>
         </h2>
