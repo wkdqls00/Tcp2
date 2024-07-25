@@ -67,6 +67,7 @@
   <script src="https://code.jquery.com/jquery-latest.min.js"></script>
   <script>
   	$(function() {
+  		//수락하기
   		$(".acceptBtn").click(function() {
   			let meet_idx = <%= meet_idx%>;
   			let member_idx = $(this).closest(".requestJoinMemberItem").attr("id");
@@ -83,6 +84,7 @@
   			});
   		});
   	});
+  	//거절하기
   	$(function(){
   		$(".refuseBtn").click(function() {
 	 		let meet_idx = <%=meet_idx%>;

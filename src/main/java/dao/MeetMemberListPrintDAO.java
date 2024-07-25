@@ -31,7 +31,9 @@ public class MeetMemberListPrintDAO {
         String sql = 
         		"SELECT nickname, admin_ok, profile "
         		+ "FROM meet_member "
-        		+ "WHERE meet_idx = ? ";
+        		+ "WHERE leave_ok = 'N' "
+        		+ "AND join_wait = 'N' "
+        		+ "AND meet_idx = ? ";
         		
 
         PreparedStatement pstmt = d.getPstmt(conn, sql);

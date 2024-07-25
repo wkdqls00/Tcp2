@@ -212,16 +212,13 @@
                 <em class="count sf_blue"><%=miDto.getMeet_member_count() %></em>
               </h1>
             </header>
-            <div class="uInputSearch">
-              <input type="text" placeholder="멤버 검색" id="keyword">
-              <button class="search" type="submit"></button>
-              <span class="border"></span>
-            </div>
+<!--             <div class="uInputSearch"> -->
+<!--               <input type="text" placeholder="멤버 검색" id="keyword"> -->
+<!--               <button class="search" type="submit"></button> -->
+<!--               <span class="border"></span> -->
+<!--             </div> -->
           </div>
           <!-- 가입 신청 대기 -->
-          <% try {
-         	  if (mPrintDAO.adminCheck(member_idx, meet_idx)) {%> 
-          <% if(joinWaitDAO.joinWait(meet_idx)) { %>
           <div class="joinRequestWrap">
           	<div class="memberManageMenu">
           	  <div class="menuName">
@@ -236,15 +233,9 @@
           	  <input type="hidden" value="<%=member_idx %>" name="member_idx">
           	  <input type="hidden" value="<%= meet_idx%>" name="meet_idx">
           	  <button type="submit" class="joinStatus">가입대기 <%=mjqwDTO.getJoin_wait_count() %></button>
-			<% } %>
 			</form>
           	</div>
           </div>
-          <% 	}
-         	  } catch (Exception e) {
-         	  		e.printStackTrace();
-         	  }
-         	  %> 
           <!-- 멤버 목록 -->
           <div class="memberWrap">
             <div class="memberListWrap">
@@ -254,10 +245,10 @@
                   <div class="uSelect">
                   </div>
                 </div>
+                <ul class="memberList">
                 <% 
                 	for(MeetMemberListPrintDTO dto : mmlpDTO) {
                 %>
-                <ul class="memberList">
                   <li class="uFlexItem">
                     <a class="uProfile">
                       <span class="profileInner">
@@ -275,10 +266,10 @@
                       </span>
                     </div>
                   </li>
-                </ul>
                 <%
                 	}
                 %>
+                </ul>
               </div>
             </div>
           </div>

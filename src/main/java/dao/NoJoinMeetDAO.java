@@ -12,7 +12,21 @@ import dto.NoJoinMeetDTO;
 import project.DatabaseUtil;
 
 public class NoJoinMeetDAO {
-    public ArrayList<NoJoinMeetDTO> selectNoJoinMeetDTO(String public_ok, String area, int member_idx) throws SQLException {
+    public static void main(String[] args) {
+		NoJoinMeetDAO nDao = new NoJoinMeetDAO();
+		try {
+			if(nDao.noJoinOk(1, 3)) {
+				System.out.println("0");
+			}else {
+				System.out.println("1");
+			}
+		} catch (Exception e) {
+			System.out.println("오류");
+			e.printStackTrace();
+		}
+	}
+	
+	public ArrayList<NoJoinMeetDTO> selectNoJoinMeetDTO(String public_ok, String area, int member_idx) throws SQLException {
         ArrayList<NoJoinMeetDTO> list = new ArrayList<>();
         DatabaseUtil d = new DatabaseUtil();
         Connection conn = d.getConn();
@@ -60,7 +74,8 @@ public class NoJoinMeetDAO {
         		+ "FROM meet_member "
         		+ "WHERE member_idx = ? "
         		+ "AND meet_idx = ? "
-        		+ "AND join_wait = 'N'";
+        		+ "AND join_wait = 'N' "
+        		+ "AND leave_ok = 'N'";
         
         PreparedStatement pstmt = d.getPstmt(conn, sql);
         

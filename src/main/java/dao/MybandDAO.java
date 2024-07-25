@@ -29,10 +29,11 @@ public class MybandDAO {
         Connection conn = d.getConn();
         
         String sql = 
-        		"SELECT m.meet_idx, e.name, e.url, (SELECT COUNT(*) FROM meet_member WHERE meet_idx=m.meet_idx) "
+        		"SELECT m.meet_idx, e.name, e.url, (SELECT COUNT(*) FROM meet_member WHERE meet_idx=m.meet_idx AND join_wait='N' AND leave_ok='N') "
         		+ "FROM meet_member m, meet e "
         		+ "WHERE m.meet_idx = e.meet_idx "
         		+ "AND m.member_idx = ? "
+        		+ "AND join_wait = 'N' "
         		+ "AND leave_ok = 'N' "
         		+ "ORDER BY m.meet_idx";
 

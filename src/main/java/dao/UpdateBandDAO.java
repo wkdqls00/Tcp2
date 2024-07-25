@@ -12,14 +12,14 @@ public class UpdateBandDAO {
 		ubDAO.updatePublicOk("N", 2);
 	}
 	
-	//밴드 가입 대기
+	//밴드 가입 대기 수락 버튼
     public void updateJoinWait(int member_idx, int meet_idx) {
         DatabaseUtil d = new DatabaseUtil();
         Connection conn = d.getConn();
 
         String sql = 
         		"UPDATE meet_member "
-        		+ "SET join_wait = 'N' "
+        		+ "SET join_wait = 'N', leave_ok = 'N' "
         		+ "WHERE member_idx = ? "
         		+ "AND meet_idx = ?";
         		
@@ -114,6 +114,28 @@ public class UpdateBandDAO {
         try {
         	pstmt.setInt(1, meet_area_idx);
 			pstmt.setInt(2, meet_idx);
+			int result = pstmt.executeUpdate();
+			System.out.println(result + "행 성공적으로 업데이트됨");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			d.close(conn, pstmt);
+		}
+    }
+    
+    public void updateJoinLeaveOk(int meet_idx, int member_idx) {
+        DatabaseUtil d = new DatabaseUtil();
+        Connection conn = d.getConn();
+
+        String sql = 
+        		"UPDATE meet_member "
+        		+ "SET join_wait = 'Y'  "
+        		+ "WHERE meet_idx = ? "
+        		+ "AND member_idx = ?";
+        PreparedStatement pstmt = d.getPstmt(conn, sql);
+        try {
+        	pstmt.setInt(1, meet_idx);
+			pstmt.setInt(2, member_idx);
 			int result = pstmt.executeUpdate();
 			System.out.println(result + "행 성공적으로 업데이트됨");
 		} catch (SQLException e) {

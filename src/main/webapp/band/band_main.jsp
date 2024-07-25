@@ -182,7 +182,7 @@
               </div>
             </div>
             <div id="band_name">
-              <p class="url_text"> <%= mbDto.getMeet_name() %> </p>
+              <p class="url_text" style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"> <%= mbDto.getMeet_name() %> </p>
               <span class="member">
                 멤버
                   <em><%= mbDto.getMeet_member_count() %></em>
