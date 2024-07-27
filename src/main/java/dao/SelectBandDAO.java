@@ -126,9 +126,10 @@ public class SelectBandDAO {
         Connection conn = d.getConn();
 
         String sql = 
-        		"SELECT area_detail "
-        		+ "FROM meet_area "
-        		+ "WHERE meet_area_idx = ?";
+        		"SELECT ma.area_detail, a.name "
+        		+ "FROM meet_area ma, area a "
+        		+ "WHERE ma.area_idx = a.area_idx "
+        		+ "AND ma.meet_area_idx = ?";
 
         PreparedStatement pstmt = d.getPstmt(conn, sql);
 
@@ -141,8 +142,9 @@ public class SelectBandDAO {
         if (rs.next()) {
         	
     			String area_detail = rs.getString(1);
+    			String name = rs.getString(2);
     			
-    			selectAreaDetailDTO = new SelectBandAreaDTO(area_detail); // 저장한 값으로 SeatStatus 객체 생성
+    			selectAreaDetailDTO = new SelectBandAreaDTO(area_detail, name); // 저장한 값으로 SeatStatus 객체 생성
         }
     
 		return selectAreaDetailDTO;

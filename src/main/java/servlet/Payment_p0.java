@@ -38,7 +38,7 @@ public class Payment_p0 extends HttpServlet {
 		}
 		int playinfo_idx = Integer.parseInt(request.getParameter("pi"));
 		PayDao dao = new PayDao();
-
+		dao.deleteUnpaidRecords();
 		ArrayList<GetPlayIdxDTO> idxlist = dao.getidxlist(playinfo_idx);
 		int play_idx = idxlist.get(0).getPlay_idx();
 		int playhall_idx = idxlist.get(0).getPlayhall_idx();
@@ -57,7 +57,7 @@ public class Payment_p0 extends HttpServlet {
 		request.setAttribute("pricelist", pricelist);
 		request.setAttribute("playinfo", playinfo);
 		request.setAttribute("seat", seat);
-		request.setAttribute("seatImg", seatImg);
+		request.setAttribute("seatImg", seatImg);	
 		request.setAttribute("color", color);
 		request.getRequestDispatcher("/ticketlink/Pay/payment_p1.jsp").forward(request, response);
 	}

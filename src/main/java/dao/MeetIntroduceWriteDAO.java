@@ -25,8 +25,8 @@ public class MeetIntroduceWriteDAO {
         Connection conn = d.getConn();
 
         String sql = 
-        		"SELECT meet.name, meet.url, COUNT(m_m.meet_member_idx) "
-        		+ "FROM meet meet, meet_member m_m  "
+        		"SELECT meet.name, meet.url, COUNT(m_m.meet_member_idx) AS \"인원수\" "
+        		+ "FROM meet meet, (SELECT * FROM meet_member WHERE join_wait = 'N' AND leave_ok = 'N') m_m "
         		+ "WHERE meet.meet_idx = m_m.meet_idx(+) "
         		+ "AND meet.meet_idx = ? "
         		+ "GROUP BY meet.name, meet.url";

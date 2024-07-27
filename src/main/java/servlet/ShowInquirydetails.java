@@ -43,12 +43,9 @@ public class ShowInquirydetails extends HttpServlet {
 		}
 		int inquiry_idx = Integer.parseInt(request.getParameter("bno"));
 		List<ShowInquiryInfoDTO> list = dao.showInquiryInfo(userIdx);
-		System.out.println("asdasd");
 		ShowInquiryInfoDTO dto = 
 			list.stream().filter(a -> a.getInquiry_idx() == inquiry_idx).findFirst().orElse(null);//해당 idx 정보만 가져오기
-		System.out.println("qweqwe");
 		request.setAttribute("dto", dto);
-		System.out.println("zxczxc");
 		request.getRequestDispatcher("/ticketlink/inquire/inquire_content.jsp").forward(request, response);
 	}
 

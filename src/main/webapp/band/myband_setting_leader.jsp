@@ -364,7 +364,7 @@
             <li class="setting_item">
               <div class="item_content">
                 <span class="label">가입 조건 설정</span>
-                <span class="subtxt">성별 <%= gender(jcpListDAO.getGender())%>, 나이 <%=jcpListDAO.getAge() %>년생</span>
+                <span class="subtxt">성별 <%= gender(jcpListDAO.getGender())%>, 나이 <% if(jcpListDAO.getAge() != 0){ %><%=jcpListDAO.getAge() %> 년생</span><%} %>
               </div>
               <div class="item_side">
                <form action="band_joining_condition.jsp" method="post">
@@ -446,13 +446,14 @@
           %>
           <h2 class="hide_title"></h2>
           <ul class="setting_list">
+            <% if(mPrintDAO.adminCheck(member_idx, meet_idx)) { %>
             <li class="setting_item">
               <div class="item_content">밴드 삭제</div>
               <div class="item_side">
                 <button type="button" class="delete_btn">삭제하기</button>
               </div>
             </li>
-            <% if(mPrintDAO.adminCheck(member_idx, meet_idx)) { %>
+            <% } %>
             <li class="setting_item">
               <div class="item_content">
                 <span class="label">밴드 탈퇴</span>
@@ -461,7 +462,6 @@
                 <button type="button" class="band_leave_btn">탈퇴하기</button>
               </div>
             </li>
-            <% } %>
           </ul>
         </section>
       </main>
