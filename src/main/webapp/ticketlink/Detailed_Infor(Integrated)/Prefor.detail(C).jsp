@@ -1,158 +1,164 @@
+<%@page import="java.text.ParseException"%>
+<%@page import="java.util.Calendar"%>
+<%@page import="dto.*"%>
+<%@page import="dao.*"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.ArrayList"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    
+<%
+	// int loginMemberIdx = 1;   // TODO : 나중에, session에서 불러오는 걸로 변경하셔야.
+	// HttpSession hs = request.getSession();
+    // int member_idx = (int)hs.getAttribute("userIdx");
+    request.getSession().getAttribute("userIdx");
+%>
+    
+    
+<%
+	// Integer paymentIdx = 1;   // TODO : 나중에, Dao 메서드 호출해서 가져오는 걸로 변경하셔야.
+	
+    // int play_idx = 486;
+//	int playhall_idx = Integer.parseInt(request.getParameter("playhall_idx"));
+    int play_idx = Integer.parseInt(request.getParameter("play_idx"));
+	 Getplayhall_idx gpi = new Getplayhall_idx();
+	 int playhall_idx = gpi.getplayhall_idx(play_idx);
+	
+	ArrayList<Play_DetailedInfoDTO> list = new Play_DetailedInfoDAO().play_DetailedInfoDTO(play_idx);
+
+	ArrayList<DetailedInfo_playDTO> dipd = new DetailedInfo_playDAO().DetailedInfoDTO_play(play_idx);
+	
+	 String[] startDate = dipd.get(0).getStartDate().split(" ");	
+	 String[] endDate = dipd.get(0).getEndDate().split(" ");
+	
+	SimpleDateFormat inputFormat = new SimpleDateFormat("yyyyMMdd");
+	SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy년 M월 d일 (E)");
+
+	String[] selectstartDate = dipd.get(0).getStartDate().split("");
+	String[] selectendDate = dipd.get(0).getEndDate().split("");
+
+	Date sd = inputFormat.parse(String.join("", selectstartDate));
+	Date ed = inputFormat.parse(String.join("", selectendDate));
+	
+	String formattedstartDate = outputFormat.format(sd);
+	String formattedendDate = outputFormat.format(ed);
+	
+ 	ArrayList<SeatPriceDTO> spdto = new SeatPriceDAO().selectSeatPrice(play_idx);
+ 	
+ 	String date = "2024년 4월 5일";
+ 	// String date = (request.getParameter("date"));
+	ArrayList<Detailed_playDTO> dpd = new Detailed_playDAO().DetailedDTO_play(play_idx, date);
+
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 M월 d일");
+	Calendar cal = Calendar.getInstance();
+	try {
+		cal.setTime(sdf.parse(date));
+	} catch (ParseException e) {
+		e.printStackTrace();
+	}
+	int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+	String[] days = {"", "일", "월", "화", "수", "목", "금", "토"};
+	String dayOfWeekString = days[dayOfWeek];
+	
+	ArrayList<PlayHallLocationDTO> phldto = new PlayHallLocationDAO().playHallLocationDto(playhall_idx);
+
+	ArrayList<ScriptwriteDTO> swd = new ScriptwriteDAO().scriptwriteDto(play_idx);
+	
+	ArrayList<ScriptwritecountDTO> swcd = new ScriptwritecountDAO().scriptwritecountDto(play_idx);		
+
+	ScriptwriteInDAO swi = new ScriptwriteInDAO();
+
+	int playinfo_idx = 29696;
+	// wint playinfo_idx = Integer.parseInt(request.getParameter("playinfo_idx"));
+	ArrayList<SeatStatusDTO> seatstatuslist = new SeatStatusDAO().getSeatStatus(play_idx, playinfo_idx);
+	ArrayList<SeatPriceDTO> pricelist = new SeatPriceDAO().selectSeatPrice(play_idx);
+	
+
+        
+        
+//ScriptwriteInDAO swi = new ScriptwriteInDAO();
+//swi.scriptwriteIn(play_idx, member_idx, payment_idx, title, content, star_rating);
+	
+    
+	ArrayList<Exp_RatingcountDTO> ercd = new Exp_ratingcountDAO().exp_ratingcountDto(play_idx);
+	
+	ArrayList<Exp_RatingDTO> erd = new Exp_RatinglistDAO().exp_RatinglistDto(play_idx);
+	
+	ScriptwriteupdateDAO swud = new ScriptwriteupdateDAO();
+	
+	ScriptwriteInDAO swid = new ScriptwriteInDAO();	
+	
+	PayDao dao = new PayDao();
+	ArrayList<SeatStatusDTO> list1 = dao.getSeatStatus(playhall_idx, playinfo_idx);
+%>    
+    
+    
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>공연상세정보 내용</title>
-  <link rel="stylesheet" type="text/css" href="/ticketlink/Detailed_Infor(Integrated)/detail(C).css"/>
-  <link rel="stylesheet" href="/assets/css/common.css">
-  <link rel="stylesheet" href="/assets/css/reset.css">
-  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-
+  <link rel="stylesheet" href="../../assets/css/detail(C).css">
+  <link rel="stylesheet" href="../../assets/css/common.css">
+  <link rel="stylesheet" href="../../assets/css/reset.css">
+  <script src="https://code.jquery.com/jquery-latest.min.js"></script>	
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="../../assets/js/Calendar.js" type="text/javascript"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  
+  
   <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        buildCalendar();
-        document.getElementById("btnPrevCalendar").addEventListener("click", function(event) {
-            prevCalendar();
-        });
-        document.getElementById("nextNextCalendar").addEventListener("click", function(event) {
-            nextCalendar();
-        });
-    });
-    var toDay = new Date();
-    var nowDate = new Date();
-    function prevCalendar() {
-        this.toDay = new Date(toDay.getFullYear(), toDay.getMonth() - 1, toDay.getDate());
-        buildCalendar();
-    }
-    function nextCalendar() {
-        this.toDay = new Date(toDay.getFullYear(), toDay.getMonth() + 1, toDay.getDate());
-        buildCalendar();
-    }
-    function buildCalendar() {
-        let doMonth = new Date(toDay.getFullYear(), toDay.getMonth(), 1);
-        let lastDate = new Date(toDay.getFullYear(), toDay.getMonth() + 1, 0);
-        let tbCalendar = document.querySelector(".scriptCalendar > tbody");
-        document.getElementById("calYear").innerText = toDay.getFullYear();
-        document.getElementById("calMonth").innerText = autoLeftPad((toDay.getMonth() + 1), 2);
-        while(tbCalendar.rows.length > 0) {
-            tbCalendar.deleteRow(tbCalendar.rows.length - 1);
-        }
-        let row = tbCalendar.insertRow();
-        let dom = 1;
-        let daysLength = (Math.ceil((doMonth.getDay() + lastDate.getDate()) / 7) * 7) - doMonth.getDay();
-        for(let day = 1 - doMonth.getDay(); daysLength >= day; day++) {
-            let column = row.insertCell();
-            if(Math.sign(day) == 1 && lastDate.getDate() >= day) {
-                column.innerText = autoLeftPad(day, 2);
-                if(dom % 7 == 1) {
-                    column.style.color = "#FF4D4D";
-                }
-                if(dom % 7 == 0) {
-                    column.style.color = "#4D4DFF";
-                    row = tbCalendar.insertRow();
-                }
+  $(function() {
+  	// 관람후기 삭제
+  	$(".script_delete").click(function() {
+  		
+  		let script_idx = $(this).closest(".empty_box").attr("id");
+  		
+		$.ajax({
+			url: '${pageContext.request.contextPath}/AjaxScriptDeleteServlet',
+			data: {script_idx : script_idx},
+			type: 'get',
+			success: function(response){
+				alert("삭제되었습니다.");
+				$("#" + script_idx).hide();
+			},
+			error: function(){
+				console.log('ajax 통신 실패');		
+			}
+		});
+		
+		});
+  	}); 
+  </script>
+	
+  <script>
+	// 기대평 삭제 
+	$(function() {
+		$(".rating_delete").click(function() {
+			let Exp_rating_idx = $(this).closest(".product_comment_list").attr("id");
+			
+			$.ajax({
+				url: '${pageContext.request.contextPath}/AjaxExp_ratingDeleteServlet',
+				data: {Exp_rating_idx : Exp_rating_idx },
+				type: 'get',
+				success: function(response) {
+					alert("삭제되었습니다.");
+				    $("#" + Exp_rating_idx).hide();
+				},
+				error: function() {
+					console.log('ajax 통신 실패');
+				}
+				
+			});
+			
+		});
+	});
+	
+  </script>
 
-            }
-            else {
-                let exceptDay = new Date(doMonth.getFullYear(), doMonth.getMonth(), day);
-                column.innerText = autoLeftPad(exceptDay.getDate(), 2);
-                column.style.color = "#A9A9A9";
-            }
-            if(toDay.getFullYear() == nowDate.getFullYear()) {
-                if(toDay.getMonth() == nowDate.getMonth()) {
-                    if(nowDate.getDate() > day && Math.sign(day) == 1) {
-                        column.style.backgroundColor = "#E5E5E5";
-                    }
-                    else if(nowDate.getDate() < day && lastDate.getDate() >= day) {
-                        column.style.backgroundColor = "#FFFFFF";
-                        column.style.cursor = "pointer";
-                        column.onclick = function(){ calendarChoiceDay(this); }
-                    }
-                    else if(nowDate.getDate() == day) {
-                        column.style.backgroundColor = "#FFFFE6";
-                        column.style.cursor = "pointer";
-                        column.onclick = function(){ calendarChoiceDay(this); }
-                    }
-                } else if(toDay.getMonth() < nowDate.getMonth()) {
-                    if(Math.sign(day) == 1 && day <= lastDate.getDate()) {
-                        column.style.backgroundColor = "#E5E5E5";
-                    }
-                }
-                else {
-                    if(Math.sign(day) == 1 && day <= lastDate.getDate()) {
-                        column.style.backgroundColor = "#FFFFFF";
-                        column.style.cursor = "pointer";
-                        column.onclick = function(){ calendarChoiceDay(this); }
-                    }
-                }
-            }
-            else if(toDay.getFullYear() < nowDate.getFullYear()) {
-                if(Math.sign(day) == 1 && day <= lastDate.getDate()) {
-                    column.style.backgroundColor = "#E5E5E5";
-                }
-            }
-            else {
-                if(Math.sign(day) == 1 && day <= lastDate.getDate()) {
-                    column.style.backgroundColor = "#FFFFFF";
-                    column.style.cursor = "pointer";
-                    column.onclick = function(){ calendarChoiceDay(this); }
-                }
-            }
-            dom++;
-        }
-    }
-    function calendarChoiceDay(column) {
-      var choiceDay = document.querySelector(".choiceDay");
-        if (choiceDay) {
-          choiceDay.classList.remove("choiceDay");
-          choiceDay.style.backgroundColor = "#FFF";
-          choiceDay.style.borderRadius = "0";
-          choiceDay.style.color = ""; 
-        }
-        column.classList.add("choiceDay");
-        column.style.backgroundColor = "#000";
-        column.style.borderRadius = "50%";
-        column.style.color = "#fff";
-      }
-    function autoLeftPad(num, digit) {
-        if(String(num).length < digit) {
-            num = new Array(digit - String(num).length + 1).join("0") + num;
-        }
-        return num;
-    }
-
-</script>
-
-
-
-<script>
-
-  const tabList = document.querySelectorAll('.common_tab_list .common_tab_item button');
-  const contents = document.querySelectorAll('#detail_tabcontent .section_detail')
-  let activeCont = ''; // 현재 활성화 된 컨텐츠 (기본:#tab1 활성화)
-
-  for(var i = 0; i < tabList.length; i++){
-    tabList[i].querySelector('.common_tab_btn').addEventListener('click', function(e){
-      e.preventDefault();
-      for(var j = 0; j < tabList.length; j++){
-        // 나머지 버튼 클래스 제거
-        tabList[j].classList.remove('common_tab_item');
-
-        // 나머지 컨텐츠 display:none 처리
-        contents[j].style.display = 'none';
-      }
-
-      // 버튼 관련 이벤트
-      this.parentNode.classList.add('common_tab_item');
-
-      // 버튼 클릭시 컨텐츠 전환
-      activeCont = this.getAttribute('button');
-      document.querySelector(activeCont).style.display = 'block';
-    });
-  }
-
-</script>
 
 </head>
 
@@ -198,11 +204,11 @@
 
   <section id="s1" class="border">
     <div class="border">
-      <img src="https://image.toast.com/aaaaab/ticketlink/TKL_2/gloomy_pst_0603.jpg" alt="뮤지컬 &lt;시카고>" class="product_detail_img">
+      <img src=<%=list.get(0).getPosterUrl()%> class="product_detail_img">
     </div>
     <div class="border">
       <div class="border"><!--제목 + 공유하기-->
-        <h1 class="product_title"><b>뮤지컬 &lt;사의찬미&gt;</b></h1>
+        <h1 class="product_title"><b><%=dipd.get(0).getPlayName()%></b></h1>
         <div class="border">
           <a href="#"><img src="/assets/img/ticklink/icon_share.png" alt="공유하기"></a>
         </div>
@@ -211,19 +217,19 @@
         <ul id="ul1">
           <li class="product_item border">
             <span class="product_info_title">장소</span>
-            <div class="product_info_desc">링크아트센터 페이코홀</div>
+            <div class="product_info_desc"><%=dipd.get(0).getPlayhallName()%></div>
           </li>
           <li class="product_item border">
             <span class="product_info_title">관람시간</span>
-            <div class="product_info_desc">110분</div>
+            <div class="product_info_desc"><%=dipd.get(0).getTime()%></div>
           </li>
           <li class="product_item border">
             <span class="product_info_title">기간</span>
-            <div class="product_info_desc">2024.07.02 - 2024.09.22</div>
+            <div class="product_info_desc"><%=startDate[0]%> - <%=endDate[0]%></div>
           </li>
           <li class="product_item border">
             <span class="product_info_title">관람등급</span>
-            <div class="product_info_desc">13세이상</div>
+            <div class="product_info_desc"><%=dipd.get(0).getViewage()%></div>
           </li>
         </ul>
         <ul id="ul2">
@@ -231,15 +237,15 @@
             <div class="spanfl"><span class="product_info_title">가격</span></div>
             <div class="product_info_desc"> <!-- 가격정보-->
               <ul class="product_info_sublist">
+<%
+				for (int i=0; i<spdto.size(); i++) {
+%>
                 <li class="product_info_subitem">
-                  R석 <em class="text_emphasis">77,000</em>원
+                  <%=spdto.get(i).getRank()%>석 <em class="text_emphasis"><%=spdto.get(i).getPrice()%></em>
                 </li>
-                <li class="product_info_subitem">
-                  S석 <em class="text_emphasis">66,000</em>원
-                </li>
-                <li class="product_info_subitem">
-                  A석 <em class="text_emphasis">55,000</em>원
-                </li>
+<% 
+				}
+%>
               </ul>
               <img src="/assets/img/ticklink/price_more.png" alt="가격정보더보기버튼" style="margin-top: 18px; width: unset;">
               </div>
@@ -257,7 +263,6 @@
                 </ul>
                 <img src="/assets/img/ticklink/saleinfo.png" alt="할인정보" style="margin-top: 18px; width: unset;">
                 </div>
-              </div>
             </li>
         </ul>
       </div>
@@ -295,29 +300,42 @@
           <p class="step">STEP 2</p>
           <p class="stepinfo">회차 선택</p>
         </div>
-        <li>
-          <button type="button" class="episode_selection">
-            <span>20시 00분</span>
-            <span>
-              <span>출연진</span>
-              <span>주민진, 최연우, 정민</span>
-            </span>
-          </button>
-        </li>
+        <ul style="width: 257px;">
+	        <li class="time_list">
+	          <button type="button" class="episode_selection time_btn">
+	          <%
+	          	System.out.println(dpd.get(0).getStart_time());
+	          	System.out.println(dipd.get(0).getCast());
+	          %>
+	            <span><b style="font-size: larger"><%=dpd.get(0).getStart_time()%></b></span>
+	            <span>
+	              <span class="c_member">출연진 <%=dipd.get(0).getCast()%></span>
+	            </span>
+	          </button>
+	        </li>
+        </ul>
       </div>
       <div><!-- 3 -->
         <div><span>예매가능좌석</span></div>
         <ul class="product_seat_list">
-          <li class="product_seat_item"><span class="product_seat_title">VIP석</span><span
-            class="product_seat_remain"><span class="product_seat_number">매진</span></span></li>
-          <li class="product_seat_item"><span class="product_seat_title">OP석</span><span
-            class="product_seat_remain"><span class="product_seat_number">매진</span></span></li>
-          <li class="product_seat_item"><span class="product_seat_title">R석</span><span
-            class="product_seat_remain"><span class="product_seat_number">매진</span></span></li>
-          <li class="product_seat_item"><span class="product_seat_title">S석</span><span
-            class="product_seat_remain"><span class="product_seat_number">매진</span></span></li>
-          <li class="product_seat_item"><span class="product_seat_title">A석</span><span
-            class="product_seat_remain"><span class="product_seat_number">매진</span></span></li>
+        <%
+        for (int i = 0; i < pricelist.size(); i++) {
+            int leftseat[] = new int[4];
+
+            // leftseat 배열에 값 할당
+            for (int j = 0; j < list1.size(); j++) {
+                if (j < pricelist.size() - 1) {
+                    leftseat[j] = list1.get(j).getCount();
+                } else {
+                    leftseat[pricelist.size() - 1] += list1.get(j).getCount();
+                }
+            }
+%>
+          <li class="product_seat_item"><span class="product_seat_title"><%=pricelist.get(i).getRank()%>석</span>
+          <span class="product_seat_remain"><span class="product_seat_number"><%=leftseat[i] == 0 ? "매진" : leftseat[i]%>석</span></span></li>
+<% 
+        }
+%>
         </ul>
       </div>
     </div>
@@ -326,7 +344,7 @@
         <img src="data:image/png;base64,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" alt="페이코결제">
       </div>
       <div class="detail_reserve">
-        <a class="common_btn1 btn_primary1 btn_medium1" aria-disabled="false">예매하기</a>
+        <a class="common_btn1 btn_primary1 btn_medium1" href="/Tcp2/Payment_p0" aria-disabled="false">예매하기</a>
       </div>
     </div>
   </section>
@@ -381,15 +399,24 @@
       <div class="editor">
         <p>
           <b>
-            2024년 07월 02일 (화) ~&nbsp:2024년 09월 22일 (일)
+           <%=formattedstartDate%> - <%=formattedendDate%>
             <br/>
           </b>
         </p>
         <p>
-          화·목·금 20시 | 수 16시·20시 | 토 15시·19시 | 일·공휴일 14시·18시&nbsp;
-        </p>
+<% 		
+		for (Detailed_playDTO play : dpd) { 
+%>
+    	<p>
+        <%=date%> <%=dayOfWeekString%> <%= play.getStart_time()%>
+    	</p>
+<% 		
+		}
+%>
         <p>&nbsp;</p>
-        <p>* 7/3(수) 16시 공연 없음</p>
+        <h3 class="cast_member"><b>출연진 및 제작진</b></h3>
+        <p>출연진 : <%=dipd.get(0).getCast()%></p>
+        <p>제작진 : <%=dipd.get(0).getCrew()%></p>
       </div>
       <h3 class="content_subtit">공지사항</h3>
       <div class="banner">
@@ -397,40 +424,11 @@
           <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAACMAAAAB4CAMAAAApWOxoAAABaFBMVEUAAAD/////9/f/9/f/+/v/8/P/9/f/9/f/+vr/9PT/9/f/9vb/+Pj/9vb/9/f/+fn/9/f/9vb/+Pj/9vb/9/f/9vb/+Pj/9/f/9vb/+Pj/9/f/9vZ9OzuFRkaFR0eNUlKNU1OVXl6VX1+WXl6WX1+damqda2ueamqldXWldnamdnatgYGtgoKugYGugoK1jY22jY22jo69mZm+mZm+mprFpKTFpaXGpKTGpaXOsLDOsbHWvLzWvb3XvLzXvb3ex8feyMjeycnfyMjm09Pm1NTn1NTrNDTsQEDsQUHtTEztTU3uTEzuTU3u39/u4ODvWFjvWVnv39/v4ODwZGTwZWXxcHDxcXHycXHyfX3yfn7zfHzzfX3ziYn0iYn0ior1lZX1lpb2oaH2oqL3oqL3ra33rq736+v37Oz4ra34rq74urr5ubn5urr5xsb6xsb7xsb70tL709P83t793t7939/+6ur+6+v/9/catZZjAAAAHHRSTlMAECA/P0BAX19gYG9vcH9/gI+PkJ+vr7/Pz9/vWcZ5IAAAEIlJREFUeNrt3f1fU9cBgPFo1+7Nus1pnRATqM0iolkwmyakdhliIhUQYmRUSiNWkrmyDAPk/vs7576ec++5eaHgkvb5/lAgIS+cbJ/7eO659yYSmk8uXZuatgAAAMbG9I1rlz9OxLrwe9oFAACMpamrF8358kfGBgAAjC9TwnzK7AsAABhrU78K9wvTLwAAYOz9Qd99dJ0RAQAA4+/GBSVgbjAeAABgElxn/xEAAJg4/l6k3zAWAABgUnzq9MvFKYYCAABMimlnGcxVRgIAAEwOeyfSRcYBAABMkgtMwAAAgElzWQQMK2AAAMBEmRbXn2YUAADAZPk4cZlBAAAAk+VS4jMGAQAATJZrXEUAAABMmqnENIMAAAAmy3SCMQAAAJOGgAEAAAQMAAAAAQMAAEDAAAAAAgYAAICAAQAAIGAAAAABAwAAQMAAAAAQMAAAgIABAAAgYAAAAAgYAABAwAAAABAwAAAABAwAACBgAAAACBgAAAACBgAAgIABAAAEDAAAAAEDAABAwAAAAAIGAACAgAEAACBgAAAAAQMAAEDAAAAAEDDAOftXrTrAyrsBT9Gq11unu/MsHezvH/yYx3f39/cPz+OJhxb3Bhz1en2kAe4/8CN/LLEPaJnf1wf73AECBvh5WqkOVBvwFJVkMht7ZyGZXHS++3spQt3E1SulUrnS+jF/yDPjHZ0wcyV0xF/aNN3xIu6Jdb1mmJs93cgb6Jle+8gKv4FCoeh8U87lWlYmmQw/LJ9bsKySP8BxAz/w3lapkJvLzOUK5c1+H3LOeMe9ZHLJcHMp7vcBEDDAWagOwfQP7OXKZnzAlNPph5EtpdjShfn/dq9kbro3pe+FNqLNV2HHxsmRuIDpRv6chnvPyd7Llecv33b1gPFnYnruN+aAqYZvjb7OjnPHduSOznABk0zO+GNY9wLGj7+KZaXlL6gB06oEBaglSqmgWNTvrWSUT2TOH/20goABCBjgJxEwrfuyN9KVuIARW69CZDuaF1tC+SgplUymxBc3YNYyWtbkwxMgsdt/NVpGDphDd/Jp5UALGH8mput+cz4Bc/gicDhCwPijlI0EjDOMXgBqAaMNcFa794G4JXUrt1BYyGXlvUX/1QNKwLRyuaIxYDKBBQIGIGCAcQyYtbS7YVscJWCETW+brPyC/Me+2IQWltriu/rSXfG0d88yYHo7mpoXMIfB4h+7Ip6PHDDVSMA09lXu+3ynvf6G+wd01D/oTAJmzZ3ESm9GBz6fFWbFE8qvC+q9a+IRhbb7a+vi5uSm9+opf7ZHCZjN8IftBUyokAgYgIABxi5g5sWWsFiSqbFsDpjCSAEjfphp+z+ti9mZSihgtC7YPx4pYEJWvICR8y+NN2921D90+ICx++MoHDA7g1+/OVTAqDMmhVDAZJXwUwKmJTIwWyqKSkm3IgPvjXPeCn8sRT007vpTMH4++dNsgwImlXP9lYABCBhgDAOm4gaH2AhmzAEzH2y9hgiYe8F+C/fHxVDA9KmRUQPGm4F5K572tfzm9akCZrsani8ZIWBk+PTEYt4D+RC5qPcsAua+O+Zz7tBGA6agNIUaMHn9kyucNmBmQrVEwAAEDDBWATPvLdsU29SWMWDkPqGWv6W86SwDjQ2YvLY/ST7rV2ceMD1vl454ti23QGpB0hwdHe2PEjDOgpdaL3TT1pFGfcR/xBvwyqenPKTpzedoAbO8FFgPBcyMs1vnsRzmVCaTdlMk7a6JbqWcMY4GzG3xqcivuUzwKPnhpUr+rzwIVlaLF6p7CBiAgAF+AgGT8jZVRWfqJBIwJWfiwAsYdxno41Lpb97CCtFAt521Fc7jgymY1l/klnPIgHHf3IHcsVTrGzDe/Mih+LrrPm3Dn0x5ZumLeHdlfnT6BMxzbZmu0jSqZ+Epm/CfEx8wTsVUlv0xjK6BKdjN4i9FeuwHQ8ZpkEjAyNUu9s65tLqAyf6A0nOFhyVxLPXN4HPTFvEuETAAAQNMfMCITdgd5zt3oxkJGLGFnEmm/LWkc+LQ3SBlQke3KNvQUulh3j6c+ktruIA5dBeirJiKwRwwcq+NfWK+rWp1w3+BRihgtH1K0YA5kTWy09CDY8iAqQWHcdvvf8f64dWrl4aAeeAe6JW3p0uUgEk5hzYX7RmYXC7jpEjZj8Cic0MkYObtFb4tefqYXO7z4N7FGeUT+dw/JJqAAQgYYDIC5pve8bb+X3PAVPx/pbeclAkHjJhDyZW9o2GC7WgxHWGZtqFZ/bQifQJG1ojMkWjAnJzEBEynudOwFwHvihvsM8B0RVKsitPObQ8dMB35eqvHx/IwppWu/wqNsB1DwPSau1tv1Pe/Za+KiQbMfXc0yhn3jDkD1sAU/NOxlJyUCQeM2DuU9VYt6feK7/8sj066k1H35cm9V+Keu/Jr+1QBk3F2dAEgYIBzDRixXe/p/x0UMO7WVA8Ydx+Q+Pd+yrQdjbG0kL0lk+ZOMXxWtD4Bs+3uxtl1j49+pjymaQ6YoELEDRuiPk4ahkW8q3aAmAOmYx/X/fS920/V7c5Q47xt+DOa9mmOjQEj9vfMPHryICWOL7enS0YIGPfzCQ38ol1B4hil2U1DwCx60VGwQhVSCD71UQNG2ZEIgIABzi1gevZmXv3vEDMwkYCpyAW8cu2G3GORXva3jnWzwW9Q9sKK5t/eXTV1Ja2yiPdtcLaYb70Hyd8MnmLPshrOGWBqox1G/cr5/dX38ofDVWctryijw45Rt+O9Yk3/M/w/rdp5v7+/GwmYeWchywN7NkVfA/NFpSzWq+Tn8iMETGveiYn1GfdUdwMCRpzSVyiLR2VEQM2mUwQMQMAA4xowO125tkP9b+waGHd1g2ENjFyQm1r2tou5YOuYSRoNLpjoiezeKZ1S8zf6SsBsBb+1bV7VIx7TW/V+WLXPLrM7VMA40yXfudF0vFMN7cUKv9VOn2VFXS2a9ICZdYc05Y5hdBFv8gstYIIT8hrWwASrqtfFHEyq7t9r78i76RwoFnyTkZ9xaLUSa2AAAgYY04AZ4SikL5xvyoajkPLJrBcl6wv1IQLGfPvM4IDpimjYEPMotW44YJrBDEx8wIhT9Lrh5tTIcJcS6NWqT3flIhr3MkzHO0+rq9bpAkYE2FNnBikaMCl385+WQ2sImPQtcbo4NWAq/vlc3KPctRmY2eSMt2tucUbZsxc7+Cn5VSwXvpXNLRRLT9oEDEDAABMfMBn3DLzeplILmFZoDYu3HQ3ObCLmAEr+D9bAgOk551T5p9zGO3rBPIsdCBu9UMDIyZVvtEeHOU9xfNBs7nsnZRnyWkidTnjCpyN3J201jP5rmV//yA2wN2IG6VtTwKT9gEnaMyN+wIjdbu3gl4KAEad/SSm3hgJmudg2fiwFo6LhfydrhUKZgAEIGGCSA0asB52TXx+726zoiezkhrYiLpgcXBtZ7x91x1HJ6FH4UZFFsHKXz6qzlEUuxtVPZNc5DD38xF6kcthnIEa8mOOQJ/71HdmvfxL6i46b9oxSNGAyTo6sBTNVGf+o82CM5RqidfsgIft0gHZ4eGfkHXL1dLw1+4rX4Z+CgKkvl/KZljFgWpsEDEDAAGMXMNaMXAjaqnhnc40GTCXjXlgwOZvfDG51iBmYL53vNkd4n6GA6b5wdxM5BzO/7VsUnV1/D8+Lt93g9kOx9KVnCpiGOKy6uTtawJxEZln8WjnZ89cKP9/2Xr9pHxfVk3fsRQNm0d4j1BJjJWZEMnrAlMIzJvZ8mLyGVLHVuu+scYkGzMNMiN+IrUp+Ti59mc3k1YtQVbQEUXYhpeSZfN2z4T1Rr4Uk30s+Nzd7U/wqAQMQMMDYBcxyys2TvGUKmNZt+86U81spfzMa2U/k3tPK5YqjBoy8qLNzLSP7qtKv+wTMya72x6wc+Pc01QsyjnAiO2PA7EeGzTts+wftSKfqtz1/AkkspvnefpnoeWDkRRlFCdhDXNADJmMexwfej85ghgPmXszoO2fM86RLarLMBYeLlYOACaSy/zBdjVouMCZgAAIGGLuAcY7G9U/9ajiRXapgzwK0l+4mg2tLxwXMpmkX1ICA6Xj9Yh/MvGH1CRh7HW9jR06qbK0Gy3vDAdMV93fOI2DsJ/zafv1d+9ht71pMVTulxMUkXxsuJeAO8bwVDZh8VjXjj6NzOsBUcIkALWDK2qRNxr9XnjEvu1AqLT0qLdxSL+pQCX9cTsDYL3rHXdprWXrAiHmcW3dyhdITJWBadf5fBhAwwHgEjGU9Eks925YxYFraxYwKwdWO1csD1uvFYQKm0/TIKRf/B3Eal++f+ie0PbYPC4oLGHm+/o1j76d3VeVU/lrAqCHj64QC5u0rj5hVqfk/iPdjHXytCQLmhZcq9nuVf4dciiMWGrsB9v2O+VpIjxZyC0uWIWB0Sqi0FwuFUtsyB0zMo9aS/glknFkc7yqcMQETcU99fMAPmLWb9vULABAwwDgEjCoUMHqPPA5+0o9TKQ0TME3zG5JB0Rs0JeI6UM4cY9mXYaz1DZgINWBijspuRB6knPl3Rbt/33s7xx19Pil6MUe1NoYKmKFuD91b8a9sZZsNVljLe4LeLJ02YDLqrA4AAgY4I68H98t3owWMPKA3WJ57X5uBOcOAsYYMGDkD0+iqqbDxYQNGnqrGP/zpZEvdhzUGASMX5Qaf1ppYt6TMwBgW8Y4cMLc5Hy9AwADnQT/3vX19nzfaTYeDniG8BkauJr1XrsiVnw8zyv4k9zgV15waMOKqyip/D1SnabQ3QsDYB1rXXjbFEUd7uy/UM/ka8mhQwHT2jQ76BYw9pC9298TvNe0rEURz5/8YMPJ50/cqy3VxUHY5fzPITfmxzgYf1/xpA6bsHRYFgIABzk9X3+EylMhh1AXtlHTLlh8wsYt4Q5ZO8c5jA8Y7464rWDtzioAZaRy9o5BCk1yN3lgFTOuuNvR59WM9izUw1rq/LAcAAQOcY8CM2i+G88CsF7POMdTpO8oZ6dJhX7mb0FzYk7MMGDEHsvXUq4evXyv58IECRqwy3vDzqWG6eHWvI0/wGxsw3kzJuQSMvORD1jsquqDMlTwOf1wLpwsYAAQM8CECZuR+EVcPWDIUR1s96f0HsGfes+Q6tHf+HPZO8cRv+z5xjJ54tY6WKAdyV1PfFTfiF97H39uOuXR3O2aYvTP0WkM96vSfVszrtz/spw8QMMDPPWBeMwYAQMAAAAAQMAAAgIABAAAgYAAAAAgYAABAwAAAABAwAAAABAwAACBgAAAACBgAAAACBgAAgIABAAAEDAAAAAEDAABAwAAAAAIGAACAgAEAACBgAAAAAQMAAEDAAAAAEDAAAICAAQAAIGAAAAAIGAAAQMAAAACMecBMMwYAAGCyTCemGAQAADBZ/pT4jEEAAACT5VriEoMAAAAmy+XEJwwCAACYLB8lWMULAAAmy1QikfgdwwAAACbJVREwFxgGAAAwSS6KgElcYRwAAMDkkBMwYgqGVTAAAGBiTNkTMInEpwwFAACYFL9MuNiJBAAAJsSVhO86owEAACbBjaBfEhduMB4AAGD8Xb+QULEXCQAAjL0riZBfc1lqAAAw1qYvJSIuXmVcAADA+LpyIWFy8SqzMAAAYCxNXzbni+0Xl6/d4Lx2AABgnNpl6tpvP9KL5X+UNwax89jZqAAAAABJRU5ErkJggg==" alt="이 상품은 도서·공연비 소득공세 혜택이 적용됩니다." class="banner_img">
         </a>
       </div>
-      <div class="editor2">
-        * 1차 티켓오픈 : 2024년 06월 04일 (화) 13시 <br/>
-        * 1차 티켓오픈 기간 : 2024년 07년 02일(화) ~ 2024년 07월 14일(일)&ZeroWidthSpace;
-        <p>* 예매마감 : 공연 시작 1분 전까지</p>
-        <p>* 취소마감 : 공연 전일 17시(단, 일 및 공휴일 회차는 공연 전일 11시)</p>
-        <p>&nbsp;</p>
-        <p>※ 6/4(화) 오후 1시 ~ 6/7(금) 오후 11시 59분까지 무통장 입금 예매가 제한됩니다.</p>
-        <p>&nbsp;</p>
-        <p>
-          <img src="https://image.toast.com/aaaaab/ticketlink/TKL_4/gloomy_notice_0603.jpg" title="gloomy_notice_0603.jpg">
-          <br style="clear:both;">
-          <img src="https://image.toast.com/aaaaab/ticketlink/TKL_9/gloomy_daily_photocard_0603.jpg" title="gloomy_daily_photocard_0603.jpg">
-          <br style="clear:both;">
-          <img src="https://image.toast.com/aaaaab/ticketlink/TKL_4/gloomy_maniacard_0603.jpg" title="gloomy_maniacard_0603.jpg">  
-          <br style="clear:both;">
-          &nbsp;
-        </p>
-        <p>&nbsp;</p>
-      </div>
-      <h3 class="content_subtit">할인 정보</h3>
-      <div class="eidtor3">
-        <p>
-          <img src="https://image.toast.com/aaaaab/ticketlink/TKL_8/gloomy_main_dc_0603.jpg" title="gloomy_main_dc_0603.jpg">
-          <br style="clear : both;">
-          &nbsp;
-        </p>
-      </div>
       <h3 class="content_subtit">작품상세정보</h3>
       <div class="templete">
         <p>
-          <img src="https://image.toast.com/aaaaab/ticketlink/TKL_5/gloomy_info_0603.jpg" title="gloomy_info_0603.jpg">
+          <img src=<%=dipd.get(0).getImg_detail1()%> title="gloomy_info_0603.jpg">
           <br style="clear : both;">
-          <img src="	https://image.toast.com/aaaaab/ticketlink/TKL_5/gloomy_sche_0603.jpg" title="gloomy_sche_0603.jpg">
-          &nbsp;
         </p>
       </div>
       <h3 class="content_subtit">기획사 및 제작사 정보</h3>
@@ -453,7 +451,7 @@
             </colgroup>
             <tbody>
               <tr>
-                <th scop="row">주최/기획</th>
+                <th scope="row">주최/기획</th>
                 <td>주식회사 네오</td>
                 <th scope="row">고객문의</th>
                 <td>02-6954-0772</td>
@@ -465,7 +463,7 @@
                 <td>13세 이상</td>
               </tr>
               <tr>  
-                <th scop="row">주연</th>
+                <th scope="row">주연</th>
                 <td>주민진, 진태화, 홍승안, 최연우, 김려원, 이정화, 김수연, 정민, 유승현, 김준영, 김찬종</td>
                 <th scope="row">공연장소</th>
                 <td>링크아트센터 페이코홀</td>
@@ -540,7 +538,8 @@
   <div class="content_heading">
     <h2 class="content_title">
       관람후기
-      <span class="text_primary text_number">0</span>
+      <input type="hidden" name="play_idx" value="<%=play_idx%>">
+      <span class="text_primary text_number"><%=swcd.get(0).getScriptwritecount()%></span>
     </h2>
     <div class="star_rate">
       <div class="star">
@@ -562,67 +561,121 @@
          게시판 운영규정
       </a>
     </div>
+   <form action="/Tcp2/ScriptwriteServlet">
+     <input type="hidden" name="play_idx" value="<%=play_idx%>">
     <div class="comment_form">
       <div class="comment_content">
         <div class="comment_star_rate">
-          <span class="blind">별점 5점 중</span>
-          <div class="star_select">
-            <input type="radio" name="star2" id="star2_1" class="star_radio" value="1">
-            <label for="star2_1" class="star_label">
-              <span class="blind">
-                1
-                점
-              </span>
-            </label>
-            <input type="radio" name="star2" id="star2_2" class="star_radio" value="2">
-            <label for="star2_2" class="star_label">
-              <span class="blind">
-                2
-                점
-              </span>
-            </label>
-            <input type="radio" name="star2" id="star2_3" class="star_radio" value="3">
-            <label for="star2_3" class="star_label">
-              <span class="blind">
-                3
-                점
-              </span>
-            </label>
-            <input type="radio" name="star2" id="star2_4" class="star_radio" value="4">
-            <label for="star2_4" class="star_label">
-              <span class="blind">
-                4
-                점
-              </span>
-            </label>
-            <input type="radio" name="star2" id="star2_5" class="star_radio" value="5">
-            <label for="star2_5" class="star_label">
-              <span class="blind">
-                5
-                점
-              </span>
-            </label>
-          </div>
-          <p class="star_desc">별점을 선택해주세요</p>
-        </div>
-        <div class="input_box">
-          <textarea class="comment_textarea" placeholder="관람후기를 남겨보세요!" maxlength="1000"></textarea>
-        </div>
-      </div>
-      <div class="comment_util">
-        <div class="comment_util_right">
-          <div class="comment_length">
-            <span class="current_length">0</span>
-            <span class="limit_length">/1000</span>
-          </div>
-          <div class="comment_btn_box">
-            <button type="button" class="common_btn10 btn_secondary btn_small">등록</button>
-          </div>
-        </div>
-      </div>
+		 <!-- <input type="number" name="star_rating" class="star_rating" value="0"> -->
+	          <span class="blind">별점 5점 중</span>
+	          <div class="star_select">
+	            <input type="radio" name="star2" id="star2_1" class="star_rating" value="1">
+	            <label for="star2_1" class="star_label">
+	            <i class="fa fa-star" aria-hidden="true" id="star1"></i>
+	              <span class="blind">
+	                1
+	                점
+	              </span>
+	            </label>
+	            <input type="radio" name="star2" id="star2_2" class="star_rating" value="2">
+	            <label for="star2_2" class="star_label">
+	            <i class="fa fa-star" aria-hidden="true" id="star2"></i>
+	              <span class="blind">
+	                2
+	                점
+	              </span>
+	            </label>
+	            <input type="radio" name="star2" id="star2_3" class="star_rating" value="3">
+	            <label for="star2_3" class="star_label">
+	            <i class="fa fa-star" aria-hidden="true" id="star3"></i>
+	              <span class="blind">
+	                3
+	                점
+	              </span>
+	            </label>
+	            <input type="radio" name="star2" id="star2_4" class="star_rating" value="4">
+	            <label for="star2_4" class="star_label">
+	           	<i class="fa fa-star" aria-hidden="true" id="star4"></i>
+	             <span class="blind">
+	                4
+	                점
+	              </span>
+	            </label>
+		            <input type="radio" name="star2" id="star2_5" class="star_rating" value="5">
+		            <label for="star2_5" class="star_label">
+		            <i class="fa fa-star" aria-hidden="true" id="star5"></i>
+		              <span class="blind">
+		                5
+		                점
+		              </span>
+		            </label>
+	          </div>
+	          <p class="star_desc">별점을 선택해주세요</p>
+	        </div>
+	        <div class="input_box">
+	        <label for="title">제목:</label><br>
+	        <input type="text" id="title" name="title"  required><br><br>
+	        
+	  		<label for="content">내용:</label><br>
+	        <textarea id="content" name="content" rows="4" cols="50" class="comment_textarea" placeholder="관람후기를 남겨보세요!" maxlength="1000" required></textarea><br><br>
+	        </div>
+	      </div>
+	      <div class="comment_util">
+	        <div class="comment_util_right">
+	          <div class="comment_length">
+	            <span class="current_length">0</span>
+	            <span class="limit_length">/1000</span>
+	          </div>
+	          <div class="comment_btn_box">
+	            <button type="submit"  onclick="ScriptwriteInsert()" value="등록" class="common_btn10 btn_secondary btn_small">등록</button>
+	          </div>
+	        </div>
+	      </div>
+	  </div>
+	 </form>  
+   </div>
+
+<% 
+	if (swd.size() == 0) {
+%>
+	  <p class="comment_empty">관람후기를 등록하세요.</p>
+<% 		
+	}	
+%>
+
+<% for(int j=0; j<swd.size(); j++){%> 		
+
+  <div class="empty_box" id="<%= swd.get(j).getScript_idx() %>">
+  	<div class="empty_star" style="color:red">
+  		<!-- ::before -->
+<%
+for (int i=1; i<6; i++) {
+	if (Integer.parseInt(swd.get(j).getStarRating()) >= i){
+		%>★<% 
+	} else {
+		%>☆<%
+	}
+}
+
+%>
+
+   	<span class="star14_per" style="width: 100%"></span>
+  	</div>
+  <h1 class="empty_title"><%=swd.get(j).getTitle()%></h1>
+  <p class="empty_comment"><%=swd.get(j).getContent()%>
+  </p>
+    <div class="comment_info">
+  	   <span class="comment_id"><%=swd.get(j).getEmail()%></span>
+  	   <span class="comment_date">
+  	   <%=swd.get(j).getRegDate()%>
+  	   <!-- ::before -->
+  	   </span>
+  	   <span class="comment_purchaser">예매자</span>
+	    <input type="hidden" name="script_idx" value="${script.script_idx}">
+	    <button type="submit" class="script_delete">D</button>
     </div>
   </div>
-  <p class="comment_empty">관람후기를 등록하세요.</p>
+ <% }%>
   <div class="paging">
     <a class="first">
       맨앞
@@ -643,15 +696,16 @@
     </a>
   </div>
 </section>
-</div>
-</section>
+
+
 
 <!-- 공연정보 기대평 -->
 <section class="section_tabcont section_preview" id="preview" style="display:none;">
   <div class="product_content_heading">
-    <h2 clas="product_content_title">
-      기대평
-      <span class="text_primary text_number">1</span>
+    <h2 class="product_content_title">
+      <b>기대평</b>
+     <input type="hidden" name="play_idx" value="<%=play_idx %>">
+      <span class="text_primary text_number"><%=ercd.get(0).getExpratingcount()%></span>
     </h2>
   </div>
   <div class="comment_write">
@@ -662,10 +716,12 @@
         게시판 운영규정
       </a>
     </div>
+  <form action="/Tcp2/Ins_Exp_ratingServlet">
+     <input type="hidden" name="play_idx" value="<%=play_idx %>">
     <div class="product_comment_form">
       <div class="product_comment_content">
         <div class="comment_input_box">
-          <textarea class="comment_textarea1" placeholder="기대평을 남겨보세요!" maxlength="1000"></textarea>
+          <textarea id="rating_content" name="content" class="comment_textarea1" placeholder="기대평을 남겨보세요!" maxlength="1000"></textarea>
         </div>
       </div>
       <div class="comment_util1">
@@ -675,24 +731,41 @@
             <span class="limit_length">/1000</span>
           </div>
           <div class="comment_btn_box">
-            <button type="button" class="common_btn10 btn_secondary btn_small">등록</button>
+            <button type="submit" onclick="ratingwriteInsert()" class="common_btn10 btn_secondary btn_small">등록</button>
           </div>
         </div>
       </div>
     </div>
+   </form>  
   </div>
-  <ul class="product_comment_list"> 
+
+<% 
+	if (erd.size() == 0 ) {
+%>
+  	<p class="comment_empty">기대평을 등록하세요.</p>  
+<%
+	}
+%>
+  
+<% 
+	for(int k=0; k<erd.size(); k++){
+%> 
+  <ul class="product_comment_list" id="<%=erd.get(k).getExp_rating_idx() %>"> 
     <li class="product_comment_item">
-      <p class="product_comment_desc">쑤심덕 기대돼요!</p>
+      <p class="product_comment_desc"><%=erd.get(k).getContent()%></p>
       <div class="product_comment_info">
-        <span class="comment_id">fe***@naver.com</span>
+        <span class="comment_id"><%=erd.get(k).getEmail()%></span>
         <span class="comment_date">
           <!-- before -->
-           2024.06.11 01:02
+           <%=erd.get(k).getRegDate() %>
         </span>
+        <input type="hidden" name="Exp_rating_idx" value="<%=erd.get(k).getExp_rating_idx() %>">
+        <button type="submit" class="rating_delete">D</button>
       </div>
     </li>
   </ul>
+<% } %>
+
   <div class="paging">
     <a class="first">
       맨앞
@@ -712,7 +785,7 @@
       <!-- after -->
     </a>
   </div>
-</section>>
+</section>
 
 
 <!-- 공연정보 장소 -->
@@ -722,13 +795,13 @@
   </div>
   <p class="prod_content_desc">
     장소
-    링크아트센터 페이코홀
+    <%=phldto.get(0).getPlayHallName()%>
     <br/>
     주소
-    서울특별시 종로구 대학로14길 29
+    <%=phldto.get(0).getAddress()%>
     <br>
     대표번호
-    031-1588-7890
+    <%=phldto.get(0).getPhone_No()%>
   </p>
   <div class="place_map">
     <div class="map_area" id="mapContainer">
@@ -756,7 +829,7 @@
           </p>
           예매 완료(결제 완료)확인 후, 인편배송으로 영업일 기준 10일 이내 티켓을 수령하실 수 있습니다.
           <div>티켓을 배송하기 위한 배송료는 고객이 부담합니다.</div>
-          행사 또는 관람일에 따라 일반배송 선택이 제한될 수 있습니다.&ZeroWidthSpace;
+          "행사 또는 관람일에 따라 일반배송 선택이 제한될 수 있습니다."
           <p>&nbsp;</p>
           <p>&nbsp;</p>
           <p>
@@ -764,10 +837,9 @@
           </p>
           행사 당일 공연 시작 시간 1시간 전 ~ 30분 전까지 행사장 매표소에서 티켓을 수령하실 수 있습니다.
           <div>현장 매표소에서 예매 완료 SMS 또는 예매번호 및 예매자 정보 확인 후 티켓을 수령할 수 있습니다.</div>
-          <p>기획사 정책 또는 행사일에 따라 현장 수령 방법의 선택이 제한될 수 있습니다.​&ZeroWidthSpace;</p>
+          <p>기획사 정책 또는 행사일에 따라 현장 수령 방법의 선택이 제한될 수 있습니다.</p>
           <p>&nbsp;</p>
           <p>&nbsp;</p>
-          </p>
         </div>
       <h3 class="detail_toggle_title">예매 취소안내</h3>
       <div>
@@ -795,10 +867,10 @@
           </colgroup>
         <thead>
         <tr>
-          <th rowsapn="1" colspan="1" scope="col" style="width: 300px; height: 38px; margin: 0; padding: 0; border: 1px solid rgb(219, 219, 217); text-align: center; height: 36px; background: rgb(219, 219, 217)">
+          <th rowspan="1" colspan="1" scope="col" style="width: 300px; height: 38px; margin: 0; padding: 0; border: 1px solid rgb(219, 219, 217); text-align: center; height: 36px; background: rgb(219, 219, 217)">
             관람일 구분
           </th>
-          <th rowsapn="1" colspan="1" scope="col" style="width: 450px; height: 38px; margin: 0; padding: 0; border: 1px solid rgb(219, 219, 217); text-align: center; height: 36px; background: rgb(219, 219, 217)">
+          <th rowspan="1" colspan="1" scope="col" style="width: 450px; height: 38px; margin: 0; padding: 0; border: 1px solid rgb(219, 219, 217); text-align: center; height: 36px; background: rgb(219, 219, 217)">
             취소가능시간
           </th>
         </tr>
@@ -814,7 +886,7 @@
           </tr>
           <tr>
           <td style="width: 330px; height: 64px; margin: 0px; padding: 9px 10px 9px 20px; border: 1px solid rgb(219, 219, 217); line-height: 22px;">
-            &ZeroWidthSpace;관람일이 연휴기간이거나 연휴 다음날인 경우&ZeroWidthSpace;
+           관람일이 연휴기간이거나 연휴 다음날인 경우
           </td>
           <td style="width: 330px; height: 64px; margin: 0px; padding: 9px 10px 9px 20px; border: 1px solid rgb(219, 219, 217); line-height: 22px;">
               연휴 시작일 1일전 17:00시까지
@@ -825,7 +897,7 @@
         </tbody>
         </table>
         <p>&nbsp;</p>
-        <p>일부 공연의 경우 취소 가능 시간이 상이할 수 있습니다.&ZeroWidthSpace;&ZeroWidthSpace;&ZeroWidthSpace;&nbsp;</p>
+        <p>일부 공연의 경우 취소 가능 시간이 상이할 수 있습니다.</p>
       </div>
       <h3 class="detail_toggle_title">티켓 환불안내</h3>
       <div>
@@ -844,12 +916,10 @@
         <div>휴대폰결제로 결제한 경우 당월 취소 시 즉시 환불되나 익월 취소 시에는 최대 60일까지 소요됩니다. </div>
         <p>예매권, 상품권으로 결제한 경우 취소 시 즉시 계정으로 환불 됩니다.</p>
         <p>&nbsp;</p>
-        <p>&ZeroWidthSpace;</p>
       </div>
       </div>
   </div>
 </section>
-
 
 
 <!-- 공연상세정보 밑 추천 -->
@@ -877,8 +947,8 @@
                 <div class="flag_area"></div>
               </div>
             </div>
-          </div>
-        </a>
+	       </a>
+        </div>
     </li>  
         <li class="grid_item">
           <div class="grid_unit">
@@ -898,15 +968,15 @@
                 <div class="flag_area"></div>
               </div>
             </div>
-          </div>
-        </a>
-    </li>  
+	       </a>
+         </div>
+       </li>  
         <li class="grid_item">
           <div class="grid_unit">
-            <a class="link">
+            <a class="link" href="" target="_blank" style="display:block;">
               <div class="imgbox"> 
                 <!-- before -->
-                <img class="img" alt="뮤지컬 &lt;협객외전&gt;" src="	https://image.toast.com/aaaaab/ticketlink/TKL_5/pst_0327.jpg"/>
+                <img class="img" alt="뮤지컬 &lt;협객외전&gt;" src="   https://image.toast.com/aaaaab/ticketlink/TKL_5/pst_0327.jpg"/>
               </div>
               <div class="grid_info">
                 <span class="region">서울</span>
@@ -919,16 +989,16 @@
                 <div class="flag_area"></div>
               </div>
             </div>
-          </div>
-        </a>
+          </a>
+        </div>
     </li>  
     
         <li class="grid_item">
           <div class="grid_unit">
-            <a class="link">
+            <a class="link" href="" target="_blank" style="display:block;">
               <div class="imgbox"> 
                 <!-- before -->
-                <img class="img" alt="2024인천펜타포트 락 페스티벌 X KB국민카드 스타샵" src="https://image.toast.com/aaaaab/ticketlink/TKL_6/main0517(1).jpg"/>
+                <img class="img" alt="2024인천펜타포트 락 페스티벌 X KB국민카드 스타샵" src="https://image.toast.com/aaaaab/ticketlink/TKL_6/main0517(1).jpg">
               </div>
               <div class="grid_info">
                 <span class="region">인천</span>
@@ -941,8 +1011,8 @@
                 <div class="flag_area"></div>
               </div>
             </div>
-          </div>
-        </a>
+          </a>
+        </div>
     </li>  
         <li class="grid_item1">
           <div class="grid_unit">
@@ -962,12 +1032,11 @@
                 <div class="flag_area"></div>
               </div>
             </div>
-          </div>
-        </a>
+          </a>
+        </div>
     </li>  
   </ul>
 </div>
-    </div>
   </section>
 
 <!-- 상단 예약 정보 확인 -->
@@ -1057,7 +1126,10 @@
       </li>
     </ul>
   </div>
+</footer>
+ 
  <!-- 맨 밑 하단 회사정보-->
+<section>
  <div class="footer_inner">
   <span class="footer_corp_title"><b>준영 주식회사</b></span>
   <address class="footer_address">
@@ -1119,7 +1191,7 @@
       </li>
     </ul>
   </div>
-</div>
+ </div>
 </section>
 
 <!-- JavaScript -->
@@ -1207,6 +1279,76 @@
       $("#review").attr('aria-selected', 'false');
     })
   })
+</script>
+
+<script>
+function ScriptwriteInsert() {
+    const title = document.getElementById('title').value.trim();
+    const content = document.getElementById('content').value.trim();
+    const starRatings = document.querySelectorAll('.star_rating');
+
+	 // 별점을 저장할 변수를 초기화
+	let star_rating = 1;
+
+	 // 각 라디오 버튼에 이벤트 리스너 추가
+ 	starRatings.forEach(radio => {
+  	radio.addEventListener('change', function() {
+       // 선택된 라디오 버튼의 값 가져오기
+    star_rating = Integer.parseInt(this.value);
+
+  	});
+  	
+      form.action = '/Tcp2/ScriptwriteServlet';
+      form.method = 'doget';
+      form.submit();
+  }
+</script>
+
+<script>
+	function ratingwriteInsert() {
+		
+	const content = document.getElementById('rating_content').value.trim();
+	
+	form.action = '/Tcp2/Ins_Exp_ratingServlet';
+	form.method = 'doget';
+	form.submit();
+	
+	}
+	
+</script>
+
+<script>
+$(document).ready(function() {
+    // 초기 색상 설정
+    $(".fa-star").css("color", "black");
+
+    $(".fa-star").click(function() {
+        const starId = $(this).attr("id"); // 클릭한 스타의 ID 가져오기
+        const starValue = parseInt(starId.replace("star", "")); // ID에서 숫자 추출
+
+        // 현재 색상 상태 확인
+        const isSelected = $(this).css("color") === "rgb(255, 0, 0)"; // 빨간색인지 확인
+
+        if (isSelected) {
+            // 클릭한 별이 이미 선택되어 있다면 그 별만 꺼짐
+            $(this).css("color", "black");
+        } else {
+            // 클릭한 별과 이전 별들을 빨간색으로 변경
+            for (let i = 1; i <= starValue; i++) {
+                $("#star" + i).css("color", "#FF0000");
+            }
+            $("#star1").css("color", "#FF0000");
+        }
+
+        // 클릭한 별보다 높은 별들은 꺼지게 설정
+        for (let i = starValue + 1; i <= 5; i++) {
+            $("#star" + i).css("color", "black");
+        }
+        $("#star1").css("color", "#FF0000");
+    });
+});
+
+
 </script>
 
 </body>

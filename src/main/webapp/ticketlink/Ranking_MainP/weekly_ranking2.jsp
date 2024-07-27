@@ -1,12 +1,41 @@
+<%@page import="java.util.Date"%>
+<%@page import="java.text.ParseException"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="dao.Genre_RankDAO"%>
+<%@page import="dto.Genre_RankDTO"%>
+<%@page import="java.util.ArrayList"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+<%
+	int genre_idx = 1;
+	String date = "20240416";
+	// int genre_idx = Integer.parseInt(request.getParameter("genre_idx"));
+	// String date = request.getParameter("date");
+	ArrayList<Genre_RankDTO> list =  new Genre_RankDAO().selectGenre_RankDTO(genre_idx, date);
+	String[] startDate = list.get(0).getPlayStartDate().split(" ");
+	String[] endDate = list.get(0).getPlayEndDate().split(" ");
+	 
+	SimpleDateFormat inputFormat = new SimpleDateFormat("yyyyMMdd");
+	SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy년 M월 d일 (E)");
+
+	 String[] selectDate = list.get(0).getRegDate().split("");
+
+	Date d = inputFormat.parse(String.join("", selectDate));
+	String formattedDate = outputFormat.format(d);
+
+%>
+<!-- Area_Rank dao/ dto  -->
+<!-- Genre_Rank dao/ dto -->
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
+ <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>주간베스트</title> 
-  <link rel="stylesheet" type="text/css" href="/ticketlink/Ranking_MainP/ranking.css">
-  <link rel="stylesheet" href="/assets/css/common.css">
-  <link rel="stylesheet" href="/assets/css/reset.css">
+  <link rel="stylesheet" href="../../assets/css/common.css">
+  <link rel="stylesheet" href="../../assets/css/reset.css">
+  <link rel="stylesheet" type="text/css" href="../../assets/css/ranking.css">
 </head>
 
 <!-- 맨 위 상단 메뉴바  -->
@@ -198,7 +227,7 @@
                   <!-- ::after -->
                 </span>
                 <span class="blind">현재 집계기간 : </span>
-                <span class="period_current"><b>2024년 6월 6일 (목)</b></span>
+                <span class="period_current"><b></b></span>
                 <span class="blind">집계기간 변경하기</span>
                   <!-- ::after -->
               </button>
@@ -280,24 +309,23 @@
               <div class="ranking_product_info">
                 <a class="ranking_product_link">
                   <span class="ranking_product_imgbox">
-                    <img src="	https://image.toast.com/aaaaab/ticketlink/TKL_6/dawn_0430.jpg" alt="뮤지컬  &lt;새벽의 입구에서&gt;" class="ranking_product_img">
+                    <img src="<%=list.get(0).getPoster_URL()%>" alt="뮤지컬  &lt;새벽의 입구에서&gt;" class="ranking_product_img">
                     <!-- after -->
                   </span>
-                  <span class="ranking_product_title">뮤지컬 &lt;새벽의 입구에서&gt;</span>
+                  <span class="ranking_product_title"><%=list.get(0).getPlayName()%></span>
                 </a>
               </div>
             </td>
             <td>
               <div class="ranking_product_sideinfo">
-                <span class="ranking_product_period">2024.06.06 - 20204.09.01</span>
-                <span class="ranking_product_place">서경대학교 공연예술센터스콘 2관</span>
+                <span class="ranking_product_period"><%=startDate[0]%> - <%=endDate[0]%></span>
+                <span class="ranking_product_place"><%=list.get(0).getPlayHallName()%></span>
               </div>
             </td>
             <td>
               <div class="ranking_product_rate">
                 <span class="rate_percent">
-                  42.20
-                  %
+                <%=list.get(0).getPlayBookRate()%>%
                 </span>
               </div>
             </td>

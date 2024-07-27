@@ -78,6 +78,25 @@ th {
 .header_util {
   background-color: #f8f9fa;
   }
+.fa-star{
+  font-size: 20px;
+}
+.star_label {
+	cursor: pointer;
+	font-size: 2em;
+}
+.star_radio {
+    display: none;
+}
+.star_rating {
+    display: none;
+}
+
+.star_label {
+    color: #bbb;
+    padding: 0;
+    cursor: pointer;
+}
   #Page_header {
   width: 1120px;
   height: 37px;
@@ -577,6 +596,7 @@ th {
   font-weight: 600;
   width: 100px;
 }
+
 .stepinfo{
   font-weight: 600;
   font-size: 16px;
@@ -623,6 +643,7 @@ body > header{
 }
 #content{
   width: 100%;
+  border: 1px solid #e9e9e9;
 }
 #s1{
   box-sizing: content-box;
@@ -727,13 +748,16 @@ body > header{
   width: 100px;
 }
 #s2 > div:nth-child(1) > div:nth-child(2) > li > button{
-  width: 100%;
-  margin-right: 20px;
-  border-radius: 6px;
-  text-align: left;
-  width: 257px;
-  height: 71px;
-
+ 	width: 270px;
+    margin-right: 20px;
+    border-radius: 6px;
+    text-align: left;
+    height: 71px;
+    padding: 11px 18px 11px 15px;
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
 }
 #s2 > div:nth-child(1) > div:nth-child(2) > li > button > span:nth-child(1){
 display: block;
@@ -775,10 +799,34 @@ a { color:#000000;text-decoration:none; }
 .scriptCalendar > tbody > tr > td { width:33px;height:26px; }
 .calendarBtn { cursor:pointer; }
 
+.time_list{
+	width: 100%;
+}
+
 .episode_selection {
-  padding: 11px 18px 11px 15px;
-  text-align: left;
+  width: 257px;
   background-color: rgb(255, 255, 255);
+  display: flex;
+  flex-direction: column;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.time_btn {
+	width: 257px;
+	padding: 11px 18px 11px 15px;
+    width: 100%;
+    border-color: #242428;
+    border-radius: 6px;
+    text-align: left;
+}
+.c_member {
+	display: block;
+	width: 100%;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 .detail_reserve {
   width: 270px;
@@ -836,12 +884,12 @@ a { color:#000000;text-decoration:none; }
 .detail_tabcontent {
   margin: 0 auto;
   width: 1120px;
-  height: 29882px;
+
 }
 .section_detail {
   margin: 0 auto;
   width: 1120px;
-  height: 29882px;
+
   padding-top: 40px;
 }
 .content_subtit {
@@ -858,10 +906,10 @@ a { color:#000000;text-decoration:none; }
   line-height: 22px;
   color: #62676c;
   width: 1120px;
-  height: 88px;
+  height: 150px;
 }
 .content_subtit {
-  margin-top: 40px;
+  margin-top: 80px;
 }
 .banner {
   margin-bottom: 12px;
@@ -904,13 +952,12 @@ a { color:#000000;text-decoration:none; }
   width: 1120px;
 }
 .section_product_recommend {
-  margin-top: 80px;
+  margin-top: 250px;
 }
 /* #review */
 .section_product_tabcont {
   padding-top: 40px;
   width: 1120px;
-  height: 710px;
   display: block;
   margin: 0 auto;
 }
@@ -959,6 +1006,7 @@ a { color:#000000;text-decoration:none; }
   width: 136px;
   height: 24px;
 }
+/*
 .star::before {
   display: block;
   filter: hue-rotate(350deg) brightness(655%) grayscale(75%);
@@ -967,6 +1015,7 @@ a { color:#000000;text-decoration:none; }
   height: 100%;
   background: url("data:image/svg+xml;charset=utf-8,%3Csvg width='136' height='24' fill='%23242428' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='m17.6 14.525 2.72 8.159a.99.99 0 0 1-.36 1.127 1.003 1.003 0 0 1-1.19-.013L12 18.704l-6.77 5.055a1.003 1.003 0 0 1-1.529-.47.99.99 0 0 1-.021-.605l2.72-8.12-6-4.477a.995.995 0 0 1-.349-1.11.995.995 0 0 1 .949-.68h7.5L11.05.683A.995.995 0 0 1 12 0a1.003 1.003 0 0 1 .95.684l2.55 7.612H23a1.003 1.003 0 0 1 .949.68.99.99 0 0 1-.349 1.111l-6 4.438ZM45.6 14.525l2.72 8.159a.99.99 0 0 1-.36 1.127 1.003 1.003 0 0 1-1.19-.013L40 18.704l-6.77 5.055a1.002 1.002 0 0 1-1.529-.47.99.99 0 0 1-.021-.605l2.72-8.12-6-4.477a.995.995 0 0 1-.349-1.11.995.995 0 0 1 .949-.68h7.5L39.05.683A.995.995 0 0 1 40 0a1.003 1.003 0 0 1 .95.684l2.55 7.612H51a1.003 1.003 0 0 1 .949.68.99.99 0 0 1-.349 1.111l-6 4.438ZM73.6 14.525l2.72 8.159a.99.99 0 0 1-.36 1.127 1.003 1.003 0 0 1-1.19-.013L68 18.704l-6.77 5.055a1.002 1.002 0 0 1-1.529-.47.99.99 0 0 1-.021-.605l2.72-8.12-6-4.477a.995.995 0 0 1-.349-1.11.995.995 0 0 1 .949-.68h7.5L67.05.683A.995.995 0 0 1 68 0a1.003 1.003 0 0 1 .95.684l2.55 7.612H79a1.003 1.003 0 0 1 .949.68.99.99 0 0 1-.349 1.111l-6 4.438ZM101.6 14.525l2.72 8.159a.99.99 0 0 1-.361 1.127 1.003 1.003 0 0 1-1.189-.013L96 18.704l-6.77 5.055a1.002 1.002 0 0 1-1.529-.47.99.99 0 0 1-.021-.605l2.72-8.12-6-4.477a.995.995 0 0 1-.349-1.11.995.995 0 0 1 .949-.68h7.5L95.05.683A.995.995 0 0 1 96 0a1.003 1.003 0 0 1 .95.684l2.55 7.612h7.5a1.006 1.006 0 0 1 .949.68.997.997 0 0 1-.349 1.111l-6 4.438ZM129.6 14.525l2.72 8.159a.99.99 0 0 1-.361 1.127 1.003 1.003 0 0 1-1.189-.013L124 18.704l-6.77 5.055a1.002 1.002 0 0 1-1.529-.47.992.992 0 0 1-.021-.605l2.72-8.12-6-4.477a.997.997 0 0 1 .6-1.791h7.5l2.55-7.612A.995.995 0 0 1 124 0a1 1 0 0 1 .95.684l2.55 7.612h7.5a1.006 1.006 0 0 1 .949.68.997.997 0 0 1-.349 1.111l-6 4.438Z'/%3E%3C/svg%3E");
 }
+*/
 .star_per {
   position: absolute;
   top: 0;
@@ -986,7 +1035,7 @@ a { color:#000000;text-decoration:none; }
 }
 .comment_write {
   width: 1120px;
-  height: 260px;
+  height: 450px;
 }
 .comment_notice {
   display: flex;
@@ -1020,14 +1069,14 @@ a { color:#000000;text-decoration:none; }
   border: 1px solid #e8eaf1;
   border-radius: 10px;
   width: 1120px;
-  height: 226px;
+  height: 400px;
 }
 .comment_content {
-  padding: 15px 0 22px;
+  padding-top: 30px;
 }
 .comment_star_rate {
   margin-bottom: 18px;
-  padding: 0 20px;
+  padding: 0 10px;
   font-size: 0;
 }
 .star_select {
@@ -1053,8 +1102,8 @@ a { color:#000000;text-decoration:none; }
   width: 18px;
   height: 18px;
   margin-left: 3px;
-  background: url("data:image/svg+xml;charset=utf-8,%3Csvg width='18' height='18' fill='%23242428' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='m13.237 10.92 1.998 6.09a.75.75 0 0 1-1.159.84L9 14.06l-5.036 3.79a.749.749 0 0 1-1.16-.84l2-6.09L.306 7.56a.74.74 0 0 1 .45-1.34h5.625L8.291.51a.75.75 0 0 1 1.418 0l1.909 5.71h5.626a.739.739 0 0 1 .45 1.34l-4.457 3.36Z'/%3E%3C/svg%3E");
-  filter: hue-rotate(350deg) brightness(655%) grayscale(75%);
+/*  background: url("data:image/svg+xml;charset=utf-8,%3Csvg width='18' height='18' fill='%23242428' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='m13.237 10.92 1.998 6.09a.75.75 0 0 1-1.159.84L9 14.06l-5.036 3.79a.749.749 0 0 1-1.16-.84l2-6.09L.306 7.56a.74.74 0 0 1 .45-1.34h5.625L8.291.51a.75.75 0 0 1 1.418 0l1.909 5.71h5.626a.739.739 0 0 1 .45 1.34l-4.457 3.36Z'/%3E%3C/svg%3E");
+    filter: hue-rotate(350deg) brightness(655%) grayscale(75%);  */
 }
 .star_desc {
   display: inline-block;
@@ -1070,13 +1119,18 @@ a { color:#000000;text-decoration:none; }
   height: 84px;
   width: 1116px;
 }
+.comment_content {
+	height: 330px;
+	
+}
 .comment_textarea {
+  border: 1px solid #e9e9e9;
   overflow-y: overlay;
   scrollbar-width: thin;
   scrollbar-color: rgba(36, 36, 40, 4) rgb(0, 0, 0, 0);
   width: 100%;
   padding: 0 30px 0 20px;
-  height: 84px;
+  height: 163px;
   border: 0;
   font-size: 14px;
   line-height: 22px;
@@ -1145,12 +1199,96 @@ a { color:#000000;text-decoration:none; }
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 .comment_empty {
+  display: none;
   padding: 120px 120px;
   border-bottom: 1px solid #ecedf2;
   font-size: 16px;
   line-height: 24px;
   text-align: center;
   color: #62676c;
+}
+.empty_box {
+  margin-top: 50px;
+  position: relative;
+  border-bottom: 1px soild #ecedf2;
+  padding: 24px 100px 27px 0;
+  width: 1120px;
+  height: 136px;
+}
+.empty_star {
+	margin-bottom: 10px;
+}
+.empty_star {
+	position: relative;
+	width: 82px;
+	height: 14px;
+}
+
+.star14_per {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.empty_title {
+	margin-top: 12px;	
+    font-size: 18px;
+    line-height: 22px;
+    color: #242428;
+}
+.empty_comment {
+	margin-top: 12px;
+	font-size: 15px;
+    line-height: 22px;
+    color: #242428;
+}
+.comment_info {
+	font-size: 0;
+    margin-top: 14px;
+}
+.comment_id {
+	display: inline-block;
+    font-size: 14px;
+    line-height: 22px;
+    color: #62676c;
+}
+.comment_date {
+	position: relative;
+    font-family: "Roboto", -apple-system, BlinkMacSystemFont, Apple SD Gothic Neo, "Malgun Gothic", Arial, sans-serif;
+    font-weight: 300;
+    padding-left: 10px;
+    display: inline-block;
+    font-size: 14px;
+    line-height: 22px;
+    color: #62676c;
+}
+.comment_date::before {
+    position: absolute;
+    top: 50%;
+    left: 4px;
+    margin-top: -1px;
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    background-color: #62676c;
+    content: "";
+}
+.comment_purchaser {
+    display: inline-block;
+    margin-left: 4px;
+    padding: 3px 7px;
+    border: 1px solid #fa2828;
+    border-radius: 16px;
+    font-size: 12px;
+    line-height: 12px;
+    color: #fa2828;
+}
+.script_delete {
+	float: right;
+	background-color: rgb(255 ,255 ,255);
+}
+.rating_delete {
+	float: right;
+	background-color: rgb(255 ,255 ,255);
 }
 .paging {
   text-align: center;
@@ -1275,7 +1413,6 @@ a { color:#000000;text-decoration:none; }
 .section_preview {
   display: block;
   width: 1120px;
-  height: 539px;
   margin: 0 auto;
 }
 
@@ -1290,6 +1427,7 @@ a { color:#000000;text-decoration:none; }
 }
 .product_content_heading {
   margin-top: 0;
+  font-size: x-large !important;
 }
 .product_content_title {
   display: inline-flex;
@@ -1307,12 +1445,12 @@ a { color:#000000;text-decoration:none; }
   border: 1px solid #e8eaf1;
   border-radius: 10px;
   width: 1120px;
-  height: 186px;
+  height: 300px;
 }
 .product_comment_content {
   padding: 15px 0 22px;
   width: 1120px;
-  height: 121px;
+  height: 230px;
 }
 .comment_input_box {
   position: relative;
@@ -1321,9 +1459,9 @@ a { color:#000000;text-decoration:none; }
   overflow-y: overlay;
     scrollbar-width: thin;
     scrollbar-color: rgba(36, 36, 40, .4) rgba(0, 0, 0, 0);
-    width: 100%;
+    width: 99%;
     padding: 0 30px 0 20px;
-    height: 84px;
+    height: 200px;
     border: 0;
     font-size: 14px;
     line-height: 22px;
@@ -1346,7 +1484,8 @@ a { color:#000000;text-decoration:none; }
 .product_comment_item {
   position: relative;
   border-bottom: 1px solid #ecedf2;
-  padding: 24px 100px 27px 0;
+  padding: 24px 10px 27px 0;
+  width: 100%;
 }
 .product_comment_desc {
   font-size: 15px;
