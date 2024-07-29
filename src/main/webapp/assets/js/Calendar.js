@@ -90,19 +90,25 @@
             dom++;
         }
     }
-    function calendarChoiceDay(column) {
-      var choiceDay = document.querySelector(".choiceDay");
-        if (choiceDay) {
-          choiceDay.classList.remove("choiceDay");
-          choiceDay.style.backgroundColor = "#FFF";
-          choiceDay.style.borderRadius = "0";
-          choiceDay.style.color = ""; 
-        }
-        column.classList.add("choiceDay");
-        column.style.backgroundColor = "#000";
-        column.style.borderRadius = "50%";
-        column.style.color = "#fff";
-      }
+function calendarChoiceDay(column) {
+    var choiceDay = document.querySelector(".choiceDay");
+    if (choiceDay) {
+        choiceDay.classList.remove("choiceDay");
+        choiceDay.style.backgroundColor = "#FFF";
+        choiceDay.style.borderRadius = "0";
+        choiceDay.style.color = ""; 
+    }
+    column.classList.add("choiceDay");
+    column.style.backgroundColor = "#000";
+    column.style.borderRadius = "50%";
+    column.style.color = "#fff";
+
+    // 선택한 날짜 가져오기
+    const selectedDate = `${toDay.getFullYear()}-${autoLeftPad(toDay.getMonth() + 1, 2)}-${autoLeftPad(column.innerText, 2)}`;
+    
+    // alert 창 띄우기
+    alert(selectedDate);
+}
     function autoLeftPad(num, digit) {
         if(String(num).length < digit) {
             num = new Array(digit - String(num).length + 1).join("0") + num;
@@ -131,6 +137,7 @@
       // 버튼 클릭시 컨텐츠 전환
       activeCont = this.getAttribute('button');
       document.querySelector(activeCont).style.display = 'block';
+	
     });
   }
   
