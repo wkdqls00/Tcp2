@@ -241,7 +241,11 @@
               </div>
               <div class="textareaBox">
                 <div class="introductionBox" style="min-height: auto; height: 40px;">
+                <%if (mmppDTO.getNickname() != null) {%>
                   <input type="text" id="selfIntroduction" maxlength="50" placeholder="닉네임입력" class="_descriptionInput" value="<%=mmppDTO.getNickname()%>">
+                  <% } else {%>
+                  <input type="text" id="selfIntroduction" maxlength="50" placeholder="닉네임입력" class="_descriptionInput">
+                  <% } %>
                 </div>
               </div>
             </li>

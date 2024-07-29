@@ -25,10 +25,9 @@ public class MeetJoinQnAPrintDAO {
         Connection conn = d.getConn();
 
         String sql = 
-        		"SELECT  m.name, m.sub_q "
-        		+ "FROM meet m, meet_rec_write r "
-        		+ "WHERE m.meet_idx = r.meet_idx "
-        		+ "AND m.meet_idx = ?";
+        		"SELECT name, sub_q "
+        		+ "FROM meet  "
+        		+ "WHERE meet_idx= ? ";
 
         PreparedStatement pstmt = d.getPstmt(conn, sql);
         

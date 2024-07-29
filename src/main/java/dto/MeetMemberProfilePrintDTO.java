@@ -4,7 +4,14 @@ public class MeetMemberProfilePrintDTO {
 	int member_idx;
 	String profile;
 	String nickname;
+	String mNickname;
 	
+	public String getmNickname() {
+		return mNickname;
+	}
+	public void setmNickname(String mNickname) {
+		this.mNickname = mNickname;
+	}
 	public int getMember_idx() {
 		return member_idx;
 	}
@@ -28,9 +35,10 @@ public class MeetMemberProfilePrintDTO {
 		return "MeetMemberProfilePrintDTO [profile=" + profile + ", nickname=" + nickname + "]";
 	}
 	
-	public MeetMemberProfilePrintDTO(int member_idx, String nickname, String profile) {
+	public MeetMemberProfilePrintDTO(int member_idx, String nickname, String profile, String mNickname) {
 		this.member_idx = member_idx;
 		this.profile = profile;
 		this.nickname = nickname;
+		this.mNickname = mNickname;
 	}
 }

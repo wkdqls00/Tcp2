@@ -312,7 +312,11 @@
             <% } %>
             </span>
             <div class="set_body">
-              <span class="name"><%=mmppDTO.getNickname() %>님의 프로필</span>
+            <%if(mmppDTO.getNickname() == null){ %>
+              <span class="name"><%=mmppDTO.getmNickname()%>님의 프로필</span>
+              <% }else {%>
+              <span class="name"><%=mmppDTO.getNickname()%>님의 프로필</span>
+              <% } %>
               <span class="subtxt"></span>
             </div>
             <form action="band_profile.jsp" method="post">

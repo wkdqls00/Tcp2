@@ -16,6 +16,41 @@
   <link rel="stylesheet" href="../assets/css/band.css">
   <script src="https://code.jquery.com/jquery-latest.min.js"></script>
   <title>밴드 생성</title>
+   <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+   <script>
+   		$(function() {
+   			$("._btnConfirm").click(function() {
+   				let name = $("#ex_name").val();
+   				let url = $(".selectedCover").attr("src");
+   				let member_idx = <%=member_idx%>
+   				let sub_q = $("#inputSubQ").val();
+   				
+   				
+   				$.ajax({
+   					url: '${pageContext.request.contextPath}/AjaxInsertMeet',
+   					data: {name : name, url : url, member_idx : member_idx, sub_q : sub_q},
+   					type: 'get',
+   					success: function(response){
+   						alert("소모임이 생성되었습니다.");
+   						location.href="band_main.jsp?member_idx="+ <%=member_idx%>;
+   					},
+   					error: function(){
+   						console.log('ajax 통신 실패');	
+   					}
+   				});
+   			})
+   		})
+   		function uploadImg(input) {
+   			if(input.files && input.files[0]) {
+   				let reader = new FileReader();
+   				reader.onload = function (e) {
+   				 $(".selectedCover").attr("src", e.target.result);
+   				}
+   				reader.readAsDataURL(input.files[0]);
+   			}
+   		}
+   </script>
+   
 </head>
 <body>
   <div class="wrap">
@@ -62,14 +97,15 @@
       <main id="aside_content">
         <section class="band_make">
           <h2 class="band_name_cover">밴드 이름 및 커버</h2>
-          <form action="myband_setting_leader.jsp" class="form">
+          <form action="../CreateNewBandServlet" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="member_idx" value="<%=member_idx%>">
             <fieldset>
               <legend class="band_name_cover">밴드 이름 및 커버
               </legend>
               <div class="make_cover">
                 <label class="make_title" for="ex_name">밴드 이름</label>
                 <div class="input_band">
-                  <input type="text" class="_input_band_name" id="ex_name" placeholder="밴드 이름 입력">
+                  <input type="text" class="_input_band_name" id="ex_name" placeholder="밴드 이름 입력" name="name">
                 </div>
                 <div class="cover_select">
                   <div class="main_cover">
@@ -86,7 +122,8 @@
                     <li>
                       <span class="cover_change">
                         <label for="add_photo" class="label_add_photo">사진 추가</label>
-                        <input type="file" class="image_update" id="add_photo" accept="image/*">
+                        <input type="file" class="image_update" id="add_photo" accept="image/*" onchange="uploadImg(this)" name="url">
+                        
                         <span class="focus_outline"></span>
                       </span> 
                     </li>
@@ -140,6 +177,13 @@
                   <p class="make_not_ice_text">밴드이름과 사진은 개설 후에도 변경할 수 있어요</p>
                 </div>
               </div>
+              <div class="sub_q_label">
+              	<label class="sub_q make_title">밴드 가입 질문</label>
+              	<div class="input_subQ">
+              		<input type="text" id="inputSubQ" placeholder="가입 질문을 입력해주세요." name="sub_q">
+              	</div>
+              </div>
+              
 <!--               <div class="make_color"> -->
 <!--                 <h2 class="color_title">밴드 컬러</h2> -->
 <!--                 <ul class="color_list"> -->
@@ -234,6 +278,12 @@
 		  $(".profileDropDown").css('display', 'none');
 	}
    }) 
+   $(".cover_img").click(function() {
+	   let a = $(this).attr('src');
+	   $(".selectedCover").attr("src",a);
+   })
+   $("")
+
   });
   </script>
 </body>

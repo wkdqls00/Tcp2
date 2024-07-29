@@ -23,10 +23,12 @@ public class MeetMemberProfilePrintDAO {
         DatabaseUtil d = new DatabaseUtil();
         Connection conn = d.getConn();
 
-        String sql = "SELECT member_idx, nickname, profile "
-        		+"FROM meet_member "
-        		+"WHERE meet_idx =? "
-        		+"AND member_idx = ?";
+        String sql = 
+        		"SELECT mm.member_idx, mm.nickname, mm.profile, m.nickname "
+        		+ "FROM meet_member mm, member m "
+        		+ "WHERE mm.member_idx = m.member_idx "
+        		+ "AND mm.meet_idx = ? "
+        		+ "AND m.member_idx = ?";
 
         PreparedStatement pstmt = d.getPstmt(conn, sql);
 
@@ -41,8 +43,9 @@ public class MeetMemberProfilePrintDAO {
         		int member_idx1 = rs.getInt(1);
         		String nickname = rs.getString(2);
         		String profile = rs.getString(3);
+        		String mNickname = rs.getString(4);
         		
-        		meetMemberProfilePrintDTO = new MeetMemberProfilePrintDTO(member_idx1, nickname, profile); // 저장한 값으로 SeatStatus 객체 생성
+        		meetMemberProfilePrintDTO = new MeetMemberProfilePrintDTO(member_idx1, nickname, profile, mNickname); // 저장한 값으로 SeatStatus 객체 생성
         	}
         } catch (Exception e) {
         	e.printStackTrace();
