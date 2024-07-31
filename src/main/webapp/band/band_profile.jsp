@@ -46,27 +46,15 @@
   <title>BAND - PROFILE</title>
   <script src="https://code.jquery.com/jquery-latest.min.js"></script>
   <script>
-//   	$(function() {
-//   		// 닉네임 설정
-//   		$(".btnSave").click(function() {
-//   			let nickname = $("._descriptionInput").val();
-<%--   			let member_idx = <%=member_idx%>; --%>
-<%--   			let meet_idx = <%=meet_idx%>; --%>
-  			
-//   			$.ajax({
-// 				url: '${pageContext.request.contextPath}/AjaxNicknameSettingServlet',
-// 				data: {meet_idx : meet_idx, member_idx : member_idx, nickname : nickname},
-// 				type: 'get',
-// 				success: function(response){
-// 					alert("닉네임이 변경되었습니다.");
-<%-- 					location.href = "myband_setting_leader.jsp?meet_idx=" + <%=meet_idx%> + "&member_idx=" + <%=member_idx%>; --%>
-// 				},
-// 				error: function(){
-// 					console.log('ajax 통신 실패');	
-// 				}
-// 			});
-//   		})
-//   	});
+   		function uploadImg(input) {
+   			if(input.files && input.files[0]) {
+   				let reader = new FileReader();
+   				reader.onload = function (e) {
+   					$(".profileImage").attr("src", e.target.result);
+   				}
+   				reader.readAsDataURL(input.files[0]);
+   			}
+   		}
   </script>
 </head>
 <body>
@@ -162,7 +150,7 @@
                   <span class="cover_inner">
                   <img
                     <% if (miDto.getUrl() != null) {%>
-                    	src = "<%= miDto.getUrl() %>"
+                    	src = "../upload/<%= miDto.getUrl() %>"
                    	<% } %>
                    	>
                   </span>
@@ -224,11 +212,12 @@
             <div class="profileSettingCard">
               <div class="imgBox _defaultProfileImgBox"></div>
               <div class="imgBox _existProfileImgBox" <%=(mmppDTO.getProfile()==null ? "style='display:none;'" : "") %>>
-              	<img class="profileImage" alt="프로필 사진" src="<%=mmppDTO.getProfile()%>">
+              	<img class="profileImage" alt="프로필 사진" src="../upload/<%=mmppDTO.getProfile()%>">
               </div>
               <span class="addPhoto _btnProfile">
                 <label for="addPhoto" class="_labelProfile">프로필 사진 추가</label>
-                <input id="addPhoto" type="file" accept="image/*" name="profile" class="inputFile">
+                <input id="addPhoto" type="file" accept="image/*" name="profile" class="inputFile" onchange="uploadImg(this)">
+                <img class="profileImg">
              </span>
             </div>
           </div>
@@ -398,6 +387,9 @@
 			$(".profileDropDown").css('display', 'none');
 		}
       })
+      
+      
+   			
     });
   </script>
 </body>

@@ -123,7 +123,6 @@
                       <span class="cover_change">
                         <label for="add_photo" class="label_add_photo">사진 추가</label>
                         <input type="file" class="image_update" id="add_photo" accept="image/*" onchange="uploadImg(this)" name="url">
-                        
                         <span class="focus_outline"></span>
                       </span> 
                     </li>
@@ -278,11 +277,12 @@
 		  $(".profileDropDown").css('display', 'none');
 	}
    }) 
+   
+   // 밴드 이미지 클릭 미리보기
    $(".cover_img").click(function() {
 	   let a = $(this).attr('src');
 	   $(".selectedCover").attr("src",a);
    })
-   $("")
 
   });
   </script>

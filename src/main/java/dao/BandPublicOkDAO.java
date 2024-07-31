@@ -28,7 +28,7 @@ public class BandPublicOkDAO {
         	
         	bandPublicOkDTO = new BandPublicOkDTO(public_ok); // 저장한 값으로 SeatStatus 객체 생성
         }
-        
+        d.close(conn, pstmt, rs);
         return bandPublicOkDTO;
     }
 }

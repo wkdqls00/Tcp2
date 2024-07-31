@@ -42,6 +42,7 @@ public class MeetSettingPrintDAO {
 
         	meetSettingPrintDTO = new MeetSettingPrintDTO(name, url); // 저장한 값으로 SeatStatus 객체 생성
         }
+        d.close(conn, pstmt, rs);
         return meetSettingPrintDTO;
      }
 }

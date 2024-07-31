@@ -119,9 +119,9 @@ public class NoJoinMeetDAO {
         	result = rs.getInt(1);
         }
         
-        rs.close();
-		pstmt.close();
 		conn.close();
+		pstmt.close();
+		rs.close();
 		
 		return result == 1;
     }

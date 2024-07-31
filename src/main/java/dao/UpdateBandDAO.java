@@ -145,4 +145,25 @@ public class UpdateBandDAO {
 		}
     }
     
+    //밴드 프로필 이미지 업데이트
+    public void updateBandImage(String url, int meet_idx) {
+        DatabaseUtil d = new DatabaseUtil();
+        Connection conn = d.getConn();
+
+        String sql = 
+        		"UPDATE meet "
+        		+ "SET url= ? "
+        		+ "WHERE meet_idx = ?";
+        PreparedStatement pstmt = d.getPstmt(conn, sql);
+        try {
+        	pstmt.setString(1, url);
+			pstmt.setInt(2, meet_idx);
+			int result = pstmt.executeUpdate();
+			System.out.println(result + "행 성공적으로 업데이트됨");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			d.close(conn, pstmt);
+		}
+    }
 }

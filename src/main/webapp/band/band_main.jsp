@@ -174,7 +174,7 @@
               <div class="uCoverImage -border">
                 <span class="coverInner">
                 <% if(mbDto.getUrl() != null) { %>
-                  <img class="coverImg" src="<%= mbDto.getUrl() %>" alt>
+                  <img class="coverImg" src="../upload/<%= mbDto.getUrl() %>">
                   <% } else { %>
                   <img class="coverImg">
                   <% } %>
@@ -236,7 +236,7 @@
               </div>
               <div id="band_meet_content_img">
               <% if (sDto.getUrl() != null) { %>
-                <img src="<%=sDto.getUrl() %>" class="band_cover_img">
+                <img src="../upload/<%=sDto.getUrl() %>" class="band_cover_img">
                 <% } else { %>
                 <img class="band_cover_img">
                 <% } %>

@@ -117,6 +117,7 @@ public class SelectBandDAO {
     			
     			selectMeetAreaIdxDTO = new SelectMeetAreaIdxDTO(meet_area_idx); // 저장한 값으로 SeatStatus 객체 생성
         }
+        d.close(conn, pstmt, rs);
     
 		return selectMeetAreaIdxDTO;
     }
@@ -146,7 +147,7 @@ public class SelectBandDAO {
     			
     			selectAreaDetailDTO = new SelectBandAreaDTO(area_detail, name); // 저장한 값으로 SeatStatus 객체 생성
         }
-    
+        d.close(conn, pstmt, rs);
 		return selectAreaDetailDTO;
     }
     
@@ -173,7 +174,7 @@ public class SelectBandDAO {
     			
     			selectNicknameDTO = new SelectNicknameDTO(nickname); // 저장한 값으로 SeatStatus 객체 생성
         }
-    
+        d.close(conn, pstmt, rs);
 		return selectNicknameDTO;
     }
 }

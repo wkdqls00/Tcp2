@@ -151,7 +151,7 @@
                  <span class="cover_inner">
                  <img
                    <% if (miDto.getUrl() != null) {%>
-                   	src = "<%= miDto.getUrl() %>"
+                   	src = "../upload/<%= miDto.getUrl() %>"
                   	<% } %>
                   	>
                  </span>
@@ -252,7 +252,7 @@
                   <li class="uFlexItem">
                     <a class="uProfile">
                       <span class="profileInner">
-                        <img src="<%=dto.getProfile() %>" width="50" height="50">
+                        <img src="../upload/<%=dto.getProfile() %>" width="50" height="50">
                       </span>
                     </a>
                     <div class="body">
