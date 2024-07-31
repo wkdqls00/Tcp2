@@ -36,7 +36,6 @@ public class CheckNick extends HttpServlet {
         DatabaseUtil d = new DatabaseUtil();
 	    Connection conn = d.getConn();
         
-        
         if (nick == null || nick.trim().isEmpty()) {
             response.getWriter().write("닉네임을 입력하세요.");
             return;

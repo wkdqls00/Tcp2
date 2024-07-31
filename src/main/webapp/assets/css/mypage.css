@@ -105,8 +105,8 @@ input {
     color: red;
 }
 .quick_menu_item.info a:before, .quick_menu_item.reserve a:before {
-    background-image: url(	https://th.bing.com/th/id/OIP.GcpUB3UxsaArPwX00cYZmQHaEK?w=304&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7);
-    background-size: 150px;
+    background-image: url("https://th.bing.com/th/id/OIP.M6uZkJQo_eA396J_-nTPnAHaHa?rs=1&pid=ImgDetMain");
+    background-size: 80px;
     background-position: center;
     background-repeat: no-repeat;
     width: 100px;
@@ -119,8 +119,9 @@ input {
     border-radius: 7px;
 }
 .quick_menu_item.reserve a:before {
-    background-size: 400px;
-    background-position: right -127px;
+	background-image: url("https://static.vecteezy.com/system/resources/previews/012/027/723/original/admit-one-ticket-icon-black-and-white-isolated-wite-free-vector.jpg");
+    background-size: 130px 194px;
+    background-position: center;
 }
 .qmenu_box {
     margin-left: 10px;

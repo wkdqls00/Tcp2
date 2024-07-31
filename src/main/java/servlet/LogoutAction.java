@@ -19,8 +19,9 @@ public class LogoutAction extends HttpServlet {
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession hs = request.getSession(false);
-		
+//		int idx = (int)hs.getAttribute("userIdx");
 		if(hs != null) {
+//			System.out.println(idx + "회원 로그아웃.");
 			hs.invalidate();
 			response.sendRedirect("/Tcp2/ticketlink/main.jsp");
 		} else {

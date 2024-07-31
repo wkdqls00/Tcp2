@@ -1,4 +1,4 @@
-s<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,12 +12,12 @@ s<%@ page language="java" contentType="text/html; charset=UTF-8"
 </head>
 <body>
     <div class="common_header"> <!--홈페이지상단-->
-        <div class="header_inner">
+        <div class="header_inner">	
             <div class="inner">
-                <a href="https://www.naver.com" class="header_logo"><span class="hidden">사이트이름</span></a>
+                <a href="/Tcp2/ticketlink/main.jsp" class="header_logo"><span class="hidden">사이트이름</span></a>
                 <ul class="my_menu">
                     <li>
-                        <a href="/Tcp2/LogoutAction">로그아웃</a>
+                        <li class="utill_link"><a href="#" onclick="if(confirm('로그아웃 하시겠습니까?')) { window.location.href='/Tcp2/LogoutAction'; } return false;">로그아웃</a></li>
                     </li>
                 </ul>
             </div>
@@ -34,7 +34,7 @@ s<%@ page language="java" contentType="text/html; charset=UTF-8"
                     <ul>
                         <li class="modify"><a href="/Tcp2//Modify_memberServlet">회원정보수정</a></li>
                         <li class="password"><a href="/Tcp2/Modify_passwordServlet">비밀번호변경</a></li>
-                        <li class="sns"><a href="http://127.0.0.1:5500/TicketProject/Modify/modify_memberjoin.html">계정연결설정</a></li>
+                        <li class="sns"><a href="/Tcp2/ticketlink/Modify/Modify_memberJoin.jsp">계정연결설정</a></li>
                         <li class="withdrawal current"><a href="/Tcp2//Modify_withdrawalServlet">회원탈퇴</a></li>
                     </ul>
                 </div> <!--왼쪽 메뉴들-->

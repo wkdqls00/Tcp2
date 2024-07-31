@@ -21,7 +21,7 @@ String name = (String)request.getAttribute("name");
                 <a href="https://www.naver.com" class="header_logo"><span class="hidden">사이트이름</span></a>
                 <ul class="my_menu">
                     <li>
-                        <a href="/Tcp2/LogoutAction">로그아웃</a>
+                        <li class="utill_link"><a href="#" onclick="if(confirm('로그아웃 하시겠습니까?')) { window.location.href='/Tcp2/LogoutAction'; } return false;">로그아웃</a></li>
                     </li>
                 </ul>
             </div>

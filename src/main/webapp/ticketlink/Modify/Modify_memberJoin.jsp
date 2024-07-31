@@ -5,16 +5,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>비밀번호변경</title>
+    <title>계정연결설정</title>
     <link rel="stylesheet" href="/Tcp2/assets/css/modify_member.css">
-    <link rel="stylesheet" href="/Tcp2/assets//css/modify_password.css">
-    <link rel="stylesheet" href="/Tcp2/assets//css/footer.css">
+    <link rel="stylesheet" href="/Tcp2/assets/css/modify_memberjoin.css">
+    <link rel="stylesheet" href="/Tcp2/assets/css/footer.css">
 </head>
 <body>
     <div class="common_header"> <!--홈페이지상단-->
         <div class="header_inner">
             <div class="inner">
-                <a href=/Tcp2/ticketlink/main.jsp class="header_logo"><span class="hidden">사이트이름</span></a>
+                <a href="/Tcp2/ticketlink/main.jsp" class="header_logo"><span class="hidden">사이트이름</span></a>
                 <ul class="my_menu">
                     <li>
                         <li class="utill_link"><a href="#" onclick="if(confirm('로그아웃 하시겠습니까?')) { window.location.href='/Tcp2/LogoutAction'; } return false;">로그아웃</a></li>
@@ -28,48 +28,45 @@
             <div class="left_menu_area">
                 <div class="my_area"> 
                     <p>환영합니다</p>
-                    <p><%=request.getAttribute("name")%>님</p>
+                    <p>이준영님</p>
                 </div>
                 <div class="my_menu_area"> <!--왼쪽 메뉴들-->
                     <ul>
                         <li class="modify"><a href="/Tcp2//Modify_memberServlet">회원정보수정</a></li>
-                        <li class="password current"><a href="/Tcp2/Modify_passwordServlet">비밀번호변경</a></li>
-                        <li class="sns"><a href="/Tcp2/ticketlink/Modify/Modify_memberJoin.jsp">계정연결설정</a></li>
+                        <li class="password"><a href="/Tcp2/Modify_passwordServlet">비밀번호변경</a></li>
+                        <li class="sns current"><a href="/Tcp2/ticketlink/Modify/Modify_memberJoin.jsp">계정연결설정</a></li>
                         <li class="withdrawal"><a href="/Tcp2//Modify_withdrawalServlet">회원탈퇴</a></li>
                     </ul>
                 </div> <!--왼쪽 메뉴들-->
             </div>
-            <form action="/Tcp2/Modify_passwordAction" name="password_modify" method="get"> <!--가운데 회원정보들-->
+            <form action=""> <!--가운데 회원정보들-->
                 <div class="sub_content_wrap">
-                    <h2 class="main_title">비밀번호변경</h2>
-                    <div class="pw_to_box">
-                        <p class="top_title">
-                            <br>주기적인 <span style="color: #ef3e42">비밀번호 변경</span>을 통해<br> 개인정보를 안전하게 보호하세요.
-                        </p>
+                    <h2 class="main_title">계정연결설정</h2>
+                    <div class="del_tab_wrap">
+                          <span>SNS 연결설정(준비중)</span>
                     </div>
-                    <div class="pw_input_box">
+                    <div class="sns_div">
+                        <div class="mem_topbox">
+                            <p>계정 연결을 통해 간편하게 로그인하세요.</p>
+                            <span class="caution">
+                                개인정보 보호를 위해 공용 PC에서 사용 후,<br>
+                                SNS 계정의 로그아웃 상태를 반드시 확인해주세요.
+                            </span>
+                        </div>
+                    </div>
+                    <div class="sns_list">
                         <ul>
-                            <li>
-                                <div class="style_input">
-                                    <input type="password" class="i_input" id="fst_password" placeholder="새 비밀번호" name="newPw">
-                                    <p class="error" style="color: #ef3e42; font-size: 12px; display: none;">잘못된 형식의 비밀번호입니다.</p>
-                                </div>
+                            <li class="naver">
+                                <span class="sns_name">네이버</span>
+                                <span class="date">(연결: 1949-04-15)</span>
+                                <a href="" class="btn_common">해제하기</a>
                             </li>
-                            <li>
-                                <div class="style_input">
-                                    <input type="password" class="i_input" id="snd_password" placeholder="새 비밀번호 확인">
-                                </div>
+                            <li class="kakao">
+                                <span class="sns_name">카카오</span>
+                                <span class="date">(연결: 1949-04-15)</span>
+                                <a href="" class="btn_common red">연결하기</a>
                             </li>
                         </ul>
-                        <p class="pw_noti">8~12자의 영문, 숫자, 특수문자 중 2가지 이상으로만 가능합니다.</p>
-                    </div>
-                    <div class="inter_btn_area">
-                        <span>
-                            <button type="submit" class="btn_white">취소</button>
-                        </span>
-                        <span>
-                            <button type="submit" class="btn_red">변경</button>
-                        </span>
                     </div>
                 </div>
             </form> <!--가운데 회원정보들-->
@@ -77,6 +74,10 @@
     </div>
     <!-- 맨 밑 하단 안내사항 -->
 <footer id="common_footer">
+    <button type="button" class="btn_move_top is-active is-stuck">
+      <!-- ::before -->
+      <span class="blind1">맨 위로 이동하기</span>
+    </button>
     <div class="footer_menu">
       <ul class="footer_menu_list">
         <li class="footer_menu_item">
@@ -174,36 +175,9 @@
     </div>
   </div>
   <script>
-    // 새비밀번호랑 새비밀번호 확인 비교 
-    document.addEventListener("DOMContentLoaded", function() {
-
-      document.querySelector(".btn_red").addEventListener("click", function() {
-        let p1 = document.getElementById("fst_password").value;
-        let p2 = document.getElementById("snd_password").value;
-        let regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-        if(p1 !== p2) {
-          event.preventDefault();
-          alert("비밀번호가 일치하지 않습니다.")
-        } else if(!regex.test(p1)) {
-          event.preventDefault();
-          alert("잘못된 형식의 비밀번호입니다.")
-        } else {
-          alert("비밀번호가 변경되었습니다. \n 다시 로그인해주세요.")
-        }
-      });
-
-      // 비밀번호 조건문(정규표현으로)
-      document.getElementById("fst_password").addEventListener("input", function() {
-        let error = document.querySelector(".error");
-        let regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-        let text = this.value;
-        if(!regex.test(text)) {
-          error.style.display = "block";
-        } else {
-          error.style.display = "none";
-        }
-      });
-    });
+  	window.onload = function() {
+  		alert("준비중인 페이지입니다.")
+  	}
   </script>
 </body>
 </html>
