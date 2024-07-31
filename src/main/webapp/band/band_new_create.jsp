@@ -18,28 +18,28 @@
   <title>밴드 생성</title>
    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
    <script>
-   		$(function() {
-   			$("._btnConfirm").click(function() {
-   				let name = $("#ex_name").val();
-   				let url = $(".selectedCover").attr("src");
-   				let member_idx = <%=member_idx%>
-   				let sub_q = $("#inputSubQ").val();
+//    		$(function() {
+//    			$("._btnConfirm").click(function() {
+//    				let name = $("#ex_name").val();
+//    				let url = $(".selectedCover").attr("src");
+<%--    				let member_idx = <%=member_idx%> --%>
+//    				let sub_q = $("#inputSubQ").val();
    				
    				
-   				$.ajax({
-   					url: '${pageContext.request.contextPath}/AjaxInsertMeet',
-   					data: {name : name, url : url, member_idx : member_idx, sub_q : sub_q},
-   					type: 'get',
-   					success: function(response){
-   						alert("소모임이 생성되었습니다.");
-   						location.href="band_main.jsp?member_idx="+ <%=member_idx%>;
-   					},
-   					error: function(){
-   						console.log('ajax 통신 실패');	
-   					}
-   				});
-   			})
-   		})
+//    				$.ajax({
+//    					url: '${pageContext.request.contextPath}/AjaxInsertMeet',
+//    					data: {name : name, url : url, member_idx : member_idx, sub_q : sub_q},
+//    					type: 'get',
+//    					success: function(response){
+//    						alert("소모임이 생성되었습니다.");
+<%--    						location.href="band_main.jsp?member_idx="+ <%=member_idx%>; --%>
+//    					},
+//    					error: function(){
+//    						console.log('ajax 통신 실패');	
+//    					}
+//    				});
+//    			})
+//    		})
    		function uploadImg(input) {
    			if(input.files && input.files[0]) {
    				let reader = new FileReader();
@@ -97,7 +97,7 @@
       <main id="aside_content">
         <section class="band_make">
           <h2 class="band_name_cover">밴드 이름 및 커버</h2>
-          <form action="../CreateNewBandServlet" method="post" enctype="multipart/form-data">
+          <form action="${pageContext.request.contextPath}/CreateNewBandServlet" method="post" enctype="multipart/form-data">
           <input type="hidden" name="member_idx" value="<%=member_idx%>">
             <fieldset>
               <legend class="band_name_cover">밴드 이름 및 커버

@@ -46,27 +46,27 @@
   <title>BAND - PROFILE</title>
   <script src="https://code.jquery.com/jquery-latest.min.js"></script>
   <script>
-  	$(function() {
-  		// 닉네임 설정
-  		$(".btnSave").click(function() {
-  			let nickname = $("._descriptionInput").val();
-  			let member_idx = <%=member_idx%>;
-  			let meet_idx = <%=meet_idx%>;
+//   	$(function() {
+//   		// 닉네임 설정
+//   		$(".btnSave").click(function() {
+//   			let nickname = $("._descriptionInput").val();
+<%--   			let member_idx = <%=member_idx%>; --%>
+<%--   			let meet_idx = <%=meet_idx%>; --%>
   			
-  			$.ajax({
-				url: '${pageContext.request.contextPath}/AjaxNicknameSettingServlet',
-				data: {meet_idx : meet_idx, member_idx : member_idx, nickname : nickname},
-				type: 'get',
-				success: function(response){
-					alert("닉네임이 변경되었습니다.");
-					location.href = "myband_setting_leader.jsp?meet_idx=" + <%=meet_idx%> + "&member_idx=" + <%=member_idx%>;
-				},
-				error: function(){
-					console.log('ajax 통신 실패');	
-				}
-			});
-  		})
-  	});
+//   			$.ajax({
+// 				url: '${pageContext.request.contextPath}/AjaxNicknameSettingServlet',
+// 				data: {meet_idx : meet_idx, member_idx : member_idx, nickname : nickname},
+// 				type: 'get',
+// 				success: function(response){
+// 					alert("닉네임이 변경되었습니다.");
+<%-- 					location.href = "myband_setting_leader.jsp?meet_idx=" + <%=meet_idx%> + "&member_idx=" + <%=member_idx%>; --%>
+// 				},
+// 				error: function(){
+// 					console.log('ajax 통신 실패');	
+// 				}
+// 			});
+//   		})
+//   	});
   </script>
 </head>
 <body>
@@ -212,23 +212,24 @@
       <!-- 프로필 설정 -->
       <main id="content" role="main" class="midContent">
         <div class="settingBand">
+         <form action="../UpdateProfileServlet" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="meet_idx" value="<%=meet_idx %>">
+          <input type="hidden" name="member_idx" value="<%=member_idx %>">
           <div class="headerWrap">
             <header class="profile_header">
-            
               <h1 class="h1ProfileTitle"> 프로필 설정 </h1>
             </header>
           </div>
           <div class="profileSettingCardBox">
             <div class="profileSettingCard">
-              <div class="imgBox _defaultProfileImgBox">
-              </div>
+              <div class="imgBox _defaultProfileImgBox"></div>
               <div class="imgBox _existProfileImgBox" <%=(mmppDTO.getProfile()==null ? "style='display:none;'" : "") %>>
-              <img class="profileImage" alt="프로필 사진" src="<%=mmppDTO.getProfile()%>">
+              	<img class="profileImage" alt="프로필 사진" src="<%=mmppDTO.getProfile()%>">
               </div>
               <span class="addPhoto _btnProfile">
                 <label for="addPhoto" class="_labelProfile">프로필 사진 추가</label>
-                <input id="addPhoto" type="file" accept="image/*" name="attachment" class="inputFile" title>
-              </span>
+                <input id="addPhoto" type="file" accept="image/*" name="profile" class="inputFile">
+             </span>
             </div>
           </div>
           <ul class="settingList">
@@ -242,9 +243,9 @@
               <div class="textareaBox">
                 <div class="introductionBox" style="min-height: auto; height: 40px;">
                 <%if (mmppDTO.getNickname() != null) {%>
-                  <input type="text" id="selfIntroduction" maxlength="50" placeholder="닉네임입력" class="_descriptionInput" value="<%=mmppDTO.getNickname()%>">
+                  <input type="text" id="selfIntroduction" name="nickname" maxlength="50" placeholder="닉네임입력" class="_descriptionInput" value="<%=mmppDTO.getNickname()%>">
                   <% } else {%>
-                  <input type="text" id="selfIntroduction" maxlength="50" placeholder="닉네임입력" class="_descriptionInput">
+                  <input type="text" id="selfIntroduction" name="nickname" maxlength="50" placeholder="닉네임입력" class="_descriptionInput">
                   <% } %>
                 </div>
               </div>
@@ -252,8 +253,9 @@
           </ul>
           <div class="btnFooter">
             <button type="button" onClick="history.back()" class="btnCancel">취소</button>
-            <button type="button" class="btnSave">저장</button>
+            <button type="submit" class="btnSave">저장</button>
           </div>
+          </form>
         </div>
       </main>
        <!-- 메인 내용 오른쪽 채팅방 목록 : 가입했을 시 출력 -->

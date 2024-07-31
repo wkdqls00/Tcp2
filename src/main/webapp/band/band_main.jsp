@@ -62,10 +62,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="../assets/css/band_main.css">
-  <link rel="stylesheet" href="../assets/css/clear.css">
-  <link rel="stylesheet" href="../assets/css/band_header.css"> 
-  <link rel="stylesheet" href="../assets/css/band.css">
+  <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/band_main.css">
+  <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/clear.css">
+  <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/band_header.css"> 
+  <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/band.css">
   <title>BAND - 메인 페이지</title>
   <script src="https://code.jquery.com/jquery-latest.min.js"></script>
   <style>
@@ -169,7 +169,7 @@
        	%>
         <li class="band_card_item">
           <div id="band_inner">
-            <a href="band_home.jsp?member_idx=<%=member_idx%>&meet_idx=<%=mbDto.getMeet_idx()%>" class="band_cover_link">
+            <a href="<%=request.getContextPath()%>/band/band_home.jsp?member_idx=<%=member_idx%>&meet_idx=<%=mbDto.getMeet_idx()%>" class="band_cover_link">
             <div id="cover_band">
               <div class="uCoverImage -border">
                 <span class="coverInner">
