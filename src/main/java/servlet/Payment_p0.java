@@ -21,6 +21,7 @@ public class Payment_p0 extends HttpServlet {
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		PrintWriter out = response.getWriter();
 		Integer userIdx = (Integer)request.getSession().getAttribute("userIdx");
+
 		System.out.println("user : " + userIdx);
 		if(userIdx == null) {
 			out.println("<html>");

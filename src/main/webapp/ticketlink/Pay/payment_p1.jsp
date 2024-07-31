@@ -36,7 +36,7 @@ String seatImg = (String)request.getAttribute("seatImg");
 %>
 
   <header>
-    <img src="/Tcp2/assets/img/ticklink/종튼.png" alt="">
+    <img src="/Tcp2/assets/img/ticklink/logo.svg" alt="">
   </header>
   <div id="paystepup1">
     <img src="/Tcp2/assets/img/ticklink/결제단계1.png" alt="">

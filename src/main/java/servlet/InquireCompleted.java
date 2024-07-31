@@ -1,13 +1,18 @@
 package servlet;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Enumeration;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import dao.InquiryDAO;
 
@@ -37,10 +42,19 @@ public class InquireCompleted extends HttpServlet {
 			out.println("</html>");	
 			return;
 		}
-		String category = request.getParameter("category");
+		String path = getServletContext().getRealPath("/upload");
+		System.out.println(path);
+		File filepath = new File(path);
+		if(!(filepath.exists())) filepath.mkdirs();
+		MultipartRequest multi = new MultipartRequest(request, path, 1024*1024*10, "UTF-8", new DefaultFileRenamePolicy());
+		Enumeration <?> files = multi.getFileNames();
+		String fileObject = (String)files.nextElement();
+		String filename = multi.getFilesystemName(fileObject);
+		System.out.println(filename);
+		String category = multi.getParameter("category");
 		String email = "";
-		email = request.getParameter("email") + "@" + request.getParameter("emaildomain");
-		String reservationnumParam = request.getParameter("reservationnum");
+		email = multi.getParameter("email") + "@" + multi.getParameter("emaildomain");
+		String reservationnumParam = multi.getParameter("reservationnum");
 		Integer reservationnum = null;
 		if (reservationnumParam != null) {
 			String cleanedReservationNum = reservationnumParam.replaceAll("[^0-9]", "");
@@ -51,12 +65,12 @@ public class InquireCompleted extends HttpServlet {
 		if (reservationnum == null) {
 			reservationnum = -1;
 		}
-		String product = request.getParameter("product");
-		String title = request.getParameter("title");
-		String content = request.getParameter("content");
-		String agreecheck = request.getParameter("agreecheck").equals("on") ? "Y" : "N";// 약관 동의하면 y 아니면 n
+		String product = multi.getParameter("product");
+		String title = multi.getParameter("title");
+		String content = multi.getParameter("content");
+		String agreecheck = multi.getParameter("agreecheck").equals("on") ? "Y" : "N";// 약관 동의하면 y 아니면 n
 		InquiryDAO dao = new InquiryDAO();
-		dao.insertinquiry(category, email, reservationnum, product, title, content, agreecheck, userIdx);
+		dao.insertinquiry(category, email, reservationnum, product, title, content, agreecheck, userIdx, filename);
 		request.getRequestDispatcher("/ticketlink/inquire/inquire_success.html").forward(request, response);
 	}
 

@@ -12,13 +12,13 @@ public class InquiryDAO {
 
 	}
 
-	public void insertinquiry(String category, String email, int reservationnum, String product, String title, String content, String agreecheck, int member_idx) {
+	public void insertinquiry(String category, String email, int reservationnum, String product, String title, String content, String agreecheck, int member_idx, String filename) {
 		DatabaseUtil d = new DatabaseUtil();
 		Connection conn = d.getConn();
 		String sql = 
 				"INSERT INTO inquiry (inquiry_idx, type, paynumber, play_name, " + 
-				"email, title, content, member_idx, reg_date, process_st) " + 
-				"VALUES (seq_inquiry.nextval, ?, ?, ?, ?, ?, ?, ?, sysdate, ?)";
+				"email, title, content, member_idx, reg_date, process_st, filename) " + 
+				"VALUES (seq_inquiry.nextval, ?, ?, ?, ?, ?, ?, ?, sysdate, ?, ?)";
 		PreparedStatement pstmt = d.getPstmt(conn, sql);
 		try {
 			pstmt.setString(1, category);
@@ -29,6 +29,7 @@ public class InquiryDAO {
 			pstmt.setString(6, content);
 			pstmt.setInt(7, member_idx);
 			pstmt.setString(8, "처리대기");
+			pstmt.setNString(9, filename);
 			System.out.println(pstmt.executeUpdate() + "행 삽입됨");
 		}catch(SQLException e) {
 			e.printStackTrace();

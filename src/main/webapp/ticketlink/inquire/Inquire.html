@@ -258,7 +258,7 @@
 <body>
   <div id="container">
     <div>문의하기</div>
-        <form id="inquiryForm" onsubmit="return validateForm()">
+        <form id="inquiryForm" onsubmit="return validateForm()" enctype="multipart/form-data"> 
     
     <div class="inquirydiv">
       <div class="itemdiv">
@@ -309,7 +309,7 @@
         </div>
         <div class="content7">
           <div class="file-input-container">
-            <input type="file" id="addfile" class="file-input">
+            <input type="file" id="addfile" class="file-input" name="fileadd">
             <label for="addfile" class="file-label">파일 선택</label>
             <div id="file_name" class="file-name"></div>
           </div>
@@ -328,7 +328,7 @@
       <div class="agreeinfo">위,개인정보 수집 및 활용에 동의합니다.
       </div>
     </div>
-    <div class="endbox"><button class="end" onclick="goInsert()">접수</button></div>
+    <div class="endbox"><button type="button" class="end" onclick="goInsert()">접수</button></div>
     </form>
   </div>
   <script>
