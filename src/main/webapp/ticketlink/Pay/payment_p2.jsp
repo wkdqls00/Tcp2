@@ -46,19 +46,19 @@ for (int i = 0; i < rsidto.size(); i++) {
     String rank = rsidto.get(i).getRank();
     final String seatRank;
     switch (pricelist.size()) {
-    case 1:
-        seatRank = "전";
-        break;
-    case 2:
-        seatRank = rank.equals("VIP") ? "VIP" : "R";
-        break;
-    case 3:
-        seatRank = rank.equals("VIP") ? "VIP" : (rank.equals("R") ? "R" : "S");
-        break;
-    default:
-        seatRank = rank;
-        break;
-}
+	    case 1:
+	        seatRank = "전";
+	        break;
+	    case 2:
+	        seatRank = rank.equals("VIP") ? "VIP" : "R";
+	        break;
+	    case 3:
+	        seatRank = rank.equals("VIP") ? "VIP" : (rank.equals("R") ? "R" : "S");
+	        break;
+	    default:
+	        seatRank = rank;
+	        break;
+		}
     String seatprice = pricelist.stream()
         .filter(p -> seatRank.equals(p.getRank()))//같은랭크만 남김
         .map(p -> p.getPrice()) //가격추출
@@ -106,9 +106,29 @@ for (int i = 0; i < rsidto.size(); i++) {
         예매정보
       </div>
       <div class="reservationinfoborder">
-      <%for(int i = 0; i < rsidto.size(); i++){ %>
+      <%
+	for(int i = 0; i < rsidto.size(); i++){ 
+    String seatrank = "";
+		switch(pricelist.size()){
+		case 1 : {
+			seatrank = "전";
+			break;			
+		}
+		case 2 : {
+			seatrank = rsidto.get(i).getRank().equals("VIP") ? "VIP" : "R";
+			break;
+		}
+		case 3 : {
+			seatrank = rsidto.get(i).getRank().equals("VIP") ? "VIP" : (rsidto.get(i).getRank().equals("R") ? "R" : "S");
+			break;
+		}
+		default : {
+			seatrank = rsidto.get(i).getRank();
+		}
+    }
+      %>
 	     <div class="reservationinfodiv">
-	        <div class="reservationinfoborder1"><%=rsidto.get(i).getRank()%>석</div>
+	        <div class="reservationinfoborder1"><%=seatrank%>석</div>
 	        <div class="reservationinfoborder2"><%=rsidto.get(i).getSeat_chart()%></div>
 	     </div>
       <%} %>
@@ -141,10 +161,17 @@ for (int i = 0; i < rsidto.size(); i++) {
       <div class="cancel"><span class="canceltitle">취소기한:</span><%=time_limit%></div>
       <div class="cancel" style="margin-top: 0px;"><span class="canceltitle">취소수수료:</span>티켓금액의 0%~30%</div>
       <div class="prenextbutton">
-        <div><button class="prenextbtn" onclick="history.back()">이전단계</button></div>
-        <div><button class="prenextbtn" onclick="location.href='/Tcp2/Payment_p2?pi=<%=playinfo_idx%>&pm=<%=payment_idx%>&totalamount=<%=total%>'">다음단계</button></div>
-      </div>
-    </div>
-  </main>
+      <div><button class="prenextbtn" onclick="history.back()">이전단계</button></div>
+	  <form id="paymentForm" action="/Tcp2/Payment_p2" method="POST" style="display:none;">
+        <input type="hidden" name="pi" value="<%=playinfo_idx%>">
+    	<input type="hidden" name="pm" value="<%=payment_idx%>">
+    	<input type="hidden" name="totalamount" value="<%=total%>">
+	  </form>
+	<div>
+	  <button class="prenextbtn" onclick="document.getElementById('paymentForm').submit();">다음단계</button>
+	</div>
+  </div>
+</div>
+</main>
 </body>
 </html>

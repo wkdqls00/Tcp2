@@ -101,10 +101,8 @@ String seatImg = (String)request.getAttribute("seatImg");
 <%
 for (int i = 0; i < pricelist.size(); i++) {
     int leftseat[] = new int[4];
-
-    // pricelist의 크기에 따른 색상 설정 (예시)
     if(pricelist.size() == 1){
-        color[0] = "#B5E61D";	
+        color[0] = "#B5E61D"; //색상설정
     }
 
     // leftseat 배열에 값 할당
@@ -132,7 +130,7 @@ for (int i = 0; i < pricelist.size(); i++) {
           <img src="/Tcp2/assets/img/ticklink/좌석선점어쩌구.png" alt="">
         </div>
         <div class="prenextbutton">
-          <div><button class="prenextbtn" >이전단계</button></div>
+          <div><button class="prenextbtn" onclick="window.close()">이전단계</button></div>
           <div><button id="nextBtn" class="prenextbtn" onclick="">다음단계</button></div>
         </div>
       </div>

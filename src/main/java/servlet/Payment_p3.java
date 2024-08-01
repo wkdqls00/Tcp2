@@ -20,12 +20,14 @@ import dao.PayDao;
 public class Payment_p3 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("text/html; charset=UTF-8");
-		PrintWriter out = response.getWriter();
+		request.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
+        PrintWriter out = response.getWriter();
 		PayDao dao = new PayDao();
 		int payment_idx = Integer.parseInt(request.getParameter("pm"));
 		dao.updatePayment2(payment_idx);
-		
+		request.getRequestDispatcher("/ticketlink/Pay/paycomplete.html").forward(request, response);
+
 		
 		
 		
