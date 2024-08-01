@@ -109,33 +109,6 @@
 			});
 		});
 		
-		// 글쓰기 (Insert)
-		$(".writeSubmitBox").find(".uButton").click(function() {
-			var formData = new FormData();
-			let file_url = $("input[name='postFileUrl']");
-			var files = file_url[0].files;
-			alert(file_url);
-
-			let content = $(".cke_editable").val();
-			
-			/* if ($("#postInputFile")[0].length == undefined) {
-				file_url = "null";
-			} else {
-				file_url = $("#postInputFile")[0].files;
-			} */
-			
-			/* $.ajax({
-				url: '${pageContext.request.contextPath}/AjaxPostInsertServlet',
-				data: {meet_idx : meet_idx, meet_member_idx : meet_member_idx, content : content, file_url : file_url },
-				type: 'get',
-				success: function(response){
-				},
-				error: function(){
-					console.log('ajax 통신 실패');		
-				}
-			})	 */
-		})
-		
 		// 댓글 쓰기 (Insert)
 		$(".cCommentWrite").find(".writeSubmit").click(function() {
 		
@@ -179,11 +152,11 @@
 		
 		// 최신순, 오래된 순
 		
-		if ($(".buttonSorting").attr("id") == "downArrow") {
+		<%-- if ($(".buttonSorting").attr("id") == "downArrow") {
 			<% String order = "DESC"; %>
 		} else {
 			<% order = "ASC"; %>
-		}
+		} --%>
 		
 		//밴드 가입하기 답변 작성
 		$("#insertBtn").click(function() {
@@ -204,6 +177,23 @@
 					alert("이미 가입 신청이 되어있습니다.");
 					location.reload();
 					<% } %>
+				}
+			});
+		})
+		
+		// 채팅방 만들기
+		$("#createChatButton").click(function() {
+			let member_idx = <%= member_idx %>;
+			let title = $("#chatTitleInput").val();
+			let meet_idx = <%= meet_idx %>;
+			
+			$.ajax({
+				url: '${pageContext.request.contextPath}/AjaxCreateChatServlet',
+				data: {member_idx : member_idx, title : title, meet_idx : meet_idx },
+				type: 'get',
+				success: function(response){
+					alert("채팅방 생성이 완료 되었습니다!");
+					location.reload();
 				}
 			});
 		})
@@ -467,11 +457,11 @@
           <% } %>
           <!-- 게시글 목록 : 헤더 영역 -->
           <div class="boardTag">
-            <div class="boardTagHead">
+            <!-- <div class="boardTagHead">
               <div class="sortingMenu">
                 <button class="buttonSorting" id="downArrow">최신순</button>
               </div>
-            </div>
+            </div> -->
           </div>
           <!-- 게시글 목록 : 내용 영역 -->
           <div class="moduleBox">
@@ -955,7 +945,7 @@
             <section class="bandChannerView">
               <h2 class="tit">채팅</h2>
               <div class="chat_setting_wrap">
-                <button class="chat_setting_btn">설정</button>
+                <!-- <button class="chat_setting_btn">설정</button> -->
               </div>
               <div class="body">
                 <div class="new_chatting_wrap">
@@ -972,14 +962,18 @@
                     <ul class="chat">
                     <% for (ChatListDTO cDto2 : chatListDto) { %>
                       <li>
-                        <button class="itemLink" onclick="window.open('chat.jsp', '', 'width=415, height=643')">
+                        <button class="itemLink" onclick="window.open('chat.jsp?chat_idx=' + <%= cDto2.getChat_idx()  %> + '&meet_idx=' + <%= meet_idx %>, '', 'width=415, height=643')">
                           <span class="thum">
                             <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240603162344/images/template/multi_profile_60x60.png"
                             height="30" width="30">
                           </span>
                           <span class="cont">
                             <strong class="text"><%= cDto2.getTitle() %></strong>
+                            <% if (cDto2.getContent() != null) { %>
                             <span class="sub"><%= cDto2.getContent() %></span>
+                            <% } else { %>
+                            <span class="sub">채팅을 시작해보세요.</span>
+                            <% } %>
                           </span>
                         </button>
                       </li>
@@ -1087,12 +1081,12 @@
                 채팅방 이름
               </label>
               <div class="uInput" style="height: 36px; padding: 0 10px; margin-bottom: 20px;">
-                <input type="text" placeholder="채팅방 이름을 입력해주세요.">
+                <input id="chatTitleInput" type="text" placeholder="채팅방 이름을 입력해주세요.">
                 <span class="border"></span>
               </div>
             </div>
             <footer class="footer">
-              <button class="uButton -confirm -sizeL">완료</button>
+              <button class="uButton -confirm -sizeL" id="createChatButton">완료</button>
               <button class="btnLyClose"></button>
             </footer>
           </div>
@@ -1206,13 +1200,13 @@
 		}
 	  })
 	  // 최신순 버튼 클릭 시 화살표 모양 바뀌기
-	  $(".buttonSorting").click(function() {
+	  /* $(".buttonSorting").click(function() {
 		if ($(this).attr('id') == 'downArrow') {
 			$(this).attr('id', 'upArrow');
 		} else {
 			$(this).attr('id', 'downArrow');
 		}
-	  })
+	  }) */
 	  //오른쪽 상단 채팅 버튼 클릭시 새 채팅 화면
 	  $(".btnIconStyle").click(function(){
     	$("#newChatWrap_popUp").css('display', 'block');

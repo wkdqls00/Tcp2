@@ -22,7 +22,7 @@ public class AjaxChatJoinServlet extends HttpServlet {
 		int chat_idx = Integer.parseInt(request.getParameter("chat_idx"));
 		
 		ChatJoinDAO cjDao = new ChatJoinDAO();
-		cjDao.chatJoin(member_idx, chat_idx);
+		cjDao.chatJoin(chat_idx, member_idx);
 		
 	}
 

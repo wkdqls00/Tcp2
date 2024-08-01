@@ -112,6 +112,7 @@
 	                console.log('ajax 통신 실패');
 	            }
 	        });
+			location.reload();
 		} else {
 			console.log('이미 참여한 회원입니다.');
 		}
@@ -245,9 +246,30 @@
                 %>
                 <!-- 채팅 내역 -->
                 <div class="childViewContainer">
-                <% // for (ChatHistoryDTO chDto : chList) { 
-                	
-                %>
+                <% if (chDto.getMember_idx() == member_idx) { %>
+                	<div class="logWrap logMy">
+	                	<a href="#" class="uProfile">
+		                  <span class="profileInner">
+		                  </span>
+		                </a>
+		                <span class="pfName">
+		                      <button class="author">
+		                      </button>
+		                    </span>
+		                <div class="msg msgContainer">
+		                  <div class="msgMain">
+		                    <div class="messageBodyWrap">
+		                      <span class="txt"><%= chDto.getContent() %></span>
+		                    </div>
+		                    <div class="aside">
+		                      <div class="msgAside">
+		                        <span class="time"><%= formattedTime %></span>
+		                      </div>
+		                    </div>
+		                  </div>
+		                </div>
+	                </div>
+                <% } else { %>
 	                <div class="logWrap logFriend">
 	                	<a href="#" class="uProfile">
 		                  <span class="profileInner">
@@ -276,7 +298,7 @@
 		                  </div>
 		                </div>
 	                </div>
-                <% // } %>
+                <% } %>
                 </div>
                <% } %>
               </div>

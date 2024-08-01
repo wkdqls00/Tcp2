@@ -4,10 +4,12 @@ public class ChatListDTO {
 	String title;
 	String content;
 	String max_send_date;
+	int chat_idx;
 	
-	public ChatListDTO(String title, String content, String max_send_date) {
+	public ChatListDTO(String title, String content, String max_send_date, int chat_idx) {
 		this.title = title;
 		this.content = content;
+		this.chat_idx = chat_idx;
 		this.max_send_date = max_send_date;
 	}
 	
@@ -18,6 +20,15 @@ public class ChatListDTO {
 	public String getTitle() {
 		return title;
 	}
+	
+	public int getChat_idx() {
+		return chat_idx;
+	}
+
+	public void setChat_idx(int chat_idx) {
+		this.chat_idx = chat_idx;
+	}
+
 	public void setTitle(String title) {
 		this.title = title;
 	}
