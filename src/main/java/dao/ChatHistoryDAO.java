@@ -32,14 +32,14 @@ public class ChatHistoryDAO {
         Connection conn = d.getConn();
 
         String sql = 
-        		"SELECT COUNT(re.unread_member_idx), m_m.nickname, msg.content, msg.send_date, m_m.profile "
-        		+ "FROM read_ok re, message msg, member m, meet_member m_m "
-        		+ "WHERE msg.message_idx = re.message_idx(+) "
-        		+ "AND m.member_idx = msg.member_idx "
-        		+ "AND m.member_idx = m_m.member_idx (+) "
-        		+ "AND chat_idx = ?"
-        		+ "AND meet_idx = ?"
-        		+ "GROUP BY m_m.nickname, msg.content, msg.send_date, m_m.profile "
+        		"SELECT COUNT(re.unread_member_idx), m_m.nickname, msg.content, msg.send_date, m_m.profile, m_m.member_idx  "
+        		+ "FROM read_ok re, message msg, member m, meet_member m_m  "
+        		+ "WHERE msg.message_idx = re.message_idx(+)  "
+        		+ "AND m.member_idx = msg.member_idx  "
+        		+ "AND m.member_idx = m_m.member_idx (+)  "
+        		+ "AND chat_idx = ? "
+        		+ "AND meet_idx = ? "
+        		+ "GROUP BY m_m.nickname, msg.content, msg.send_date, m_m.profile, m_m.member_idx "
         		+ "ORDER BY msg.send_date";
         		
 
@@ -57,8 +57,9 @@ public class ChatHistoryDAO {
             	String content = rs.getString(3);
             	String send_date = rs.getString(4);
             	String profile = rs.getString(5);
+            	int member_idx = rs.getInt(6);
 
-            	ChatHistoryDTO chatHistoryDTO = new ChatHistoryDTO(unread_member_idx, nickname, content, send_date, profile); // 저장한 값으로 SeatStatus 객체 생성
+            	ChatHistoryDTO chatHistoryDTO = new ChatHistoryDTO(unread_member_idx, nickname, content, send_date, profile, member_idx); // 저장한 값으로 SeatStatus 객체 생성
                 list.add(chatHistoryDTO);
             }
         } catch (SQLException e) {
