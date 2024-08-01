@@ -18,7 +18,7 @@ public class PostWriteDAO {
 
         String sql = 
         		"INSERT INTO post(post_idx, meet_idx, meet_member_idx, content, reg_date, views, file_url, del_ok) "
-        		+ "VALUES(seq_post.nextval, ?,?,?, sysdate, 0, ?, N)";
+        		+ "VALUES(seq_post.nextval, ?,?,?, sysdate, 0, ?, 'N')";
         PreparedStatement pstmt = d.getPstmt(conn, sql);
         try {
         	pstmt.setInt(1, meet_idx);

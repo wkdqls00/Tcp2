@@ -28,8 +28,15 @@
 	}
 %>
 <%
-	int meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
-	int member_idx = Integer.parseInt(request.getParameter("member_idx"));
+	HttpSession hs = request.getSession();
+	int member_idx = (int)hs.getAttribute("userIdx");
+	
+	int meet_idx = 0;
+	if(request.getParameter("meet_idx")==null) {
+		meet_idx = (Integer)request.getAttribute("meet_idx");
+	} else {
+		meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
+	}
 
 	MeetMemberSettingPrintDAO mmspDAO = new MeetMemberSettingPrintDAO();
 	ArrayList<MeetMemberSettingPrintDTO> mmspListDAO = new ArrayList<>();
@@ -80,11 +87,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/clear.css'>
-  <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/band.css'>
-  <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/band_header.css'>
-  <link rel="stylesheet" type="text/css" media="screen" href="../assets/css/myband_setting.css">
-  <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/band_leave_popup.css'>
+  <link rel='stylesheet' type='text/css' media='screen' href='<%=request.getContextPath()%>/assets/css/clear.css'>
+  <link rel='stylesheet' type='text/css' media='screen' href='<%=request.getContextPath()%>/assets/css/band.css'>
+  <link rel='stylesheet' type='text/css' media='screen' href='<%=request.getContextPath()%>/assets/css/band_header.css'>
+  <link rel="stylesheet" type="text/css" media="screen" href="<%=request.getContextPath()%>/assets/css/myband_setting.css">
+  <link rel='stylesheet' type='text/css' media='screen' href='<%=request.getContextPath()%>/assets/css/band_leave_popup.css'>
   <title>BAND - <%= miDto.getMeet_name() %> - Setting - Leader</title>
   <script src="https://code.jquery.com/jquery-latest.min.js"></script>
   <script>
@@ -99,6 +106,7 @@
 	  				data: {meet_idx : meet_idx, join_ok : 'N' },
 	  				type: 'get',
 	  				success: function(response) {
+	  					location.reload();
 	  				}
   				})
 			} else if(join_ok == 'N'){
@@ -107,6 +115,7 @@
 	  				data: {meet_idx : meet_idx, join_ok : 'Y'},
 	  				type: 'get',
 	  				success: function(response) {
+	  					location.reload();
 	  				}
   				})
 			}
@@ -123,6 +132,7 @@
 	  				data: {meet_idx : meet_idx, sub_qok : 'N'},
 	  				type: 'get',
 	  				success: function(response) {
+	  					location.reload();
 	  				}
 				})
 		  }else if(sub_qok == 'N') {
@@ -131,6 +141,7 @@
 	  				data: {meet_idx : meet_idx, sub_qok : 'Y'},
 	  				type: 'get',
 	  				success: function(response) {
+	  					location.reload();
 	  				}
 				})
 		  }
@@ -177,7 +188,7 @@
                 <span class="uProfile">
                   <span class="profileInner">
                	   <% if (mMemberProfilePrintDTO.getProfile() != null) { %>
-               		<img src="<%= mMemberProfilePrintDTO.getProfile() %>"
+               		<img src="../upload/<%= mMemberProfilePrintDTO.getProfile() %>"
                     width="30" height="30">
                     <% } else { %>
                    <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
@@ -242,7 +253,7 @@
                   <span class="cover_inner">
                   <img
                     <% if (miDto.getUrl() != null) {%>
-                    	src = "<%= miDto.getUrl() %>"
+                    	src = "../upload/<%= miDto.getUrl() %>"
                    	<% } %>
                    	>
                   </span>
@@ -308,7 +319,7 @@
           <div class="profile_view">
           	<span class="profile_inner">
             <% if (mmppDTO.getProfile() != null) { %>
-            <img id="profile_inner" src="<%=mmppDTO.getProfile()%>" width="60" height="60" >
+            <img id="profile_inner" src="../upload/<%=mmppDTO.getProfile()%>" width="60" height="60" >
             <% } %>
             </span>
             <div class="set_body">

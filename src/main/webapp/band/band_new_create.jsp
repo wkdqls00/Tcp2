@@ -117,13 +117,11 @@
                     <div class="cover_list_head">
                       <h3>커버 선택</h3>
                     </div>
-                  
                   <ul class="change_cover_list">
                     <li>
                       <span class="cover_change">
                         <label for="add_photo" class="label_add_photo">사진 추가</label>
                         <input type="file" class="image_update" id="add_photo" accept="image/*" onchange="uploadImg(this)" name="url">
-                        
                         <span class="focus_outline"></span>
                       </span> 
                     </li>
@@ -183,7 +181,6 @@
               		<input type="text" id="inputSubQ" placeholder="가입 질문을 입력해주세요." name="sub_q">
               	</div>
               </div>
-              
 <!--               <div class="make_color"> -->
 <!--                 <h2 class="color_title">밴드 컬러</h2> -->
 <!--                 <ul class="color_list"> -->
@@ -278,11 +275,12 @@
 		  $(".profileDropDown").css('display', 'none');
 	}
    }) 
+   
+   // 밴드 이미지 클릭 미리보기
    $(".cover_img").click(function() {
 	   let a = $(this).attr('src');
 	   $(".selectedCover").attr("src",a);
    })
-   $("")
 
   });
   </script>

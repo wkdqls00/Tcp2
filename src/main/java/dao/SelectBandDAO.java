@@ -53,6 +53,8 @@ public class SelectBandDAO {
         }
         return list;
     }
+    
+    //지역별 모든 밴드 출력
     public ArrayList<SelectBandAreaDTO> selectBandAreaDTO(int meet_area_idx) throws SQLException {
         ArrayList<SelectBandAreaDTO> list = new ArrayList<>();
         DatabaseUtil d = new DatabaseUtil();
@@ -92,7 +94,7 @@ public class SelectBandDAO {
         }
         return list;
     }
-    
+   // 밴드 지역 idx 출력
     public SelectMeetAreaIdxDTO selectMeetAreaIdxDTO(int member_idx) throws SQLException {
         DatabaseUtil d = new DatabaseUtil();
         Connection conn = d.getConn();
@@ -117,6 +119,7 @@ public class SelectBandDAO {
     			
     			selectMeetAreaIdxDTO = new SelectMeetAreaIdxDTO(meet_area_idx); // 저장한 값으로 SeatStatus 객체 생성
         }
+        d.close(conn, pstmt, rs);
     
 		return selectMeetAreaIdxDTO;
     }
@@ -146,7 +149,7 @@ public class SelectBandDAO {
     			
     			selectAreaDetailDTO = new SelectBandAreaDTO(area_detail, name); // 저장한 값으로 SeatStatus 객체 생성
         }
-    
+        d.close(conn, pstmt, rs);
 		return selectAreaDetailDTO;
     }
     
@@ -173,7 +176,7 @@ public class SelectBandDAO {
     			
     			selectNicknameDTO = new SelectNicknameDTO(nickname); // 저장한 값으로 SeatStatus 객체 생성
         }
-    
+        d.close(conn, pstmt, rs);
 		return selectNicknameDTO;
     }
 }

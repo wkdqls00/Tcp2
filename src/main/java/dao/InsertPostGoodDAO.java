@@ -31,6 +31,7 @@ public class InsertPostGoodDAO {
 			while(rs.next()) {
 				selcnt = rs.getInt(1);
 			}
+			d.close(conn, pstmt, rs);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

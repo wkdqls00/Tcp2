@@ -45,7 +45,7 @@ public class MeetIntroduceWriteDAO {
         	
         	meetIntroduceWriteDTO = new MeetIntroduceWriteDTO(meet_name, url, meet_member_count); // 저장한 값으로 SeatStatus 객체 생성
         }
-            
+        d.close(conn, pstmt, rs);
         return meetIntroduceWriteDTO;
     }
 }

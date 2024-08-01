@@ -25,7 +25,7 @@ public class Payment_p0 extends HttpServlet {
 		System.out.println("user : " + userIdx);
 		if(userIdx == null) {
 			out.println("<html>");
-			out.println("<head>"); 
+			out.println("<head>");
 			out.println("<title></title>");
 			out.println("</head>");
 			out.println("<body>");

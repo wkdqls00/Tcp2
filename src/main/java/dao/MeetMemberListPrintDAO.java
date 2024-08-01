@@ -105,9 +105,9 @@ public class MeetMemberListPrintDAO {
 			result = rs.getInt(1);	// 첫 번째 컬럼의 값.
 		}
 		
-		rs.close();
-		pstmt.close();
 		conn.close();
+		pstmt.close();
+		rs.close();
     	
 		return result > 0;
     }

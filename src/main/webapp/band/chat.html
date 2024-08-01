@@ -11,6 +11,27 @@
   <!-- <script src="/socket.io/socket.io.js"></script> -->
   <script src="https://code.jquery.com/jquery-latest.min.js"></script>
   <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO" crossorigin="anonymous"></script>
+  <script>
+    let params = {"test":"YG"};
+    $(function() {
+      $.ajax({
+        type: "GET",            // HTTP method type(GET, POST) 형식이다.
+        url: "http://localhost:9090/Tcp2/AjaxChatHistoryServlet",      // 컨트롤러에서 대기중인 URL 주소이다.
+        data: params,            // Json 형식의 데이터이다.
+        crossDomain: true,
+        crossOrigin: true,
+        xhrFields: { 
+        	withCredentials: true // 클라이언트와 서버가 통신할때 쿠키와 같은 인증 정보 값을 공유하겠다는 설정
+        },
+        success: function(res){ // 비동기통신의 성공일경우 success콜백으로 들어옵니다. 'res'는 응답받은 데이터이다.
+          alert("SUCCESS");
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown){ // 비동기 통신이 실패할경우 error 콜백으로 들어옵니다.
+          alert("통신 실패.")
+        }
+      });
+    });
+  </script>
 </head>
 <body class="skin3">
   <div class="ChatMainLayoutView">

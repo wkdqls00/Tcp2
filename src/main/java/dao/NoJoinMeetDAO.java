@@ -25,7 +25,7 @@ public class NoJoinMeetDAO {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public ArrayList<NoJoinMeetDTO> selectNoJoinMeetDTO(String public_ok, String area, int member_idx) throws SQLException {
         ArrayList<NoJoinMeetDTO> list = new ArrayList<>();
         DatabaseUtil d = new DatabaseUtil();
@@ -119,9 +119,9 @@ public class NoJoinMeetDAO {
         	result = rs.getInt(1);
         }
         
-        rs.close();
-		pstmt.close();
 		conn.close();
+		pstmt.close();
+		rs.close();
 		
 		return result == 1;
     }

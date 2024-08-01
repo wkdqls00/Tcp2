@@ -104,7 +104,7 @@ public class MeetInfoWriteDAO {
 	    	int meet_area_idx = rs.getInt(5);
 	    	meetInfoWriteDTO = new MeetInfoWriteDTO(title, area_detail, name, area_idx, meet_area_idx); // 저장한 값으로 SeatStatus 객체 생성
 	    }
-	    
+	    d.close(conn, pstmt, rs);
 	    return meetInfoWriteDTO;
     }
 }

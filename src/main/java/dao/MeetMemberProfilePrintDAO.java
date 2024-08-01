@@ -50,9 +50,9 @@ public class MeetMemberProfilePrintDAO {
         } catch (Exception e) {
         	e.printStackTrace();
         } finally {
-        	rs.close();
-    		pstmt.close();
     		conn.close();
+    		pstmt.close();
+    		rs.close();
 		}
         
         return meetMemberProfilePrintDTO;

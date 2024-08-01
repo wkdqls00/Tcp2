@@ -22,6 +22,8 @@ public class MeetPostListPrintDAO {
         	System.out.println(meetPostListPrintDTO);
         }
     }
+
+	private MeetPostListPrintDTO selectMeetMemberIdxDTO;
     
     public ArrayList<MeetPostListPrintDTO> selectMeetPostListPrintDTO(int meet_idx) throws SQLException {
         ArrayList<MeetPostListPrintDTO> list = new ArrayList<>();
@@ -35,7 +37,7 @@ public class MeetPostListPrintDAO {
         		+ "AND m_m.member_idx = m.member_idx "
         		+ "AND del_ok = 'N' "
         		+ "AND p.meet_idx = ? "
-        		+ "ORDER BY p.reg_date "/* + order */;
+        		+ "ORDER BY p.reg_date DESC "/* + order */;
         		
 
         PreparedStatement pstmt = d.getPstmt(conn, sql);
@@ -87,9 +89,9 @@ public class MeetPostListPrintDAO {
 			result = rs.getInt(1);	// 첫 번째 컬럼의 값.
 		}
 		
-		rs.close();
-		pstmt.close();
 		conn.close();
+		pstmt.close();
+		rs.close();
     	
 		return result == 1;
     	
@@ -113,9 +115,9 @@ public class MeetPostListPrintDAO {
 			result = rs.getInt(1);	// 첫 번째 컬럼의 값.
 		}
 		
-		rs.close();
-		pstmt.close();
 		conn.close();
+		pstmt.close();
+		rs.close();
 		return result;
     }
     
@@ -138,5 +140,36 @@ public class MeetPostListPrintDAO {
 		} finally {
 			d.close(conn, pstmt);
 		}
+    }
+    
+    // meet_member_idx 출력
+    public MeetPostListPrintDTO selectMeetMemberIdxDTO(int member_idx, int meet_idx) throws Exception {
+    	DatabaseUtil d = new DatabaseUtil();
+        Connection conn = d.getConn();
+        
+    	String sql = "SELECT meet_member_idx "
+    			+ "FROM meet_member "
+    			+ "WHERE member_idx = ? "
+    			+ "AND meet_idx = ?";
+    	
+    	PreparedStatement pstmt = d.getPstmt(conn, sql);
+    	
+		pstmt.setInt(1, member_idx);
+		pstmt.setInt(2, meet_idx);
+		
+		ResultSet rs = pstmt.executeQuery();
+		
+		if (rs.next()) {
+			
+			int meet_member_idx = rs.getInt(1);	
+			
+			selectMeetMemberIdxDTO = new MeetPostListPrintDTO(meet_member_idx);
+		}
+		
+		conn.close();
+		pstmt.close();
+		rs.close();
+		
+		return selectMeetMemberIdxDTO;
     }
 }

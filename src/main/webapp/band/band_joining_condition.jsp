@@ -129,7 +129,7 @@
                 <span class="uProfile">
                   <span class="profileInner">
                	   <% if (mMemberProfilePrintDTO.getProfile() != null) { %>
-               		<img src="<%= mMemberProfilePrintDTO.getProfile() %>"
+               		<img src="../upload/<%= mMemberProfilePrintDTO.getProfile() %>"
                     width="30" height="30">
                     <% } else { %>
                    <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
@@ -207,7 +207,7 @@
                   <span class="cover_inner">
                   <img
                     <% if (miDto.getUrl() != null) {%>
-                    	src = "<%= miDto.getUrl() %>"
+                    	src = "../upload/<%= miDto.getUrl() %>"
                    	<% } %>
                    	>
                   </span>
