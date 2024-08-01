@@ -251,7 +251,7 @@
            <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
               <button class="btnMySetting">
                 <span class="uProfile">
-                  <span class="profileInner">
+                  <span class="">
                	   <% if (mMemberProfilePrintDTO.getProfile() != null) { %>
                		<img src="../upload/<%= mMemberProfilePrintDTO.getProfile() %>"
                     width="30" height="30">
@@ -265,7 +265,7 @@
             <% } else { %>
             <button class="btnMySetting">
                 <span class="uProfile">
-                  <span class="profileInner">
+                  <span class="">
                    <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
                    width="30" height="30">
                   </span>
@@ -504,7 +504,7 @@
 				       <a href="#" class="uProfile">
 				       <% } %>
 				       <!-- 프로필 사진 있는지 확인 -->
-				         <span class="profileInner">
+				         <span class="">
 			         		<% if (mPDto.getProfile() != null) { %>
 				         	<img src="../upload/<%= mPDto.getProfile() %>"
 				                   width="34" height="34">
@@ -638,9 +638,9 @@
 				               <% } else { %>
 				               <a href="#" class="uProfile">
 				               <% } %>
-				                 <span class="profileInner">
+				                 <span class="">
 				                 <% if (clDto.getProfile() != null) { %>
-				                   <img src="<%= clDto.getProfile() %>"
+				                   <img src="../upload/<%= clDto.getProfile() %>"
 				                   width="34" height="34">
 				                   <% } %>
 				                 </span>
@@ -693,10 +693,10 @@
                               <div class="profileStatus profileInputRegion">
                                 <div class="messageInputProfileView">
                                   <span class="current uProfile">
-                                    <span class="profileInner">
+                                    <span class="">
                                       <img
                                       <% if(mMemberProfilePrintDTO.getProfile() != null) { %>
-                                      	src="<%= mMemberProfilePrintDTO.getProfile() %>"
+                                      	src="../upload/<%= mMemberProfilePrintDTO.getProfile() %>"
                                       	<% } %>
                                       width="21" height="21">
                                     </span>
@@ -744,9 +744,9 @@
                                 <% } else { %>
                                 <a class="uProfile -border">
                                 <% } %>
-			                      <span class="profileInner">
+			                      <span class="">
 			                      <% if (mPDto.getProfile() != null) { %>
-			                        <img src="<%= mPDto.getProfile() %>" width="40" height="40">
+			                        <img src="../upload/<%= mPDto.getProfile() %>" width="40" height="40">
 		                          <% } %>
 			                      </span>
 			                    </a>
@@ -812,7 +812,7 @@
 			                      <div class="sCommentList">
 			                          <% for(CommentListViewDTO clDto : clListDTO) { 
 								         	MeetCommentElapsedTimeDTO mCDto = mCDao.selectMeetCommentElapsedTimeDTO(clDto.getComment_idx());
-							          %>
+								         	%>
 			                        <div class="cComment" id="<%= clDto.getComment_idx() %>">
 			                          <div class="DCommentView">
 			                            <div class="itemWrap">
@@ -822,10 +822,10 @@
 			                                <% } else { %>
 			                                <a class="uProfile -border">
 			                                <% } %>
-			                                  <span class="profileInner">
+			                                  <span class="">
 			                                    <img 
 			                                    <% if (clDto.getProfile() != null) { %>
-			                                    	src="<%= clDto.getProfile() %>"
+			                                    	src="../upload/<%= clDto.getProfile() %>"
 			                                    <% } %>
 			                                    width="34" height="34">
 			                                  </span>
@@ -894,7 +894,7 @@
 			                                      <% 
 			                                      try {
 			                                    	  if (mMemberProfilePrintDTO.getProfile() != null) { %>
-			                                      src = "<%= mMemberProfilePrintDTO.getProfile() %>"
+			                                      src = "../upload/<%= mMemberProfilePrintDTO.getProfile() %>"
 			                                      <% }
 		                                    	  } catch(Exception e) {
 		                                    		  e.printStackTrace();
