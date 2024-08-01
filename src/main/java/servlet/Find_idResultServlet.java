@@ -59,7 +59,7 @@ public class Find_idResultServlet extends HttpServlet {
 		        	rd.forward(request, response);
 	        	} else {
 	        		System.out.println("뭔가 문제가 있음");
-		        	response.getWriter().write("오류입니당, 확인을 누르기전 뭔가 정보를 바꾸셨나요?");
+		        	response.getWriter().write("오류입니다, 확인을 누르기전 뭔가 정보를 바꾸셨나요?");
 	        	}
 	        	
         	} catch(SQLException e) {

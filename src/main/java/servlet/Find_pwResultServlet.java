@@ -48,7 +48,7 @@ public class Find_pwResultServlet extends HttpServlet {
 	        		System.out.println("비밀번호 변경됨.");
 	        		request.getRequestDispatcher("/ticketlink/Login/Find_pwResult.jsp").forward(request, response);
 	        	} else {
-	        		response.getWriter().write("오류입니당, 확인을 누르기전 뭔가 정보를 바꾸셨나요?");
+	        		response.getWriter().write("오류입니다, 확인을 누르기전 뭔가 정보를 바꾸셨나요?");
 	        		System.out.println("뭔가 문제가 있음");
 	        		request.setAttribute("error", true);
 	        		request.getRequestDispatcher("/ticketlink/Login/Find_pw_idcheck.jsp").forward(request, response);
