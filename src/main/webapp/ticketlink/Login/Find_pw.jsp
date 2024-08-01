@@ -48,14 +48,16 @@
                             <div class="content_inner">
                                 <p class="message">입력하신 이름과 휴대폰 번호가 회원 정보와 일치한 경우 인증번호가 발송돼요.</p>
                                 <div class="input_form">
+                                <form action="/Tcp2/Find_pwResultServlet" id="toResultservlet" method="POST">
                                     <div class="input_style">
-                                        <input type="text" id="input_memberName" class="search_input" placeholder="이름">
+                                        <input type="text" name="name" id="input_memberName" class="search_input" placeholder="이름">
                                         <span class="del_btn"></span>
                                     </div>
                                     <div class="input_style">
-                                        <input type="text" id="input_memberPh" class="search_input" placeholder="휴대폰 번호 (-없이 입력)">
+                                        <input type="text" name="phone" id="input_memberPh" class="search_input" placeholder="휴대폰 번호 (-없이 입력)">
                                         <span class="del_btn"></span>
                                     </div>
+                                </form>
                                     <div class="hasBtn_wrap numbersend">
                                         <div class="input_style">
                                             <input type="text" id="certify_ph" class="input_certifyN" maxlength="6" placeholder="인증번호 6자리">
@@ -185,6 +187,7 @@
         let userCode = document.getElementById('certify_ph').value;
         if (isCodeValid && userCode == verificationCode) {
             alert("인증되었습니다!");
+            document.getElementById("toResultservlet").submit();
             // 여기다가 이제 핸드폰번호로 임시비밀번호 보내주는 코드 짜야함
         } else {
             alert("인증번호가 다릅니다.");

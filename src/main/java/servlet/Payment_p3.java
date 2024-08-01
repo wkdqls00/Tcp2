@@ -26,13 +26,6 @@ public class Payment_p3 extends HttpServlet {
 		int payment_idx = Integer.parseInt(request.getParameter("pm"));
 		dao.updatePayment2(payment_idx);
 		
-		
-		
-		
-		
-		
-		
-		
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
