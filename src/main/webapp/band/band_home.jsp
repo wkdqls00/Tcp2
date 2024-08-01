@@ -209,6 +209,16 @@
 		})
 		
   	})
+  	function uploadImg(input) {
+   			if(input.files && input.files[0]) {
+   				let reader = new FileReader();
+   				reader.onload = function (e) {
+   				 $(".postImg").attr("src", e.target.result);
+   				}
+   				reader.readAsDataURL(input.files[0]);
+   			}
+   		}
+  	
   	</script>
   <style>
   	#container.band_main_area {
@@ -253,7 +263,7 @@
                 <span class="uProfile">
                   <span class="profileInner">
                	   <% if (mMemberProfilePrintDTO.getProfile() != null) { %>
-               		<img src="<%= mMemberProfilePrintDTO.getProfile() %>"
+               		<img src="../upload/<%= mMemberProfilePrintDTO.getProfile() %>"
                     width="30" height="30">
                     <% } else { %>
                    <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
@@ -511,6 +521,7 @@
 		                   <% } %>
 				         </span>
 				       </a>
+				       </a>>
 				       <div class="postWriterInfoWrap">
 				         <span class="name">
 				           <a href="#" class="text"><%= mPDto.getNickname() %></a>
@@ -533,7 +544,7 @@
 				           <ul class="photoCollage">
 				             <li class="collageItem">
 				               <button class="collageImg">
-				                 <img src="<%= mPDto.getFile_url() %>">
+				                 <img src="../upload/<%= mPDto.getFile_url() %>">
 				               </button>
 				             </li>
 				           </ul>
@@ -779,7 +790,7 @@
 			                        <ul class="uCollage">
 			                          <li class="collageItem">
 			                            <a href="#" class="collageImg">
-			                              <img src="<%= mPDto.getFile_url() %>">
+			                              <img src="../upload/<%= mPDto.getFile_url() %>">
 			                            </a>
 			                          </li>
 			                        </ul>
@@ -1019,10 +1030,12 @@
       </div>
     </div>
     <!-- 팝업 : 글쓰기 -->
+   <form action="${pageContext.request.contextPath}/PostWriteServlet" method="post" enctype="multipart/form-data">
     <div class="layerContainerView" tabindex="-1" id="postWriteEditor_popUp" style="display: none;">
       <div class="layerContainerInnerView">
         <div class="postEditorLayerView" style="position: relative;">
           <section class="lyWrap">
+           <input type="hidden" name="meet_idx" value="<%=meet_idx %>">
             <div class="lyPostShareWrite" style="margin-top: 77px;">
               <header class="header">
                 <h1 class="title">글쓰기</h1>
@@ -1030,15 +1043,18 @@
               <div class="main">
                 <div class="postWrite">
                   <div class="postWriteForm">
-                    <textarea class="contentEditor cke_editable"></textarea>
+                    <textarea class="contentEditor cke_editable" name="content"></textarea>
                   </div>
                   <div class="buttonArea">
-                    <ul class="toolbarList">
+                    <ul class="toolbarList" style="justify-content: space-between;">
                       <li class="toolbarListItem">
-                        <label class="photo">
-                          <input type="file" accept="image/*" id="postInputFile" name="postFileUrl">
+                        <label class="photo" for="postInputFile">
+                          <input type="file" accept="image/*" id="postInputFile" onchange="uploadImg(this)" name="file_url">
                           <span class="photoIcon"></span>
                         </label>
+                      </li>
+                      <li class="toolbarListItem" >
+                        <img class="postImg" style="width:70px; height: 70px; margin-bottom:10px;" src="https://i.ibb.co/N1V2tXT/image.png">
                       </li>
                     </ul>
                     <div class="writeSubmitBox">
@@ -1050,12 +1066,13 @@
                 </div>
               </div>
               <footer class="footer">
-                <button class="btnLyClose"></button>
+                <button type="button" class="btnLyClose"></button>
               </footer>
             </div>
           </section>
         </div>
       </div>
+    </form>
     </div>
     <!-- 팝업 : 새 채팅 -->
     <div class="layerContainerView" id="newChatWrap_popUp" style="display: none;">
@@ -1101,10 +1118,13 @@
       })
       $("#postWriteBtn").click(function() {
         $("#postWriteEditor_popUp").css('display', 'block');
+    	let a = $(".contentEditor.cke_editable").val();
+    	alert(a);
       })
       $(".newChattingBtn").click(function() {
         $("#newChatWrap_popUp").css('display', 'block');
       })
+      
       
       // 글 디테일 클릭 이벤트, 조회수 Ajax
       $(".postListItemView").click(function() {
@@ -1197,6 +1217,7 @@
 	  $(".btnIconStyle").click(function(){
     	$("#newChatWrap_popUp").css('display', 'block');
       })
+      
     });
   </script>
 </body>

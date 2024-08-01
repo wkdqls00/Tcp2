@@ -9,9 +9,22 @@ public class MeetPostListPrintDTO {
 	String reg_date;
 	int views;
 	String file_url;
+	int meet_member_idx;
 	
+
+	public int getMeet_member_idx() {
+		return meet_member_idx;
+	}
+
+	public void setMeet_member_idx(int meet_member_idx) {
+		this.meet_member_idx = meet_member_idx;
+	}
+
+	public MeetPostListPrintDTO(int meet_member_idx) {
+		this.meet_member_idx = meet_member_idx;
+	}
 	public MeetPostListPrintDTO(int member_idx, String nickname, String profile, String content, String reg_date, int views,
-			String file_url, int post_idx) {
+								String file_url, int post_idx) {
 		this.member_idx = member_idx;
 		this.nickname = nickname;
 		this.profile = profile;
@@ -21,6 +34,7 @@ public class MeetPostListPrintDTO {
 		this.file_url = file_url;
 		this.post_idx = post_idx;
 	}
+	
 	@Override
 	public String toString() {
 		return "MeetPostListPrintDTO [nickname=" + nickname + ", profile=" + profile + ", content=" + content
