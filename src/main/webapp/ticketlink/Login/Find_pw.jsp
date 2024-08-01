@@ -48,8 +48,8 @@
                             <div class="content_inner">
                                 <p class="message">입력하신 이름과 휴대폰 번호가 회원 정보와 일치한 경우 인증번호가 발송돼요.</p>
                                 <div class="input_form">
+                                   <form action="/Tcp2/Find_pwResultServlet" id="toResultservlet" method="post">
                                     <div class="input_style">
-                                    <form action="/Tcp2/Find_pwResultServlet" id="toResultservlet" method="post">
                                         <input type="text" name="name" id="input_memberName" class="search_input" placeholder="이름">
                                         <span class="del_btn"></span>
                                     </div>

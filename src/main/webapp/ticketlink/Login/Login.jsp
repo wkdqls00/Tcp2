@@ -10,9 +10,6 @@
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
     <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
-    <script>
-    Kakao.init('d71651f09cc74945fc403a9f0692a5b7'); // 사용하려는 앱의 JavaScript 키 입력
-    </script> 
 </head>
 <body>
     <div class="header"></div>
@@ -65,7 +62,7 @@
                     <div class="snsLogin">
                         <ul>
                             <li id="kakao_li">
-                                <a href="javascript:loginWithKakao()" class="kakao" id="openid_kakao">
+                                <a href="#" class="kakao" id="kakao-login-btn">
                                 <span>카카오톡</span>
                                 </a>
                             </li>
@@ -116,15 +113,6 @@
         naver_id_login.setPopup();
         naver_id_login.init_naver_id_login();
     </script>
-    <script type="text/javascript">
-        Kakao.init('d71651f09cc74945fc403a9f0692a5b7'); // 여기에 본인의 앱 키를 입력하세요.
-
-        function loginWithKakao() {
-            Kakao.Auth.authorize({
-                redirectUri: 'http://127.0.0.1:5500/zproject_backup/html/Login/callback.html', // ngrok URL 사용
-            });
-        }
-    </script>
      <script type="text/javascript">
         window.onload = function() {
             // 로그인 실패하면 error문 뜨게 
@@ -134,5 +122,6 @@
         }
     </script>
     <script src="/Tcp2/assets/js/del_btn.js"></script>
+    <script src="/Tcp2/assets/js/Kakao.js"></script>
 </body>
 </html>

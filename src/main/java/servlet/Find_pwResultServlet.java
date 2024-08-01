@@ -3,7 +3,6 @@ package servlet;
 import java.io.IOException;
 import java.security.SecureRandom;
 import java.sql.*;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,7 +16,7 @@ import project.DatabaseUtil;
 public class Find_pwResultServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doPost(request, response);
+		response.getWriter().println("Find_pwResultServlet is working!");
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
