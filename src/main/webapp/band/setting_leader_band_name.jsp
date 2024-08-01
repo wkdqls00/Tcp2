@@ -116,6 +116,7 @@
         <section class="band_make">
           <h2 class="band_name_cover">밴드 이름 및 커버</h2>
           <form action="${pageContext.request.contextPath}/UpdateBandImageServlet" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="meet_idx" value="<%=meet_idx %>">
             <fieldset>
               <legend class="band_name_cover">밴드 이름 및 커버
               </legend>

@@ -38,13 +38,13 @@ public class UpdateBandImageServlet extends HttpServlet {
 		
 		MultipartRequest multi = new MultipartRequest(request, path, 1000*1024*1024, "UTF-8", new DefaultFileRenamePolicy());
 		
-		
+		int meet_idx = Integer.parseInt(multi.getParameter("meet_idx"));
+		System.out.println("meet_idx : " + meet_idx);
 		Enumeration<?> files = multi.getFileNames();
 		String fileObject = (String)files.nextElement();
 		
 		
 		String url = multi.getFilesystemName(fileObject);
-		int meet_idx = Integer.parseInt(multi.getParameter("meet_idx"));
 		
 		String name = multi.getParameter("name");
 		
@@ -52,8 +52,8 @@ public class UpdateBandImageServlet extends HttpServlet {
 		uDao.updateBandImage(url, meet_idx);
 		uDao.updateBandName(name, meet_idx);
 		
-		
-		RequestDispatcher rd = request.getRequestDispatcher("band/myband_setting_leader.jsp");
+		request.setAttribute("meet_idx", meet_idx);
+		RequestDispatcher rd = request.getRequestDispatcher("band/locationBandSetting.jsp");
 		rd.forward(request, response);
 	
 	}

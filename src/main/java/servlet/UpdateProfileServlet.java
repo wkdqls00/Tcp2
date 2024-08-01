@@ -28,7 +28,6 @@ public class UpdateProfileServlet extends HttpServlet {
 		HttpSession hs = request.getSession();
 		int member_idx = (int)hs.getAttribute("userIdx");
 		
-		
 		ServletContext application = getServletContext();
 		String path = application.getRealPath("/upload");
 		System.out.println("real path : " + path);
@@ -39,20 +38,22 @@ public class UpdateProfileServlet extends HttpServlet {
 		
 		MultipartRequest multi = new MultipartRequest(request, path, 100*1024*1024, "UTF-8", new DefaultFileRenamePolicy());
 		
+		int meetIdx = Integer.parseInt(multi.getParameter("meet_idx"));
+		System.out.println("UpdateProfileServlet) meet_idx : " + meetIdx);
+		
 		Enumeration<?> files = multi.getFileNames();
 		String fileObject = (String)files.nextElement();
 	
 		String profile = multi.getFilesystemName(fileObject);
-		int meet_idx = Integer.parseInt(multi.getParameter("meet_idx"));
 		String nickname = multi.getParameter("nickname");
-		
+
 		UpdateProfilePhotoSettingDAO updateDao = new UpdateProfilePhotoSettingDAO();
-		updateDao.updateProfilePhotoSetting(profile, member_idx, meet_idx);
+		updateDao.updateProfilePhotoSetting(profile, member_idx, meetIdx);
 		MeetNicknameSettingDAO mnDao = new MeetNicknameSettingDAO();
-		mnDao.meetNicknameSetting(nickname, member_idx, meet_idx);
+		mnDao.meetNicknameSetting(nickname, member_idx, meetIdx);
 		
-		
-		RequestDispatcher rd = request.getRequestDispatcher("band/myband_setting_leader.jsp");
+		request.setAttribute("meet_idx", meetIdx);
+		RequestDispatcher rd = request.getRequestDispatcher("band/locationBandSetting.jsp");
 		rd.forward(request, response);
 	}
 

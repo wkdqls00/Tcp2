@@ -12,10 +12,12 @@ public class CreateMeetDAO {
 
 	        String sql = 
 	             "INSERT ALL "
-	             + "INTO meet(meet_idx, name, url, join_ok, sub_qok, public_ok, sub_q) "
-	             + "VALUES(seq_meet.nextval, ?, ?, 'Y', 'Y', 'Y',?) "
+	             + "INTO meet(meet_idx, name, url, join_ok, sub_qok, public_ok, sub_q, meet_area_idx) "
+	             + "VALUES(seq_meet.nextval, ?, ?, 'Y', 'Y', 'Y',?, 1) "
 	             + "INTO meet_member(meet_member_idx, member_idx, meet_idx, admin_ok, leave_ok, join_wait) "
 	             + "VALUES(seq_meet_member.nextval, ?, seq_meet.nextval, 'Y', 'N', 'N') "
+	             + "INTO meet_rec_write(meet_rec_write_idx, meet_idx, title) "
+	             + "VALUES(seq_meet_rec_write.nextval, seq_meet.nextval, '저희 밴드에 오신걸 환영합니다^-^') "
 	             + "SELECT * FROM DUAL";
 	        PreparedStatement pstmt = d.getPstmt(conn, sql);
 	        try {

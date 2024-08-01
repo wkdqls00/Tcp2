@@ -207,7 +207,7 @@
                   <span class="cover_inner">
                   <img
                     <% if (miDto.getUrl() != null) {%>
-                    	src = "<%= miDto.getUrl() %>"
+                    	src = "../upload/<%= miDto.getUrl() %>"
                    	<% } %>
                    	>
                   </span>

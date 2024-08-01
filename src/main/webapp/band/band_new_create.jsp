@@ -117,7 +117,6 @@
                     <div class="cover_list_head">
                       <h3>커버 선택</h3>
                     </div>
-                  
                   <ul class="change_cover_list">
                     <li>
                       <span class="cover_change">
@@ -182,7 +181,6 @@
               		<input type="text" id="inputSubQ" placeholder="가입 질문을 입력해주세요." name="sub_q">
               	</div>
               </div>
-              
 <!--               <div class="make_color"> -->
 <!--                 <h2 class="color_title">밴드 컬러</h2> -->
 <!--                 <ul class="color_list"> -->
