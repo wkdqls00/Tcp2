@@ -5,12 +5,14 @@ public class ChatHistoryDTO {
 	String nickname;
 	String content;
 	String send_date;
+	String profile;
 	
-	public ChatHistoryDTO(int unread_member_idx, String nickname, String content, String send_date) {
+	public ChatHistoryDTO(int unread_member_idx, String nickname, String content, String send_date, String profile) {
 		this.unread_member_idx = unread_member_idx;
 		this.nickname = nickname;
 		this.content = content;
 		this.send_date = send_date;
+		this.profile = profile;
 	}
 	
 	@Override
@@ -19,6 +21,15 @@ public class ChatHistoryDTO {
 				+ content + ", send_date=" + send_date + "]";
 	}
 	
+	
+	public String getProfile() {
+		return profile;
+	}
+
+	public void setProfile(String profile) {
+		this.profile = profile;
+	}
+
 	public int getUnread_member_idx() {
 		return unread_member_idx;
 	}

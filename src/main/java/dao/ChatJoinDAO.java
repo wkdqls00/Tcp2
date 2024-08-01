@@ -2,6 +2,7 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import project.DatabaseUtil;
@@ -30,5 +31,36 @@ public class ChatJoinDAO {
 		} finally {
 			d.close(conn, pstmt);
 		}
+    }
+    
+    // 채팅방 가입 여부
+    
+    public boolean chatJoinOk(int chat_idx, int member_idx) throws SQLException {
+    	DatabaseUtil d = new DatabaseUtil();
+        Connection conn = d.getConn();
+        
+        String sql = "SELECT COUNT(*) "
+        		+ "FROM chat_member "
+        		+ "WHERE chat_idx = ? "
+        		+ "AND member_idx = ?";
+        
+        PreparedStatement pstmt = d.getPstmt(conn, sql);
+        
+        pstmt.setInt(1, chat_idx);
+        pstmt.setInt(2, member_idx);
+        
+        ResultSet rs = pstmt.executeQuery();
+        
+        int result = 0;
+        
+        if (rs.next()) {
+        	result = rs.getInt(1);
+        }
+        
+        rs.close();
+		pstmt.close();
+		conn.close();
+		
+		return result == 1;
     }
 }
