@@ -506,7 +506,7 @@
 				       <!-- 프로필 사진 있는지 확인 -->
 				         <span class="profileInner">
 			         		<% if (mPDto.getProfile() != null) { %>
-				         	<img src="<%= mPDto.getProfile() %>"
+				         	<img src="../upload/<%= mPDto.getProfile() %>"
 				                   width="34" height="34">
 		                   <% } %>
 				         </span>

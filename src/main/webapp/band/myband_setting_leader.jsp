@@ -106,6 +106,7 @@
 	  				data: {meet_idx : meet_idx, join_ok : 'N' },
 	  				type: 'get',
 	  				success: function(response) {
+	  					location.reload();
 	  				}
   				})
 			} else if(join_ok == 'N'){
@@ -114,6 +115,7 @@
 	  				data: {meet_idx : meet_idx, join_ok : 'Y'},
 	  				type: 'get',
 	  				success: function(response) {
+	  					location.reload();
 	  				}
   				})
 			}
@@ -130,6 +132,7 @@
 	  				data: {meet_idx : meet_idx, sub_qok : 'N'},
 	  				type: 'get',
 	  				success: function(response) {
+	  					location.reload();
 	  				}
 				})
 		  }else if(sub_qok == 'N') {
@@ -138,6 +141,7 @@
 	  				data: {meet_idx : meet_idx, sub_qok : 'Y'},
 	  				type: 'get',
 	  				success: function(response) {
+	  					location.reload();
 	  				}
 				})
 		  }
