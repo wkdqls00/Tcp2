@@ -51,16 +51,14 @@
   <script>
   let dateTimeList = document.querySelectorAll(".dateTime");
   let lastDateTime = dateTimeList[dateTimeList.length - 1];
-  
-  alert(lastDateTime);
+  let lastDateTimeText = lastDateTime.innerText;
+  alert(lastDateTimeText);
   
   function func_on_message(e) {
 	    let nickMessage = (e.data).split("|");
 	    let g_nick = nickMessage[0];
 	    let g_msg = nickMessage[1];
 	    let g_profile = "";
-	    
-	    
 
 	    if (nickMessage[2] != null) {
 	        g_profile = "<img src='" + nickMessage[2] + "'>";
