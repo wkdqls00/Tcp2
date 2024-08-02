@@ -11,9 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
 
-import dao.InsertPostGoodDAO;
 import dao.PostWriteDAO;
-import oracle.jdbc.proxy.annotation.Post;
 
 @WebServlet("/AjaxPostInsertServlet")
 public class AjaxPostInsertServlet extends HttpServlet {
