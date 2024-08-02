@@ -7,3 +7,4 @@ MANIFEST.MF
 node_modules
 DatabaseUtil.java
 src/main/webapp/WEB-INF/*
+/.DS_Store
