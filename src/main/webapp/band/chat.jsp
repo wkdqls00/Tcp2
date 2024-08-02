@@ -48,159 +48,7 @@
   <!-- <script src="/socket.io/socket.io.js"></script> -->
   <script src="https://code.jquery.com/jquery-latest.min.js"></script>
   <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO" crossorigin="anonymous"></script>
-  <script>
-  let dateTimeList = document.querySelectorAll(".dateTime");
-  let lastDateTime = dateTimeList[dateTimeList.length - 1];
-  let lastDateTimeText = lastDateTime.innerText;
-  alert(lastDateTimeText);
   
-  function func_on_message(e) {
-	    let nickMessage = (e.data).split("|");
-	    let g_nick = nickMessage[0];
-	    let g_msg = nickMessage[1];
-	    let g_profile = "";
-
-	    if (nickMessage[2] != null) {
-	        g_profile = "<img src='" + nickMessage[2] + "'>";
-	    } else {
-	        g_profile = "<img>";
-	    }
-
-	    // 현재 시간 가져오기
-	    let currentTime = new Date();
-        let hours = currentTime.getHours();
-        let minutes = currentTime.getMinutes();
-        let ampm = hours >= 12 ? '오후' : '오전';
-        hours = hours % 12;
-        hours = hours ? hours : 12; // 0을 12로 변환
-        minutes = minutes < 10 ? '0' + minutes : minutes; // 두 자리수 형식
-        let formattedTime = ampm + " " + hours + ":" + minutes;
-        
-	    $(".chatMsgList").append(
-	        "<div class='logWrap logFriend'>" +
-	        "<a class='uProfile'>" +
-	        "<span class='profileInner'>" + g_profile +
-	        "</span>" +
-	        "</a>" +
-	        "<span class='pfName'>" +
-	        "<button class='author'>" + g_nick +
-	        "</button>" +
-	        "</span>" +
-	        "<div class='msg msgContainer'>" +
-	        "<div class='msgMain'>" +
-	        "<div class='messageBodyWrap'>" +
-	        "<span class='txt'>" + g_msg + "</span>" +
-	        "</div>" +
-	        "<div class='aside'>" +
-	        "<div class='msgAside'>" +
-	        "<span class='time'>" + formattedTime + "</span>" +
-	        "</div>" +
-	        "</div>" +
-	        "</div>" +
-	        "</div>" +
-	        "</div>"
-	    );
-	}
-
-	// 채팅방을 열었을 시
-	function func_on_open(e) {
-		if (!(<%= cjDao.chatJoinOk(chat_idx, member_idx) %>)) {
-			$.ajax({
-	            url: '${pageContext.request.contextPath}/AjaxChatJoinServlet',
-	            data: { chat_idx: <%= chat_idx %>, member_idx: <%= member_idx %> },
-	            type: 'get',
-	            success: function(response) {
-	                console.log('채팅방 참여 성공');
-	            },
-	            error: function() {
-	                console.log('ajax 통신 실패');
-	            }
-	        });
-			location.reload();
-		} else {
-			console.log('이미 참여한 회원입니다.');
-		}
-		
-	}
-
-	function func_on_error(e) {
-	    alert("Error!");
-	}
-
-	let webSocket = new WebSocket("ws://localhost:9090/Tcp2/broadcasting");
-	webSocket.onmessage = func_on_message;
-	webSocket.onopen = func_on_open;
-	webSocket.onerror = func_on_error;
-
-	$(function() {
-	    function sendMessage() {
-	        let my_id = <%= member_idx %>;
-	        let msg = $("#commentInput").val();
-	        let nickname = "<%= mMemberProfilePrintDTO.getNickname() %>";
-	        let profile = "<%= mMemberProfilePrintDTO.getProfile() %>";
-	        let chat_idx = <%= chat_idx %>;
-			
-	        // 현재 시간 가져오기
-	        let currentTime = new Date();
-	        let hours = currentTime.getHours();
-	        let minutes = currentTime.getMinutes();
-	        let ampm = hours >= 12 ? '오후' : '오전';
-	        hours = hours % 12;
-	        hours = hours ? hours : 12; // 0을 12로 변환
-	        minutes = minutes < 10 ? '0' + minutes : minutes; // 두 자리수 형식
-	        let formattedTime = ampm + " " +  hours + ":" + minutes;
-
-	        webSocket.send(nickname + "|" + msg + "|" + profile);
-
-	        $.ajax({
-	            url: '${pageContext.request.contextPath}/AjaxChatInsertServlet',
-	            data: { chat_idx: chat_idx, member_idx: my_id, content: msg },
-	            type: 'get',
-	            success: function(response) {
-	                $(".chatMsgList").append(
-	                    "<div class='logWrap logMy'>" +
-	                    "<a class='uProfile'>" +
-	                    "<span class='profileInner'></span>" +
-	                    "</a>" +
-	                    "<span class='pfName'>" +
-	                    "<button class='author'>" +
-	                    "</button>" +
-	                    "</span>" +
-	                    "<div class='msg msgContainer'>" +
-	                    "<div class='msgMain'>" +
-	                    "<div class='messageBodyWrap'>" +
-	                    "<span class='txt'>" + msg + "</span>" +
-	                    "</div>" +
-	                    "<div class='aside'>" +
-	                    "<div class='msgAside'>" +
-	                    "<span class='time'>" + formattedTime + "</span>" +
-	                    "</div>" +
-	                    "</div>" +
-	                    "</div>" +
-	                    "</div>" +
-	                    "</div>"
-	                );
-	                $("#commentInput").val("");
-	            },
-	            error: function() {
-	                console.log('ajax 통신 실패');
-	            }
-	        });
-	    }
-
-	    $(".writeSubmit").click(function() {
-	        sendMessage();
-	    });
-
-	    $("#commentInput").keypress(function(event) {
-	        if (event.which == 13 && !event.shiftKey) {
-	            event.preventDefault();
-	            sendMessage();
-	        }
-	    });
-	});
-	
-  </script>
 </head>
 <body class="skin3">
   <div class="ChatMainLayoutView">
@@ -326,5 +174,196 @@
       </section>
     </div>
   </div>
+  <script>
+  
+	//오늘 날짜 가져오기
+  	let currentDate = new Date();
+	let currentYear = currentDate.getFullYear();
+	let currentMonth = currentDate.getMonth() + 1;
+	let currentDay = currentDate.getDate();
+	
+	// 두 자리로 맞추기
+	currentMonth = currentMonth < 10 ? '0' + currentMonth : String(currentMonth);
+	currentDay = currentDay < 10 ? '0' + currentDay : String(currentDay);
+	
+	console.log("Year:", currentYear);
+	console.log("Month:", currentMonth);
+	console.log("Day:", currentDay);
+	
+	let todayDateText = currentYear + '-' + currentMonth + '-' + currentDay;
+	console.log(todayDateText);
+	
+	// 모든 time 요소 선택
+    let timeElements = document.querySelectorAll('.logWrap .time.dateTime');
+  	let lastDateText = "";
+  	
+	if (timeElements.length > 0) {
+	    // 가장 마지막 time 요소 선택
+	    let lastTimeElement = timeElements[timeElements.length - 1];
+	    
+	    // 가장 마지막 time 요소의 텍스트 내용 가져오기
+	    let lastDateText = lastTimeElement.textContent;
+	    
+	    console.log(lastDateText); // 가장 마지막 time 요소의 날짜 출력
+	}
+
+  	function func_on_message(e) {
+      // 닉네임과 프로필 출력
+      let nickMessage = (e.data).split("|");
+      let g_nick = nickMessage[0];
+      let g_msg = nickMessage[1];
+      let g_profile = "";
+
+      if (nickMessage[2] != null) {
+          g_profile = "<img src='" + nickMessage[2] + "'>";
+      } else {
+          g_profile = "<img>";
+      }
+   
+		alert(lastDateText + " " + todayDateText);
+		// 오늘 날짜와 비교하여 다르면 추가
+		if (lastDateText != todayDateText) {
+		    $(".chatMsgList").append(
+		        "<div class='logWrap logEvent'>" +
+		        "<time class='time dateTime'>" + todayDateText + "</time>" +
+		        "</div>"
+		     );
+			}
+			
+			// 현재 시간 가져오기
+			let currentTime = new Date();
+			let hours = currentTime.getHours();
+			let minutes = currentTime.getMinutes();
+			let ampm = hours >= 12 ? '오후' : '오전';
+		     hours = hours % 12;
+		     hours = hours ? hours : 12; // 0을 12로 변환
+		     minutes = minutes < 10 ? '0' + minutes : minutes; // 두 자리수 형식
+		     let formattedTime = ampm + " " + hours + ":" + minutes;
+		     
+		     $(".chatMsgList").append(
+		         "<div class='logWrap logFriend'>" +
+		         "<a class='uProfile'>" +
+		         "<span class='profileInner'>" + g_profile +
+		         "</span>" +
+		         "</a>" +
+		         "<span class='pfName'>" +
+		         "<button class='author'>" + g_nick +
+		         "</button>" +
+		         "</span>" +
+		         "<div class='msg msgContainer'>" +
+		         "<div class='msgMain'>" +
+		         "<div class='messageBodyWrap'>" +
+		         "<span class='txt'>" + g_msg + "</span>" +
+		         "</div>" +
+		         "<div class='aside'>" +
+		         "<div class='msgAside'>" +
+		         "<span class='time'>" + formattedTime + "</span>" +
+		         "</div>" +
+		         "</div>" +
+		         "</div>" +
+		         "</div>" +
+		         "</div>"
+		     );
+		 }
+	
+		// 채팅방을 열었을 시
+		function func_on_open(e) {
+			if (!(<%= cjDao.chatJoinOk(chat_idx, member_idx) %>)) {
+				$.ajax({
+		            url: '${pageContext.request.contextPath}/AjaxChatJoinServlet',
+		            data: { chat_idx: <%= chat_idx %>, member_idx: <%= member_idx %> },
+		            type: 'get',
+		            success: function(response) {
+		                console.log('채팅방 참여 성공');
+		            },
+		            error: function() {
+		                console.log('ajax 통신 실패');
+		            }
+		        });
+				location.reload();
+			} else {
+				console.log('이미 참여한 회원입니다.');
+			}
+			
+		}
+	
+		function func_on_error(e) {
+		    alert("Error!");
+		}
+	
+		let webSocket = new WebSocket("ws://localhost:9090/Tcp2/broadcasting");
+		webSocket.onmessage = func_on_message;
+		webSocket.onopen = func_on_open;
+		webSocket.onerror = func_on_error;
+	
+		$(function() {
+		    function sendMessage() {
+		        let my_id = <%= member_idx %>;
+		        let msg = $("#commentInput").val();
+		        let nickname = "<%= mMemberProfilePrintDTO.getNickname() %>";
+		        let profile = "<%= mMemberProfilePrintDTO.getProfile() %>";
+		        let chat_idx = <%= chat_idx %>;
+				
+		        // 현재 시간 가져오기
+		        let currentTime = new Date();
+		        let hours = currentTime.getHours();
+		        let minutes = currentTime.getMinutes();
+		        let ampm = hours >= 12 ? '오후' : '오전';
+		        hours = hours % 12;
+		        hours = hours ? hours : 12; // 0을 12로 변환
+		        minutes = minutes < 10 ? '0' + minutes : minutes; // 두 자리수 형식
+		        let formattedTime = ampm + " " +  hours + ":" + minutes;
+	
+		        webSocket.send(nickname + "|" + msg + "|" + profile);
+	
+		        $.ajax({
+		            url: '${pageContext.request.contextPath}/AjaxChatInsertServlet',
+		            data: { chat_idx: chat_idx, member_idx: my_id, content: msg },
+		            type: 'get',
+		            success: function(response) {
+		                $(".chatMsgList").append(
+		                    "<div class='logWrap logMy'>" +
+		                    "<a class='uProfile'>" +
+		                    "<span class='profileInner'></span>" +
+		                    "</a>" +
+		                    "<span class='pfName'>" +
+		                    "<button class='author'>" +
+		                    "</button>" +
+		                    "</span>" +
+		                    "<div class='msg msgContainer'>" +
+		                    "<div class='msgMain'>" +
+		                    "<div class='messageBodyWrap'>" +
+		                    "<span class='txt'>" + msg + "</span>" +
+		                    "</div>" +
+		                    "<div class='aside'>" +
+		                    "<div class='msgAside'>" +
+		                    "<span class='time'>" + formattedTime + "</span>" +
+		                    "</div>" +
+		                    "</div>" +
+		                    "</div>" +
+		                    "</div>" +
+		                    "</div>"
+		                );
+		                $("#commentInput").val("");
+		            },
+		            error: function() {
+		                console.log('ajax 통신 실패');
+		            }
+		        });
+		    }
+	
+		    $(".writeSubmit").click(function() {
+		        sendMessage();
+		    });
+	
+		    $("#commentInput").keypress(function(event) {
+		        if (event.which == 13 && !event.shiftKey) {
+		            event.preventDefault();
+		            sendMessage();
+		        }
+		    });
+		});
+	
+  </script>
 </body>
 </html>
