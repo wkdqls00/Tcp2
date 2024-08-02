@@ -44,7 +44,7 @@ public class Find_pwResultServlet extends HttpServlet {
 	        	rs = pstmt.executeUpdate();
 	        	
 	        	if(rs != 0) {
-	        		request.setAttribute("new_pew", new_pw);
+	        		request.setAttribute("new_pw", new_pw);
 	        		System.out.println("비밀번호 변경됨.");
 	        		request.getRequestDispatcher("/ticketlink/Login/Find_pwResult.jsp").forward(request, response);
 	        	} else {
