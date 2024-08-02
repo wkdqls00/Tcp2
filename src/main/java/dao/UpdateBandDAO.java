@@ -166,4 +166,46 @@ public class UpdateBandDAO {
 			d.close(conn, pstmt);
 		}
     }
+    // 게시글 사진 수정
+    public void updatePostImg(String file_url, int post_idx) {
+        DatabaseUtil d = new DatabaseUtil();
+        Connection conn = d.getConn();
+
+        String sql = 
+        		"UPDATE post "
+        		+ "SET file_url = ? "
+        		+ "WHERE post_idx = ?";
+        PreparedStatement pstmt = d.getPstmt(conn, sql);
+        try {
+        	pstmt.setString(1, file_url);
+			pstmt.setInt(2, post_idx);
+			int result = pstmt.executeUpdate();
+			System.out.println(result + "행 성공적으로 업데이트됨");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			d.close(conn, pstmt);
+		}
+    }
+    // 게시글 수정
+    public void updatePostContent(String content, int post_idx) {
+        DatabaseUtil d = new DatabaseUtil();
+        Connection conn = d.getConn();
+
+        String sql = 
+        		"UPDATE post "
+        		+ "SET content = ? "
+        		+ "WHERE post_idx = ?";
+        PreparedStatement pstmt = d.getPstmt(conn, sql);
+        try {
+        	pstmt.setString(1, content);
+			pstmt.setInt(2, post_idx);
+			int result = pstmt.executeUpdate();
+			System.out.println(result + "행 성공적으로 업데이트됨");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			d.close(conn, pstmt);
+		}
+    }
 }

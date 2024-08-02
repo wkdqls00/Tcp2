@@ -387,9 +387,6 @@
 			$(".profileDropDown").css('display', 'none');
 		}
       })
-      
-      
-   			
     });
   </script>
 </body>

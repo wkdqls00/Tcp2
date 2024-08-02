@@ -11,7 +11,10 @@ public class MeetPostListPrintDTO {
 	String file_url;
 	int meet_member_idx;
 	
-
+	public MeetPostListPrintDTO(String content, String file_url) {
+		this.content = content;
+		this.file_url = file_url;
+	}
 	public int getMeet_member_idx() {
 		return meet_member_idx;
 	}

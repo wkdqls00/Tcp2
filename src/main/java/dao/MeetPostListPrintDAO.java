@@ -24,6 +24,7 @@ public class MeetPostListPrintDAO {
     }
 
 	private MeetPostListPrintDTO selectMeetMemberIdxDTO;
+	private MeetPostListPrintDTO selectContentDTO;
     
     public ArrayList<MeetPostListPrintDTO> selectMeetPostListPrintDTO(int meet_idx) throws SQLException {
         ArrayList<MeetPostListPrintDTO> list = new ArrayList<>();
@@ -172,4 +173,35 @@ public class MeetPostListPrintDAO {
 		
 		return selectMeetMemberIdxDTO;
     }
+    // 내가 쓴 게시글 출력
+    public MeetPostListPrintDTO selectContentDTO(int post_idx) throws Exception {
+    	DatabaseUtil d = new DatabaseUtil();
+        Connection conn = d.getConn();
+        
+    	String sql =
+    			"SELECT content, file_url "
+    			+ "FROM post "
+    			+ "WHERE post_idx = ?";
+    	
+    	PreparedStatement pstmt = d.getPstmt(conn, sql);
+    	
+		pstmt.setInt(1, post_idx);
+		
+		ResultSet rs = pstmt.executeQuery();
+		
+		if (rs.next()) {
+			
+			String content = rs.getString(1);
+			String file_url = rs.getString(2);
+			
+			selectContentDTO = new MeetPostListPrintDTO(content, file_url);
+		}
+		
+		conn.close();
+		pstmt.close();
+		rs.close();
+		
+		return selectContentDTO;
+    }
+
 }

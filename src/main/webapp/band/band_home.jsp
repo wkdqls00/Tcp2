@@ -67,6 +67,8 @@
 	SelectNicknameDTO sDto = sDao.selectNicknameDTO(member_idx);
 	//member_idx 로 닉네임 가져오기
 	String nickname = sDto.getNickname();
+	
+	
 %>
 
 <!DOCTYPE html>
@@ -251,7 +253,7 @@
            <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
               <button class="btnMySetting">
                 <span class="uProfile">
-                  <span class="">
+                  <span class="profileInner">
                	   <% if (mMemberProfilePrintDTO.getProfile() != null) { %>
                		<img src="../upload/<%= mMemberProfilePrintDTO.getProfile() %>"
                     width="30" height="30">
@@ -265,7 +267,7 @@
             <% } else { %>
             <button class="btnMySetting">
                 <span class="uProfile">
-                  <span class="">
+                  <span class="profileInner">
                    <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
                    width="30" height="30">
                   </span>
@@ -504,7 +506,7 @@
 				       <a href="#" class="uProfile">
 				       <% } %>
 				       <!-- 프로필 사진 있는지 확인 -->
-				         <span class="">
+				         <span class="profileInner">
 			         		<% if (mPDto.getProfile() != null) { %>
 				         	<img src="../upload/<%= mPDto.getProfile() %>"
 				                   width="34" height="34">
@@ -565,7 +567,7 @@
                        	</form>
                        	</li>
                         <li>
-                           <a href="#">수정하기</a>
+                           <a href="#" id="postRetouch" class="postRetouch">수정하기</a>
                          </li>
                        </ul>
                      </div>
@@ -638,7 +640,7 @@
 				               <% } else { %>
 				               <a href="#" class="uProfile">
 				               <% } %>
-				                 <span class="">
+				                 <span class="profileInner">
 				                 <% if (clDto.getProfile() != null) { %>
 				                   <img src="../upload/<%= clDto.getProfile() %>"
 				                   width="34" height="34">
@@ -693,7 +695,7 @@
                               <div class="profileStatus profileInputRegion">
                                 <div class="messageInputProfileView">
                                   <span class="current uProfile">
-                                    <span class="">
+                                    <span class="profileInner">
                                       <img
                                       <% if(mMemberProfilePrintDTO.getProfile() != null) { %>
                                       	src="../upload/<%= mMemberProfilePrintDTO.getProfile() %>"
@@ -744,7 +746,7 @@
                                 <% } else { %>
                                 <a class="uProfile -border">
                                 <% } %>
-			                      <span class="">
+			                      <span class="profileInner">
 			                      <% if (mPDto.getProfile() != null) { %>
 			                        <img src="../upload/<%= mPDto.getProfile() %>" width="40" height="40">
 		                          <% } %>
@@ -822,7 +824,7 @@
 			                                <% } else { %>
 			                                <a class="uProfile -border">
 			                                <% } %>
-			                                  <span class="">
+			                                  <span class="profileInner">
 			                                    <img 
 			                                    <% if (clDto.getProfile() != null) { %>
 			                                    	src="../upload/<%= clDto.getProfile() %>"
@@ -1066,8 +1068,60 @@
           </section>
         </div>
       </div>
-    </form>
     </div>
+    </form>
+  <!-- 팝업 : 게시글 수정 -->
+   <%for (MeetPostListPrintDTO mPDto : mPrintListDTO) { 
+   		int post_idx = mPDto.getPost_idx();
+   		MeetPostListPrintDAO mplDao = new MeetPostListPrintDAO();
+   		MeetPostListPrintDTO mplDto = mplDao.selectContentDTO(post_idx);%>
+   <form action="${pageContext.request.contextPath}/PostRetouchServlet" method="post" enctype="multipart/form-data">
+    <div class="layerContainerView" tabindex="-1" id="postRetouchEditor_popUp<%=post_idx%>" style="display: none;">
+      <div class="layerContainerInnerView">
+        <div class="postEditorLayerView" style="position: relative;">
+          <section class="lyWrap">
+           <input type="hidden" name="meet_idx" value="<%=meet_idx %>">
+           <input type="hidden" name="post_idx" value="<%=post_idx%>">
+            <div class="lyPostShareWrite" style="margin-top: 77px;">
+              <header class="header">
+                <h1 class="title">글쓰기</h1>
+              </header>
+              <div class="main">
+                <div class="postWrite">
+                  <div class="postWriteForm">
+                    <textarea class="contentEditor cke_editable" name="content"></textarea>
+                  </div>
+                  <div class="buttonArea">
+                    <ul class="toolbarList" style="justify-content: space-between;">
+                      <li class="toolbarListItem">
+                        <label class="photo" for="postFile">
+                          <input type="file" accept="image/*" id="postFile" onchange="uploadImg(this)" name="file_url">
+                          <span class="photoIcon"></span>
+                        </label>
+                      </li>
+                      <li class="toolbarListItem" >
+                        <img class="postImg" style="width:70px; height: 70px; margin-bottom:10px;" src="../upload/<%=mplDto.getFile_url()%>">
+                      </li>
+                    </ul>
+                    <div class="writeSubmitBox">
+                      <div class="buttonSubmit">
+                        <button type="submit" class="uButton">게시</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <footer class="footer">
+                <button type="button" class="btnLyClose"></button>
+              </footer>
+            </div>
+          </section>
+        </div>
+      </div>
+     </div>
+    </form>
+	<% } %>
+    
     <!-- 팝업 : 새 채팅 -->
     <div class="layerContainerView" id="newChatWrap_popUp" style="display: none;">
       <div class="layerContainerInnerView">
@@ -1106,19 +1160,19 @@
       })
     });
    <% } %>
+   // 글쓰기
    $(function() {
       $(".postWriteEventWrapper").click(function() {
         $("#postWriteEditor_popUp").css('display', 'block');
+        let a = $(".contentEditor.cke_editable").val();
       })
       $("#postWriteBtn").click(function() {
         $("#postWriteEditor_popUp").css('display', 'block');
     	let a = $(".contentEditor.cke_editable").val();
-    	alert(a);
       })
       $(".newChattingBtn").click(function() {
         $("#newChatWrap_popUp").css('display', 'block');
       })
-      
       
       // 글 디테일 클릭 이벤트, 조회수 Ajax
       $(".postListItemView").click(function() {
@@ -1187,6 +1241,7 @@
 			feedback.find(".lyMenu").css('display', 'none');
 		}
 	  })
+	  
 	  // 댓글 입력창 댓글쓰기 버튼 눌렀을 시 출력 클릭 이벤트
 	  $(".addComment").click(function() {
 		let postId = $(this).parent().parent().parent().parent().parent().parent();
@@ -1210,6 +1265,13 @@
 	  //오른쪽 상단 채팅 버튼 클릭시 새 채팅 화면
 	  $(".btnIconStyle").click(function(){
     	$("#newChatWrap_popUp").css('display', 'block');
+      })
+      
+       //글쓰기 수정하기
+      $(".postRetouch").click(function() {
+    	  let post_idx = $(this).closest(".postLayoutView").attr('id');
+    	  alert(post_idx);
+       	$("#postRetouchEditor_popUp" + post_idx).css('display','block');
       })
       
     });
