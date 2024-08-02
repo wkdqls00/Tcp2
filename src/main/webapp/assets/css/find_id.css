@@ -48,7 +48,8 @@ input::placeholder {
     width: 151px;
     height: 70px; /* 38px */
     text-decoration: none;
-    background: url(https://th.bing.com/th/id/OIP.GcpUB3UxsaArPwX00cYZmQHaEK?w=304&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7) no-repeat center;
+    background-repeat: no-repeat;
+    background-image: url(../img/ticklink/logo.svg);
 }
 .hidden {
     position: absolute;

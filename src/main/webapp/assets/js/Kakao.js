@@ -2,7 +2,7 @@ Kakao.init('29946af90ab4fa1fb1025300f26237af');  // 여기에 본인의 JavaScri
 console.log(Kakao.isInitialized());  // SDK 초기화 여부를 확인하는 로그
 document.getElementById('kakao-login-btn').addEventListener('click', function() {
     Kakao.Auth.authorize({
-      redirectUri: 'http://localhost:9090/Tcp2/KakaoLoginServlet'  // 설정한 리디렉션 URI
+      redirectUri: 'http://localhost:9090/Tcp2/KakaoServlet'  // 설정한 리디렉션 URI
     });
   });
 

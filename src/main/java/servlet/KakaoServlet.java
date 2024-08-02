@@ -20,9 +20,9 @@ import org.json.simple.parser.ParseException;
 @WebServlet("/KakaoServlet")
 public class KakaoServlet extends HttpServlet {
 
-    private static final String CLIENT_ID = "YOUR_CLIENT_ID";
+    private static final String CLIENT_ID = "7a031cf5f9ab77620ab76d3cf944f39a";
     private static final String CLIENT_SECRET = "YOUR_CLIENT_SECRET"; // (선택사항)
-    private static final String REDIRECT_URI = "YOUR_REDIRECT_URI";
+    private static final String REDIRECT_URI = "http://localhost:9090/Tcp2/KakaoServlet";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

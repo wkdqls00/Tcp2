@@ -37,7 +37,7 @@
                         <li class="utill_link"><a href="/Tcp2/Ticket_checkServlet">예매확인/취소</a></li>
                         <li class="utill_link"><a href="/Tcp2/ticketlink/join_content.jsp">회원가입</a></li>
                         <li class="utill_link"><a href="#">고객센터</a></li>
-                        <li class="utill_link"><a href="/Tcp2/Modify_memberServlet">마이페이지</a></li>
+                        <li class="utill_link"><a href="/Tcp2/Mypage_memberServlet">마이페이지</a></li>
                     </ul>
                 </div> 
             </div>
