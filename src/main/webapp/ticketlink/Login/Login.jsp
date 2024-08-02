@@ -10,6 +10,9 @@
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
     <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+    <script>
+		
+    </script>
 </head>
 <body>
     <div class="header"></div>
@@ -43,7 +46,7 @@
                     </div>
                     <div class="sign">
                         <div class="checkbox">
-                            <input type="checkbox" id="saveSess" name="saveSess" value="N">
+                            <input type="checkbox" id="saveSess" name="saveSess">
                             <label for="saveSess">로그인 상태 유지</label>
                         </div>
                     </div>
@@ -79,15 +82,17 @@
         </div>
     </div>
     <script>
+    
+    	
         document.addEventListener("DOMContentLoaded", function() {
             // 로그인 유지 버튼 기능
             document.querySelector(".checkbox input").addEventListener("change", function() {
                 var check = document.querySelector(".checkbox input");
 
                 if (check.value === "N") {
-                    check.value = "Y";
-                }   else {
                     check.value = "N";
+                }   else {
+                    check.value = "Y";
                 }
             });
 
@@ -115,6 +120,10 @@
     </script>
      <script type="text/javascript">
         window.onload = function() {
+        	// cookie 값 있는지 확인부터
+        	let cookie = <%=request.getAttribute("cookie")%>;
+        	if(cookie === null)
+        	window.location.href = "/Tcp2/LoginSuccessToMain";
             // 로그인 실패하면 error문 뜨게 
             <% if (request.getAttribute("loginError") != null) { %> // 이게 LoginSuccessMain에서 조건이 맞지 않으면 loginError 라는 속성을 전달함
                 document.querySelector(".message").style.display = "block";
