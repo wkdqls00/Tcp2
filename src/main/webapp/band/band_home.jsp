@@ -1270,8 +1270,7 @@
        //글쓰기 수정하기
       $(".postRetouch").click(function() {
     	  let post_idx = $(this).closest(".postLayoutView").attr('id');
-    	  alert(post_idx);
-       	$("#postRetouchEditor_popUp" + post_idx).css('display','block');
+    	  $("#postRetouchEditor_popUp" + post_idx).css('display','block');
       })
       
     });
