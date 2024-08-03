@@ -15,7 +15,7 @@
     <div class="contents">
         <div class="contentWrapper">
             <div class="joinBlock">
-                <h2 class="title">종원링크 회원가입</h2>
+                <h2 class="title">티켓링크 회원가입</h2>
                 <p class="text">회원가입 하신 후 다양한 공연정보를 확인하세요</p>
                 <button type="button" class="btnJoin">개인 회원가입</button>
                 <div class="snsJoin">

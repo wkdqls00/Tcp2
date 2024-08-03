@@ -43,7 +43,7 @@
             </div>
             <div class="nav_box">
                 <div class="inner">
-                    <h1 class="logo"><a href="../html/main.html">로고</a></h1>
+                    <h1 class="logo"><a href="/Tcp2/ticketlink/main.jsp">로고</a></h1>
                     <ul class="nav">
                         <li><a href="#">공연/전시</a></li>
                         <li><a href="/Tcp2/band/band_main.jsp">커뮤니티</a></li>

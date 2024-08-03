@@ -33,7 +33,7 @@
         <div class="memberConatainer">
             <div class="header">
                 <div class="header_inner">
-                    <a href="https://www.naver.com" class="header_logo">
+                    <a href="/Tcp2/ticketlink/main.jsp" class="header_logo">
                         <span class="blind">
                             종원링크
                         </span>
