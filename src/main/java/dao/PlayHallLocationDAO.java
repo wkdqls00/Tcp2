@@ -12,7 +12,7 @@ import project.DatabaseUtil;
 public class PlayHallLocationDAO {
 
 	public static void main(String[] args) throws SQLException {
-		ArrayList<PlayHallLocationDTO> phldto = new PlayHallLocationDAO().playHallLocationDto(697);
+		ArrayList<PlayHallLocationDTO> phldto = new PlayHallLocationDAO().playHallLocationDto(123);
 		for (PlayHallLocationDTO playHallLocationDto : phldto) {
 			System.out.println(playHallLocationDto);
 		}

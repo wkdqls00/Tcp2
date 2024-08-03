@@ -140,12 +140,12 @@ ArrayList<SeatPriceDTO> pricelist = (ArrayList<SeatPriceDTO>)request.getAttribut
         <div class="checkboxdiv3"><input type="checkbox"></div>
         <div class="agreecheck3">취소기한 및 취소수수료 동의</div>
       </div>
-      <div class="payselect">
+      <!--<div class="payselect">
         <label>
             <input type="radio" name="payment" value="naverpay" required>
             네이버페이로 결제하기
         </label><br>
-        </div>
+        </div>-->
         <div class="payselect">
         <label>
             <input type="radio" name="payment" value="kakaopay">
@@ -180,7 +180,6 @@ ArrayList<SeatPriceDTO> pricelist = (ArrayList<SeatPriceDTO>)request.getAttribut
                 	alert("결제수단을 선택해주세요.");
                 	return;
                 }
-                alert(selectedPayment + '로 결제하기를 선택하셨습니다.');
                 if (price === 0){
                 	alert('무료 공연 입니다!')
     	            location.href='http://localhost:9090/Tcp2/Payment_p3?pm=<%=payment_idx%>&type=x';
