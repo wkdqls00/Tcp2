@@ -109,7 +109,7 @@
           </div>
           <div id="tab_meet">
             <div id="meet_btn">
-              <a href="#main2" class="meet_text">
+              <a href="band_main.jsp?member_idx=<%=member_idx %>" class="meet_text">
                 소모임
               </a>
             </div>
@@ -171,7 +171,7 @@
                 </div>
               </div>
               <div id="band_meet_content_img">
-                <img src="<%=aDto.getUrl() %>" class="band_cover_img">
+                <img src="../upload/<%=aDto.getUrl() %>" class="band_cover_img">
               </div>
               <a type="button" href="band_home.jsp?meet_idx=<%=aDto.getMeet_idx() %>&member_idx=<%=member_idx %>" class="band_meet_content_link" style="width:500px; height:150px"></a>
             </div>
