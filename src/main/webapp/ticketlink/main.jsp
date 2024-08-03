@@ -88,7 +88,7 @@
                         <li class="gnb_link"><a href="/Tcp2/band/band_main.jsp">커뮤니티</a></li>
                         <li class="gnb_link" style="padding: 0; padding-top: 10px; padding-left: 10px; float: right;">
                         	<form action="/Tcp2/SearchResult">
-		                  	<input type="text" style="width: 200px; padding-inline: 8px;" placeholder="공연을 검색하세요." name="search">
+		                  	<input type="text" style="width: 200px; padding-inline: 8px;" placeholder="공연을 검색하세요." name="search" minlength="2">
 		                  	<button type="submit" class="searchSubmitBtn">검색</button>
 		                  	</form>
 	                 	</li>
