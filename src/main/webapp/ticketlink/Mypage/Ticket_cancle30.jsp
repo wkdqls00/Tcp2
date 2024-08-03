@@ -100,33 +100,33 @@
                             <li class="has_sub">
                                 <span class="help_submenu_tit">할인혜택</span>
                                 <ul class="help_submenu">
-                                    <li><a href="">포인트</a></li>
-                                    <li><a href="">예매권</a></li>
-                                    <li><a href="">상품권</a></li>
-                                    <li><a href="">쿠폰</a></li>
+                                    <li><a href="#" onclick="event.preventDefault(); alert('준비 중입니다.');">포인트</a></li>
+                                    <li><a href="" onclick="event.preventDefault(); alert('준비 중입니다.');">예매권</a></li>
+                                    <li><a href="" onclick="event.preventDefault(); alert('준비 중입니다.');">상품권</a></li>
+                                    <li><a href="" onclick="event.preventDefault(); alert('준비 중입니다.');">쿠폰</a></li>
                                 </ul>
                             </li>
                             <li class="has_sub">
                                 <span class="help_submenu_tit">활동관리</span>
                                 <ul class="help_submenu">
-                                    <li><a href="">참여 이벤트</a></li>
+                                    <li><a href="" onclick="event.preventDefault(); alert('준비 중입니다.');">참여 이벤트</a></li>
                                     <li><a href="/Tcp2/ScriptManagementServlet">후기관리</a></li>
-                                    <li><a href="">팬클럽/멤버십 내역</a></li>
-                                    <li><a href="">취소표 대기 신청 내역</a></li>
+                                    <li><a href="" onclick="event.preventDefault(); alert('준비 중입니다.');">팬클럽/멤버십 내역</a></li>
+                                    <li><a href="" onclick="event.preventDefault(); alert('준비 중입니다.');">취소표 대기 신청 내역</a></li>
                                 </ul>
                             </li>
                             <li class="has_sub">
                                 <span class="help_submenu_tit">증빙서류</span>
                                 <ul class="help_submenu">
-                                    <li><a href="">입금증</a></li>
-                                    <li><a href="">현금영수증</a></li>
-                                    <li><a href="">신용카드 매출 전표</a></li>
+                                    <li><a href="" onclick="event.preventDefault(); alert('준비 중입니다.');">입금증</a></li>
+                                    <li><a href="" onclick="event.preventDefault(); alert('준비 중입니다.');">현금영수증</a></li>
+                                    <li><a href="" onclick="event.preventDefault(); alert('준비 중입니다.');">신용카드 매출 전표</a></li>
                                 </ul>
                             </li>
                             <li class="has_sub">
                                 <span class="help_submenu_tit">회원정보관리</span>
                                 <ul class="help_submenu">
-                                    <li><a href="">환불계좌관리</a></li>
+                                    <li><a href="" onclick="event.preventDefault(); alert('준비중입니다.');">환불계좌관리</a></li>
                                     <li><a href="/Tcp2/Mypage_memberServlet">회원정보수정</a></li>
                                     <li><a href="/Tcp2/Modify_mainServlet">회원탈퇴</a></li>
                                 </ul>
@@ -257,7 +257,7 @@
                             <a href="/Tcp2/Ticket_checkPeriodServletR?day=30&currP=1" class="first">맨앞</a>
                             <a href="/Tcp2/Ticket_checkPeriodServletR?day=30&currP=<%=Math.max(currP -1, 1)%>" class="prev">이전</a>
                             <strong><%=currP%></strong>
-                            <a href="/Tcp2/Ticket_checkPeriodServletR?day=30&currP=<%=currP + 1%>" class="next">다음</a>
+                            <a href="/Tcp2/Ticket_checkPeriodServletR?day=30&currP=<%=Math.min(currP + 1, count)%>" class="next">다음</a>
                             <a href="/Tcp2/Ticket_checkPeriodServletR?day=30&currP=<%=count%>" class="end">맨뒤</a>
                         </div>
                         <div class="note">
