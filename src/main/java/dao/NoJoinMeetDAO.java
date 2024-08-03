@@ -15,7 +15,7 @@ public class NoJoinMeetDAO {
     public static void main(String[] args) {
 		NoJoinMeetDAO nDao = new NoJoinMeetDAO();
 		try {
-			if(nDao.noJoinOk(1, 3)) {
+			if(nDao.noJoinOk(1, 1)) {
 				System.out.println("0");
 			}else {
 				System.out.println("1");
@@ -119,9 +119,9 @@ public class NoJoinMeetDAO {
         	result = rs.getInt(1);
         }
         
-		conn.close();
-		pstmt.close();
 		rs.close();
+		pstmt.close();
+		conn.close();
 		
 		return result == 1;
     }

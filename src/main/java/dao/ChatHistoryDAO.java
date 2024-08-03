@@ -127,9 +127,9 @@ public class ChatHistoryDAO {
         	chDto = new ChatMemberCountDTO(chat_count); // 저장한 값으로 SeatStatus 객체 생성
         }
         
-        conn.close();
-        pstmt.close();
         rs.close();
+        pstmt.close();
+        conn.close();
             
         return chDto;
     }
