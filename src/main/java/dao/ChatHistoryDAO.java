@@ -58,8 +58,10 @@ public class ChatHistoryDAO {
             	String send_date = rs.getString(4);
             	String profile = rs.getString(5);
             	int member_idx = rs.getInt(6);
-
-            	ChatHistoryDTO chatHistoryDTO = new ChatHistoryDTO(unread_member_idx, nickname, content, send_date, profile, member_idx); // 저장한 값으로 SeatStatus 객체 생성
+            	String arr1[] = send_date.split(" ");
+            	String only_date = arr1[0];
+            	
+            	ChatHistoryDTO chatHistoryDTO = new ChatHistoryDTO(unread_member_idx, nickname, content, send_date, profile, member_idx, only_date); // 저장한 값으로 SeatStatus 객체 생성
                 list.add(chatHistoryDTO);
             }
         } catch (SQLException e) {

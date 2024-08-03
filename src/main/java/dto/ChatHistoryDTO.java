@@ -7,14 +7,16 @@ public class ChatHistoryDTO {
 	String send_date;
 	String profile;
 	int member_idx;
+	String only_date;
 	
-	public ChatHistoryDTO(int unread_member_idx, String nickname, String content, String send_date, String profile, int member_idx) {
+	public ChatHistoryDTO(int unread_member_idx, String nickname, String content, String send_date, String profile, int member_idx, String only_date) {
 		this.unread_member_idx = unread_member_idx;
 		this.nickname = nickname;
 		this.content = content;
 		this.send_date = send_date;
 		this.profile = profile;
 		this.member_idx = member_idx;
+		this.only_date = only_date;
 	}
 	
 	@Override
@@ -24,6 +26,14 @@ public class ChatHistoryDTO {
 	}
 	
 	
+	public String getOnly_date() {
+		return only_date;
+	}
+
+	public void setOnly_date(String only_date) {
+		this.only_date = only_date;
+	}
+
 	public int getMember_idx() {
 		return member_idx;
 	}

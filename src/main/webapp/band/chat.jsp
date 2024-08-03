@@ -108,7 +108,7 @@
 		                      <button class="author">
 		                      </button>
 		                    </span>
-		                <div class="msg msgContainer">
+		                <div onlyDate = "<%= chDto.getOnly_date() %>" class="msg msgContainer">
 		                  <div class="msgMain">
 		                    <div class="messageBodyWrap">
 		                      <span class="txt"><%= chDto.getContent() %></span>
@@ -126,7 +126,7 @@
 	                	<a href="#" class="uProfile">
 		                  <span class="profileInner">
 		                  	<% if (chDto.getProfile() != null) { %>
-		                  	<img src="<%= chDto.getProfile() %>">
+		                  	<img src="../upload/<%= chDto.getProfile() %>">
 		                  	<% } else { %>
 		                  	<img>
 		                  	<% } %>
@@ -137,7 +137,7 @@
 		                        <%= chDto.getNickname() %>
 		                      </button>
 		                    </span>
-		                <div class="msg msgContainer">
+		                <div onlyDate = "<%= chDto.getOnly_date() %>" class="msg msgContainer">
 		                  <div class="msgMain">
 		                    <div class="messageBodyWrap">
 		                      <span class="txt"><%= chDto.getContent() %></span>
@@ -176,6 +176,18 @@
   </div>
   <script>
   
+	//모든 .msgContainer 요소를 선택
+	const msgContainers = document.querySelectorAll('.msgContainer');
+	
+	// 마지막 div 선택
+	const lastMsgContainer = msgContainers[msgContainers.length - 1];
+	
+	// time 속성값 가져오기
+	let lastTimeValue = "";
+	if (msgContainers.length > 0) {
+		lastTimeValue = lastMsgContainer.getAttribute('onlyDate');
+	}
+	
 	//오늘 날짜 가져오기
   	let currentDate = new Date();
 	let currentYear = currentDate.getFullYear();
@@ -193,21 +205,21 @@
 	let todayDateText = currentYear + '-' + currentMonth + '-' + currentDay;
 	console.log(todayDateText);
 	
-	// 모든 time 요소 선택
-    let timeElements = document.querySelectorAll('.logWrap .time.dateTime');
-  	let lastDateText = "";
-  	
-	if (timeElements.length > 0) {
-	    // 가장 마지막 time 요소 선택
-	    let lastTimeElement = timeElements[timeElements.length - 1];
-	    
-	    // 가장 마지막 time 요소의 텍스트 내용 가져오기
-	    let lastDateText = lastTimeElement.textContent;
-	    
-	    console.log(lastDateText); // 가장 마지막 time 요소의 날짜 출력
-	}
-
   	function func_on_message(e) {
+  		// 모든 time 요소 선택
+  	    let timeElements = document.querySelectorAll('.logWrap .time.dateTime');
+  	  	let lastDateText = "";
+  	  	
+  		if (timeElements.length > 0) {
+  		    // 가장 마지막 time 요소 선택
+  		    let lastTimeElement = timeElements[timeElements.length - 1];
+  		    
+  		    // 가장 마지막 time 요소의 텍스트 내용 가져오기
+  		    lastDateText = lastTimeElement.textContent;
+  		    
+  		    console.log(lastDateText); // 가장 마지막 time 요소의 날짜 출력
+		}
+  		
       // 닉네임과 프로필 출력
       let nickMessage = (e.data).split("|");
       let g_nick = nickMessage[0];
@@ -215,12 +227,11 @@
       let g_profile = "";
 
       if (nickMessage[2] != null) {
-          g_profile = "<img src='" + nickMessage[2] + "'>";
+          g_profile = "<img src='../upload/" + nickMessage[2] + "'>";
       } else {
           g_profile = "<img>";
       }
-   
-		alert(lastDateText + " " + todayDateText);
+		
 		// 오늘 날짜와 비교하여 다르면 추가
 		if (lastDateText != todayDateText) {
 		    $(".chatMsgList").append(
@@ -228,7 +239,8 @@
 		        "<time class='time dateTime'>" + todayDateText + "</time>" +
 		        "</div>"
 		     );
-			}
+		    lastDateText = todayDateText;
+		};
 			
 			// 현재 시간 가져오기
 			let currentTime = new Date();
@@ -250,7 +262,7 @@
 		         "<button class='author'>" + g_nick +
 		         "</button>" +
 		         "</span>" +
-		         "<div class='msg msgContainer'>" +
+		         "<div class='msg msgContainer'" + "onlyDate = " + todayDateText + ">" +
 		         "<div class='msgMain'>" +
 		         "<div class='messageBodyWrap'>" +
 		         "<span class='txt'>" + g_msg + "</span>" +
@@ -303,6 +315,20 @@
 		        let nickname = "<%= mMemberProfilePrintDTO.getNickname() %>";
 		        let profile = "<%= mMemberProfilePrintDTO.getProfile() %>";
 		        let chat_idx = <%= chat_idx %>;
+		        
+		     	// 모든 time 요소 선택
+		  	    let timeElements = document.querySelectorAll('.logWrap .time.dateTime');
+		  	  	let lastDateText = "";
+		  	  	
+		  		if (timeElements.length > 0) {
+		  		    // 가장 마지막 time 요소 선택
+		  		    let lastTimeElement = timeElements[timeElements.length - 1];
+		  		    
+		  		    // 가장 마지막 time 요소의 텍스트 내용 가져오기
+		  		    lastDateText = lastTimeElement.textContent;
+		  		    
+		  		    console.log(lastDateText); // 가장 마지막 time 요소의 날짜 출력
+				}
 				
 		        // 현재 시간 가져오기
 		        let currentTime = new Date();
@@ -321,6 +347,14 @@
 		            data: { chat_idx: chat_idx, member_idx: my_id, content: msg },
 		            type: 'get',
 		            success: function(response) {
+						if (lastDateText != todayDateText) {
+							$(".chatMsgList").append(
+						        "<div class='logWrap logEvent'>" +
+						        "<time class='time dateTime'>" + todayDateText + "</time>" +
+						        "</div>"
+						     );
+						}
+						
 		                $(".chatMsgList").append(
 		                    "<div class='logWrap logMy'>" +
 		                    "<a class='uProfile'>" +
@@ -345,6 +379,7 @@
 		                    "</div>"
 		                );
 		                $("#commentInput").val("");
+		                lastDateText = todayDateText;
 		            },
 		            error: function() {
 		                console.log('ajax 통신 실패');
