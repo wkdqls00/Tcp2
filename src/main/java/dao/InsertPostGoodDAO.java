@@ -10,10 +10,14 @@ import project.DatabaseUtil;
 public class InsertPostGoodDAO {
 	public static void main(String[] args) {
 		InsertPostGoodDAO udoDAO = new InsertPostGoodDAO();
-		udoDAO.insertPostGood(2, 3);
+		try {
+			udoDAO.insertPostGood(2, 3);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
-    public void insertPostGood(int post_idx, int meet_member_idx) {
+    public void insertPostGood(int post_idx, int meet_member_idx) throws SQLException {
         DatabaseUtil d = new DatabaseUtil();
         Connection conn = d.getConn();
         String selCount = "SELECT COUNT(*) "
@@ -31,7 +35,8 @@ public class InsertPostGoodDAO {
 			while(rs.next()) {
 				selcnt = rs.getInt(1);
 			}
-			d.close(conn, pstmt, rs);
+			rs.close();
+			pstmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -60,7 +65,8 @@ public class InsertPostGoodDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			d.close(conn, pstmt1);
+			pstmt1.close();
+			conn.close();
 		}
     }
 }

@@ -2,6 +2,7 @@ package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,7 +30,11 @@ public class AjaxPostGoodServlet extends HttpServlet {
 		
 		// Dao 호출
 		InsertPostGoodDAO goodDao = new InsertPostGoodDAO();
-		goodDao.insertPostGood(post_idx, meet_member_idx);
+		try {
+			goodDao.insertPostGood(post_idx, meet_member_idx);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
 		// JSON으로 보내기.
 		String returnStr = "SUCCESS!";

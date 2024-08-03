@@ -132,6 +132,29 @@
 		
 		})
 		
+		// 팝업 : 댓글 쓰기 (Insert)
+		$("#popupCommentWrite").click(function() {
+		
+			let post_idx = $(this).closest(".layerContainerView").attr("postIdx");
+			let content = $(".popupCommentInput").val();
+			
+			console.log(post_idx + " " + content);
+			
+			$.ajax({
+				url: '${pageContext.request.contextPath}/AjaxPostCommentInsertServlet',
+				data: {post_idx : post_idx, meet_member_idx : meet_member_idx, content : content},
+				type: 'get',
+				success: function(response){
+					alert("댓글 작성 완료되었습니다.");
+					location.reload();
+				},
+				error: function(){
+					console.log('ajax 통신 실패');	
+				}
+			});
+		
+		})
+		
 		// 댓글 삭제 (Delete Update)
 		$(".commentDeleteBtn").click(function() {
 
@@ -732,7 +755,7 @@
 				</article>
                 </div>
                 <!-- 팝업 : 게시글 디테일 뷰 -->
-                <div class="layerContainerView" id="postDetail<%= mPDto.getPost_idx() %>" style="display: none">
+                <div class="layerContainerView" id="postDetail<%= mPDto.getPost_idx() %>" style="display: none" postIdx = "<%= mPDto.getPost_idx() %>">
 			      <div class="layerContainerInnerView">
 			        <section class="lyWrap">
 			          <div class="lyPostViewer">
@@ -911,7 +934,7 @@
 			                                <div class="uInputComment">
 			                                  <div class="mentions-input">
 			                                    <div class="mentions">
-			                                      <textarea cols="20" rows="1" placeholder="댓글을 남겨주세요."></textarea>
+			                                      <textarea cols="20" rows="1" placeholder="댓글을 남겨주세요." class="popupCommentInput"></textarea>
 			                                    </div>
 			                                  </div>
 			                                </div>
@@ -919,7 +942,7 @@
 			                            </div>
 			                          </div>
 			                          <div class="submitWrap">
-			                            <button class="writeSubmit">보내기</button>
+			                            <button  id="popupCommentWrite" class="writeSubmit">보내기</button>
 			                          </div>
 			                        </div>
 			                      </section>

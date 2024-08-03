@@ -2,6 +2,7 @@ package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,7 +31,12 @@ public class AjaxTestServlet extends HttpServlet {
 		
 		// Dao 호출
 		InsertPostGoodDAO goodDao = new InsertPostGoodDAO();
-		goodDao.insertPostGood(postIdx, userIdx);
+		try {
+			goodDao.insertPostGood(postIdx, userIdx);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		// JSON으로 보내기.
 		String returnStr = "SUCCESS!";
