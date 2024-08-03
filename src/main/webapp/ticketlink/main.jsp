@@ -10,11 +10,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>티켓링크</title>
-    <link rel="stylesheet" type="text/css" href="../assets/css/common.css">
-    <link rel="stylesheet" type="text/css" href="../assets/css/reset.css">
-    <link rel="stylesheet" type="text/css" href="../assets/css/footer.css">
-    <script src="../assets/js/jquery-1.12.4.min.js"></script>
-    <script src="../assets/js/chatBot.js"></script>
+    <link rel="stylesheet" type="text/css" href="/Tcp2/assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="/Tcp2/assets/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="/Tcp2/assets/css/footer.css">
+    <script src="/Tcp2/assets/js/jquery-1.12.4.min.js"></script>
+    <script src="/Tcp2/assets/js/chatBot.js"></script>
     <!-- 스와이퍼 스크립트 -->
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
@@ -53,13 +53,17 @@
      </style>
 </head>
 	<body>
+	<%
+	ArrayList<SearchResultDTO> list = new TicketlinkMainDao().getPopular();
+	System.out.println(list);
+	%>
         <header>
             <div class="utill">
                 <div class="inner">
                     <ul>
                         <li class="utill_link"><a href="Login/Login.jsp">로그인</a></li>
                         <li class="utill_link"><a href="/Tcp2/Ticket_checkServlet">예매확인/취소</a></li>
-                        <li class="utill_link"><a href="/Tcp2/ticketlink/Login/Join_content.jsp">회원가입</a></li>
+                        <li class="utill_link"><a href="/Tcp2/ticketlink/join_content.jsp">회원가입</a></li>
                         <li class="utill_link"><a href="#">고객센터</a></li>
                         <li class="utill_link"><a href="/Tcp2/Mypage_memberServlet">마이페이지</a></li>
                     </ul>
@@ -70,7 +74,7 @@
                     <h1 class="logo"><a href="main.jsp">로고</a></h1>
                     <ul class="nav">
                         <li><a href="#">공연/전시</a></li>
-                        <li><a href="../band/band_main.jsp">커뮤니티</a></li>
+                        <li><a href="/Tcp2/band/band_main.jsp">커뮤니티</a></li>
                     </ul>
                 </div>
             </div>
@@ -81,10 +85,12 @@
                         <li class="gnb_link"><a href="#">공연</a></li>
                         <li class="gnb_link"><a href="#">전시</a></li>
                         <li class="gnb_link"><a href="#">랭킹</a></li>
-                        <li class="gnb_link"><a href="../band/band_main.jsp">커뮤니티</a></li>
+                        <li class="gnb_link"><a href="/Tcp2/band/band_main.jsp">커뮤니티</a></li>
                         <li class="gnb_link" style="padding: 0; padding-top: 10px; padding-left: 10px; float: right;">
-		                  	<input type="text" style="width: 200px; padding-inline: 8px;" placeholder="공연을 검색하세요.">
+                        	<form action="/Tcp2/SearchResult">
+		                  	<input type="text" style="width: 200px; padding-inline: 8px;" placeholder="공연을 검색하세요." name="search">
 		                  	<button type="submit" class="searchSubmitBtn">검색</button>
+		                  	</form>
 	                 	</li>
                     </ul>
                 </div>
@@ -94,20 +100,20 @@
         <div id="app">
             <div class="main_swiper_box swiper mySwiper">
                 <div class="big_banner swiper-wrapper" id="big_banner">
-                    <div class="swiper-slide"><a href="#"><img src="../assets/img/ticklink/BigBanner_01.jpg" alt="메인이미지"></a></div>
+                    <div class="swiper-slide"><a href="#"><img src="/Tcp2/assets/img/ticklink/BigBanner_01.jpg" alt="메인이미지"></a></div>
                 </div>
                 <ul class="sm_box">
                     <li class="sm_img on">
-                        <a href="../assets/img/ticklink/BigBanner_01.jpg"><img src="../assets/img/ticklink/thumbnail_01.jpg" alt=""></a>
+                        <a href="/Tcp2/assets/img/ticklink/BigBanner_01.jpg"><img src="/Tcp2/assets/img/ticklink/thumbnail_01.jpg" alt=""></a>
                     </li>
                     <li class="sm_img">
-                        <a href="../assets/img/ticklink/BigBanner_02.jpg"><img src="../assets/img/ticklink/thumbnail_02.jpg" alt=""></a>
+                        <a href="/Tcp2/assets/img/ticklink/BigBanner_02.jpg"><img src="/Tcp2/assets/img/ticklink/thumbnail_02.jpg" alt=""></a>
                     </li>
                     <li class="sm_img">
-                        <a href="../assets/img/ticklink/BigBanner_01.jpg"><img src="../assets/img/ticklink/thumbnail_01.jpg" alt=""></a>
+                        <a href="/Tcp2/assets/img/ticklink/BigBanner_01.jpg"><img src="/Tcp2/assets/img/ticklink/thumbnail_01.jpg" alt=""></a>
                     </li>
                     <li class="sm_img">
-                        <a href="../assets/img/ticklink/BigBanner_02.jpg"><img src="../assets/img/ticklink/thumbnail_02.jpg" alt=""></a>
+                        <a href="/Tcp2/assets/img/ticklink/BigBanner_02.jpg"><img src="/Tcp2/assets/img/ticklink/thumbnail_02.jpg" alt=""></a>
                     </li>
                 </ul>   
             </div>
@@ -121,7 +127,7 @@
                         <li class="card_item">
                             <a href="#">
                                 <div class="img_box">
-                                    <img src="../assets/img/ticklink/cardnews_02.jpg" alt="">
+                                    <img src="/Tcp2/assets/img/ticklink/cardnews_02.jpg" alt="">
                                 </div>
                                 <div class="txt_box">
                                     <h4 class="item_tit">[단독판매] 어쩌다 발견한 하루</h4>
@@ -134,7 +140,7 @@
                         <li class="card_item">
                             <a href="#">
                                 <div class="img_box">
-                                    <img src="../assets/img/ticklink/cardnews_03.jpg" alt="">
+                                    <img src="/Tcp2/assets/img/ticklink/cardnews_03.jpg" alt="">
                                 </div>
                                 <div class="txt_box">
                                     <h4 class="item_tit">[단독판매] 어쩌다 발견한 하루</h4>
@@ -147,7 +153,7 @@
                         <li class="card_item">
                             <a href="#">
                                 <div class="img_box">
-                                    <img src="../assets/img/ticklink/cardnews_02.jpg" alt="">
+                                    <img src="/Tcp2/assets/img/ticklink/cardnews_02.jpg" alt="">
                                 </div>
                                 <div class="txt_box">
                                     <h4 class="item_tit">[단독판매] 어쩌다 발견한 하루</h4>
@@ -160,7 +166,7 @@
                         <li class="card_item">
                             <a href="#">
                                 <div class="img_box">
-                                    <img src="../assets/img/ticklink/cardnews_02.jpg" alt="">
+                                    <img src="/Tcp2/assets/img/ticklink/cardnews_02.jpg" alt="">
                                 </div>
                                 <div class="txt_box">
                                     <h4 class="item_tit">[단독판매] 어쩌다 발견한 하루</h4>
@@ -173,7 +179,7 @@
                         <li class="card_item">
                             <a href="#">
                                 <div class="img_box">
-                                    <img src="../assets/img/ticklink/cardnews_02.jpg" alt="">
+                                    <img src="/Tcp2/assets/img/ticklink/cardnews_02.jpg" alt="">
                                 </div>
                                 <div class="txt_box">
                                     <h4 class="item_tit">[단독판매] 어쩌다 발견한 하루</h4>
@@ -211,174 +217,27 @@
                     </div>
                     <div class="item_box">
                         <ul class="item_list">
+                       <%
+                       System.out.println("asd");
+                       System.out.println(list.size());
+                        for(int i = 0; i < list.size(); i++){
+                        %>
                             <li class="card_item_04">
                                 <a href="#">
                                     <div class="img_box">
-                                        <img src="../assets/img/ticklink/cardnews_02.jpg" alt="">
+                                        <img src="<%=list.get(i).getPoster_url()%>" alt="">
                                     </div>
                                     <div class="txt_box">
-                                        <h4 class="item_tit">뮤지컬 &lt;미오 프라텔로&gt;</h4>
+                                        <h4 class="item_tit"><%=list.get(i).getPlayName()%></h4>
                                         <div class="info_box">
-                                            <span class="item_sub_tit">링크아트센터드림 드림4관</span>
-                                            <span class="item_date">2024.06.27</span>
+                                            <span class="item_sub_tit"><%=list.get(i).getPlayhallName()%></span>
+                                            <span class="item_date"><%=list.get(i).getPeriod()%></span>
                                         </div>
                                     </div>
                                 </a>
                             </li>
-                            <li class="card_item_04">
-                                <a href="#">
-                                    <div class="img_box">
-                                        <img src="../assets/img/ticklink/cardnews_03.jpg" alt="">
-                                    </div>
-                                    <div class="txt_box">
-                                        <h4 class="item_tit">뮤지컬 &lt;협객자객&gt;</h4>
-                                        <div class="info_box">
-                                            <span class="item_sub_tit">링크아트센터드림 드림4관</span>
-                                            <span class="item_date">2024.06.27</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="card_item_04">
-                                <a href="#">
-                                    <div class="img_box">
-                                        <img src="../assets/img/ticklink/cardnews_02.jpg" alt="">
-                                    </div>
-                                    <div class="txt_box">
-                                        <h4 class="item_tit">뮤지컬 &lt;미오 프라텔로&gt;</h4>
-                                        <div class="info_box">
-                                            <span class="item_sub_tit">링크아트센터드림 드림4관</span>
-                                            <span class="item_date">2024.06.27</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="card_item_04">
-                                <a href="#">
-                                    <div class="img_box">
-                                        <img src="../assets/img/ticklink/cardnews_02.jpg" alt="">
-                                    </div>
-                                    <div class="txt_box">
-                                        <h4 class="item_tit">뮤지컬 &lt;미오 프라텔로&gt;</h4>
-                                        <div class="info_box">
-                                            <span class="item_sub_tit">링크아트센터드림 드림4관</span>
-                                            <span class="item_date">2024.06.27</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="card_item_04">
-                                <a href="#">
-                                    <div class="img_box">
-                                        <img src="../assets/img/ticklink/cardnews_03.jpg" alt="">
-                                    </div>
-                                    <div class="txt_box">
-                                        <h4 class="item_tit">뮤지컬 &lt;협객자객&gt;</h4>
-                                        <div class="info_box">
-                                            <span class="item_sub_tit">링크아트센터드림 드림4관</span>
-                                            <span class="item_date">2024.06.27</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="card_item_04">
-                                <a href="#">
-                                    <div class="img_box">
-                                        <img src="../assets/img/ticklink/cardnews_02.jpg" alt="">
-                                    </div>
-                                    <div class="txt_box">
-                                        <h4 class="item_tit">뮤지컬 &lt;미오 프라텔로&gt;</h4>
-                                        <div class="info_box">
-                                            <span class="item_sub_tit">링크아트센터드림 드림4관</span>
-                                            <span class="item_date">2024.06.27</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="card_item_04">
-                                <a href="#">
-                                    <div class="img_box">
-                                        <img src="../assets/img/ticklink/cardnews_03.jpg" alt="">
-                                    </div>
-                                    <div class="txt_box">
-                                        <h4 class="item_tit">뮤지컬 &lt;협객자객&gt;</h4>
-                                        <div class="info_box">
-                                            <span class="item_sub_tit">링크아트센터드림 드림4관</span>
-                                            <span class="item_date">2024.06.27</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="card_item_04">
-                                <a href="#">
-                                    <div class="img_box">
-                                        <img src="../assets/img/ticklink/cardnews_02.jpg" alt="">
-                                    </div>
-                                    <div class="txt_box">
-                                        <h4 class="item_tit">뮤지컬 &lt;미오 프라텔로&gt;</h4>
-                                        <div class="info_box">
-                                            <span class="item_sub_tit">링크아트센터드림 드림4관</span>
-                                            <span class="item_date">2024.06.27</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="card_item_04">
-                                <a href="#">
-                                    <div class="img_box">
-                                        <img src="../assets/img/ticklink/cardnews_03.jpg" alt="">
-                                    </div>
-                                    <div class="txt_box">
-                                        <h4 class="item_tit">뮤지컬 &lt;협객자객&gt;</h4>
-                                        <div class="info_box">
-                                            <span class="item_sub_tit">링크아트센터드림 드림4관</span>
-                                            <span class="item_date">2024.06.27</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="card_item_04">
-                                <a href="#">
-                                    <div class="img_box">
-                                        <img src="../assets/img/ticklink/cardnews_02.jpg" alt="">
-                                    </div>
-                                    <div class="txt_box">
-                                        <h4 class="item_tit">뮤지컬 &lt;미오 프라텔로&gt;</h4>
-                                        <div class="info_box">
-                                            <span class="item_sub_tit">링크아트센터드림 드림4관</span>
-                                            <span class="item_date">2024.06.27</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="card_item_04">
-                                <a href="#">
-                                    <div class="img_box">
-                                        <img src="../assets/img/ticklink/cardnews_03.jpg" alt="">
-                                    </div>
-                                    <div class="txt_box">
-                                        <h4 class="item_tit">뮤지컬 &lt;협객자객&gt;</h4>
-                                        <div class="info_box">
-                                            <span class="item_sub_tit">링크아트센터드림 드림4관</span>
-                                            <span class="item_date">2024.06.27</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="card_item_04">
-                                <a href="#">
-                                    <div class="img_box">
-                                        <img src="../assets/img/ticklink/cardnews_02.jpg" alt="">
-                                    </div>
-                                    <div class="txt_box">
-                                        <h4 class="item_tit">뮤지컬 &lt;유진과 유진&gt;</h4>
-                                        <div class="info_box">
-                                            <span class="item_sub_tit">링크아트센터드림 드림4관</span>
-                                            <span class="item_date">2024.06.27</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
+                            <%} %>
+                            
 
                         </ul>
                     </div>

@@ -1,3 +1,5 @@
+<%@page import="dto.SearchResultDTO"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -5,10 +7,10 @@
 <head>
 	<meta charset="UTF-8">
 	<title>공연 검색 결과</title>
-	<link rel="stylesheet" type="text/css" href="../assets/css/common.css">
-    <link rel="stylesheet" type="text/css" href="../assets/css/reset.css">
-    <link rel="stylesheet" type="text/css" href="../assets/css/footer.css">
-    <script src="../assets/js/jquery-1.12.4.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/assets/css/common.css">
+    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/assets/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/assets/css/footer.css">
+    <script src="<%=request.getContextPath()%>/assets/js/jquery-1.12.4.min.js"></script>
     <style>
     	.searchSubmitBtn {
     		height: 32px; width: 40px; border: none; background: #222; color: #fff; border-radius: 6px; font-size: 11px;
@@ -20,6 +22,11 @@
     </style>
 </head>
 <body>
+<%
+@SuppressWarnings("unchecked")
+ArrayList<SearchResultDTO> list = (ArrayList<SearchResultDTO>)request.getAttribute("list");
+
+%>
 	<!-- 헤더  -->
 	<header>
       <div class="utill">
@@ -51,8 +58,10 @@
                   <li class="gnb_link"><a href="#">랭킹</a></li>
                   <li class="gnb_link"><a href="../band/band_main.jsp">커뮤니티</a></li>
                   <li class="gnb_link" style="padding: 0; padding-top: 10px; padding-left: 10px; float: right;">
-                  	<input type="text" style="width: 200px; padding-inline: 8px;" placeholder="공연을 검색하세요.">
-                  	<button type="submit" class="searchSubmitBtn">검색</button>
+                        	<form action="/Tcp2/SearchResult">
+		                  	<input type="text" style="width: 200px; padding-inline: 8px;" placeholder="공연을 검색하세요." name="search">
+		                  	<button type="submit" class="searchSubmitBtn">검색</button>
+		                  	</form>
                   </li>
               </ul>
           </div>
@@ -63,122 +72,28 @@
             <section class="con_box" style="margin-top: 80px;">
                 <div class="inner">
                     <div class="con_header" style="margin-top: 0;">
-                        <h2 class="con_tit">검색 결과 &middot;&middot;&middot; 0건</h2>
+                        <h2 class="con_tit">검색 결과 &middot;&middot;&middot; <%=list.size()%>건</h2>
                     </div>
                     <div class="item_box">
                         <ul class="item_list" style="margin-bottom: 40px;">
+                        <%
+                        for(int i = 0; i < list.size(); i++){
+                        %>
                             <li class="card_item_04">
                                 <a href="#">
                                     <div class="img_box">
-                                        <img src="../assets/img/ticklink/cardnews_02.jpg" alt="">
+                                        <img src="<%=list.get(i).getPoster_url()%>" alt="">
                                     </div>
                                     <div class="txt_box">
-                                        <h4 class="item_tit">뮤지컬 &lt;미오 프라텔로&gt;</h4>
+                                        <h4 class="item_tit"><%=list.get(i).getPlayName()%></h4>
                                         <div class="info_box">
-                                            <span class="item_sub_tit">링크아트센터드림 드림4관</span>
-                                            <span class="item_date">2024.06.27</span>
+                                            <span class="item_sub_tit"><%=list.get(i).getPlayhallName()%></span>
+                                            <span class="item_date"><%=list.get(i).getPeriod()%></span>
                                         </div>
                                     </div>
                                 </a>
                             </li>
-                            <li class="card_item_04">
-                                <a href="#">
-                                    <div class="img_box">
-                                        <img src="../assets/img/ticklink/cardnews_03.jpg" alt="">
-                                    </div>
-                                    <div class="txt_box">
-                                        <h4 class="item_tit">뮤지컬 &lt;협객자객&gt;</h4>
-                                        <div class="info_box">
-                                            <span class="item_sub_tit">링크아트센터드림 드림4관</span>
-                                            <span class="item_date">2024.06.27</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="card_item_04">
-                                <a href="#">
-                                    <div class="img_box">
-                                        <img src="../assets/img/ticklink/cardnews_02.jpg" alt="">
-                                    </div>
-                                    <div class="txt_box">
-                                        <h4 class="item_tit">뮤지컬 &lt;미오 프라텔로&gt;</h4>
-                                        <div class="info_box">
-                                            <span class="item_sub_tit">링크아트센터드림 드림4관</span>
-                                            <span class="item_date">2024.06.27</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="card_item_04">
-                                <a href="#">
-                                    <div class="img_box">
-                                        <img src="../assets/img/ticklink/cardnews_02.jpg" alt="">
-                                    </div>
-                                    <div class="txt_box">
-                                        <h4 class="item_tit">뮤지컬 &lt;미오 프라텔로&gt;</h4>
-                                        <div class="info_box">
-                                            <span class="item_sub_tit">링크아트센터드림 드림4관</span>
-                                            <span class="item_date">2024.06.27</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="card_item_04">
-                                <a href="#">
-                                    <div class="img_box">
-                                        <img src="../assets/img/ticklink/cardnews_03.jpg" alt="">
-                                    </div>
-                                    <div class="txt_box">
-                                        <h4 class="item_tit">뮤지컬 &lt;협객자객&gt;</h4>
-                                        <div class="info_box">
-                                            <span class="item_sub_tit">링크아트센터드림 드림4관</span>
-                                            <span class="item_date">2024.06.27</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="card_item_04">
-                                <a href="#">
-                                    <div class="img_box">
-                                        <img src="../assets/img/ticklink/cardnews_02.jpg" alt="">
-                                    </div>
-                                    <div class="txt_box">
-                                        <h4 class="item_tit">뮤지컬 &lt;미오 프라텔로&gt;</h4>
-                                        <div class="info_box">
-                                            <span class="item_sub_tit">링크아트센터드림 드림4관</span>
-                                            <span class="item_date">2024.06.27</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="card_item_04">
-                                <a href="#">
-                                    <div class="img_box">
-                                        <img src="../assets/img/ticklink/cardnews_03.jpg" alt="">
-                                    </div>
-                                    <div class="txt_box">
-                                        <h4 class="item_tit">뮤지컬 &lt;협객자객&gt;</h4>
-                                        <div class="info_box">
-                                            <span class="item_sub_tit">링크아트센터드림 드림4관</span>
-                                            <span class="item_date">2024.06.27</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="card_item_04">
-                                <a href="#">
-                                    <div class="img_box">
-                                        <img src="../assets/img/ticklink/cardnews_02.jpg" alt="">
-                                    </div>
-                                    <div class="txt_box">
-                                        <h4 class="item_tit">뮤지컬 &lt;미오 프라텔로&gt;</h4>
-                                        <div class="info_box">
-                                            <span class="item_sub_tit">링크아트센터드림 드림4관</span>
-                                            <span class="item_date">2024.06.27</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
+                            <%} %>
                         </ul>
                     </div>
                 </div>
