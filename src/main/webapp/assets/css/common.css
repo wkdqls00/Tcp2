@@ -100,7 +100,25 @@ header .utill ul .utill_link a:hover {text-decoration : underline;} /*이거 추
   background-color: #cfd0d7;
   margin-bottom: 40px;
 }
+.common_tab_btn2[aria-selected="true"] {
+    background-color: black;
+    color: white;
+    border: none;
+}
 
+.common_tab_btn2[aria-selected="false"] {
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
 /* 동영상 */
 .bg_gray{background: #f5f6f9;}
 

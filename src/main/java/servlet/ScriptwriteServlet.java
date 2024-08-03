@@ -45,7 +45,6 @@ public class ScriptwriteServlet extends HttpServlet {
     	System.out.println(1);
     	int play_idx = Integer.parseInt(request.getParameter("play_idx"));
     	System.out.println(2);
-    	System.out.println(request.getParameter("star2"));
     	int star_rating = Integer.parseInt(request.getParameter("star2"));
     	System.out.println(4);
     	String title = request.getParameter("title");
@@ -53,13 +52,28 @@ public class ScriptwriteServlet extends HttpServlet {
     	String content = request.getParameter("content");
     	System.out.println(6);
     	
-    	try {
-    		new ScriptwriteInDAO().scriptwriteIn(play_idx, userIdx, title, content, star_rating);
-    	}catch(Exception e) {
-    		e.printStackTrace();
+    	
+    	if(new ScriptwriteInDAO().insertScript(play_idx, userIdx, title, content, star_rating)) {
+    		response.sendRedirect("http://localhost:9090/Tcp2/ticketlink/Detailed_Infor(Integrated)/Prefor.detail(C).jsp?play_idx=" + play_idx);    		
+    	}else {
+    		out.println("<html>");
+			out.println("<head>");
+			out.println("<title></title>");
+			out.println("</head>");
+			out.println("<body>");
+			out.println("<script>");
+			out.println("alert('해당 공연에 대한 관람 기록이 없습니다.');");
+			out.println("history.back();");
+			out.println("</script>");
+			out.println("</body>");
+			out.println("</html>");	
+			return;
     	}
-      	
-    	response.sendRedirect("http://localhost:9090/Tcp2/ticketlink/Detailed_Infor(Integrated)/Prefor.detail(C).jsp?play_idx=486");
+        
+        
+        
+        
+        
     }
 
 

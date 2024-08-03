@@ -49,6 +49,31 @@ button {
   cursor: pointer;
   overflow: visible;
 }
+.calendar {
+	width: 300px;
+}
+#datepicker {
+    width: 100px;
+    height: 20px;
+    display: inline-block;
+    vertical-align: middle;
+}
+.ui-datepicker {
+    font-size: 10px; /* 기본 글꼴 크기를 조정 */
+    width: auto;
+}
+.calendar-container {
+    display: flex;
+    align-items: center;
+}
+.calendar-icon {
+    margin-left: 10px;
+    cursor: pointer;
+}
+.calendar-text {
+    font-size: 16px;
+    margin-left: 10px;
+}
 .header_util {
   background-color: #f8f9fa;
   }
@@ -759,6 +784,7 @@ ul, li {
   border: none;
   background-color: rgb(255, 255, 255); 
 }
+/*
 .period_calendar_btn::after {
   position: absolute;
   top: 50%;
@@ -770,8 +796,10 @@ ul, li {
   border-width: 4.5px 3.5px;
   content: "";
 }
+*/
 .period_calendar_btn {
   margin-right: 6px;
+  margin-left: 480px !important;
 }
 
 .common_icon1 {
@@ -942,7 +970,6 @@ td {
 .ranking_product_table {
   width: 100%;
   border-top: 1px solid #242428;
-  height: 1783px;
 
 }
 .ranking_product_table > thead th {

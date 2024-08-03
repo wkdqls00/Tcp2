@@ -55,10 +55,18 @@ public class Exp_RatinglistDAO {
 		} finally {
 			d.close(conn, pstmt, rs);
 		}
+		return list;
+	}
+	
+	public ArrayList<Exp_RatingDTO> getlistByPageNum(int page_num) {
+		
+		ArrayList<Exp_RatingDTO> list = new ArrayList<>();
+		DatabaseUtil d = new DatabaseUtil();
+		Connection conn = d.getConn();		
+		
+		String sql = "";
 		
 		return list;
-		
-		
 	}
 	
 }

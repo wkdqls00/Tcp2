@@ -14,14 +14,19 @@
     // int member_idx = (int)hs.getAttribute("userIdx");
     request.getSession().getAttribute("userIdx");
 %>
+<script>
+	let g_play_idx = <%=request.getParameter("play_idx")%>;
+</script>
+    
+    
     
     
 <%
 	// Integer paymentIdx = 1;   // TODO : 나중에, Dao 메서드 호출해서 가져오는 걸로 변경하셔야.
 	
     // int play_idx = 486;
-//	int playhall_idx = Integer.parseInt(request.getParameter("playhall_idx"));
     int play_idx = Integer.parseInt(request.getParameter("play_idx"));
+ 	// int playhall_idx = Integer.parseInt(request.getParameter("playhall_idx"));
 	 Getplayhall_idx gpi = new Getplayhall_idx();
 	 int playhall_idx = gpi.getplayhall_idx(play_idx);
 	
@@ -45,22 +50,7 @@
 	String formattedendDate = outputFormat.format(ed);
 	
  	ArrayList<SeatPriceDTO> spdto = new SeatPriceDAO().selectSeatPrice(play_idx);
- 	
- 	String date = "2024년 4월 5일";
- 	// String date = (request.getParameter("date"));
-	ArrayList<Detailed_playDTO> dpd = new Detailed_playDAO().DetailedDTO_play(play_idx, date);
 
-	SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 M월 d일");
-	Calendar cal = Calendar.getInstance();
-	try {
-		cal.setTime(sdf.parse(date));
-	} catch (ParseException e) {
-		e.printStackTrace();
-	}
-	int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
-	String[] days = {"", "일", "월", "화", "수", "목", "금", "토"};
-	String dayOfWeekString = days[dayOfWeek];
-	
 	ArrayList<PlayHallLocationDTO> phldto = new PlayHallLocationDAO().playHallLocationDto(playhall_idx);
 
 	ArrayList<ScriptwriteDTO> swd = new ScriptwriteDAO().scriptwriteDto(play_idx);
@@ -69,18 +59,7 @@
 
 	ScriptwriteInDAO swi = new ScriptwriteInDAO();
 
-	int playinfo_idx = 29696;
-	// wint playinfo_idx = Integer.parseInt(request.getParameter("playinfo_idx"));
-	ArrayList<SeatStatusDTO> seatstatuslist = new SeatStatusDAO().getSeatStatus(play_idx, playinfo_idx);
-	ArrayList<SeatPriceDTO> pricelist = new SeatPriceDAO().selectSeatPrice(play_idx);
-	
-
-        
-        
-//ScriptwriteInDAO swi = new ScriptwriteInDAO();
-//swi.scriptwriteIn(play_idx, member_idx, payment_idx, title, content, star_rating);
-	
-    
+	  
 	ArrayList<Exp_RatingcountDTO> ercd = new Exp_ratingcountDAO().exp_ratingcountDto(play_idx);
 	
 	ArrayList<Exp_RatingDTO> erd = new Exp_RatinglistDAO().exp_RatinglistDto(play_idx);
@@ -88,9 +67,17 @@
 	ScriptwriteupdateDAO swud = new ScriptwriteupdateDAO();
 	
 	ScriptwriteInDAO swid = new ScriptwriteInDAO();	
+	double staravg = swid.getstarRatingavg(play_idx);
 	
-	PayDao dao = new PayDao();
-	ArrayList<SeatStatusDTO> list1 = dao.getSeatStatus(playhall_idx, playinfo_idx);
+	ArrayList<PlayhallMapDTO> phmd = new PlayHallLocationDAO().playhallMap(play_idx);
+
+	ArrayList<GetDateDTO> gdd = new GetDateDAO().getPlayinfo(play_idx);
+	
+	ArrayList<Genre_RankDTO> Glist =  new Genre_RankDAO().selectGenre_RankDTO(3, "20240416일");
+	
+	int rowNum = 5;
+	ArrayList<Week_RankDTO> wrd = new Genre_RankDAO().weekRankDto(rowNum);
+	ArrayList<Week_RDTO> wr = new Genre_RankDAO().weekRDto(rowNum);
 %>    
     
     
@@ -107,14 +94,60 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="../../assets/js/Calendar.js" type="text/javascript"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=kvd9jc2y88"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+ 
+  <script>
+
+  function draw_script_page(page_num) {
+		$.ajax({
+			type: 'get',
+			data: { page_num : page_num, play_idx : <%=request.getParameter("play_idx")%> },
+			dataType: "json",
+			url: "${pageContext.request.contextPath}/PageAjaxServlet",
+			success: function(res) {
+				console.log(res);
+				let container = $('#container'); // 데이터를 추가할 컨테이너 선택
+				container.empty(); // 기존 내용 제거
+				res.forEach(script => {
+					console.log(script);
+					
+					let stars = '';
+					for (let i = 1; i <= 5; i++) {
+						stars += (parseInt(script.starRating) >= i) ? '★' : '☆';
+					}
+					let str = `<div class="empty_box" id="` + script.script_idx + `">
+							<div class="empty_star" style="color:red">` + stars + `</div>
+							<h1 class="empty_title">`+script.title+`</h1>
+							<p class="empty_comment">`+script.content+`</p>
+							<div class="comment_info">
+								<span class="comment_id">`+script.email+`</span>
+								<span class="comment_date">`+ script.regdate +`</span>
+								<span class="comment_purchaser">예매자</span>
+								<input type="hidden" name="script_idx" value="`+script.script_idx+`">
+								<button type="submit" class="script_delete">D</button>
+							</div>
+						</div>`;
+					console.log("str", str);
+					$("#container").append(str);
+				});
+			},
+			error: function(r, s, e) {
+				alert("[에러] code:"+ r.status+ ", message:"+ r.responseText+ "error:"+ e);	
+			}
+
+		});
+	}
   
+  
+  </script>
+ 
   
   <script>
+ 	
   $(function() {
-  	// 관람후기 삭제
-  	$(".script_delete").click(function() {
-  		
+  	//  삭제
+  	$(document).on("click", ".script_delete", function() {
   		let script_idx = $(this).closest(".empty_box").attr("id");
   		
 		$.ajax({
@@ -123,6 +156,7 @@
 			type: 'get',
 			success: function(response){
 				alert("삭제되었습니다.");
+				alert(script_idx);
 				$("#" + script_idx).hide();
 			},
 			error: function(){
@@ -132,6 +166,9 @@
 		
 		});
   	}); 
+  
+  	
+  
   </script>
 	
   <script>
@@ -155,8 +192,13 @@
 			});
 			
 		});
+		if(<%=request.getParameter("page")%> > 1) {
+			draw_script_page(<%=request.getParameter("page")%>);
+		} else {
+			draw_script_page(1);
+		}
 	});
-	
+
   </script>
 
 
@@ -210,7 +252,8 @@
       <div class="border"><!--제목 + 공유하기-->
         <h1 class="product_title"><b><%=dipd.get(0).getPlayName()%></b></h1>
         <div class="border">
-          <a href="#"><img src="/assets/img/ticklink/icon_share.png" alt="공유하기"></a>
+          <span class="button gray medium"><a href="#"><img src="/Tcp2/assets/img/ticklink/icon_share.png" onclick="clip(); return false;"></a></span>
+          <a href="#" target="_blank" onclick="javascript:window.open( 'https://twitter.com/intent/tweet?text=' + encodeURIComponent( document.title ) + '%20(' + encodeURIComponent( document.URL ) + ')', 'menubar=no, toolbar=no, resizable=yes, scrollbars=yes, width=600, height=600' ); return false;" title="트위터"><img src="https://namesaju.netlify.app/Twitter.png" alt="twitter"></a>
         </div>
       </div>
       <div class="border">
@@ -247,7 +290,7 @@
 				}
 %>
               </ul>
-              <img src="/assets/img/ticklink/price_more.png" alt="가격정보더보기버튼" style="margin-top: 18px; width: unset;">
+              <img src="/Tcp2/assets/img/ticklink/price_more.png" alt="가격정보더보기버튼" style="margin-top: 18px; width: unset;">
               </div>
             </li>
             <li class="product_info_item">
@@ -261,7 +304,7 @@
                     장애인/국가유공자 할인 <em class="text_emphasis">30</em>% 할인
                   </li>
                 </ul>
-                <img src="/assets/img/ticklink/saleinfo.png" alt="할인정보" style="margin-top: 18px; width: unset;">
+                <img src="/Tcp2/assets/img/ticklink/saleinfo.png" alt="할인정보" style="margin-top: 18px; width: unset;">
                 </div>
             </li>
         </ul>
@@ -299,43 +342,32 @@
         <div>
           <p class="step">STEP 2</p>
           <p class="stepinfo">회차 선택</p>
+   
         </div>
         <ul style="width: 257px;">
 	        <li class="time_list">
-	          <button type="button" class="episode_selection time_btn">
-	          <%
-	          	System.out.println(dpd.get(0).getStart_time());
-	          	System.out.println(dipd.get(0).getCast());
-	          %>
-	            <span><b style="font-size: larger"><%=dpd.get(0).getStart_time()%></b></span>
-	            <span>
-	              <span class="c_member">출연진 <%=dipd.get(0).getCast()%></span>
-	            </span>
-	          </button>
+<%
+		System.out.println(gdd);
+    	String originalTime = gdd.get(0).getPlay_date();
+		for(int i=0; i<gdd.size(); i++) {
+				if (originalTime.equals("0")) break;
+				if (!(originalTime.equals(gdd.get(i).getPlay_date()))) break;
+%>
+	           <button type="button" onclick="<%=gdd.get(i).getPlayinfo_idx()%>" class="episode_selection time_btn" style="margin-bottom: 15px;"> 
+			      <span><b style="font-size: larger"><%=gdd.get(i).getStart_time()%></b></span>
+			       <span>
+			        <span class="c_member"></span>
+			       </span>
+			    </button>
+<%
+			}
+%>
 	        </li>
         </ul>
       </div>
       <div><!-- 3 -->
         <div><span>예매가능좌석</span></div>
         <ul class="product_seat_list">
-        <%
-        for (int i = 0; i < pricelist.size(); i++) {
-            int leftseat[] = new int[4];
-
-            // leftseat 배열에 값 할당
-            for (int j = 0; j < list1.size(); j++) {
-                if (j < pricelist.size() - 1) {
-                    leftseat[j] = list1.get(j).getCount();
-                } else {
-                    leftseat[pricelist.size() - 1] += list1.get(j).getCount();
-                }
-            }
-%>
-          <li class="product_seat_item"><span class="product_seat_title"><%=pricelist.get(i).getRank()%>석</span>
-          <span class="product_seat_remain"><span class="product_seat_number"><%=leftseat[i] == 0 ? "매진" : leftseat[i]%>석</span></span></li>
-<% 
-        }
-%>
         </ul>
       </div>
     </div>
@@ -344,7 +376,7 @@
         <img src="data:image/png;base64,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" alt="페이코결제">
       </div>
       <div class="detail_reserve">
-        <a class="common_btn1 btn_primary1 btn_medium1" href="/Tcp2/Payment_p0" aria-disabled="false">예매하기</a>
+        <a class="common_btn1 btn_primary1 btn_medium1" href="#" onclick="reservation();" aria-disabled="false">예매하기</a>
       </div>
     </div>
   </section>
@@ -395,24 +427,38 @@
 <section class="common_section section_content" id="detail_information" style="display:block;">
   <div class="detail_tabcontent">
     <section class="section_detail">
-      <h3 class="contect_subtit"><b>공연시간 정보</b></h3>
+      <h3 class="contect_subtit" style="font-size: 24px; margin-bottom: 15px;"><b>공연시간 정보</b></h3>
       <div class="editor">
+       <p style="font-size: 20px;">	&lt;기간 : &nbsp; <b><%=startDate[0]%> - <%=endDate[0]%>&gt; </b></p> <br/>
         <p>
           <b>
-           <%=formattedstartDate%> - <%=formattedendDate%>
-            <br/>
+<%
+	String originDate = gdd.get(0).getPlay_date();
+	int count = 0;
+	  for (int i=0; i<gdd.size(); i++) {
+		  if (count > 6) break;
+		  if (originDate.equals("0")) break; 
+%>       
+       	  <%=gdd.get(i).getPlay_date()+ " "+ gdd.get(i).getStart_time() %> <%
+       	  	if (originDate.equals(gdd.get(i).getPlay_date())) { %>   <%="&nbsp;&nbsp;&nbsp;&nbsp;"%>  
+       	  <% }else { %>
+       	  		<%="<br/>" %>
+			
+       	  <% 
+       	  count++;
+       	  } %>
+<%
+          originDate = gdd.get(i).getPlay_date(); 
+	      }   %>
+
           </b>
         </p>
         <p>
-<% 		
-		for (Detailed_playDTO play : dpd) { 
-%>
+
     	<p>
-        <%=date%> <%=dayOfWeekString%> <%= play.getStart_time()%>
+        
     	</p>
-<% 		
-		}
-%>
+
         <p>&nbsp;</p>
         <h3 class="cast_member"><b>출연진 및 제작진</b></h3>
         <p>출연진 : <%=dipd.get(0).getCast()%></p>
@@ -533,22 +579,27 @@
 </section>
 
 
-<!-- 공연정보 관람후기  -->
+<!-- 공연정보   -->
 <section class="section_product_tabcont section_review" id="review" style="display:none;">
   <div class="content_heading">
     <h2 class="content_title">
-      관람후기
+      <b>관람후기</b>
       <input type="hidden" name="play_idx" value="<%=play_idx%>">
       <span class="text_primary text_number"><%=swcd.get(0).getScriptwritecount()%></span>
     </h2>
     <div class="star_rate">
-      <div class="star">
+      <div class="star_rt" data-rate="<%=staravg %>">
         <!-- before -->
+         <div class="star-wrap"><div class="star_r"><i class="fas fa-star" aria-hidden="true" id="rate_fa"></i></div></div>     
+         <div class="star-wrap"><div class="star_r"><i class="fas fa-star" aria-hidden="true" id="rate_fa"></i></div></div>     
+         <div class="star-wrap"><div class="star_r"><i class="fas fa-star" aria-hidden="true" id="rate_fa"></i></div></div>     
+         <div class="star-wrap"><div class="star_r"><i class="fas fa-star" aria-hidden="true" id="rate_fa"></i></div></div>     
+         <div class="star-wrap"><div class="star_r"><i class="fas fa-star" aria-hidden="true" id="rate_fa"></i></div></div>     
         <span class="star_per" style="width: 0%;">
         </span>
       </div>
       <span class="star_score">
-      <span class="star_current">0.0</span>
+      <span class="star_current"><%=staravg %></span>
       / 5
     </span>
     </div>
@@ -556,7 +607,7 @@
   <div class="comment_write">
     <div class="comment_notice">
       <p class="comment_notice_desc">게시판 운영규정에 맞지 않는 글은 사전 통보없이 삭제될 수 있습니다.</p>
-      <a href="http://127.0.0.1:5500/Detailed_Infor(Integrated)/popup.html" target="_blank" class="btn_hyperlink">
+      <a href="http://localhost:9090/Tcp2/ticketlink/Detailed_Infor(Integrated)/popup.html" target="_blank" class="btn_hyperlink">
         <!-- before -->
          게시판 운영규정
       </a>
@@ -617,17 +668,17 @@
 	        <input type="text" id="title" name="title"  required><br><br>
 	        
 	  		<label for="content">내용:</label><br>
-	        <textarea id="content" name="content" rows="4" cols="50" class="comment_textarea" placeholder="관람후기를 남겨보세요!" maxlength="1000" required></textarea><br><br>
+	        <textarea id="content" name="content" rows="4" cols="50" class="comment_textarea" placeholder="관람후기를 남겨보세요!" maxlength="1000" onkeydown="calc()" onkeyup="calc()" onkeypress="calc()" required></textarea><br><br>
 	        </div>
 	      </div>
 	      <div class="comment_util">
 	        <div class="comment_util_right">
 	          <div class="comment_length">
-	            <span class="current_length">0</span>
+	            <input type="number" class="curr_length" id="result1" value="0" readonly>
 	            <span class="limit_length">/1000</span>
 	          </div>
 	          <div class="comment_btn_box">
-	            <button type="submit"  onclick="ScriptwriteInsert()" value="등록" class="common_btn10 btn_secondary btn_small">등록</button>
+	            <button type="submit"  onclick="ScriptwriteInsert();" value="등록" class="common_btn10 btn_secondary btn_small">등록</button>
 	          </div>
 	        </div>
 	      </div>
@@ -635,39 +686,61 @@
 	 </form>  
    </div>
 
+<%
+	int pageNum = 1;
+
+	try {   // 지우지 마세요. 취업한 다음에 지우시...
+		pageNum = Integer.parseInt(request.getParameter("page"));
+	} catch(NumberFormatException e) { }   // 지우지 마세요.
+	
+	int startNum, endNum;
+	int lastPageNum;
+	
+	ScriptwriteDAO swpage = new ScriptwriteDAO();
+	ArrayList<ScriptwriteDTO> pagesw = swpage.getscriptwriteByPageNum(pageNum, play_idx);
+	
+	lastPageNum = swpage.getLastPageNum();
+	startNum = (pageNum/5*5+1) - (pageNum%5==0 ? 5:0);
+	endNum = startNum + 4;
+	
+	if(endNum > lastPageNum) 
+		endNum = lastPageNum;
+
+%>
+
+
 <% 
-	if (swd.size() == 0) {
+	if (pagesw.size() == 0) {
 %>
 	  <p class="comment_empty">관람후기를 등록하세요.</p>
 <% 		
 	}	
 %>
+<div id="container">
+<% for(int j=0; j<pagesw.size(); j++){%> 		
 
-<% for(int j=0; j<swd.size(); j++){%> 		
-
-  <div class="empty_box" id="<%= swd.get(j).getScript_idx() %>">
+  <div class="empty_box" id="<%= pagesw.get(j).getScript_idx() %>">
   	<div class="empty_star" style="color:red">
   		<!-- ::before -->
 <%
-for (int i=1; i<6; i++) {
-	if (Integer.parseInt(swd.get(j).getStarRating()) >= i){
-		%>★<% 
-	} else {
-		%>☆<%
+	for (int i=1; i<6; i++) {
+		if (Integer.parseInt(pagesw.get(j).getStarRating()) >= i){
+			%>★<% 
+		} else {
+			%>☆<%
+		}
 	}
-}
-
 %>
 
    	<span class="star14_per" style="width: 100%"></span>
   	</div>
-  <h1 class="empty_title"><%=swd.get(j).getTitle()%></h1>
-  <p class="empty_comment"><%=swd.get(j).getContent()%>
+  <h1 class="empty_title"><%=pagesw.get(j).getTitle()%></h1>
+  <p class="empty_comment"><%=pagesw.get(j).getContent()%>
   </p>
     <div class="comment_info">
-  	   <span class="comment_id"><%=swd.get(j).getEmail()%></span>
+  	   <span class="comment_id"><%=pagesw.get(j).getEmail()%></span>
   	   <span class="comment_date">
-  	   <%=swd.get(j).getRegDate()%>
+  	   <%=pagesw.get(j).getRegDate() %>
   	   <!-- ::before -->
   	   </span>
   	   <span class="comment_purchaser">예매자</span>
@@ -675,22 +748,46 @@ for (int i=1; i<6; i++) {
 	    <button type="submit" class="script_delete">D</button>
     </div>
   </div>
+ </div> 
  <% }%>
+ 
+
+ 
   <div class="paging">
-    <a class="first">
+    <a class="first" href="Prefor.detail(C).jsp?page=1&play_idx=<%=play_idx%>">
       맨앞
       <!-- after -->
     </a>
-    <a class="prev">
+<%
+	if (startNum > 1) {
+%>
+    <a class="prev" href="Prefor.detail(C).jsp?page=<%=startNum-5 %>&play_idx=<%=play_idx%>">&lt;   
       이전
       <!-- after -->
     </a>
-    <strong>1</strong>
-    <a class="next">
+<%  }%> 
+<%
+	for (int i=startNum; i<=endNum; i++) {
+%>
+<%
+		if (i != pageNum) {
+%>
+		<a href="Prefor.detail(C).jsp?page=<%=i %>&play_idx=<%=play_idx%>"><%=i %></a>
+
+<%  	}else {%>
+    	<strong><%=i %></strong>
+<% 		}%>
+<%  }%>    
+<%
+	if (lastPageNum > endNum) {
+%>
+    <a class="next" href="Prefor.detail(C).jsp?page=<%=startNum+5 %>&play_idx=<%=play_idx%>">&gt;
       다음
       <!-- after -->
     </a>
-    <a class="end">
+<%	}%>    
+    
+    <a class="end" href="http://localhost:9090/Tcp2/ticketlink/Detailed_Infor(Integrated)/Detailed_Infor(Integrated)/Prefor.detail(C).jsp?page=<%=lastPageNum %>&play_idx=<%=play_idx%>">
       맨뒤
       <!-- after -->
     </a>
@@ -711,7 +808,7 @@ for (int i=1; i<6; i++) {
   <div class="comment_write">
     <div class="comment_notice">
       <p class="comment_notice_desc">게시판 운영규정에 맞지 않는 글은 사전 통보없이 삭제될 수 있습니다.</p>
-      <a href="http://127.0.0.1:5500/Detailed_Infor(Integrated)/popup.html" target="_blank" class="btn_hyperlink">
+      <a href="http://localhost:9090/Tcp2/ticketlink/Detailed_Infor(Integrated)/popup.html" target="_blank" class="btn_hyperlink">
         <!-- before -->
         게시판 운영규정
       </a>
@@ -721,7 +818,7 @@ for (int i=1; i<6; i++) {
     <div class="product_comment_form">
       <div class="product_comment_content">
         <div class="comment_input_box">
-          <textarea id="rating_content" name="content" class="comment_textarea1" placeholder="기대평을 남겨보세요!" maxlength="1000"></textarea>
+          <textarea id="rating_content" name="rating_content" class="comment_textarea1" placeholder="기대평을 남겨보세요!" maxlength="1000"></textarea>
         </div>
       </div>
       <div class="comment_util1">
@@ -741,7 +838,7 @@ for (int i=1; i<6; i++) {
 
 <% 
 	if (erd.size() == 0 ) {
-%>
+%> 
   	<p class="comment_empty">기대평을 등록하세요.</p>  
 <%
 	}
@@ -794,19 +891,20 @@ for (int i=1; i<6; i++) {
     <h2 class="cont_title">공연장 정보 </h2>
   </div>
   <p class="prod_content_desc">
-    장소
+    장소:
     <%=phldto.get(0).getPlayHallName()%>
     <br/>
-    주소
+    주소:
     <%=phldto.get(0).getAddress()%>
     <br>
-    대표번호
+    대표번호:
     <%=phldto.get(0).getPhone_No()%>
   </p>
   <div class="place_map">
     <div class="map_area" id="mapContainer">
+	  <div id="map" style="width:100%;height:800px;"></div>
     </div>
-    <button type="button" class="common_btn50 btn_ghost btn_big">빠른 길찾기</button>
+  <button type="button" onclick="window.open('https://www.google.com/maps/dir/?api=1&origin=위도1,경도1&destination=<%=phmd.get(0).getLatitude()%>, <%=phmd.get(0).getLongitude()%>')" class="common_btn50 btn_ghost btn_big">빠른 길찾기</button>
   </div>
 </section>
 
@@ -921,6 +1019,54 @@ for (int i=1; i<6; i++) {
   </div>
 </section>
 
+
+<!-- 상단 예약 정보 확인 -->
+  <section id="common_section section_summary is-fixed">
+    <div id="detail_summary" style="display: none;">
+      <div class="summary_imgbox">
+        <!-- before -->
+        <img class="summary_img" src="https://image.toast.com/aaaaab/ticketlink/TKL_2/gloomy_pst_0603.jpg" alt="뮤지컬 &lt;사의찬미&gt;">
+      </div>
+      <div class="summary_info">
+        <strong class="summary_title">뮤지컬 &lt;사의찬미&gt;</strong>
+        <div class="summary_sideinfo">
+          <span class="summary_place">링크아트센터 페이코홀</span>
+          <span class="summary_period">
+            <!-- before -->
+             2024.07.02 - 2024.09.22
+          </span>
+        </div>
+      <div class="summary_selection">
+        <div class="selection1">
+          <button type="button" class="selection_btn" aria-haspopup="listbox" aria-expanded="false">
+            <!-- before -->
+            <span class="blind">현재 선택된 옵션</span>
+            <span class="selection_current">2024.07.02 (화)</span>
+            <span class="blind">다른 옵션 보기</span>
+            <!-- after -->
+          </button>
+          <!-- 버튼 누를시 리스트 -->
+
+          </div>
+        <div class="selection2">
+          <button type="button" class="selection_btn2"  aria-haspopup="listbox" aria-expanded="false">
+            <!-- before -->
+             <span class="blind"> 현재 선택된 옵션</span>
+             <span class="selection_current2">22시 00분</span>
+             <span class="blind">다른 옵션 보기</span>
+            <!-- after -->
+          </button>
+              <!-- 버튼 누를시 리스트2 -->
+
+        </div> 
+      </div>
+      </div>
+        <div class="summary_btnarea">
+          <!-- before -->
+          <a class="common_btn btn_primary btn_medium">예매하기</a>
+        </div>
+  </div>
+</section>
 
 <!-- 공연상세정보 밑 추천 -->
   <section class="common_section section_product_recommend">
@@ -1193,6 +1339,116 @@ for (int i=1; i<6; i++) {
   </div>
  </div>
 </section>
+<!-- 맨 밑 하단 안내사항 -->
+<footer id="common_footer">
+  <button type="button" class="btn_move_top is-active is-stuck">
+    <!-- ::before -->
+    <span class="blind1">맨 위로 이동하기</span>
+  </button>
+  <div class="footer_menu">
+    <ul class="footer_menu_list">
+      <li class="footer_menu_item">
+        <a href="/introduction/company" class="footer_menu_link">회사소개</a>
+      </li>
+      <li class="footer_menu_item">
+      <!-- ::before -->
+      <a href="/terms/personalInforamtion" class="footer_menu_link">
+        <span class="text_bold">개인정보 처리방침</span>
+      </a>
+      </li>
+      <li class="footer_menu_item">
+      <!-- ::before -->
+      <a href="/term/youth" class="footer_menu_link">청소년 보호정책</a>
+      </li>
+      <li class="footer_menu_item">
+      <!-- ::before -->
+      <a href="/terms/use" class="footer_menu_link">이용약관</a>
+      </li>
+      <li class="footer_menu_item">
+      <!-- ::before -->
+      <a href="/help/main" class="footer_menu_link">고객센터</a>
+      </li>
+      <li class="footer_menu_item">
+      <!-- ::before -->
+      <a href="/help/partner" class="footer_menu_link">티켓판매안내</a>
+      </li>
+      <li class="footer_menu_item">
+       <!-- ::before -->
+       <a href="/advertisement/" class="footer_menu_link">광고안내</a>
+      </li>
+    </ul>
+  </div>
+</footer>
+ 
+ 
+ 
+ 
+ 
+ <!-- 맨 밑 하단 회사정보-->
+<section>
+ <div class="footer_inner">
+  <span class="footer_corp_title"><b>준영 주식회사</b></span>
+  <address class="footer_address">
+    <p>
+      <span class="footer_address_item">주소: 06043 서울특별시 강남구 강남대로</span>
+      <span class="footer_address_item">
+        <!-- before -->
+        대표이사: 이준영
+      </span>
+      <span class="footer_address_item">
+        <!-- before -->
+        사업자등록번호: 144-81-25090
+      </span>
+    </p>
+    <p>
+      <span class="footer_address_item">010-6368-9069</span>
+      <span class="footer_address_item">
+        <!-- before -->
+        tjsans9069@naver.com
+      </span>
+      <span class="footer_address_item">
+        <!-- before -->
+        통신판매업 신고번호: 제 2023-서울강남-04352호
+      </span>
+      <span class="footer_address_item">
+        <!-- before -->
+        <a href="https://www.ftc.go.kr/bizCommPop.do?wrkr_no=1448125090" target="_blank" class="btn_hyperlink" rel="noreferrer"><b>사업자정보확인</b></a>
+      </span>
+      <span class="footer_address_item">
+        <!-- before -->
+        개인정보보호 책임자: 이지수
+      </span>
+    </p>
+  </address>
+  <span class="footer_copyright">Copyright @ JY LINK Corporation. All rights reserved.</span>
+  <div class="footer_etc">
+    <ul class="footer_sns">
+      <li class="footer_sns_item">
+        <a href="https://blog.naver.com/" target="_blank" class="footer_sns_link" rel="noreferrer">
+          <span class="common_icon icon_naverblog_gray">
+            <span class="blind">네이버블로그</span>
+            <!-- after -->
+          </span>
+        </a>
+      </li>
+      <li class="footer_sns_item">
+        <a href="https://www.instagram.com/" target="_blank" class="footer_sns_link" rel="noreferrer">
+          <span class="common_icon icon_instagram_gray">
+            <span class="blind">인스타</span>
+          </span>
+        </a>
+      </li>
+      <li class="footer_sns_item">
+        <a href="https://www.youtube.com/" target="_blank" class="footer_sns_link" rel="noreferrer">
+          <span class="common_icon icon_youtube_gray">
+            <span class="blind">유튜브</span>
+          </span>
+        </a>
+      </li>
+    </ul>
+  </div>
+ </div>
+</section>
 
 <!-- JavaScript -->
 
@@ -1282,32 +1538,33 @@ for (int i=1; i<6; i++) {
 </script>
 
 <script>
-function ScriptwriteInsert() {
-    const title = document.getElementById('title').value.trim();
-    const content = document.getElementById('content').value.trim();
-    const starRatings = document.querySelectorAll('.star_rating');
-
-	 // 별점을 저장할 변수를 초기화
-	let star_rating = 1;
-
-	 // 각 라디오 버튼에 이벤트 리스너 추가
- 	starRatings.forEach(radio => {
-  	radio.addEventListener('change', function() {
-       // 선택된 라디오 버튼의 값 가져오기
-    star_rating = Integer.parseInt(this.value);
-
-  	});
-  	
-      form.action = '/Tcp2/ScriptwriteServlet';
-      form.method = 'doget';
-      form.submit();
-  }
+	function ScriptwriteInsert() {
+	    const title = document.getElementById('title').value.trim();
+	    const content = document.getElementById('content').value.trim();
+	    const starRatings = document.querySelectorAll('.star_rating');
+		const reg_date = document.querySelectorAll('.comment_date');
+	    
+		 // 별점을 저장할 변수를 초기화
+		let star_rating = 1;
+	
+		 // 각 라디오 버튼에 이벤트 리스너 추가
+	 	starRatings.forEach(radio => {
+	  	radio.addEventListener('change', function() {
+	       // 선택된 라디오 버튼의 값 가져오기
+	    star_rating = Integer.parseInt(this.value);
+	
+	  	});
+	  	
+	      form.action = '/Tcp2/ScriptwriteServlet';
+	      form.method = 'doget';
+	      form.submit();
+		});
+	}
 </script>
 
 <script>
 	function ratingwriteInsert() {
 		
-	const content = document.getElementById('rating_content').value.trim();
 	
 	form.action = '/Tcp2/Ins_Exp_ratingServlet';
 	form.method = 'doget';
@@ -1347,6 +1604,118 @@ $(document).ready(function() {
         $("#star1").css("color", "#FF0000");
     });
 });
+
+
+</script>
+
+<script>
+var rating = $('.star_rt');
+	rating.each(function() {
+		var $this = $(this);
+		var targetScore = $this.attr('data-rate');
+		var firstdigit = targetScore.split('.');
+		
+		if (firstdigit.length > 1) {
+			for (var i=0; i<firstdigit[0]; i++) {
+				$(this).find('.star_r').eq(i).css({width: '100%'});
+			}
+			$this.find('.star_r').eq(firstdigit[0]).css({width: firstdigit[1]+ '0%'});
+		}else {
+			for (var i=0; i<targetScore; i++) {
+				$this.find('star_r').eq(i) .css({width: '100%'});
+			}
+		}
+
+	});
+	
+</script>
+
+<script>
+  // 기존 맵 생성 코드
+  var map = new naver.maps.Map('map', {
+    center: new naver.maps.LatLng(<%=phmd.get(0).getLatitude()%>, <%=phmd.get(0).getLongitude()%>), // 위도와 경도를 올바르게 설정합니다.
+    zoom: 18
+  });
+
+  // 기존 마커 설정
+  var marker = new naver.maps.Marker({
+    position: new naver.maps.LatLng(35.17982543369992, 129.07499499992576),
+    map: map
+  });
+
+  // PlayhallMapDTO의 정보로 새로운 마커 추가
+  var playhallMarker = new naver.maps.Marker({
+    position: new naver.maps.LatLng(<%=phmd.get(0).getLatitude()%>, <%=phmd.get(0).getLongitude()%>), // DTO의 위도와 경도
+    map: map
+  });
+  
+  // 지도 크기 조정 함수
+  var $window = $(window);
+
+  function getMapSize() {
+    var size = new naver.maps.Size(1120, 800);
+    return size;
+  }
+
+  // 창 크기 변경 시 지도 크기 조정
+  $window.on('resize', function() {
+    map.setSize(getMapSize());
+  });
+
+  // 페이지 로드 시 지도 크기 조정
+  $(document).ready(function() {
+    map.setSize(getMapSize());
+  });
+</script>
+
+<script>
+
+	function calc() {
+		document.getElementById('result1').value = document.getElementById('content').value.length;
+	}
+
+	$('.comment_textarea').keyup(function (e) {
+		var content = $(this).val();
+		$('.curr_length').html("("+content.length+"/ 1000)");
+	
+		if(content.length > 1000) {
+		   alert("최대 1000자까지 입력 가능합니다.");
+	           $(this).val($(this).val().substring(0, 200));
+		   $('.curr_length').html("(1000/1000)");
+		}
+	});
+	
+</script>
+
+<script>
+  function reservation() {
+	  const playinfoValue = document.querySelector('.product_seat_item').getAttribute('playinfo');
+	  alert(playinfoValue);
+      var popupWidth = 1000;
+      var popupHeight = 900;
+      var left = (screen.width - popupWidth) / 2;
+      var top = (screen.height - popupHeight) / 2;
+      window.open('/Tcp2/Payment_p0?pi='+ playinfoValue);
+	  
+  }
+
+</script>
+
+<script>
+
+function clip(){
+
+	var url = '';
+	var textarea = document.createElement("textarea");
+	document.body.appendChild(textarea);
+	url = window.document.location.href;
+	textarea.value = url;
+	textarea.select();
+	document.execCommand("copy");
+	document.body.removeChild(textarea);
+	alert("URL이 복사되었습니다.")
+}
+
 
 
 </script>

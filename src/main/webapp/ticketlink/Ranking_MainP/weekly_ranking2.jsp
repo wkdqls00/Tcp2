@@ -1,3 +1,6 @@
+<%@page import="dto.Week_RDTO"%>
+<%@page import="dto.Week_RankDTO"%>
+<%@page import="org.w3c.dom.Document"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.text.ParseException"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -8,13 +11,12 @@
     pageEncoding="UTF-8"%>
 
 <%
-	int genre_idx = 1;
+	// int genre_idx = 1;
 	String date = "20240416";
-	// int genre_idx = Integer.parseInt(request.getParameter("genre_idx"));
+	// int play_idx = Integer.parseInt(request.getParameter("play_idx"));
+	int genre_idx = Integer.parseInt(request.getParameter("genre_idx"));
 	// String date = request.getParameter("date");
 	ArrayList<Genre_RankDTO> list =  new Genre_RankDAO().selectGenre_RankDTO(genre_idx, date);
-	String[] startDate = list.get(0).getPlayStartDate().split(" ");
-	String[] endDate = list.get(0).getPlayEndDate().split(" ");
 	 
 	SimpleDateFormat inputFormat = new SimpleDateFormat("yyyyMMdd");
 	SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy년 M월 d일 (E)");
@@ -24,6 +26,9 @@
 	Date d = inputFormat.parse(String.join("", selectDate));
 	String formattedDate = outputFormat.format(d);
 
+	int rowNum = 5;
+	ArrayList<Week_RankDTO> wrd = new Genre_RankDAO().weekRankDto(rowNum);
+	ArrayList<Week_RDTO> wr = new Genre_RankDAO().weekRDto(rowNum);
 %>
 <!-- Area_Rank dao/ dto  -->
 <!-- Genre_Rank dao/ dto -->
@@ -36,6 +41,233 @@
   <link rel="stylesheet" href="../../assets/css/common.css">
   <link rel="stylesheet" href="../../assets/css/reset.css">
   <link rel="stylesheet" type="text/css" href="../../assets/css/ranking.css">
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
+  <link href="https://unpkg.com/gijgo@1.9.14/css/gijgo.min.css" rel="stylesheet" type="text/css"/>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+  <script src="https://unpkg.com/gijgo@1.9.14/js/gijgo.min.js" type="text/javascript"></script>
+  
+  <script>
+	$(function() {
+	 /* $.datepicker.setDefaults({
+	      nextText: "다음",
+	      prevText: "이전",
+	      monthNames: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월"],                	                	            "8월", "9월", "10월", "11월", "12월" ],
+	      dayNames: ["일", "월", "화", "수", "목", "금", "토"],
+	      dayNamesShort: ["일", "월", "화", "수", "목", "금", "토"],
+	      dayNamesMin: ["일", "월", "화", "수", "목", "금", "토"],
+	    });
+		 $('#gijgo').datepicker();
+		*/
+	    $("#datepicker").datepicker(); 
+		
+		$("#datepicker").datepicker({
+			
+            dateFormat: "mm/dd",
+            onSelect: function (dateText) {
+                // 선택된 날짜를 처리
+                const dateParts = dateText.split("/");
+                const month = dateParts[0];
+                const day = dateParts[1];
+
+                // "08월 01일" 형식으로 변경
+                const formattedDate = month+ '월 '+ day+ '일';
+				alert(month, day);
+                // input 필드에 날짜를 설정
+                $("#datepicker").val(formattedDate);
+
+                // span 태그 제거
+                $("#periodCurrent").remove();
+            }
+        });
+
+  
+  $(function () {
+       $("#gijgo").datepicker({
+         dateFormat: "yy년 mm월 dd일 (D)",
+         dayNamesMin: ["일", "월", "화", "수", "목", "금", "토"],
+         monthNames: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+         onSelect: function (dateText) {
+        	    const dateParts = dateText.split("/");
+                const month = dateParts[0];
+                const day = dateParts[1];
+        		alert(month, day);
+                // "08월 01일" 형식으로 변경
+                const formattedDate = month+ '월 '+ day+ '일' ;
+                $("#datepicker").val(formattedDate);
+         }
+       
+        
+       });
+
+       // 날짜 버튼을 클릭하면 datepicker를 표시합니다.
+       $(".period_calendar_btn").click(function () {
+   		alert(month, day);
+         $("#datepicker").datepicker("show");
+         
+       });
+     });
+	});
+	
+    $(document).ready(function() {
+        $("#datepicker").click(function() {
+            // span의 내용을 변경
+            $("#periodCurrent").html("<b>2024년 데이터</b>");
+    		alert(month, day);
+        });
+    });
+	
+ 
+</script>
+
+<script>
+$(document).ready(function() {
+
+    // 버튼 클릭 시 AJAX 요청
+    $('.common_tab_btn2').on('click', function() {
+    	const genre_idx = $(this).data('genre');
+
+        console.log(genre_idx); 
+        $.ajax({
+            url: '/Tcp2/AjaxRankingServlet', 
+            type: 'GET',
+            data: { genre_idx: genre_idx },
+            success: function(response) {
+                window.location.href = 'http://localhost:9090/Tcp2/ticketlink/Ranking_MainP/weekly_ranking2.jsp?genre_idx=' + genre_idx+ '&datae=20240416';
+            	$('#b' + genre_idx).attr('aria-selected', 'true');
+            },
+            error: function() {
+                alert("오류가 발생했습니다.");
+            },
+        
+            
+        });
+    });
+
+	function showContent(genre_idx) {
+		if (genre_idx === '1') {
+	    	$('#b1').attr('aria-selected', 'true');
+				
+		} else if (genre_idx === '3') {
+				$('#play').addClass('active');
+		} else if (genre_idx === '2') {
+				$('#concert').addClass('active');
+		}
+	}
+
+});
+
+</script>
+
+<script>
+
+$(function() {
+	  $("#b1").click(function() {
+	      $(this).attr('aria-selected', 'true');
+	      $("#b2").attr('aria-selected', 'false');
+	      $("#b3").attr('aria-selected', 'false');
+	    });
+	  $("#b2").click(function() {
+	      $(this).attr('aria-selected', 'true');
+	      $("#b1").attr('aria-selected', 'false');
+	      $("#b3").attr('aria-selected', 'false');
+	    });
+	  $("#b3").click(function() {
+	      $(this).attr('aria-selected', 'true');
+	      $("#b2").attr('aria-selected', 'false');
+	      $("#b1").attr('aria-selected', 'false');
+	    });
+</script>
+
+<style>
+#datepicker {
+   width: 100px;
+   height: 35px;
+   display: inline-block;
+   vertical-align: middle;
+   margin-left: 50px;
+   font-size: x-large;
+   letter-spacing: 4px;
+   font-weight: bold;
+   border: none;
+}
+.gj-icon {
+ 	margin-top: 8px !important;
+}
+.monthly-calendar {
+    margin-top: 20px;
+}
+.ranking_period {
+    display: flex;
+    align-items: center;
+}
+
+.Dateformat {
+    margin-left: 450px;
+    margin-right: 10px;
+    position: absolute; /* 화면에서 제거 */
+}
+.calendar input {
+    display: inline-block;
+    width: 150px;
+    padding: 5px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.period_calendar_btn {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    border: none;
+    background: none;
+    margin-left: 10px;
+}
+
+.common_icon1.icon_calendar.ty_md {
+    margin-right: 5px;
+    font-size: 20px;
+}
+.period_current {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+.monthly-calendar {
+      margin-top: 20px;
+}
+.ranking_period {
+      display: flex;
+      align-items: center;
+}
+.calendar-input {
+      display: inline-block;
+      width: 150px;
+      padding: 5px;
+      font-size: 20px; /* 글자 크기 증가 */
+      font-weight: bold; /* 글씨 굵게 */
+      border: none; /* 태두리 없앰 */
+      margin-left: 10px; /* 버튼과의 간격 조정 */
+}
+
+.period_calendar_btn {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      border: none;
+      background: none;
+      margin-left: 10px;
+}
+.period_current {
+      font-size: 1.2em;
+     font-weight: bold;
+}
+</style>
+    
+
 </head>
 
 <!-- 맨 위 상단 메뉴바  -->
@@ -44,11 +276,11 @@
     <div class="utill">
         <div class="inner">
             <ul>
-                <li class="utill_link"><a href="#">로그인</a></li>
-                <li class="utill_link"><a href="#">예매확인/취소</a></li>
-                <li class="utill_link"><a href="#">회원가입</a></li>
-                <li class="utill_link"><a href="#">고객센터</a></li>
-                <li class="utill_link"><a href="#">마이페이지</a></li>
+                <li class="utill_link"><a href="/Tcp2/ticketlink/Login/Login.jsp">로그인</a></li>
+                <li class="utill_link"><a href="/Tcp2/ticketlink/Mypage/Ticket_check.jsp">예매확인/취소</a></li>
+                <li class="utill_link"><a href="/Tcp2/ticketlink/Login/AgreeToTerms.jsp">회원가입</a></li>
+                <li class="utill_link"><a href="/Tcp2/ticketlink/Customer_Service_Center/Cs_Center_main.jsp">고객센터</a></li>
+                <li class="utill_link"><a href="/Tcp2/ticketlink/Mypage/Mypage_member.jsp?">마이페이지</a></li>
             </ul>
         </div> 
     </div>
@@ -64,16 +296,16 @@
     <div class="gnb_box">
         <div class="inner">
             <ul class="gnb_list">
-                <li class="gnb_link"><a href="#">홈</a></li>
-                <li class="gnb_link"><a href="#">공연</a></li>
-                <li class="gnb_link"><a href="#">전시</a></li>
-                <li class="gnb_link"><a href="#">랭킹</a></li>
-                <li class="gnb_link"><a href="#">커뮤니티</a></li>
+                <li class="gnb_link"><a href="/Tcp2/ticketlink/main.jsp">홈</a></li>
+                <li class="gnb_link"><a href="">공연</a></li>
+                <li class="gnb_link"><a href="/Tcp2/ticketlink/Ranking_MainP/weekly_ranking2.jsp">랭킹</a></li>
+                <li class="gnb_link"><a href="/Tcp2/band/band_home.jsp">커뮤니티</a></li>
             </ul>
         </div>
     </div>
 </header>
 <!-- 본문 랭킹 이미지색 & 주간 랭킹 -->
+
   <div id="Ranking_Bg" style="background-color: rgb(163, 175, 148);">
   </div>
   <div id="Ranking_Weekly" class="center">
@@ -84,97 +316,110 @@
       <h2 class="week_title">주간베스트</h2>
     </div>
 <div class="Product_grid" class="fl">
+
+     
       <div class="Product1">
         <div class="product_grid_list_type">
+        <a href="http://localhost:9090/Tcp2/ticketlink/Detailed_Infor(Integrated)/Prefor.detail(C).jsp?play_idx=<%=wr.get(0).getPlay_idx()%>">
         <div class="image_box">
-          <img src="https://image.toast.com/aaaaab/ticketlink/TKL_6/chicago_main_0411.jpg" alt="뮤지컬 &lt;시카고&gt;" class="product_img">
+          <img src="<%=wrd.get(0).getPoster_Url()%>"  class="product_img">
           <span class="product_ranking">
             <span class="product_rank">1</span>
             <span class="product_rate">
-              <span class="rate_number">11</span>
+              <span class="rate_number"><%=wr.get(0).getBooking_rate() %></span>
               <span class="rate_unit">%</span>
             </span>
           </span>
         </div>
         <div class="Product_info">
-          <span class="product_title">뮤지컬 &lt;시카고&gt;</span>
+          <span class="product_title"><%=wrd.get(0).getName() %></span>
           <div class="product_sideinfo">
-          <span class="product_period">2024.06.07 ~ 2024.09.29</span>
+          <span class="product_period"><%=wrd.get(0).getStartDate() %> ~ <%=wrd.get(0).getEndDate()%></span>
           </div>
         </div>
+       </a> 
       </div>
     </div>  
+
       <div class="Product2">
+      <a href="http://localhost:9090/Tcp2/ticketlink/Detailed_Infor(Integrated)/Prefor.detail(C).jsp?play_idx=<%=wr.get(1).getPlay_idx()%>">
         <div class="image_box">
-          <img src="	https://image.toast.com/aaaaab/ticketlink/TKL_8/MIO_PST_0422.jpg" alt="뮤지컬 &lt;미오 프라텔로&gt;" class="product_img">
+          <img src="<%=wrd.get(1).getPoster_Url() %>" class="product_img">
           <span class="product_ranking">
             <span class="product_rank">2</span>
             <span class="product_rate">
-              <span class="rate_number">9</span>
+              <span class="rate_number"><%=wr.get(1).getBooking_rate() %></span>
               <span class="rate_unit">%</span>
             </span>
           </span>
         </div>
         <div class="Product_info">
-          <span class="product_title">뮤지컬 &lt;미오 프라텔로&gt;</span>
+          <span class="product_title"><%=wrd.get(1).getName() %></span>
           <div class="product_sideinfo">
-          <span class="product_period">2024.05.21 ~ 2024.08.11</span>
+          <span class="product_period"><%=wrd.get(1).getStartDate() %> ~ <%=wrd.get(1).getEndDate() %></span>
           </div>
-      </div>
+        </div>
+       </a> 
       </div>
       <div class="Product3">
+      <a href="http://localhost:9090/Tcp2/ticketlink/Detailed_Infor(Integrated)/Prefor.detail(C).jsp?play_idx=<%=wr.get(2).getPlay_idx()%>">
         <div class="image_box">
-          <img src="//image.toast.com/aaaaab/ticketlink/TKL_3/dg_main_0221(1).jpg" alt="제15회 대구꽃박람회" class="product_img">
+          <img src="<%=wrd.get(2).getPoster_Url()%>" class="product_img">
           <span class="product_ranking">
             <span class="product_rank">3</span>
             <span class="product_rate">
-              <span class="rate_number">6</span>
+              <span class="rate_number"><%=wr.get(2).getBooking_rate() %></span>
               <span class="rate_unit">%</span>
             </span>
           </span>
         </div>
         <div class="Product_info">
-          <span class="product_title">제15회 대구꽃박람회</span>
+          <span class="product_title"><%=wrd.get(2).getName() %></span>
           <div class="product_sideinfo">
-          <span class="product_period">2024.06.05 ~ 2024.06.08</span>
+          <span class="product_period"><%=wrd.get(2).getStartDate() %> ~ <%=wrd.get(2).getEndDate() %></span>
           </div>
-      </div>
+        </div>
+       </a>
       </div>
       <div class="Product4">
+       <a href="http://localhost:9090/Tcp2/ticketlink/Detailed_Infor(Integrated)/Prefor.detail(C).jsp?play_idx=<%=wr.get(3).getPlay_idx()%>"> 
         <div class="image_box">
-          <img src="https://image.toast.com/aaaaab/ticketlink/TKL_5/mac_main_0514.jpg" alt="연극 &lt;맥베스&gt;" class="product_img">
+          <img src="<%=wrd.get(3).getPoster_Url()%>" class="product_img">
           <span class="product_ranking">
             <span class="product_rank">4</span>
             <span class="product_rate">
-              <span class="rate_number">3</span>
+              <span class="rate_number"><%=wr.get(3).getBooking_rate() %></span>
               <span class="rate_unit">%</span>
             </span>
-          </span>
+          </span>aria-selected
         </div>
         <div class="Product_info">
-          <span class="product_title">연극 &lt;맥베스&gt;</span>
+          <span class="product_title"><%=wrd.get(3).getName() %></span>
           <div class="product_sideinfo">
-          <span class="product_period">2024.07.13 ~ 2024.08.18</span>
+          <span class="product_period"><%=wrd.get(3).getStartDate() %> ~ <%=wrd.get(3).getEndDate() %></span>
           </div>
+       </a> 
       </div>
       </div>
       <div class="Product5">
+      <a href="http://localhost:9090/Tcp2/ticketlink/Detailed_Infor(Integrated)/Prefor.detail(C).jsp?play_idx=<%=wr.get(4).getPlay_idx()%>">
         <div class="image_box">
-          <img src="https://image.toast.com/aaaaab/ticketlink/TKL_10/main0430.png" alt="연극 &lt;일리아드&gt;" class="product_img">
+          <img src="<%=wrd.get(4).getPoster_Url() %>" class="product_img">
           <span class="product_ranking">
             <span class="product_rank">5</span>
             <span class="product_rate">
-              <span class="rate_number">2</span>
+              <span class="rate_number"><%=wr.get(4).getBooking_rate() %></span>
               <span class="rate_unit">%</span>
             </span>
           </span>
         </div>
         <div class="Product_info">
-          <span class="product_title">연극 &lt;일리아드&gt;</span>
+          <span class="product_title"><%=wrd.get(4).getName() %></span>
           <div class="product_sideinfo">
-          <span class="product_period">2024.06.18 ~ 2024.09.08</span>
+          <span class="product_period"><%=wrd.get(4).getStartDate() %> ~ <%=wrd.get(4).getEndDate() %></span>
           </div>
       </div>
+     </a> 
     </div>
   </div>
 </div>
@@ -186,11 +431,9 @@
         <div class="common_tab_area1">
           <ul class="common_tab_list" role="tablist">
             <li class="common_tab_item" role="none">
-              <button type="button" class="common_tab_btn" role="tab" aria-selected="false" style="border-right:1px solid rgb(207, 208, 215);">장르별랭킹</button>
+              <button type="button" class="common_tab_btn" role="tab" aria-selected="false">장르별랭킹</button>
             </li>
-            <li class="common_tab_item" role="none">
-              <button type="button" class="common_tab_btn" role="tab" aria-selected="false">지역별랭킹</button>
-            </li>
+       
           </ul>
         </div>
     </div>
@@ -201,44 +444,43 @@
     <div class="common_tab_area2">
       <ul class="common_tab_list2" role="tablist">
         <li class="common_tab_item2 fl" role="none">
-          <button type="button" class="common_tab_btn2" role="tab" aria-selected="true">뮤지컬</button>
+          <button type="button" class="common_tab_btn2"  id="b1" role="tab" aria-selected="true" data-genre="1">뮤지컬</button>
         </li>
         <li class="common_tab_item2 fl" role="none">
-          <button type="button" class="common_tab_btn2" role="tab" aria-selected="false">콘서트</button>
+          <button type="button" class="common_tab_btn2" id="b2" role="tab" aria-selected="false" data-genre="2">연극</button>
         </li>
         <li class="common_tab_item2 fl" role="none">
-          <button type="button" class="common_tab_btn2" role="tab" aria-selected="false">연극</button>
-        </li>
-        <li class="common_tab_item2 fl" role="none">
-          <button type="button" class="common_tab_btn2" role="tab" aria-selected="false">전시</button>
+          <button type="button" class="common_tab_btn2" id="b3" role="tab" aria-selected="false" data-genre="3">콘서트</button>
         </li>
       </ul>
     </div>
   </div>
 
-    <div id="ranking_filter">
+
+
+  <div id="ranking_filter">
   <!--날짜 변경-->
-      <div class="monthly-calendar">
-        <div class="react-datepicker-wrapper">
-          <div class="react-datepicker_input-container">
-            <div class="ranking_period">
-              <button type="button" class="period_calendar_btn" aria-expanded="false">
-                <span class="common_icon1 icon_calendar ty_md">
-                  <!-- ::after -->
-                </span>
-                <span class="blind">현재 집계기간 : </span>
-                <span class="period_current"><b></b></span>
-                <span class="blind">집계기간 변경하기</span>
-                  <!-- ::after -->
-              </button>
-            </div>
+      
+  <div class="monthly-calendar">
+    <div class="react-datepicker-wrapper">
+      <div class="react-datepicker_input-container">
+        <div class="ranking_period">
+          <div class="Dateformat">
+            <p class="calendar"><input type="text" id="datepicker" value='04/16'/></p>
+          <!--  <p class="calendar">Date: <input type="text" id="gijgo"></p> -->  
           </div>
+          <button type="button" class="period_calendar_btn" aria-expanded="false">
+            <span class="period_current" id="periodCurrent"><b>2024년 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;D&gt;</b></span>
+          </button>
         </div>
       </div>
+    </div>
+  </div>
+
   <!-- 일/주/월/연 -->
         <div class="common_tab_type_dot">
           <div class="common_tab_area3">
-            <ul class="common_tab_list3" role="tablist">
+            <ul class="common_tab_list3" role="tablist" >
               <li class="common_tab_item3" role="none">
                 <button type="button" class="common_tab_btn3" role="tab" aria-selected="true">
                   <!-- ::before -->
@@ -257,16 +499,12 @@
                     월간
                 </button> 
               </li>
-              <li class="common_tab_item3" role="none">
-                <button type="button" class="common_tab_btn3" role="tab" aria-selected="false">
-                  <!-- ::before -->
-                    연간
-                </button> 
-              </li>
             </ul>
           </div>
         </div>
     </div>
+    
+
     
     <div id="ranking_product">
   <!-- 1~50위까지 장르별 랭킹테이블 -->
@@ -288,162 +526,21 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
+<%
+	for (int i=0; i < list.size(); i++) {
+%>          
+          <tr id="content">
             <td>
-              <div class="ranking_product_rank">
+              <div class="ranking_product_rank" >
                 <span class="rank_number">
-                  1
-                <span class="blind">위</span>
-                </span>
-                <span class="rank_status">
-                  <span class="rank_up">
-                    <span class="common_icon2 icon_rank_up">
-                    </span>
-                    <span class="rank_step">5</span>
-                    <span class="blind">계단 상승</span>
-                  </span>
-                </span>
-              </div>
-            </td>
-            <td>
-              <div class="ranking_product_info">
-                <a class="ranking_product_link">
-                  <span class="ranking_product_imgbox">
-                    <img src="<%=list.get(0).getPoster_URL()%>" alt="뮤지컬  &lt;새벽의 입구에서&gt;" class="ranking_product_img">
-                    <!-- after -->
-                  </span>
-                  <span class="ranking_product_title"><%=list.get(0).getPlayName()%></span>
-                </a>
-              </div>
-            </td>
-            <td>
-              <div class="ranking_product_sideinfo">
-                <span class="ranking_product_period"><%=startDate[0]%> - <%=endDate[0]%></span>
-                <span class="ranking_product_place"><%=list.get(0).getPlayHallName()%></span>
-              </div>
-            </td>
-            <td>
-              <div class="ranking_product_rate">
-                <span class="rate_percent">
-                <%=list.get(0).getPlayBookRate()%>%
-                </span>
-              </div>
-            </td>
-            <td>
-              <div class="ranking_product_reserve">
-                <a class="common_btn btn_primary btn_medium" aria-disabled="false">예매하기</a>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div class="ranking_product_rank">
-                <span class="rank_number">
-                  2
+                  <%=i+1 %>
                 <span class="blind">위</span>
                 </span>
                 <span class="rank_status">
                   <span class="rank_static">
                     <!-- before -->
-                    <span class="blind">변동 없음</span>
-                  </span>
-                </span>
-              </div>
-           </td>
-            <td>
-              <div class="ranking_product_info">
-                <a class="ranking_product_link">
-                  <span class="ranking_product_imgbox">
-                    <img src="https://image.toast.com/aaaaab/ticketlink/TKL_6/chicago_main_0411.jpg" alt="뮤지컬  &lt;시카고&gt;" class="ranking_product_img">
-                    <!-- after -->
-                  </span>
-                  <span class="ranking_product_title">뮤지컬 &lt;시카고&gt;</span>
-                </a>
-              </div>
-            </td>
-            <td>
-              <div class="ranking_product_sideinfo">
-                <span class="ranking_product_period">2024.06.07 - 20204.09.29</span>
-                <span class="ranking_product_place">디큐브 링크아트센터</span>
-              </div>
-            </td>
-            <td>
-              <div class="ranking_product_rate">
-                <span class="rate_percent">
-                  20.17
-                  %
-                </span>
-              </div>
-            </td>
-            <td>
-              <div class="ranking_product_reserve">
-                <a class="common_btn btn_primary btn_medium" aria-disabled="false">예매하기</a>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div class="ranking_product_rank">
-                <span class="rank_number">
-                  3
-                <span class="blind">위</span>
-                </span>
-                <span class="rank_status">
-                  <span class="rank_down">
-                    <span class="common_icon2 icon_rank_down">
-                      <!-- after -->
-                    </span>
-                    <span class="rank_step">2</span>
-                    <span class="blind">계단 하락</span>
-                  </span>
-                </span>
-              </div>
-            </td>
-            <td>
-              <div class="ranking_product_info">
-                <a class="ranking_product_link" href="http://127.0.0.1:5500/Detailed_Infor(Integrated)/Perfor.detail(C).html">
-                  <span class="ranking_product_imgbox">
-                    <img src="	https://image.toast.com/aaaaab/ticketlink/TKL_2/gloomy_pst_0603.jpg" alt="뮤지컬  &lt;사의찬미&gt;" class="ranking_product_img">
-                    <!-- after -->
-                  </span>
-                  <span class="ranking_product_title">뮤지컬 &lt;사의찬미&gt;</span>
-                </a>
-              </div>
-            </td>
-            <td>
-              <div class="ranking_product_sideinfo">
-                <span class="ranking_product_period">2024.07.02 - 20204.09.22</span>
-                <span class="ranking_product_place">링크아트센터 페이코홀</span>
-              </div>
-            </td>
-            <td>
-              <div class="ranking_product_rate">
-                <span class="rate_percent">
-                  11.02
-                  %
-                </span>
-              </div>
-            </td>
-            <td>
-              <div class="ranking_product_reserve">
-                <a class="common_btn btn_primary btn_medium" aria-disabled="false" href="http://127.0.0.1:5500/Detailed_Infor(Integrated)/Perfor.detail(C).html">예매하기</a>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div class="ranking_product_rank">
-                <span class="rank_number">
-                  4
-                <span class="blind">위</span>
-                </span>
-                <span class="rank_status">
-                  <span class="rank_down">
-                    <span class="common_icon2 icon_rank_down">
-                      <!-- after -->
-                    </span>
-                    <span class="rank_step">1</span>
-                    <span class="blind">계단 하락</span>
+                    <span class="rank_step"></span>
+                    <span class="blind">변동없음</span>
                   </span>
                 </span>
               </div>
@@ -452,467 +549,36 @@
               <div class="ranking_product_info">
                 <a class="ranking_product_link">
                   <span class="ranking_product_imgbox">
-                    <img src="https://image.toast.com/aaaaab/ticketlink/TKL_5/pst_0327.jpg" alt="뮤지컬  &lt;협객외전&gt;" class="ranking_product_img">
+                    <img src="<%=list.get(i).getPoster_URL()%>" class="ranking_product_img">
                     <!-- after -->
                   </span>
-                  <span class="ranking_product_title">뮤지컬 &lt;협객외전&gt;</span>
+                  <span class="ranking_product_title"><%=list.get(i).getPlayName()%></span>
                 </a>
               </div>
             </td>
             <td>
               <div class="ranking_product_sideinfo">
-                <span class="ranking_product_period">2024.04.16 - 20204.07.07</span>
-                <span class="ranking_product_place">링크아트센터드림 드림3관</span>
+                <span class="ranking_product_period"><%=list.get(i).getPlayStartDate()%> - <%=list.get(i).getPlayEndDate()%></span>
+                <span class="ranking_product_place"><%=list.get(i).getPlayHallName()%></span>
               </div>
             </td>
             <td>
               <div class="ranking_product_rate">
                 <span class="rate_percent">
-                  7.69
-                  %
+                <%=list.get(i).getPlayBookRate()%>%
                 </span>
               </div>
             </td>
             <td>
               <div class="ranking_product_reserve">
-                <a class="common_btn btn_primary btn_medium" aria-disabled="false">예매하기</a>
+                <a class="common_btn btn_primary btn_medium" aria-disabled="false" href="http://localhost:9090/Tcp2/ticketlink/Detailed_Infor(Integrated)/Prefor.detail(C).jsp?play_idx=<%=list.get(i).getPlay_idx()%>">예매하기</a>
               </div>
             </td>
           </tr>
-          <tr>
-            <td>
-              <div class="ranking_product_rank">
-                <span class="rank_number">
-                  5
-                <span class="blind">위</span>
-                </span>
-                <span class="rank_status">
-                  <span class="rank_down">
-                    <span class="common_icon2 icon_rank_down">
-                      <!-- after -->
-                    </span>
-                    <span class="rank_step">1</span>
-                    <span class="blind">계단 하락</span>
-                  </span>
-                </span>
-              </div>
-            </td>
-            <td>
-              <div class="ranking_product_info">
-                <a class="ranking_product_link">
-                  <span class="ranking_product_imgbox">
-                    <img src="	https://image.toast.com/aaaaab/ticketlink/TKL_8/MIO_PST_0422.jpg" alt="뮤지컬  &lt;미오 프라텔로&gt;" class="ranking_product_img">
-                    <!-- after -->
-                  </span>
-                  <span class="ranking_product_title">뮤지컬 &lt;미오 프라텔로&gt;</span>
-                </a>
-              </div>
-            </td>
-            <td>
-              <div class="ranking_product_sideinfo">
-                <span class="ranking_product_period">2024.05.21 - 20204.08.11</span>
-                <span class="ranking_product_place">링크아트센터 벅스홀</span>
-              </div>
-            </td>
-            <td>
-              <div class="ranking_product_rate">
-                <span class="rate_percent">
-                  4.57
-                  %
-                </span>
-              </div>
-            </td>
-            <td>
-              <div class="ranking_product_reserve">
-                <a class="common_btn btn_primary btn_medium" aria-disabled="false">예매하기</a>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div class="ranking_product_rank">
-                <span class="rank_number">
-                  6
-                <span class="blind">위</span>
-                </span>
-                <span class="rank_status">
-                  <span class="rank_down">
-                    <span class="common_icon2 icon_rank_down">
-                      <!-- after -->
-                    </span>
-                    <span class="rank_step">1</span>
-                    <span class="blind">계단 하락</span>
-                  </span>
-                </span>
-              </div>
-            </td>
-            <td>
-              <div class="ranking_product_info">
-                <a class="ranking_product_link">
-                  <span class="ranking_product_imgbox">
-                    <img src="	https://image.toast.com/aaaaab/ticketlink/TKL_2/m0514.jpg" alt="패밀리 아이스쇼  &lt;피터팬 온 아이스&gt; 오리지널 내한공연" class="ranking_product_img">
-                    <!-- after -->
-                  </span>
-                  <span class="ranking_product_title">패밀리 아이스쇼 &lt;피터팬 온 아이스&gt;오리지널 내한공연</span>
-                </a>
-              </div>
-            </td>
-            <td>
-              <div class="ranking_product_sideinfo">
-                <span class="ranking_product_period">2024.08.14 - 20204.08.18</span>
-                <span class="ranking_product_place">목동아이스링크</span>
-              </div>
-            </td>
-            <td>
-              <div class="ranking_product_rate">
-                <span class="rate_percent">
-                  3.33
-                  %
-                </span>
-              </div>
-            </td>
-            <td>
-              <div class="ranking_product_reserve">
-                <a class="common_btn btn_primary btn_medium" aria-disabled="false">예매하기</a>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div class="ranking_product_rank">
-                <span class="rank_number">
-                  7
-                <span class="blind">위</span>
-                </span>
-                <span class="rank_status">
-                  <span class="rank_static">
-                    <!-- before -->
-                    <span class="blind">변동 없음</span>
-                  </span>
-                </span>
-              </div>
-           </td>
-            <td>
-              <div class="ranking_product_info">
-                <a class="ranking_product_link">
-                  <span class="ranking_product_imgbox">
-                    <img src="https://image.toast.com/aaaaab/ticketlink/TKL_9/p_pst_0502.jpg" alt="뮤지컬  &lt;파가니니&gt;-안동" class="ranking_product_img">
-                    <!-- after -->
-                  </span>
-                  <span class="ranking_product_title">뮤지컬 &lt;파가니니&gt;-안동</span>
-                </a>
-              </div>
-            </td>
-            <td>
-              <div class="ranking_product_sideinfo">
-                <span class="ranking_product_period">2024.07.19 - 20204.07.20</span>
-                <span class="ranking_product_place">안동문화예술의전당 웅부홀</span>
-              </div>
-            </td>
-            <td>
-              <div class="ranking_product_rate">
-                <span class="rate_percent">
-                  2.91
-                  %
-                </span>
-              </div>
-            </td>
-            <td>
-              <div class="ranking_product_reserve">
-                <a class="common_btn btn_primary btn_medium" aria-disabled="false">예매하기</a>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div class="ranking_product_rank">
-                <span class="rank_number">
-                  8
-                <span class="blind">위</span>
-                </span>
-                <span class="rank_status">
-                  <span class="rank_up">
-                    <span class="common_icon2 icon_rank_up">
-                    </span>
-                    <span class="rank_step">4</span>
-                    <span class="blind">계단 상승</span>
-                  </span>
-                </span>
-              </div>
-            </td>
-            <td>
-              <div class="ranking_product_info">
-                <a class="ranking_product_link">
-                  <span class="ranking_product_imgbox">
-                    <img src="https://image.toast.com/aaaaab/ticketlink/TKL_10/m0508(1).jpg" alt="코믹 뮤지컬  &lt;5!해피맨&gt;" class="ranking_product_img">
-                    <!-- after -->
-                  </span>
-                  <span class="ranking_product_title">코믹 뮤지컬 &lt;5!해피맨&gt;</span>
-                </a>
-              </div>
-            </td>
-            <td>
-              <div class="ranking_product_sideinfo">
-                <span class="ranking_product_period">2024.05.17 - 20204.07.27</span>
-                <span class="ranking_product_place">대학로 굿씨어터</span>
-              </div>
-            </td>
-            <td>
-              <div class="ranking_product_rate">
-                <span class="rate_percent">
-                  1.87
-                  %
-                </span>
-              </div>
-            </td>
-            <td>
-              <div class="ranking_product_reserve">
-                <a class="common_btn btn_primary btn_medium" aria-disabled="false">예매하기</a>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div class="ranking_product_rank">
-                <span class="rank_number">
-                  9
-                <span class="blind">위</span>
-                </span>
-                <span class="rank_status">
-                  <span class="rank_down">
-                    <span class="common_icon2 icon_rank_down">
-                      <!-- after -->
-                    </span>
-                    <span class="rank_step">1</span>
-                    <span class="blind">계단 하락</span>
-                  </span>
-                </span>
-              </div>
-            </td>
-            <td>
-              <div class="ranking_product_info">
-                <a class="ranking_product_link">
-                  <span class="ranking_product_imgbox">
-                    <img src="https://image.toast.com/aaaaab/ticketlink/TKL_2/Ticketlink_nonfile_web(460).png" alt=" &lt;경로당 폰팅사건&gt;-칠곡군" class="ranking_product_img">
-                    <!-- after -->
-                  </span>
-                  <span class="ranking_product_title">&lt;경로당 폰팅사건&gt;-칠곡군</span>
-                </a>
-              </div>
-            </td>
-            <td>
-              <div class="ranking_product_sideinfo">
-                <span class="ranking_product_period">2024.06.20 - 20204.06.20</span>
-                <span class="ranking_product_place">칠곡교육문화회관</span>
-              </div>
-            </td>
-            <td>
-              <div class="ranking_product_rate">
-                <span class="rate_percent">
-                  1.66
-                  %
-                </span>
-              </div>
-            </td>
-            <td>
-              <div class="ranking_product_reserve">
-                <a class="common_btn btn_primary btn_medium" aria-disabled="false">예매하기</a>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div class="ranking_product_rank">
-                <span class="rank_number">
-                  10
-                <span class="blind">위</span>
-                </span>
-                <span class="rank_status">
-                  <span class="rank_up">
-                    <span class="common_icon2 icon_rank_up">
-                    </span>
-                    <span class="rank_step">5</span>
-                    <span class="blind">계단 상승</span>
-                  </span>
-                </span>
-              </div>
-            </td>
-            <td>
-              <div class="ranking_product_info">
-                <a class="ranking_product_link">
-                  <span class="ranking_product_imgbox">
-                    <img src="	https://image.toast.com/aaaaab/ticketlink/TKL_10/ANSWER_dg_0411.jpg" alt="2024 최현우 Answer-대구" class="ranking_product_img">
-                    <!-- after -->
-                  </span>
-                  <span class="ranking_product_title">2024 최현우 Answer-대구</span>
-                </a>
-              </div>
-            </td>
-            <td>
-              <div class="ranking_product_sideinfo">
-                <span class="ranking_product_period">2024.07.20 - 20204.07.21</span>
-                <span class="ranking_product_place">수성아트피아 대극장</span>
-              </div>
-            </td>
-            <td>
-              <div class="ranking_product_rate">
-                <span class="rate_percent">
-                  1.66
-                  %
-                </span>
-              </div>
-            </td>
-            <td>
-              <div class="ranking_product_reserve">
-                <a class="common_btn btn_primary btn_medium" aria-disabled="false">예매하기</a>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div class="ranking_product_rank">
-                <span class="rank_number">
-                  11
-                <span class="blind">위</span>
-                </span>
-                <span class="rank_status">
-                  <span class="rank_up">
-                    <span class="common_icon2 icon_rank_up">
-                    </span>
-                    <span class="rank_step">2</span>
-                    <span class="blind">계단 상승</span>
-                  </span>
-                </span>
-              </div>
-            </td>
-            <td>
-              <div class="ranking_product_info">
-                <a class="ranking_product_link">
-                  <span class="ranking_product_imgbox">
-                    <img src="	https://image.toast.com/aaaaab/ticketlink/TKL_2/KJW_230225.jpg" alt="뮤지컬 &lt;김종욱 찾기&gt;" class="ranking_product_img">
-                    <!-- after -->
-                  </span>
-                  <span class="ranking_product_title">뮤지컬 &lt;김종욱 찾기&gt;</span>
-                </a>
-              </div>
-            </td>
-            <td>
-              <div class="ranking_product_sideinfo">
-                <span class="ranking_product_period">2022.11.18 - 20204.06.30</span>
-                <span class="ranking_product_place">대학로 브릭스 씨어터</span>
-              </div>
-            </td>
-            <td>
-              <div class="ranking_product_rate">
-                <span class="rate_percent">
-                  1.46
-                  %
-                </span>
-              </div>
-            </td>
-            <td>
-              <div class="ranking_product_reserve">
-                <a class="common_btn btn_primary btn_medium" aria-disabled="false">예매하기</a>
-              </div>
-            </td>
-          </tr>
-        <tr>
-          <td>
-            <div class="ranking_product_rank">
-              <span class="rank_number">
-                12
-              <span class="blind">위</span>
-              </span>
-              <span class="rank_status">
-                <span class="rank_down">
-                  <span class="common_icon2 icon_rank_down">
-                    <!-- after -->
-                  </span>
-                  <span class="rank_step">1</span>
-                  <span class="blind">계단 하락</span>
-                </span>
-              </span>
-            </div>
-          </td>
-          <td>
-            <div class="ranking_product_info">
-              <a class="ranking_product_link">
-                <span class="ranking_product_imgbox">
-                  <img src="img/2024 최현우 아판타시아 - 서울.png" alt="2024 최현우 아판타시아-서울" class="ranking_product_img">
-                  <!-- after -->
-                </span>
-                <span class="ranking_product_title">2024 최현우 아판타시아-서울</span>
-              </a>
-            </div>
-          </td>
-          <td>
-            <div class="ranking_product_sideinfo">
-              <span class="ranking_product_period">2022.07.26 - 20204.08.11</span>
-              <span class="ranking_product_place">소월아트홀</span>
-            </div>
-          </td>
-          <td>
-            <div class="ranking_product_rate">
-              <span class="rate_percent">
-                1.25
-                %
-              </span>
-            </div>
-          </td>
-          <td>
-            <div class="ranking_product_reserve">
-              <a class="common_btn btn_primary btn_medium" aria-disabled="false">예매하기</a>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div class="ranking_product_rank">
-              <span class="rank_number">
-                13
-              <span class="blind">위</span>
-              </span>
-              <span class="rank_status">
-                <span class="rank_up">
-                  <span class="common_icon2 icon_rank_up">
-                  </span>
-                  <span class="rank_step">5</span>
-                  <span class="blind">계단 상승</span>
-                </span>
-              </span>
-            </div>
-          </td>
-          <td>
-            <div class="ranking_product_info">
-              <a class="ranking_product_link">
-                <span class="ranking_product_imgbox">
-                  <img src="https://image.toast.com/aaaaab/ticketlink/TKL_4/main0503(6).jpg" alt="가객 박인환 - 춘천" class="ranking_product_img">
-                  <!-- after -->
-                </span>
-                <span class="ranking_product_title">가객 박인환 - 춘천</span>
-              </a>
-            </div>
-          </td>
-          <td>
-            <div class="ranking_product_sideinfo">
-              <span class="ranking_product_period">2024.06.08 - 2024.06.08</span>
-              <span class="ranking_product_place">춘천문화예술회관</span>
-            </div>
-          </td>
-          <td>
-            <div class="ranking_product_rate">
-              <span class="rate_percent">
-                0.21
-                %
-              </span>
-            </div>
-          </td>
-          <td>
-            <div class="ranking_product_reserve">
-              <a class="common_btn btn_primary btn_medium" aria-disabled="false">예매하기</a>
-            </div>
-          </td>
-        </tr>
+          
+          
+<%        } %>         
+          
         </tbody>
       </table>
     </div>

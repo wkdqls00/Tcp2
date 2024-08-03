@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import dto.PlayHallLocationDTO;
+import dto.PlayhallMapDTO;
 import project.DatabaseUtil;
 
 
@@ -17,6 +18,11 @@ public class PlayHallLocationDAO {
 			System.out.println(playHallLocationDto);
 		}
 		
+		ArrayList<PlayhallMapDTO> phmd = new PlayHallLocationDAO().playhallMap(486);
+		for (PlayhallMapDTO playhallmapDto : phmd) {
+			System.out.println(playhallmapDto);
+		}
+		
 	}
 	
 	public ArrayList<PlayHallLocationDTO> playHallLocationDto (int playhall_idx) {
@@ -25,9 +31,9 @@ public class PlayHallLocationDAO {
 		Connection conn = d.getConn();
 		
 		String sql = 
-					"SELECT ph.name, a.latitude, a.longitude, a.name, image_url, address, phone_no "
+					"SELECT ph.name, ph.latitude, ph.longitude, a.name, image_url, address, phone_no "
 					+ "FROM playhall ph JOIN area a ON ph.area_idx = a.area_idx "
-					+ "WHERE ph.playhall_idx = ? ";
+					+ "WHERE ph.playhall_idx = ? ";   
 		
 		PreparedStatement pstmt = d.getPstmt(conn, sql);
 		
@@ -60,8 +66,45 @@ public class PlayHallLocationDAO {
 			d.close(conn, pstmt, rs);
 		}
 		return list;
+	
+	}
+
+	public ArrayList<PlayhallMapDTO> playhallMap (int play_idx) {
+		ArrayList<PlayhallMapDTO> listRet = new ArrayList<>();
 		
+		DatabaseUtil d = new DatabaseUtil();
+		Connection conn = d.getConn();
 		
+		String sql = "SELECT ph.longitude, ph.latitude, ph.playhall_idx "
+				   + "FROM playhall ph INNER JOIN play p ON ph.playhall_idx = p.playhall_idx  "
+				   + "WHERE play_idx = ? ";
+		
+		PreparedStatement pstmt = d.getPstmt(conn, sql);
+		
+		try {
+			pstmt.setInt(1, play_idx);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		ResultSet rs = d.getRs(pstmt);
+
+		try {
+			while (rs.next()) {
+				double longitude = rs.getDouble(1);
+				double latitude = rs.getDouble(2);
+				int playhall_idx = rs.getInt(3);
+				PlayhallMapDTO phmd = new PlayhallMapDTO(longitude, latitude, playhall_idx);
+				listRet.add(phmd);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			d.close(conn, pstmt, rs);
+		}
+	
+		return listRet;
+
 	}
 	
 }

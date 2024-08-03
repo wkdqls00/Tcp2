@@ -40,7 +40,7 @@ public class Ins_Exp_ratingServlet extends HttpServlet {
 		}
 	
 		
-		String content = request.getParameter("content");
+		String content = request.getParameter("rating_content");
 		System.out.println(3);
 		int play_idx = Integer.parseInt(request.getParameter("play_idx"));
 		System.out.println(4);
@@ -50,11 +50,12 @@ public class Ins_Exp_ratingServlet extends HttpServlet {
 		try {
 			Exp_RatingDAO erd = new Exp_RatingDAO();
 			erd.insertExp_Rating(userIdx, content, play_idx);
+			System.out.println(erd);
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
 
-    	response.sendRedirect("http://localhost:9090/Tcp2/ticketlink/Detailed_Infor(Integrated)/Prefor.detail(C).jsp?play_idx=486");
+    	response.sendRedirect("http://localhost:9090/Tcp2/ticketlink/Detailed_Infor(Integrated)/Prefor.detail(C).jsp?play_idx="+ play_idx);
 
 		
 	}

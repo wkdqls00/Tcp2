@@ -23,7 +23,7 @@ public class Exp_RatingDAO {
 ////		for (Exp_RatingDTO exp_RatingDto : list) {
 ////			System.out.println(exp_RatingDto);
 ////		}
-//		erd.insertExp_Rating(34, "이 영화 시발임!", 3);
+		erd.insertExp_Rating(34, "이 영화 시발임!", 3);
 //		erd.updateExp_Rating(4);
 		
 	}	

@@ -40,4 +40,7 @@ public class CustomerPayinfoDTO {
 		return "CustomerPayinfoDTO [name=" + name + ", phone=" + phone + ", email=" + email + "]";
 	}
 
+	
+	
+	
 }

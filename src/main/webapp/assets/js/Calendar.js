@@ -1,4 +1,4 @@
- document.addEventListener("DOMContentLoaded", function() {
+	    document.addEventListener("DOMContentLoaded", function() {
         buildCalendar();
         document.getElementById("btnPrevCalendar").addEventListener("click", function(event) {
             prevCalendar();
@@ -90,6 +90,8 @@
             dom++;
         }
     }
+    var playinfo_idx = 0;
+    
 function calendarChoiceDay(column) {
     var choiceDay = document.querySelector(".choiceDay");
     if (choiceDay) {
@@ -104,19 +106,97 @@ function calendarChoiceDay(column) {
     column.style.color = "#fff";
 
     // 선택한 날짜 가져오기
-    const selectedDate = `${toDay.getFullYear()}-${autoLeftPad(toDay.getMonth() + 1, 2)}-${autoLeftPad(column.innerText, 2)}`;
+    const selectedDate = `${toDay.getFullYear()}년 ${autoLeftPad(toDay.getMonth() + 1, 2)}월 ${autoLeftPad(column.innerText, 2)}일`;
     
     // alert 창 띄우기
-    alert(selectedDate);
+    //alert(selectedDate);
+    const xhr = new XMLHttpRequest(); // XMLHttpRequest 객체 생성
+
+    let year = `${toDay.getFullYear()}`;
+    let month = (`${toDay.getMonth()+1}`<=9 ? "0" : "") + `${toDay.getMonth()+1}`;
+    let date = column.innerText;
+    //alert(year + month+ date);
+    xhr.open('GET', '/Tcp2/GetDateServlet?play_idx='+g_play_idx+'&selectedDate='+year+month+date, true); // 요청 초기화
+	
+	
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) { // 요청이 완료되었는지 확인
+            if (xhr.status === 200) { // 요청이 성공했는지 확인
+                const response = JSON.parse(xhr.responseText); // 응답 데이터 파싱
+                
+				console.log(response);
+				let str = "";
+				for(let i=0; i<=response.length-1; i++) {
+					let start_time = response[i].start_time;
+					playinfo_idx = response[i].playinfo_idx;
+					
+					str += '<button type="button" onclick="getepisode('+ playinfo_idx +');" class="episode_selection time_btn" style="margin-bottom: 15px;">' + 
+			            '<span><b style="font-size: larger">' + start_time + '</b></span>' + 
+			            '<span>' + 
+			            '<span class="c_member"></span>' + 
+			            '</span>' + 
+			    		'</button>';
+				}
+				document.querySelector(".time_list").innerHTML = str;
+               
+            } else {
+                console.error('AJAX 요청 실패:', xhr.status, xhr.statusText);
+                document.getElementById('result').innerHTML = '<p>데이터를 가져오는 데 실패했습니다.</p>';
+            }
+        }
+        
+    };
+
+    xhr.send(); // 요청 전송
 }
+	function getepisode(playinfo_idx) {
+		
+		alert(playinfo_idx);
+	  
+		const xhr = new XMLHttpRequest(); // XMLHttpRequest 객체 생성
+
+	    //alert(year + month+ date);
+		xhr.open('GET', '/Tcp2/EpTransferServlet?playinfo_idx='+playinfo_idx, true); // 요청 초기화
+	    xhr.onreadystatechange = function() {
+	        if (xhr.readyState === 4) { // 요청이 완료되었는지 확인
+	            if (xhr.status === 200) { // 요청이 성공했는지 확인
+	                const response = JSON.parse(xhr.responseText); // 응답 데이터 파싱
+	
+					console.log(response);
+					let str = "";
+					for(let i=0; i<=response.length-1; i++) {
+						let rank = response[i].rank;
+						let leftseat = response[i].leftseat;
+						
+						str += 
+						'<li class="product_seat_item" playinfo="'+playinfo_idx+'">' +
+						'<span class="product_seat_title">' + rank + '석</span>' +
+          				'<span class="product_seat_remain">' + 
+          				'<span class="product_seat_number">'+ leftseat +'</span>' +
+          				'</span>' +
+          				'</li>';
+						}
+					 
+					document.querySelector(".product_seat_list").innerHTML = str;
+	                displayResults(response); // 결과 표시 함수 호출
+					}
+	            } else {
+	                console.error('AJAX 요청 실패:', xhr.status, xhr.statusText);
+	                document.getElementById('result').innerHTML = '<p>데이터를 가져오는 데 실패했습니다.</p>';
+	            }
+	    };
+	    xhr.send(); // 요청 전송
+	}
+
     function autoLeftPad(num, digit) {
         if(String(num).length < digit) {
             num = new Array(digit - String(num).length + 1).join("0") + num;
         }
         return num;
     }
+    
 
-    const tabList = document.querySelectorAll('.common_tab_list .common_tab_item button');
+   const tabList = document.querySelectorAll('.common_tab_list .common_tab_item button');
   const contents = document.querySelectorAll('#detail_tabcontent .section_detail')
   let activeCont = ''; // 현재 활성화 된 컨텐츠 (기본:#tab1 활성화)
 
@@ -140,7 +220,6 @@ function calendarChoiceDay(column) {
 	
     });
   }
-  
- 
+
   
  
