@@ -39,9 +39,9 @@ public class ScriptManagementServletE extends HttpServlet {
 		request.setAttribute("count", count);
 		RequestDispatcher rd = request.getRequestDispatcher("/ticketlink/Mypage/review_exhibition.jsp");
 		rd.forward(request, response);
-		for (ScriptManagementDto l : list) {
-			System.out.println(l);
-		}
+//		for (ScriptManagementDto l : list) {
+//			System.out.println(l);
+//		}
 	}
 
 }

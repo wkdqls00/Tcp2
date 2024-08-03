@@ -12,15 +12,15 @@ public class ScriptManagementDao {
     	ScriptManagementDao smdao = new ScriptManagementDao();
         ArrayList<ScriptManagementDto> list = null;        
         ArrayList<ScriptManagementDto> list2 = null;        
-		list = smdao.selectScriptManagementC(1, 5, 1);
-		list2 = smdao.selectScriptManagementE(2, 5, 1);
-        for (ScriptManagementDto scriptManagementDTO : list) { 
-        	System.out.println(scriptManagementDTO); 
-        }
-        for (ScriptManagementDto scriptManagementDTO : list2) { 
-        	System.out.println(scriptManagementDTO); 
-        }
-        System.out.println(smdao.scriptCountC(1));
+//		list = smdao.selectScriptManagementC(1, 5, 1);
+//		list2 = smdao.selectScriptManagementE(2, 5, 1);
+//        for (ScriptManagementDto scriptManagementDTO : list) { 
+//        	System.out.println(scriptManagementDTO); 
+//        }
+//        for (ScriptManagementDto scriptManagementDTO : list2) { 
+//        	System.out.println(scriptManagementDTO); 
+//        }
+//        System.out.println(smdao.scriptCountC(1));
     }
     
     public ArrayList<ScriptManagementDto> selectScriptManagementC(int member_idx, int max, int min) {

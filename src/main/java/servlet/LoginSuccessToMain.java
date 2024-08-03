@@ -70,8 +70,7 @@ public class LoginSuccessToMain extends HttpServlet {
                 int totalT = tcdao.check_total_countY(userIdx);
                 hs.setAttribute("totalT", totalT);
                 hs.setAttribute("userIdx", userIdx);
-                System.out.println("로그인 성공");
-                System.out.println(userIdx);
+                System.out.println("IDX= " + userIdx + "번 회원 로그인");
 
                 response.setContentType("text/html;charset=UTF-8");
                 response.getWriter().println("<html>");
