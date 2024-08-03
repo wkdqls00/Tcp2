@@ -43,6 +43,13 @@
     </script>
      <style>
         .card_item_04{margin: 50px 28px 0 0;width: 259px;}
+    	.searchSubmitBtn {
+    		height: 32px; width: 40px; border: none; background: #222; color: #fff; border-radius: 6px; font-size: 11px;
+    		cursor: pointer;
+    	}
+    	.searchSubmitBtn:hover {
+    		background: #3b3b3b;
+    	}
      </style>
 </head>
 	<body>
@@ -74,7 +81,11 @@
                         <li class="gnb_link"><a href="#">공연</a></li>
                         <li class="gnb_link"><a href="#">전시</a></li>
                         <li class="gnb_link"><a href="#">랭킹</a></li>
-                        <li class="gnb_link"><a href="#">커뮤니티</a></li>
+                        <li class="gnb_link"><a href="../band/band_main.jsp">커뮤니티</a></li>
+                        <li class="gnb_link" style="padding: 0; padding-top: 10px; padding-left: 10px; float: right;">
+		                  	<input type="text" style="width: 200px; padding-inline: 8px;" placeholder="공연을 검색하세요.">
+		                  	<button type="submit" class="searchSubmitBtn">검색</button>
+	                 	</li>
                     </ul>
                 </div>
             </div>
