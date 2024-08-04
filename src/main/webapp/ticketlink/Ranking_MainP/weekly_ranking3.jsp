@@ -65,6 +65,7 @@ $(document).ready(function() {
             url: '/Tcp2/AjaxRankingServlet', 
             contentType: 'application/json; charset=utf-8',
             type: 'GET',
+            dataType: 'json',
             data: { genre_idx: genre_idx },
             success: function(response) {
             	for(let i = 1;i<4;i++){
@@ -74,59 +75,69 @@ $(document).ready(function() {
             		else
             			element.setAttribute('aria-selected', 'false');
             		}
-                alert("!");
 
                 // 응답 데이터 파싱
                 console.log(response);
                 console.log(Array.isArray(response));
-
-                    // 여기에서 필요한 작업을 수행
-            	var str = 
+                let result = '';
+				for(let i = 0; i < response.length; i++){
+					 let regDate = response[i].regDate;
+					 let playName = response[i].playName;
+					 let playStartDate = response[i].playStartDate;
+					 let playEndDate = response[i].playEndDate;
+					 let playBookRate = response[i].playBookRate;
+					 let poster_URL = response[i].poster_URL;
+					 let playHallName = response[i].playHallName;
+					 let play_idx = response[i].play_idx;
+                let str = 
             		'<tr id="content">' +
-                '<td>' +
-                  '<div class="ranking_product_rank">' +
-                    '<span class="rank_number">' +
-                      '1' +
-                    '<span class="blind">위</span>' +
-                    '</span>' +
-                    '<span class="rank_status">' +
-                      '<span class="rank_static">' +
-                        '<span class="rank_step"></span>' +
-                        '<span class="blind">변동없음</span>' +
-                      '</span>' +
-                    '</span>' +
-                  '</div>' +
-                '</td>' +
-                '<td>' +
-                  '<div class="ranking_product_info">' +
-                    '<a class="ranking_product_link">' +
-                      '<span class="ranking_product_imgbox">' +
-                        '<img src="http://www.kopis.or.kr/upload/pfmPoster/PF_PF240567_240507_140637.jpg" class="ranking_product_img">' +
-                      '</span>' +
-                      '<span class="ranking_product_title">새벽의 입구에서</span>' +
-                    '</a>' +
-                  '</div>' +
-                '</td>' +
-                '<td>' +
-                  '<div class="ranking_product_sideinfo">' +
-                    '<span class="ranking_product_period">2024-06-06 - 2024-09-01</span>' +
-                    '<span class="ranking_product_place">서경대학교 공연예술센터</span>' +
-                  '</div>' +
-                '</td>' +
-                '<td>' +
-                  '<div class="ranking_product_rate">' +
-                    '<span class="rate_percent">' +
-                    '17.03%' +
-                    '</span>' +
-                  '</div>' +
-                '</td>' +
-                '<td>' +
-                  '<div class="ranking_product_reserve">' +
-                    '<a class="common_btn btn_primary btn_medium" aria-disabled="false" href="http://localhost:9090/Tcp2/ticketlink/Detailed_Infor(Integrated)/Prefor.detail(C).jsp?play_idx=2796">예매하기</a>' +
-                 '</div>' +
-               ' </td>' +
-              '</tr>';
-            	
+	                '<td>' +
+	                  '<div class="ranking_product_rank">' +
+	                    '<span class="rank_number">' +
+	                      (i+1) +
+	                    '<span class="blind">위</span>' +
+	                    '</span>' +
+	                    '<span class="rank_status">' +
+	                      '<span class="rank_static">' +
+	                        '<span class="rank_step"></span>' +
+	                        '<span class="blind">변동없음</span>' +
+	                      '</span>' +
+	                    '</span>' +
+	                  '</div>' +
+	                '</td>' +
+	                '<td>' +
+	                  '<div class="ranking_product_info">' +
+	                    '<a class="ranking_product_link">' +
+	                      '<span class="ranking_product_imgbox">' +
+	                        '<img src="'+poster_URL+'" class="ranking_product_img">' +
+	                      '</span>' +
+	                      '<span class="ranking_product_title">'+playName+'</span>' +
+	                    '</a>' +
+	                  '</div>' +
+	                '</td>' +
+	                '<td>' +
+	                  '<div class="ranking_product_sideinfo">' +
+	                    '<span class="ranking_product_period">'+playStartDate+' - '+playEndDate+'</span>' +
+	                    '<span class="ranking_product_place">'+playHallName+'</span>' +
+	                  '</div>' +
+	                '</td>' +
+	                '<td>' +
+	                  '<div class="ranking_product_rate">' +
+	                    '<span class="rate_percent">' +
+	                    playBookRate + '%' +
+	                    '</span>' +
+	                  '</div>' +
+	                '</td>' +
+	                '<td>' +
+	                  '<div class="ranking_product_reserve">' +
+	                    '<a class="common_btn btn_primary btn_medium" aria-disabled="false" href="http://localhost:9090/Tcp2/ticketlink/Detailed_Infor(Integrated)/Prefor.detail(C).jsp?play_idx='+play_idx+'">예매하기</a>' +
+	                 '</div>' +
+	               ' </td>' +
+	              '</tr>';
+				result += str;
+				}
+				
+				document.querySelector("#asd").innerHTML = result;
             },
             error: function() {
                 alert("오류가 발생했습니다.");

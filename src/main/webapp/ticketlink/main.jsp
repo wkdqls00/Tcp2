@@ -79,7 +79,7 @@
                 </div>
             </div>
             <div class="gnb_box">
-                <div class="inner">
+                <div class="inner ?">
                     <ul class="gnb_list">
                         <li class="gnb_link"><a href="#">홈</a></li>
                         <li class="gnb_link"><a href="#">공연</a></li>
@@ -193,7 +193,7 @@
                 </div>
             </section>
             <!-- 동영상 -->
-            <!-- <section class="con_box bg_gray">
+ `	 <section class="con_box bg_gray">
                 <div class="inner">
                     <div class="con_header">
                         <h2 class="sec_tit">TICKET SPOT</h2>
