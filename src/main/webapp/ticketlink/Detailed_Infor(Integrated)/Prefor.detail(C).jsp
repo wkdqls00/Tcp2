@@ -73,7 +73,7 @@
 
 	ArrayList<GetDateDTO> gdd = new GetDateDAO().getPlayinfo(play_idx);
 	
-	ArrayList<Genre_RankDTO> Glist =  new Genre_RankDAO().selectGenre_RankDTO(3, "20240416일");
+	ArrayList<Genre_RankDTO> Glist =  new Genre_RankDAO().selectGenre_RankDTO(3);
 	
 	int rowNum = 5;
 	ArrayList<Week_RankDTO> wrd = new Genre_RankDAO().weekRankDto(rowNum);
