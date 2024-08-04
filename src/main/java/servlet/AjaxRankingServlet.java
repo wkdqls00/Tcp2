@@ -35,7 +35,7 @@ public class AjaxRankingServlet extends HttpServlet {
         ArrayList<Genre_RankDTO> list = new ArrayList<>();
         try {
             DatabaseUtil d = new DatabaseUtil();
-            list = new Genre_RankDAO().selectGenre_RankDTO(genre_idx, "20240416");// 장르에 따른 랭킹 데이터 조회
+            list = new Genre_RankDAO().selectGenre_RankDTO(genre_idx);// 장르에 따른 랭킹 데이터 조회
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -37,7 +37,7 @@ public class oneConsultantServlet extends HttpServlet {
 			//  response.sendRedirect("Inquire.html");
 			}
 
-			window.open("/Tcp2/oneConsultantServlet?member_id=" + userIdx);
+		//	window.open("/Tcp2/oneConsultantServlet?member_id=" + userIdx);
 //	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //
 //	}

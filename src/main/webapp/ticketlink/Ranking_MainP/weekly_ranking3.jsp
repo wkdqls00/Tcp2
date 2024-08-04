@@ -11,11 +11,10 @@
     pageEncoding="UTF-8"%>
 
 <%
-	// int genre_idx = 1;
+	int genre_idx = 1;
 	// int play_idx = Integer.parseInt(request.getParameter("play_idx"));
-	int genre_idx = Integer.parseInt(request.getParameter("genre_idx"));
-	String date = request.getParameter("date");
-	ArrayList<Genre_RankDTO> list =  new Genre_RankDAO().selectGenre_RankDTO(genre_idx, date);
+	// int genre_idx = Integer.parseInt(request.getParameter("genre_idx"));
+	ArrayList<Genre_RankDTO> list =  new Genre_RankDAO().selectGenre_RankDTO(genre_idx);
 	 
 	SimpleDateFormat inputFormat = new SimpleDateFormat("yyyyMMdd");
 	SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy년 M월 d일 (E)");
@@ -362,7 +361,7 @@ $(document).ready(function() {
               <span class="rate_number"><%=wr.get(3).getBooking_rate() %></span>
               <span class="rate_unit">%</span>
             </span>
-          </span>aria-selected
+          </span>
         </div>
         <div class="Product_info">
           <span class="product_title"><%=wrd.get(3).getName() %></span>

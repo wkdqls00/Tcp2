@@ -24,22 +24,24 @@ public class Genre_RankDAO {
 
 	}
 
-	public ArrayList<Genre_RankDTO> selectGenre_RankDTO(int genre_idx, String date) {
+	public ArrayList<Genre_RankDTO> selectGenre_RankDTO(int genre_idx) {
 
 		ArrayList<Genre_RankDTO> list = new ArrayList<>();
 		DatabaseUtil d = new DatabaseUtil();
 		Connection conn = d.getConn();
 
 		String sql = "SELECT r.r_date, p.name,TO_CHAR(start_date,'YYYY-MM-DD'), TO_CHAR(end_date,'YYYY-MM-DD'), r.booking_rate, poster_url, ph.name, p.play_idx "
-				+ "FROM rank r, play p, genre g, playhall ph " + "WHERE r.play_idx = p.play_idx  "
-				+ "AND p.playhall_idx = ph.playhall_idx " + "AND p.genre_idx = g.genre_idx " + "AND g.genre_idx = ? "
-				+ "AND to_char(r_date, 'YYYYMMDD') = ? " + "ORDER BY r.genre_rank";
+				   + "FROM rank r, play p, genre g, playhall ph  "
+				   + "WHERE r.play_idx = p.play_idx  "
+				   + "AND p.playhall_idx = ph.playhall_idx "
+				   + "AND p.genre_idx = g.genre_idx "
+				   + "AND g.genre_idx = ? "
+				   + "ORDER BY r.r_date DESC, r.genre_rank ";
 
 		PreparedStatement pstmt = d.getPstmt(conn, sql);
 
 		try {
 			pstmt.setInt(1, genre_idx);
-			pstmt.setString(2, date);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -78,10 +80,10 @@ public class Genre_RankDAO {
 		Connection conn = d.getConn();
 
 		String sql = "SELECT p.name, p.poster_url, TO_CHAR(p.start_date,'YYYY-MM-DD'),TO_CHAR(p.end_date,'YYYY-MM-DD') "
-				+ "FROM play p JOIN (SELECT r.play_idx " + "                  FROM rank r "
-				+ "                  WHERE TO_CHAR(r.r_date, 'YYYYMMDD') = '20240416' "
-				+ "                  ORDER BY r.booking_rate DESC) r ON p.play_idx = r.play_idx "
-				+ "WHERE ROWNUM <= ? ";
+				   + "FROM play p JOIN (SELECT r.play_idx "
+				   + "				    FROM rank r "
+				   + "				    ORDER BY r.r_date DESC, r.booking_rate DESC) r ON p.play_idx = r.play_idx "
+				   + "WHERE ROWNUM <= ? ";
 
 		PreparedStatement pstmt = d.getPstmt(conn, sql);
 
@@ -116,9 +118,11 @@ public class Genre_RankDAO {
 		DatabaseUtil d = new DatabaseUtil();
 		Connection conn = d.getConn();
 
-		String sql = "SELECT play_idx, booking_rate " + "FROM  (SELECT play_idx, booking_rate " + "       FROM rank "
-				+ "       WHERE TO_CHAR(r_date, 'YYYYMMDD') = '20240416' " + "       ORDER BY booking_rate DESC)  "
-				+ "WHERE rownum <= ? ";
+		String sql = "SELECT play_idx, booking_rate  "
+				   + "FROM  (SELECT * "
+				   + "       FROM rank  "
+			       + "       ORDER BY r_date DESC, booking_rate DESC)   "
+				   + "       WHERE rownum <= ? ";
 
 		PreparedStatement pstmt = d.getPstmt(conn, sql);
 
