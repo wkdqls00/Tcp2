@@ -147,40 +147,11 @@ $(document).ready(function() {
         });
     });
 
-	function showContent(genre_idx) {
-		if (genre_idx === '1') {
-	    	$('#b1').attr('aria-selected', 'true');
-				
-		} else if (genre_idx === '3') {
-				$('#play').addClass('active');
-		} else if (genre_idx === '2') {
-				$('#concert').addClass('active');
-		}
-	}
 
 });
 
 </script>
 
-<script>
-
-//$(function() {
-//	  $("#b1").click(function() {
-//	      $(this).attr('aria-selected', 'true');
-//	      $("#b2").attr('aria-selected', 'false');
-//	      $("#b3").attr('aria-selected', 'false');
-//	    });
-//	  $("#b2").click(function() {
-//	      $(this).attr('aria-selected', 'true');
-//	      $("#b1").attr('aria-selected', 'false');
-//	      $("#b3").attr('aria-selected', 'false');
-//	    });
-//	  $("#b3").click(function() {
-//	      $(this).attr('aria-selected', 'true');
-//	      $("#b2").attr('aria-selected', 'false');
-	//      $("#b1").attr('aria-selected', 'false');
-	//    });
-</script>
 
 <style>
 #datepicker {
