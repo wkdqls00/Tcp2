@@ -5,6 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import dto.Genre_RankDTO;
 import dto.RecommendPDTO;
 import dto.Week_RDTO;
@@ -15,14 +18,9 @@ public class Genre_RankDAO {
 
 	public static void main(String[] args) {
 
-		Genre_RankDAO grdto = new Genre_RankDAO();
-		ArrayList<Genre_RankDTO> list = null;
-		list = grdto.selectGenre_RankDTO(3, "20240416");
-		for (Genre_RankDTO genre_Rank : list) {
-			System.out.println(genre_Rank);
-		}
 
 		ArrayList<RecommendPDTO> rpd = new Genre_RankDAO().recommendPDto();
+		for(RecommendPDTO 종원 : rpd)System.out.println(종원);
 
 	}
 
@@ -165,7 +163,7 @@ public class Genre_RankDAO {
 		try {
 			while (rs.next()) {
 				String poster_url = rs.getString(1);
-				String areaName = rs.getString(2);
+				String areaName = rs.getString(2).substring(0,2);
 				String playName = rs.getString(3);
 				String startDate = rs.getString(4);
 				String endDate = rs.getString(5);
@@ -177,6 +175,9 @@ public class Genre_RankDAO {
 		} finally {
 			d.close(conn, pstmt, rs);
 		}
+		List result = list;
+		Collections.shuffle(result);
+		list = new ArrayList<RecommendPDTO>(result);
 		return list;
 	}
 }
