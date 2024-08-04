@@ -54,7 +54,9 @@
 </head>
 	<body>
 	<%
-	ArrayList<SearchResultDTO> list = new TicketlinkMainDao().getPopular();
+	TicketlinkMainDao dao = new TicketlinkMainDao();
+	ArrayList<SearchResultDTO> list = dao.getPopular();
+	ArrayList<RecommendPDTO> list2 = dao.recommendPDto();
 	System.out.println(list);
 	%>
         <header>
@@ -63,17 +65,16 @@
                     <ul>
                         <li class="utill_link"><a href="Login/Login.jsp">로그인</a></li>
                         <li class="utill_link"><a href="/Tcp2/Ticket_checkServlet">예매확인/취소</a></li>
-                        <li class="utill_link"><a href="/Tcp2/ticketlink/join_content.jsp">회원가입</a></li>
+                        <li class="utill_link"><a href="/Tcp2/ticketlink/Login/AgreeToTerms.jsp">회원가입</a></li>
                         <li class="utill_link"><a href="#">고객센터</a></li>
-                        <li class="utill_link"><a href="/Tcp2/Mypage_memberServlet">마이페이지</a></li>
-                    </ul>
+                        <li class="utill_link"><a href="/Tcp2/Mypage_memberServlet">마이페이지</a></li>                    </ul>
                 </div> 
             </div>
             <div class="nav_box">
                 <div class="inner navbox">
                     <h1 class="logo"><a href="main.jsp">로고</a></h1>
                     <ul class="nav">
-                        <li><a href="#">공연/전시</a></li>
+                        <li><a href="/Tcp2/ticketlink/main.jsp">공연</a></li>
                         <li><a href="/Tcp2/band/band_main.jsp">커뮤니티</a></li>
                     </ul>
                 </div>
@@ -81,10 +82,9 @@
             <div class="gnb_box">
                 <div class="inner ?">
                     <ul class="gnb_list">
-                        <li class="gnb_link"><a href="#">홈</a></li>
-                        <li class="gnb_link"><a href="#">공연</a></li>
-                        <li class="gnb_link"><a href="#">전시</a></li>
-                        <li class="gnb_link"><a href="#">랭킹</a></li>
+                        <li class="gnb_link"><a href="/Tcp2/ticketlink/main.jsp">홈</a></li>
+                        <li class="gnb_link"><a href="/Tcp2/ticketlink/main.jsp">공연</a></li>
+                        <li class="gnb_link"><a href="/Tcp2/ticketlink/Ranking_MainP/weekly_ranking3.jsp">랭킹</a></li>
                         <li class="gnb_link"><a href="/Tcp2/band/band_main.jsp">커뮤니티</a></li>
                         <li class="gnb_link" style="padding: 0; padding-top: 10px; padding-left: 10px; float: right;">
                         	<form action="/Tcp2/SearchResult">
@@ -103,117 +103,53 @@
                     <div class="swiper-slide"><a href="#"><img src="/Tcp2/assets/img/ticklink/BigBanner_01.jpg" alt="메인이미지"></a></div>
                 </div>
                 <ul class="sm_box">
-                    <li class="sm_img on">
+                    <li class="sm_img on" playIdx="1397">
                         <a href="/Tcp2/assets/img/ticklink/BigBanner_01.jpg"><img src="/Tcp2/assets/img/ticklink/thumbnail_01.jpg" alt=""></a>
                     </li>
-                    <li class="sm_img">
+                    <li class="sm_img" playIdx="2442">
                         <a href="/Tcp2/assets/img/ticklink/BigBanner_02.jpg"><img src="/Tcp2/assets/img/ticklink/thumbnail_02.jpg" alt=""></a>
                     </li>
-                    <li class="sm_img">
-                        <a href="/Tcp2/assets/img/ticklink/BigBanner_01.jpg"><img src="/Tcp2/assets/img/ticklink/thumbnail_01.jpg" alt=""></a>
+                    <li class="sm_img" playIdx="3229">
+                        <a href="/Tcp2/assets/img/ticklink/BigBanner_03.jpg"><img src="/Tcp2/assets/img/ticklink/thumbnail_03.jpg" alt=""></a>
                     </li>
-                    <li class="sm_img">
-                        <a href="/Tcp2/assets/img/ticklink/BigBanner_02.jpg"><img src="/Tcp2/assets/img/ticklink/thumbnail_02.jpg" alt=""></a>
+                    <li class="sm_img" playIdx="3039">
+                        <a href="/Tcp2/assets/img/ticklink/BigBanner_04.jpg"><img src="/Tcp2/assets/img/ticklink/thumbnail_04.jpg" alt=""></a>
                     </li>
                 </ul>   
             </div>
             <section class="con_box inner">
                 <div class="con_header">
-                    <h2 class="con_tit">티켓오픈</h2>
-                    <a href="#">전체보기</a>
+                    <h2 class="con_tit">추천공연</h2>
+                    <a href="/Tcp2/ticketlink/Ranking_MainP/weekly_ranking3.jsp">전체보기</a>
                 </div>
                 <div class="item_box">
                     <ul class="item_list">
+<%
+	for(int i = 0; i < 4; i++){
+%>
                         <li class="card_item">
-                            <a href="#">
+                            <a href="/Tcp2/ticketlink/Detailed_Infor(Integrated)/Prefor.detail(C).jsp?play_idx=<%=list2.get(i).getPlay_idx()%>">
                                 <div class="img_box">
-                                    <img src="/Tcp2/assets/img/ticklink/cardnews_02.jpg" alt="">
+                                    <img src="<%=list2.get(i).getPoster_url()%>" alt="">
                                 </div>
                                 <div class="txt_box">
-                                    <h4 class="item_tit">[단독판매] 어쩌다 발견한 하루</h4>
+                                    <h4 class="item_tit"><%=list2.get(i).getPlayName()%></h4>
                                     <div class="info_box">
-                                        <span class="item_date">2024.06.27</span>
+                                        <span class="item_date"><%=list.get(i).getPeriod()%></span>
                                     </div>
                                 </div>
                             </a>
                         </li>
-                        <li class="card_item">
-                            <a href="#">
-                                <div class="img_box">
-                                    <img src="/Tcp2/assets/img/ticklink/cardnews_03.jpg" alt="">
-                                </div>
-                                <div class="txt_box">
-                                    <h4 class="item_tit">[단독판매] 어쩌다 발견한 하루</h4>
-                                    <div class="info_box">
-                                        <span class="item_date">2024.06.27</span>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="card_item">
-                            <a href="#">
-                                <div class="img_box">
-                                    <img src="/Tcp2/assets/img/ticklink/cardnews_02.jpg" alt="">
-                                </div>
-                                <div class="txt_box">
-                                    <h4 class="item_tit">[단독판매] 어쩌다 발견한 하루</h4>
-                                    <div class="info_box">
-                                        <span class="item_date">2024.06.27</span>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="card_item">
-                            <a href="#">
-                                <div class="img_box">
-                                    <img src="/Tcp2/assets/img/ticklink/cardnews_02.jpg" alt="">
-                                </div>
-                                <div class="txt_box">
-                                    <h4 class="item_tit">[단독판매] 어쩌다 발견한 하루</h4>
-                                    <div class="info_box">
-                                        <span class="item_date">2024.06.27</span>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="card_item">
-                            <a href="#">
-                                <div class="img_box">
-                                    <img src="/Tcp2/assets/img/ticklink/cardnews_02.jpg" alt="">
-                                </div>
-                                <div class="txt_box">
-                                    <h4 class="item_tit">[단독판매] 어쩌다 발견한 하루</h4>
-                                    <div class="info_box">
-                                        <span class="item_date">2024.06.27</span>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
+<%} %>
                     </ul>
                 </div>
             </section>
             <!-- 동영상 -->
- `	 <section class="con_box bg_gray">
-                <div class="inner">
-                    <div class="con_header">
-                        <h2 class="sec_tit">TICKET SPOT</h2>
-                    </div>
-                    <div>
-                        <div>
-                            <h3>뮤지컬 아이스쇼 <br>G-SHOW :HTE LUNA</h3>
-                            <p></p>
-                        </div>
-                        <div>
-                            <iframe src="https://i.vimeocdn.com/video/1868630427-e974676565053de6414091e83ac533d3f18403f24bcf6f6a44f0eb9884e742df-d?mw=600&amp;mh=337" style="width:100%;height:100%" frameborder="0"></iframe>
-                        </div>
-                        
-                </div>
-            </section> -->
             <!-- 베스트 공연/전시 -->
             <section class="con_box">
                 <div class="inner">
                     <div class="con_header">
-                        <h2 class="con_tit">베스트 공연&middot;전시</h2>
+                        <h2 class="con_tit">베스트 공연</h2>
                     </div>
                     <div class="item_box">
                         <ul class="item_list">
@@ -223,7 +159,7 @@
                         for(int i = 0; i < list.size(); i++){
                         %>
                             <li class="card_item_04">
-                                <a href="#">
+                                <a href="/Tcp2/ticketlink/Detailed_Infor(Integrated)/Prefor.detail(C).jsp?play_idx=<%=list.get(i).getPlay_idx()%>">
                                     <div class="img_box">
                                         <img src="<%=list.get(i).getPoster_url()%>" alt="">
                                     </div>

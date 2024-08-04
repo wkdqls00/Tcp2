@@ -2,18 +2,17 @@ package dao;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-
+import dto.RecommendPDTO;
 import dto.SearchResultDTO;
 import project.DatabaseUtil;
 
 public class TicketlinkMainDao {
 
 	public static void main(String[] args) {
-		TicketlinkMainDao dao = new TicketlinkMainDao();
-		ArrayList<SearchResultDTO> list = dao.getSearchResult("%시카고%");
-		System.out.println(list.size());
-		for(SearchResultDTO a : list)System.out.println(a);
+		ArrayList<RecommendPDTO> list2 = dao.recommendPDto;
 	}
 	
 	public ArrayList<SearchResultDTO> getSearchResult(String input){
@@ -82,4 +81,39 @@ public class TicketlinkMainDao {
 		return list;
 	}
 	
+	public ArrayList<RecommendPDTO> recommendPDto() {
+
+		ArrayList<RecommendPDTO> list = new ArrayList<>();
+		DatabaseUtil d = new DatabaseUtil();
+		Connection conn = d.getConn();
+
+		String sql = "SELECT p.poster_url, a.name, p.name, TO_CHAR(p.start_date,'YYYY-MM-DD'), TO_CHAR(p.end_date,'YYYY-MM-DD'), p.play_idx "
+				   + "FROM rank r JOIN play p ON r.play_idx = p.play_idx "
+				   + "            JOIN playhall ph ON ph.playhall_idx = p.playhall_idx "
+			       + "            JOIN area a ON ph.area_idx = a.area_idx ";
+
+		PreparedStatement pstmt = d.getPstmt(conn, sql);
+
+		ResultSet rs = d.getRs(pstmt);
+
+		try {
+			while (rs.next()) {
+				String poster_url = rs.getString(1);
+				String areaName = rs.getString(2).substring(0,2);
+				String playName = rs.getString(3);
+				String startDate = rs.getString(4);
+				String endDate = rs.getString(5);
+				int play_idx = rs.getInt(6);
+				list.add(new RecommendPDTO(poster_url, areaName, playName, startDate, endDate, play_idx));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			d.close(conn, pstmt, rs);
+		}
+		List result = list;
+		Collections.shuffle(result);
+		list = new ArrayList<RecommendPDTO>(result);
+		return list;
+	}
 }
