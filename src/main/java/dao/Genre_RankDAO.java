@@ -151,7 +151,7 @@ public class Genre_RankDAO {
 		DatabaseUtil d = new DatabaseUtil();
 		Connection conn = d.getConn();
 
-		String sql = "SELECT p.poster_url, a.name, p.name, p.start_date, p.end_date, p.play_idx "
+		String sql = "SELECT p.poster_url, a.name, p.name, TO_CHAR(p.start_date,'YYYY-MM-DD'), TO_CHAR(p.end_date,'YYYY-MM-DD'), p.play_idx "
 				   + "FROM rank r JOIN play p ON r.play_idx = p.play_idx "
 				   + "            JOIN playhall ph ON ph.playhall_idx = p.playhall_idx "
 			       + "            JOIN area a ON ph.area_idx = a.area_idx ";

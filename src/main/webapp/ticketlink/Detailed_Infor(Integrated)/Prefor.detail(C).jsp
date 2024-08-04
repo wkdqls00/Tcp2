@@ -1092,17 +1092,17 @@
 
    <li class="grid_item">
           <div class="grid_unit">
-            <a href="http://localhost:9090/Tcp2/ticketlink/Detailed_Infor(Integrated)/Prefor.detail(C).jsp?play_idx=<%=wr.get(i).getPlay_idx()%>">
+            <a href="http://localhost:9090/Tcp2/ticketlink/Detailed_Infor(Integrated)/Prefor.detail(C).jsp?play_idx=<%=rpd.get(i).getPlay_idx()%>">
               <div class="imgbox"> 
                 <!-- before -->
-                <img class="img" src="<%=wrd.get(i).getPoster_Url()%>"/>
+                <img class="img" src="<%=rpd.get(i).getPoster_url()%>"/>
               </div>
               <div class="grid_info">
-                <span class="region">서울</span>
-                <span class="title">뮤지컬 <%=wrd.get(i).getName() %></span>
+                <span class="region"><%=rpd.get(i).getAreaName() %></span>
+                <span class="title"><%=rpd.get(i).getPlayName()%></span>
               <div class="sideinfo">
                   <span class="place"></span>
-                  <span class="period"><%=wrd.get(i).getStartDate() %> ~ <%=wrd.get(i).getEndDate() %></span>
+                  <span class="period"><%=rpd.get(i).getStartDate() %> ~ <%=rpd.get(i).getEndDate() %></span>
               </div>
               <div class="flag">
                 <div class="flag_area"></div>
@@ -1514,12 +1514,7 @@ var rating = $('.star_rt');
 <script>
   function reservation() {
 	  const playinfoValue = document.querySelector('.product_seat_item').getAttribute('playinfo');
-	  alert(playinfoValue);
-      var popupWidth = 1000;
-      var popupHeight = 900;
-      var left = (screen.width - popupWidth) / 2;
-      var top = (screen.height - popupHeight) / 2;
-      window.open('/Tcp2/Payment_p0?pi='+ playinfoValue);
+      window.open('/Tcp2/Payment_p0?pi='+ playinfoValue, '', 'width=1200, height=900');
 	  
   }
 
@@ -1539,7 +1534,6 @@ function clip(){
 	document.body.removeChild(textarea);
 	alert("URL이 복사되었습니다.")
 }
-
 
 
 </script>

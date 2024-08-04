@@ -149,7 +149,7 @@
           </a>
         </li>
         <li class="help_inquiry_meu">
-          <a href="#" onclick="location.href='/Tcp2/oneConsultantServlet'" class="meu1">
+          <a href="#" onclick="openPopup1(); return false;" class="meu1">
             1:1상담
             <!-- after -->
           </a>
@@ -452,11 +452,7 @@
   
   <script>
     function openPopup1() {
-      var popupWidth = 900;
-      var popupHeight = 1020;
-      var left = (screen.width - popupWidth) / 2;
-      var top = (screen.height - popupHeight) / 2;
-      window.open('/Tcp2/oneConsultantServlet?member_idx=<%=member%>', '', 'width=900, height=1020');
+      window.open('/Tcp2/ticketlink/inquire/Inquire.html', '', 'width=900, height=1020');
     }
     function openPopup2() {
       var popupWidth = 900;

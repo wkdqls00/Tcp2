@@ -16,7 +16,7 @@ public class oneConsultantServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	   	request.setCharacterEncoding("UTF-8");
+	   		request.setCharacterEncoding("UTF-8");
 			response.setContentType("text/html; charset=UTF-8");
 			response.getWriter().append("Served at: ").append(request.getContextPath());
 			PrintWriter out = response.getWriter();
@@ -31,21 +31,15 @@ public class oneConsultantServlet extends HttpServlet {
 			if(userIdx == null) {
 				out.println("alert('로그인이 필요합니다.');");
 				out.println("location.href='/Tcp2/ticketlink/Login/Login.jsp'");
-			}else {
-				out.println("if(!window.popupOpened) {");
-				out.println("window.popupOpened = true;");
-				out.println("window.open('/Tcp2/oneConsultantServlet?member_id=" + userIdx + "', '', 'width=900, height=1020');");
-				out.println("}");
-			}
-			out.println("</script>");
-			out.println("</body>");
-			out.println("</html>");	
+				out.println("</script>");
+				out.println("</body>");
+				out.println("</html>");	
 			//  response.sendRedirect("Inquire.html");
-			
-	}
+			}
 
+			window.open("/Tcp2/oneConsultantServlet?member_id=" + userIdx);
 //	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //
 //	}
-
+	}
 }
