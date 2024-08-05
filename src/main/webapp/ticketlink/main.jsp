@@ -57,16 +57,21 @@
 	TicketlinkMainDao dao = new TicketlinkMainDao();
 	ArrayList<SearchResultDTO> list = dao.getPopular();
 	ArrayList<RecommendPDTO> list2 = dao.recommendPDto();
-	System.out.println(list);
 	%>
         <header>
             <div class="utill">
                 <div class="inner">
                     <ul>
+                    <%if((Integer)request.getSession().getAttribute("userIdx") == null){ %>
                         <li class="utill_link"><a href="Login/Login.jsp">로그인</a></li>
+                        <%} else { %>
+                        <li class="utill_link"><a href="#" onclick="if(confirm('로그아웃 하시겠습니까?')) { window.location.href='/Tcp2/LogoutAction'; } return false;">로그아웃</a></li>
+                        <%} %>
                         <li class="utill_link"><a href="/Tcp2/Ticket_checkServlet">예매확인/취소</a></li>
+                        <%if((Integer)request.getSession().getAttribute("userIdx") == null){ %>
                         <li class="utill_link"><a href="/Tcp2/ticketlink/Login/AgreeToTerms.jsp">회원가입</a></li>
-                        <li class="utill_link"><a href="#">고객센터</a></li>
+                        <%} %>
+                        <li class="utill_link"><a href="/Tcp2/ticketlink/Customer_Service_Center/Cs_Center_main.jsp">고객센터</a></li>
                         <li class="utill_link"><a href="/Tcp2/Mypage_memberServlet">마이페이지</a></li>                    </ul>
                 </div> 
             </div>
