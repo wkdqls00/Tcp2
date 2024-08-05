@@ -334,10 +334,12 @@
      <% } %>
     </div>
     <!-- 팝업 : 글쓰기 -->
+    <form action="${pageContext.request.contextPath}/PostWriteServlet" method="post" enctype="multipart/form-data">
     <div class="layerContainerView" tabindex="-1" id="postWriteEditor_popUp" style="display: none;">
       <div class="layerContainerInnerView">
         <div class="postEditorLayerView" style="position: relative;">
           <section class="lyWrap">
+           <input type="hidden" name="meet_idx" value="<%=meet_idx %>">
             <div class="lyPostShareWrite" style="margin-top: 77px;">
               <header class="header">
                 <h1 class="title">글쓰기</h1>
@@ -345,15 +347,18 @@
               <div class="main">
                 <div class="postWrite">
                   <div class="postWriteForm">
-                    <textarea class="contentEditor cke_editable"></textarea>
+                    <textarea class="contentEditor cke_editable" name="content"></textarea>
                   </div>
                   <div class="buttonArea">
-                    <ul class="toolbarList">
+                    <ul class="toolbarList" style="justify-content: space-between;">
                       <li class="toolbarListItem">
-                        <label class="photo">
-                          <input type="file">
+                        <label class="photo" for="postInputFile">
+                          <input type="file" accept="image/*" id="postInputFile" onchange="uploadImg(this)" name="file_url">
                           <span class="photoIcon"></span>
                         </label>
+                      </li>
+                      <li class="toolbarListItem" >
+                        <img class="postImg" style="width:70px; height: 70px; margin-bottom:10px;" src="https://i.ibb.co/N1V2tXT/image.png">
                       </li>
                     </ul>
                     <div class="writeSubmitBox">
@@ -365,13 +370,14 @@
                 </div>
               </div>
               <footer class="footer">
-                <button class="btnLyClose"></button>
+                <button type="button" class="btnLyClose"></button>
               </footer>
             </div>
           </section>
         </div>
       </div>
     </div>
+   </form>
     <!-- 팝업 : 새 채팅 -->
     <div class="layerContainerView" id="newChatWrap_popUp" style="display: none;">
       <div class="layerContainerInnerView">
@@ -403,6 +409,7 @@
   $(function(){
  	  $("#postWriteBtn").click(function() {
       $("#postWriteEditor_popUp").css('display', 'block');
+      let a = $(".contentEditor.cke_editable").val();
     })
     //글쓰기 버튼 팝업
     $(".newChattingBtn").click(function() {

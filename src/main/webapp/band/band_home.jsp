@@ -1092,7 +1092,7 @@
         </div>
       </div>
     </div>
-    </form>
+   </form>
   <!-- 팝업 : 게시글 수정 -->
    <%for (MeetPostListPrintDTO mPDto : mPrintListDTO) { 
    		int post_idx = mPDto.getPost_idx();
@@ -1144,7 +1144,6 @@
      </div>
     </form>
 	<% } %>
-    
     <!-- 팝업 : 새 채팅 -->
     <div class="layerContainerView" id="newChatWrap_popUp" style="display: none;">
       <div class="layerContainerInnerView">
