@@ -234,7 +234,7 @@
                                 	%>
                                     <tr>
                                         <td class="fs12 point_number"><a href=""><%=dto.getPayment_idx()%></a></td>
-                                        <td class="tl ng-scope"><a href=""><%=dto.getName() %></a></td>
+                                        <td class="tl ng-scope1"><a href="/Tcp2/ticketlink/Detailed_Infor(Integrated)/Prefor.detail(C).jsp?play_idx=<%=dto.getPlay_idx()%>"><%=dto.getName() %></a></td>
                                         <td class="fs12 number ng-binding"><%=dto.getStart_date()%></td>
                                         <td class="ng-binding"><%=countList.get(cnt) %>장</td>
                                         <td class="fs12 number color_point"><%=dto.getStart_date()%><br><%=dto.getStart_time()%></td>
