@@ -12,7 +12,6 @@ import project.DatabaseUtil;
 public class TicketlinkMainDao {
 
 	public static void main(String[] args) {
-		ArrayList<RecommendPDTO> list2 = dao.recommendPDto;
 	}
 	
 	public ArrayList<SearchResultDTO> getSearchResult(String input){

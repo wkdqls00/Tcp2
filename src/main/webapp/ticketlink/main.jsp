@@ -68,16 +68,17 @@
                         <li class="utill_link"><a href="#" onclick="if(confirm('로그아웃 하시겠습니까?')) { window.location.href='/Tcp2/LogoutAction'; } return false;">로그아웃</a></li>
                         <%} %>
                         <li class="utill_link"><a href="/Tcp2/Ticket_checkServlet">예매확인/취소</a></li>
-                        <%if((Integer)request.getSession().getAttribute("userIdx") == null){ %>
+                    <%if((Integer)request.getSession().getAttribute("userIdx") == null){ %>
                         <li class="utill_link"><a href="/Tcp2/ticketlink/Login/AgreeToTerms.jsp">회원가입</a></li>
                         <%} %>
                         <li class="utill_link"><a href="/Tcp2/ticketlink/Customer_Service_Center/Cs_Center_main.jsp">고객센터</a></li>
-                        <li class="utill_link"><a href="/Tcp2/Mypage_memberServlet">마이페이지</a></li>                    </ul>
+                        <li class="utill_link"><a href="/Tcp2/Mypage_memberServlet">마이페이지</a></li>
+					</ul>
                 </div> 
             </div>
             <div class="nav_box">
                 <div class="inner navbox">
-                    <h1 class="logo"><a href="main.jsp">로고</a></h1>
+                    <h1 class="logo"><a href="/Tcp2/ticketlink/main.jsp">로고</a></h1>
                     <ul class="nav">
                         <li><a href="/Tcp2/ticketlink/main.jsp">공연</a></li>
                         <li><a href="/Tcp2/band/band_main.jsp">커뮤니티</a></li>
@@ -105,7 +106,7 @@
         <div id="app">
             <div class="main_swiper_box swiper mySwiper">
                 <div class="big_banner swiper-wrapper" id="big_banner">
-                    <div class="swiper-slide"><a href="#"><img src="/Tcp2/assets/img/ticklink/BigBanner_01.jpg" alt="메인이미지"></a></div>
+                    <div class="swiper-slide"><a href="#" onclick="clickbanner(); return false;"><img src="/Tcp2/assets/img/ticklink/BigBanner_01.jpg" alt="메인이미지"></a></div>
                 </div>
                 <ul class="sm_box">
                     <li class="sm_img on" playIdx="1397">
@@ -327,6 +328,11 @@
 	    ChannelIO('boot', {
 	      "pluginKey": "60ba9da0-33fe-48a9-8bcf-3f7d99fa2591"
 	    });
+	    
+	    function clickbanner(){
+	    	let play_idx = document.querySelector('.sm_img.on').getAttribute('playIdx');
+	    	location.href='/Tcp2/ticketlink/Detailed_Infor(Integrated)/Prefor.detail(C).jsp?play_idx='+play_idx;
+	    }
     </script>
 </body>
 </html>
