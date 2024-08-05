@@ -50,6 +50,26 @@ emailDomainSelect.forEach(function(option) {
         }
     });
 });
+emailjs.init({publicKey: "SUelUcDuv9pUYkIhb",});
+document.getElementById("mf_email").addEventListener('click', function() {
+	 let user_email = document.getElementById('user_email').value;
+	 let randomBno = Math.floor(100000 + Math.random() * 900000);
+	 
+	 var templateParams = {
+	  name: '티켓링크',
+	  notes: randomBno,
+	  to_email: user_email
+	};
+	
+	emailjs.send('service_bd2irwh', 'template_bpkenkj', templateParams).then(
+	  (response) => {
+	    console.log('SUCCESS!', response.status, response.text);
+	  },
+	  (error) => {
+	    console.log('FAILED...', error);
+	  }
+	);
+})
 
 // 휴대폰번호 수정 에러문, 인증번호 전송 활성화?
 function validatePhoneInput() {

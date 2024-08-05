@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="/Tcp2/assets//css/modify_member.css">
     <link rel="stylesheet" href="/Tcp2/assets//css/footer.css">
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+	</script>
 </head>
 <body>
     <%
@@ -114,7 +117,7 @@
                                   <div class="enter_box">
                                     <div class="email_box">
                                       <div class="style_input">
-                                        <input type="email" class="con_input" placeholder="변경 이메일">
+                                        <input type="email" class="con_input" placeholder="변경 이메일" id="user_email">
                                         <span id="conClear" class="del_btn" style="display: none;"></span>
                                       </div>
                                       <div class="custom_select">
@@ -140,7 +143,7 @@
                                       </div>
                                     </div>
                                     
-                                    <p class="btn_area"><a href="#" class="btn_red">인증번호 전송</a></p>
+                                    <p class="btn_area"><a href="#" class="btn_red" id="mf_email">인증번호 전송</a></p>
                                   </div>
                                 </div>
                             </dl>

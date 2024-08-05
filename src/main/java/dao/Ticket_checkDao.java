@@ -24,41 +24,41 @@ public class Ticket_checkDao {
 //        }
 //       ArrayList<Ticket_checkDto> tcdto = new Ticket_checkDao().checkReservationY(24, 5, 1);
 //        for (Ticket_checkDto 종원 : tcdto ) {
-//        	System.out.println(종원 + "바보");
+//           System.out.println(종원 + "바보");
 //        }
     }
     
     public ArrayList<Ticket_checkDto> checkReservationY(int member_idx, int max, int min) {
         ArrayList<Ticket_checkDto> list = new ArrayList<>();
-    	DatabaseUtil d = new DatabaseUtil();
+       DatabaseUtil d = new DatabaseUtil();
         Connection conn = d.getConn();
         
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
         
-			
-			 String sql =
-		             "SELECT * FROM (SELECT ROWNUM row_n, a.*  " + 
-		             "FROM(SELECT pay.payment_idx, p.name, p.start_date, pay.status, pi.start_time, TO_CHAR(pay.pay_date, 'YYYY.MM.DD'), p.play_idx " + 
-		             "FROM payment pay, play p, playinfo pi, member m " + 
-		             "WHERE m.member_idx = ? " + 
-		             "AND pay.playinfo_idx = pi.playinfo_idx " + 
-		             "AND p.play_idx = pi.play_idx " + 
-		             "AND pay.member_idx = m.member_idx " + 
-		             "AND pay.status = 'Y' " +
-		             "ORDER BY pay.pay_date DESC)a WHERE ROWNUM <= ?) " + 
-		             "WHERE row_n >= ?";
-			 
-			 pstmt = conn.prepareStatement(sql);
-			 pstmt.setInt(1, member_idx);
-			 pstmt.setInt(2, max);
-			 pstmt.setInt(3, min);
-		     rs = pstmt.executeQuery();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+         
+          String sql =
+                   "SELECT * FROM (SELECT ROWNUM row_n, a.*  " + 
+                   "FROM(SELECT pay.payment_idx, p.name, p.start_date, pay.status, pi.start_time, TO_CHAR(pay.pay_date, 'YYYY.MM.DD'), p.play_idx " + 
+                   "FROM payment pay, play p, playinfo pi, member m " + 
+                   "WHERE m.member_idx = ? " + 
+                   "AND pay.playinfo_idx = pi.playinfo_idx " + 
+                   "AND p.play_idx = pi.play_idx " + 
+                   "AND pay.member_idx = m.member_idx " + 
+                   "AND pay.status = 'Y' " +
+                   "ORDER BY pay.pay_date DESC)a WHERE ROWNUM <= ?) " + 
+                   "WHERE row_n >= ?";
+          
+          pstmt = conn.prepareStatement(sql);
+          pstmt.setInt(1, member_idx);
+          pstmt.setInt(2, max);
+          pstmt.setInt(3, min);
+           rs = pstmt.executeQuery();
+      } catch (SQLException e) {
+         // TODO Auto-generated catch block
+         e.printStackTrace();
+      }
         
         try {
             while (rs.next()) {
@@ -75,43 +75,43 @@ public class Ticket_checkDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-        	if (rs != null) {try {rs.close();} catch (SQLException e) {e.printStackTrace();}}
-    		if (pstmt != null) {try {pstmt.close();} catch (SQLException e) {e.printStackTrace();}}
-    		if (conn != null) {try {conn.close();} catch (SQLException e) {e.printStackTrace();}}
+           if (rs != null) {try {rs.close();} catch (SQLException e) {e.printStackTrace();}}
+          if (pstmt != null) {try {pstmt.close();} catch (SQLException e) {e.printStackTrace();}}
+          if (conn != null) {try {conn.close();} catch (SQLException e) {e.printStackTrace();}}
         }
         return list;
     }
     
     public ArrayList< Ticket_checkDto> checkReservationR(int member_idx, int max, int min) {
         ArrayList< Ticket_checkDto> list = new ArrayList<>();
-    	DatabaseUtil d = new DatabaseUtil();
+       DatabaseUtil d = new DatabaseUtil();
         Connection conn = d.getConn();
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
-        	
-			
-			String sql =
-		             "SELECT * FROM (SELECT ROWNUM row_n, a.*  " + 
-		             "FROM(SELECT pay.payment_idx, p.name, p.start_date, pay.status, pi.start_time, TO_CHAR(pay.pay_date, 'YYYY.MM.DD'), p.play_idx " + 
-		             "FROM payment pay, play p, playinfo pi, member m " + 
-		             "WHERE m.member_idx = ? " + 
-		             "AND pay.playinfo_idx = pi.playinfo_idx " + 
-		             "AND p.play_idx = pi.play_idx " + 
-		             "AND pay.member_idx = m.member_idx " + 
-		             "AND pay.status = 'R' " +
-		             "ORDER BY pay.pay_date DESC)a WHERE ROWNUM <= ?) " + 
-		             "WHERE row_n >= ?";
-			 
-			 pstmt = conn.prepareStatement(sql);
-			 pstmt.setInt(1, member_idx);
-			 pstmt.setInt(2, max);
-			 pstmt.setInt(3, min);
-		     rs = pstmt.executeQuery();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+           
+         
+         String sql =
+                   "SELECT * FROM (SELECT ROWNUM row_n, a.*  " + 
+                   "FROM(SELECT pay.payment_idx, p.name, p.start_date, pay.status, pi.start_time, TO_CHAR(pay.pay_date, 'YYYY.MM.DD'), p.play_idx " + 
+                   "FROM payment pay, play p, playinfo pi, member m " + 
+                   "WHERE m.member_idx = ? " + 
+                   "AND pay.playinfo_idx = pi.playinfo_idx " + 
+                   "AND p.play_idx = pi.play_idx " + 
+                   "AND pay.member_idx = m.member_idx " + 
+                   "AND pay.status = 'R' " +
+                   "ORDER BY pay.pay_date DESC)a WHERE ROWNUM <= ?) " + 
+                   "WHERE row_n >= ?";
+          
+          pstmt = conn.prepareStatement(sql);
+          pstmt.setInt(1, member_idx);
+          pstmt.setInt(2, max);
+          pstmt.setInt(3, min);
+           rs = pstmt.executeQuery();
+      } catch (SQLException e) {
+         // TODO Auto-generated catch block
+         e.printStackTrace();
+      }
         
         try {
             while (rs.next()) {
@@ -128,119 +128,119 @@ public class Ticket_checkDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-        	if (rs != null) {try {rs.close();} catch (SQLException e) {e.printStackTrace();}}
-    		if (pstmt != null) {try {pstmt.close();} catch (SQLException e) {e.printStackTrace();}}
-    		if (conn != null) {try {conn.close();} catch (SQLException e) {e.printStackTrace();}}
+           if (rs != null) {try {rs.close();} catch (SQLException e) {e.printStackTrace();}}
+          if (pstmt != null) {try {pstmt.close();} catch (SQLException e) {e.printStackTrace();}}
+          if (conn != null) {try {conn.close();} catch (SQLException e) {e.printStackTrace();}}
         }
         return list;
     }
     
     public int check_countY(int member_idx) {
-    	int count = 0;
-    	DatabaseUtil d = new DatabaseUtil();
+       int count = 0;
+       DatabaseUtil d = new DatabaseUtil();
         Connection conn = d.getConn();
          PreparedStatement pstmt = null;
          ResultSet rs = null;
          try {
        
- 			
- 			 String sql =
- 					 "SELECT COUNT(*) FROM (SELECT pay.payment_idx, p.name, p.start_date, pay.status, pi.start_time " + 
- 					 "FROM payment pay, play p, playinfo pi, member m " + 
- 					 "WHERE m.member_idx = ? " + 
- 					 "AND pay.playinfo_idx = pi.playinfo_idx " + 
- 					 "AND p.play_idx = pi.play_idx " + 
- 					 "AND pay.member_idx = m.member_idx " + 
- 					 "AND pay.status = 'Y' " +
- 					 "ORDER BY payment_idx DESC)";
- 			 
- 			 pstmt = conn.prepareStatement(sql);
- 			 pstmt.setInt(1, member_idx);
- 			
- 		     rs = pstmt.executeQuery();
- 		     if (rs.next()) {
- 		    	 count = rs.getInt(1);
- 		     }
- 		} catch (SQLException e) {
- 			e.printStackTrace();
- 		} finally {
-         	if (rs != null) {try {rs.close();} catch (SQLException e) {e.printStackTrace();}}
-     		if (pstmt != null) {try {pstmt.close();} catch (SQLException e) {e.printStackTrace();}}
-     		if (conn != null) {try {conn.close();} catch (SQLException e) {e.printStackTrace();}}
+          
+           String sql =
+                 "SELECT COUNT(*) FROM (SELECT pay.payment_idx, p.name, p.start_date, pay.status, pi.start_time " + 
+                 "FROM payment pay, play p, playinfo pi, member m " + 
+                 "WHERE m.member_idx = ? " + 
+                 "AND pay.playinfo_idx = pi.playinfo_idx " + 
+                 "AND p.play_idx = pi.play_idx " + 
+                 "AND pay.member_idx = m.member_idx " + 
+                 "AND pay.status = 'Y' " +
+                 "ORDER BY payment_idx DESC)";
+           
+           pstmt = conn.prepareStatement(sql);
+           pstmt.setInt(1, member_idx);
+          
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+               count = rs.getInt(1);
+            }
+       } catch (SQLException e) {
+          e.printStackTrace();
+       } finally {
+            if (rs != null) {try {rs.close();} catch (SQLException e) {e.printStackTrace();}}
+           if (pstmt != null) {try {pstmt.close();} catch (SQLException e) {e.printStackTrace();}}
+           if (conn != null) {try {conn.close();} catch (SQLException e) {e.printStackTrace();}}
          }
          int count_ = (int)Math.ceil(count/10.0);
          return count_;
      }
     
     public int check_countR(int member_idx) {
-    	 int count = 0;
-    	 DatabaseUtil d = new DatabaseUtil();
+        int count = 0;
+        DatabaseUtil d = new DatabaseUtil();
          Connection conn = d.getConn();
          PreparedStatement pstmt = null;
          ResultSet rs = null;
          try {
       
- 			
- 			 String sql =
- 					 "SELECT COUNT(*) FROM (SELECT pay.payment_idx, p.name, p.start_date, pay.status, pi.start_time " + 
- 					 "FROM payment pay, play p, playinfo pi, member m " + 
- 					 "WHERE m.member_idx = ? " + 
- 					 "AND pay.playinfo_idx = pi.playinfo_idx " + 
- 					 "AND p.play_idx = pi.play_idx " + 
- 					 "AND pay.member_idx = m.member_idx " + 
- 					 "AND pay.status = 'R' " +
- 					 "ORDER BY payment_idx DESC)";
- 			 
- 			 pstmt = conn.prepareStatement(sql);
- 			 pstmt.setInt(1, member_idx);
- 			
- 		     rs = pstmt.executeQuery();
- 		     if (rs.next()) {
- 		    	 count = rs.getInt(1);
- 		     }
- 		} catch (SQLException  e) {
- 			e.printStackTrace();
- 		} finally {
-         	if (rs != null) {try {rs.close();} catch (SQLException e) {e.printStackTrace();}}
-     		if (pstmt != null) {try {pstmt.close();} catch (SQLException e) {e.printStackTrace();}}
-     		if (conn != null) {try {conn.close();} catch (SQLException e) {e.printStackTrace();}}
+          
+           String sql =
+                 "SELECT COUNT(*) FROM (SELECT pay.payment_idx, p.name, p.start_date, pay.status, pi.start_time " + 
+                 "FROM payment pay, play p, playinfo pi, member m " + 
+                 "WHERE m.member_idx = ? " + 
+                 "AND pay.playinfo_idx = pi.playinfo_idx " + 
+                 "AND p.play_idx = pi.play_idx " + 
+                 "AND pay.member_idx = m.member_idx " + 
+                 "AND pay.status = 'R' " +
+                 "ORDER BY payment_idx DESC)";
+           
+           pstmt = conn.prepareStatement(sql);
+           pstmt.setInt(1, member_idx);
+          
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+               count = rs.getInt(1);
+            }
+       } catch (SQLException  e) {
+          e.printStackTrace();
+       } finally {
+            if (rs != null) {try {rs.close();} catch (SQLException e) {e.printStackTrace();}}
+           if (pstmt != null) {try {pstmt.close();} catch (SQLException e) {e.printStackTrace();}}
+           if (conn != null) {try {conn.close();} catch (SQLException e) {e.printStackTrace();}}
          }
          int count_ = (int)Math.ceil(count/10.0);
          return count_;
      }
     
     public int check_total_countY(int member_idx) {
-    	int count = 0;
-    	DatabaseUtil d = new DatabaseUtil();
+       int count = 0;
+       DatabaseUtil d = new DatabaseUtil();
         Connection conn = d.getConn();
          PreparedStatement pstmt = null;
          ResultSet rs = null;
          try {
-         	
- 			
- 			 String sql =
- 					 "SELECT COUNT(*) FROM (SELECT pay.payment_idx, p.name, p.start_date, pay.status, pi.start_time " + 
- 					 "FROM payment pay, play p, playinfo pi, member m " + 
- 					 "WHERE m.member_idx = ? " + 
- 					 "AND pay.playinfo_idx = pi.playinfo_idx " + 
- 					 "AND p.play_idx = pi.play_idx " + 
- 					 "AND pay.member_idx = m.member_idx " + 
- 					 "AND pay.status = 'Y' " +
- 					 "ORDER BY payment_idx DESC)";
- 			 
- 			 pstmt = conn.prepareStatement(sql);
- 			 pstmt.setInt(1, member_idx);
- 			
- 		     rs = pstmt.executeQuery();
- 		     if (rs.next()) {
- 		    	 count = rs.getInt(1);
- 		     }
- 		} catch (SQLException e) {
- 			e.printStackTrace();
- 		} finally {
-         	if (rs != null) {try {rs.close();} catch (SQLException e) {e.printStackTrace();}}
-     		if (pstmt != null) {try {pstmt.close();} catch (SQLException e) {e.printStackTrace();}}
-     		if (conn != null) {try {conn.close();} catch (SQLException e) {e.printStackTrace();}}
+            
+          
+           String sql =
+                 "SELECT COUNT(*) FROM (SELECT pay.payment_idx, p.name, p.start_date, pay.status, pi.start_time " + 
+                 "FROM payment pay, play p, playinfo pi, member m " + 
+                 "WHERE m.member_idx = ? " + 
+                 "AND pay.playinfo_idx = pi.playinfo_idx " + 
+                 "AND p.play_idx = pi.play_idx " + 
+                 "AND pay.member_idx = m.member_idx " + 
+                 "AND pay.status = 'Y' " +
+                 "ORDER BY payment_idx DESC)";
+           
+           pstmt = conn.prepareStatement(sql);
+           pstmt.setInt(1, member_idx);
+          
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+               count = rs.getInt(1);
+            }
+       } catch (SQLException e) {
+          e.printStackTrace();
+       } finally {
+            if (rs != null) {try {rs.close();} catch (SQLException e) {e.printStackTrace();}}
+           if (pstmt != null) {try {pstmt.close();} catch (SQLException e) {e.printStackTrace();}}
+           if (conn != null) {try {conn.close();} catch (SQLException e) {e.printStackTrace();}}
          }
          
          return count;

@@ -238,7 +238,7 @@
                                         <td class="fs12 number ng-binding"><%=dto.getStart_date()%></td>
                                         <td class="ng-binding"><%=countList.get(cnt) %>장</td>
                                         <td class="fs12 number color_point"><%=dto.getStart_date()%><br><%=dto.getStart_time()%></td>
-                                        <td>
+                                        <td>	
                                             <div class="reserve_condition1"><%=status%></div>
                                             <div class="reserve_condition2"><%=dto.getPay_date() %></div>
                                         </td>

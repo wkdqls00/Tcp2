@@ -33,17 +33,15 @@ public class ScriptManagementDao {
 
         // 스크립트 정보를 조회하는 SQL 쿼리
         String sql = 
-				"SELECT * FROM (SELECT ROWNUM rn, a.* FROM (SELECT star_rating, p.name, title, SUBSTR(content,1,20), TO_CHAR(s.reg_date, 'YYYY.MM.DD'), s.script_idx " + 
-				"FROM script s, member m, payment pm, playinfo pi, play p " + 
-				"WHERE m.member_idx = ? " + 
-				"AND s.member_idx = m.member_idx " + 
-				"AND s.payment_idx = pm.payment_idx " + 
-				"AND pm.playinfo_idx = pi.playinfo_idx " + 
-				"AND p.play_idx = pi.play_idx " + 
-				"AND del_ok = 'N' " + 
-				"AND genre_idx BETWEEN 1 AND 3 " + 
-				"ORDER BY reg_date DESC)a WHERE ROWNUM <= ?) " + 
-				"WHERE rn >= ?";
+				"SELECT * FROM (SELECT ROWNUM rn, a.* FROM (SELECT star_rating, p.name, title, SUBSTR(content,1,20), TO_CHAR(s.reg_date, 'YYYY.MM.DD'), s.script_idx "
+				+ "FROM script s, member m, play p "
+				+ "WHERE m.member_idx = ? "
+				+ "AND s.member_idx = m.member_idx "
+				+ "AND s.play_idx = p.play_idx "
+				+ "AND del_ok = 'N' "
+				+ "AND genre_idx BETWEEN 1 AND 3 "
+				+ "ORDER BY reg_date DESC)a WHERE ROWNUM <= ?) "
+				+ "WHERE rn >= ?";
 				
 		// PreparedStatement를 생성
         pstmt = conn.prepareStatement(sql);
@@ -90,17 +88,15 @@ public class ScriptManagementDao {
 
          // 스크립트 정보를 조회하는 SQL 쿼리
          String sql = 
- 				"SELECT * FROM (SELECT ROWNUM rn, a.* FROM (SELECT star_rating, p.name, title, SUBSTR(content,1,20), TO_CHAR(s.reg_date, 'YYYY.MM.DD'), s.script_idx " + 
- 				"FROM script s, member m, payment pm, playinfo pi, play p " + 
- 				"WHERE m.member_idx = ? " + 
- 				"AND s.member_idx = m.member_idx " + 
- 				"AND s.payment_idx = pm.payment_idx " + 
- 				"AND pm.playinfo_idx = pi.playinfo_idx " + 
- 				"AND p.play_idx = pi.play_idx " + 
- 				"AND genre_idx = 4 " + 
- 				"AND del_ok = 'N' " +
- 				"ORDER BY reg_date DESC)a WHERE ROWNUM <= ?) " + 
- 				"WHERE rn >= ?";
+        		 "SELECT * FROM (SELECT ROWNUM rn, a.* FROM (SELECT star_rating, p.name, title, SUBSTR(content,1,20), TO_CHAR(s.reg_date, 'YYYY.MM.DD'), s.script_idx "
+        					+ "FROM script s, member m, play p "
+        					+ "WHERE m.member_idx = ? "
+        					+ "AND s.member_idx = m.member_idx "
+        					+ "AND s.play_idx = p.play_idx "
+        					+ "AND del_ok = 'N' "
+        					+ "AND genre_idx = 4 "
+        					+ "ORDER BY reg_date DESC)a WHERE ROWNUM <= ?) "
+        					+ "WHERE rn >= ?";
  				
  		// PreparedStatement를 생성
          pstmt = conn.prepareStatement(sql);
@@ -146,15 +142,14 @@ public class ScriptManagementDao {
          try {
           
              String sql = 
-            		 "SELECT COUNT(*) " + 
-            		 "FROM script s, member m, payment pm, playinfo pi, play p " + 
-            		 "WHERE m.member_idx = ? " + 
-            		 "AND s.member_idx = m.member_idx " + 
-            		 "AND s.payment_idx = pm.payment_idx " + 
-            		 "AND pm.playinfo_idx = pi.playinfo_idx " + 
-            		 "AND p.play_idx = pi.play_idx " + 
-            		 "AND genre_idx BETWEEN 1 AND 3 " + 
-            		 "ORDER BY reg_date DESC";
+            		 "SELECT COUNT(*) "
+            		 + "FROM script s, member m, play p "
+            		 + "WHERE m.member_idx = ? "
+            		 + "AND s.member_idx = m.member_idx "
+            		 + "AND s.play_idx = p.play_idx "
+            		 + "AND del_ok = 'N' "
+            		 + "AND genre_idx BETWEEN 1 AND 3 "
+            		 + "ORDER BY reg_date DESC";
      				
      		// PreparedStatement를 생성
              pstmt = conn.prepareStatement(sql);
@@ -193,15 +188,14 @@ public class ScriptManagementDao {
         try {
      
             String sql = 
-           		 "SELECT COUNT(*) " + 
-           		 "FROM script s, member m, payment pm, playinfo pi, play p " + 
-           		 "WHERE m.member_idx = ? " + 
-           		 "AND s.member_idx = m.member_idx " + 
-           		 "AND s.payment_idx = pm.payment_idx " + 
-           		 "AND pm.playinfo_idx = pi.playinfo_idx " + 
-           		 "AND p.play_idx = pi.play_idx " + 
-           		 "AND genre_idx = 4 " + 
-           		 "ORDER BY reg_date DESC";
+            		 "SELECT COUNT(*) "
+                    		 + "FROM script s, member m, play p "
+                    		 + "WHERE m.member_idx = ? "
+                    		 + "AND s.member_idx = m.member_idx "
+                    		 + "AND s.play_idx = p.play_idx "
+                    		 + "AND del_ok = 'N' "
+                    		 + "AND genre_idx = 4 "
+                    		 + "ORDER BY reg_date DESC";
     				
     		// PreparedStatement를 생성
             pstmt = conn.prepareStatement(sql);
