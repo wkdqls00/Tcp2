@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 import dao.LoginDao;
 import dao.Ticket_checkDao;
 
-@WebServlet("/LoginSuccessToMain") // 나중에 toMain 으로 바꿀거임 
+@WebServlet("/LoginSuccessToMain") 
 public class LoginSuccessToMain extends HttpServlet { 
     private static final long serialVersionUID = 1L;
        
@@ -79,7 +79,8 @@ public class LoginSuccessToMain extends HttpServlet {
                 response.getWriter().println("<meta http-equiv='refresh' content='1;url=/Tcp2/ticketlink/main.jsp'>"); // 지금 일단 메인페이지 말고 마이페이지로 경로 해놓음
                 response.getWriter().println("<script type='text/javascript'>"); 
                 response.getWriter().println("alert('로그인 되었습니다.');");
-                response.getWriter().println("</script>");
+                response.getWriter().println("window.close();");
+                response.getWriter().println("</script>");                
                 response.getWriter().println("</head>");
                 response.getWriter().println("<body></body>");
                 response.getWriter().println("</html>");

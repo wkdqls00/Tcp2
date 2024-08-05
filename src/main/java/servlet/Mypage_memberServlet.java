@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -31,9 +32,30 @@ public class Mypage_memberServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
 		
-		HttpSession hs = request.getSession();
-		int idx = (int) hs.getAttribute("userIdx");
+		PrintWriter out = response.getWriter();
+		Integer idx = (Integer)request.getSession().getAttribute("userIdx");
+
+		System.out.println("userIdx : " + idx);
+		if(idx == null) {
+			out.println("<html>");
+			out.println("<head>");
+			out.println("<title></title>");
+			out.println("</head>");
+			out.println("<body>");
+			out.println("<script>");
+			out.println("alert('로그인이 필요합니다.');");
+			out.println("location.href='/Tcp2/ticketlink/Login/Login.jsp'");
+			out.println("</script>");
+			out.println("</body>");
+			out.println("</html>");
+			return;
+		}
+		
+//		HttpSession hs = request.getSession();
+//		int idx = (int) hs.getAttribute("userIdx");
 		
 		DatabaseUtil d = new DatabaseUtil();
 	    Connection conn = d.getConn();
