@@ -26,7 +26,10 @@ public class Ticket_checkServlet extends HttpServlet {
 		doPost(request, response);
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PrintWriter out = response.getWriter();
+		
+		request.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
+        PrintWriter out = response.getWriter();
 		Integer userIdx = (Integer)request.getSession().getAttribute("userIdx");
 
 		System.out.println("user : " + userIdx);
