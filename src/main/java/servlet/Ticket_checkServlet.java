@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -25,8 +26,24 @@ public class Ticket_checkServlet extends HttpServlet {
 		doPost(request, response);
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession hs = request.getSession();
-		int userIdx =(int)hs.getAttribute("userIdx");
+		PrintWriter out = response.getWriter();
+		Integer userIdx = (Integer)request.getSession().getAttribute("userIdx");
+
+		System.out.println("user : " + userIdx);
+		if(userIdx == null) {
+			out.println("<html>");
+			out.println("<head>");
+			out.println("<title></title>");
+			out.println("</head>");
+			out.println("<body>");
+			out.println("<script>");
+			out.println("alert('로그인이 필요합니다.');");
+			out.println("location.href='/Tcp2/ticketlink/Login/Login.jsp'");
+			out.println("</script>");
+			out.println("</body>");
+			out.println("</html>");
+			return;
+		}
 		int currP = 1;
 		String currP_ = request.getParameter("currP");
 		if (currP_ != null && !currP_.equals("")) {

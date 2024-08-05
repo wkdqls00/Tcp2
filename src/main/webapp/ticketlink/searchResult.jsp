@@ -59,10 +59,10 @@ ArrayList<SearchResultDTO> list = (ArrayList<SearchResultDTO>)request.getAttribu
       <div class="gnb_box">
           <div class="inner">
               <ul class="gnb_list">
-                  <li class="gnb_link"><a href="#">홈</a></li>
-                  <li class="gnb_link"><a href="#">공연</a></li>
-                  <li class="gnb_link"><a href="#">랭킹</a></li>
-                  <li class="gnb_link"><a href="../band/band_main.jsp">커뮤니티</a></li>
+                  <li class="gnb_link"><a href="/Tcp2/ticketlink/main.jsp">홈</a></li>
+                  <li class="gnb_link"><a href="/Tcp2/ticketlink/main.jsp">공연</a></li>
+                  <li class="gnb_link"><a href="/Tcp2/ticketlink/Ranking_MainP/weekly_ranking3.jsp">랭킹</a></li>
+                  <li class="gnb_link"><a href="/Tcp2/band/band_main.jsp">커뮤니티</a></li>
                   <li class="gnb_link" style="padding: 0; padding-top: 10px; padding-left: 10px; float: right;">
                         	<form action="/Tcp2/SearchResult">
 		                  	<input type="text" style="width: 200px; padding-inline: 8px;" placeholder="공연을 검색하세요." name="search" minlength="2">

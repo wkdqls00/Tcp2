@@ -36,10 +36,10 @@ public class Mypage_memberServlet extends HttpServlet {
         response.setContentType("text/html; charset=UTF-8");
 		
 		PrintWriter out = response.getWriter();
-		Integer idx = (Integer)request.getSession().getAttribute("userIdx");
+		Integer userIdx = (Integer)request.getSession().getAttribute("userIdx");
 
-		System.out.println("userIdx : " + idx);
-		if(idx == null) {
+		System.out.println("userIdx : " + userIdx);
+		if(userIdx == null) {
 			out.println("<html>");
 			out.println("<head>");
 			out.println("<title></title>");
@@ -72,7 +72,7 @@ public class Mypage_memberServlet extends HttpServlet {
 					+ "FROM member " + "WHERE member_idx = ?";
 			
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, idx);
+			pstmt.setInt(1, userIdx);
 			resultSet = pstmt.executeQuery();
 
 			// 출력?
