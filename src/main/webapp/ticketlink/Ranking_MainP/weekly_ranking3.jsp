@@ -245,21 +245,27 @@ $(document).ready(function() {
   <header>
     <div class="utill">
         <div class="inner">
-            <ul>
-                <li class="utill_link"><a href="/Tcp2/ticketlink/Login/Login.jsp">로그인</a></li>
-                <li class="utill_link"><a href="/Tcp2/ticketlink/Mypage/Ticket_check.jsp">예매확인/취소</a></li>
-                <li class="utill_link"><a href="/Tcp2/ticketlink/Login/AgreeToTerms.jsp">회원가입</a></li>
-                <li class="utill_link"><a href="/Tcp2/ticketlink/Customer_Service_Center/Cs_Center_main.jsp">고객센터</a></li>
-                <li class="utill_link"><a href="/Tcp2/ticketlink/Mypage/Mypage_member.jsp?">마이페이지</a></li>
-            </ul>
+          <ul>
+           <%if((Integer)request.getSession().getAttribute("userIdx") == null){ %>
+               <li class="utill_link"><a href="Login/Login.jsp">로그인</a></li>
+               <%} else { %>
+               <li class="utill_link"><a href="#" onclick="if(confirm('로그아웃 하시겠습니까?')) { window.location.href='/Tcp2/LogoutAction'; } return false;">로그아웃</a></li>
+               <%} %>
+               <li class="utill_link"><a href="/Tcp2/Ticket_checkServlet">예매확인/취소</a></li>
+               <%if((Integer)request.getSession().getAttribute("userIdx") == null){ %>
+               <li class="utill_link"><a href="/Tcp2/ticketlink/Login/AgreeToTerms.jsp">회원가입</a></li>
+               <%} %>
+               <li class="utill_link"><a href="/Tcp2/ticketlink/Customer_Service_Center/Cs_Center_main.jsp">고객센터</a></li>
+               <li class="utill_link"><a href="/Tcp2/Mypage_memberServlet">마이페이지</a></li>                   
+           </ul>
         </div> 
     </div>
     <div class="nav_box">
         <div class="inner">
-            <h1 class="logo"><a href="../html/main.html">로고</a></h1>
+            <h1 class="logo"><a href="/Tcp2/ticketlink/main.jsp">로고</a></h1>
             <ul class="nav">
-                <li><a href="#">공연/전시</a></li>
-                <li><a href="#">커뮤니티</a></li>
+              <li><a href="/Tcp2/ticketlink/main.jsp">공연</a></li>
+              <li><a href="/Tcp2/band/band_main.jsp">커뮤니티</a></li>
             </ul>
         </div>
     </div>
@@ -267,7 +273,7 @@ $(document).ready(function() {
         <div class="inner">
             <ul class="gnb_list">
                 <li class="gnb_link"><a href="/Tcp2/ticketlink/main.jsp">홈</a></li>
-                <li class="gnb_link"><a href="">공연</a></li>
+                <li class="gnb_link"><a href="/Tcp2/ticketlink/main.jsp">공연</a></li>
                 <li class="gnb_link"><a href="/Tcp2/ticketlink/Ranking_MainP/weekly_ranking2.jsp">랭킹</a></li>
                 <li class="gnb_link"><a href="/Tcp2/band/band_home.jsp">커뮤니티</a></li>
             </ul>
@@ -438,7 +444,7 @@ $(document).ready(function() {
           <div class="Dateformat">
           </div>
           <button type="button" class="period_calendar_btn" aria-expanded="false">
-            <span class="period_current" id="periodCurrent"><b>2024년 08월 03일</b></span>
+            <span class="period_current" id="periodCurrent"><b>2024년 08월 05일</b></span>
           </button>
         </div>
       </div>

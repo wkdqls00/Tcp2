@@ -158,7 +158,6 @@
 			type: 'get',
 			success: function(response){
 				alert("삭제되었습니다.");
-				alert(script_idx);
 				$("#" + script_idx).hide();
 			},
 			error: function(){
@@ -215,31 +214,36 @@
     <div class="utill">
         <div class="inner">
             <ul>
-                <li class="utill_link"><a href="#">로그인</a></li>
-                <li class="utill_link"><a href="#">예매확인/취소</a></li>
-                <li class="utill_link"><a href="#">회원가입</a></li>
-                <li class="utill_link"><a href="#">고객센터</a></li>
-                <li class="utill_link"><a href="#">마이페이지</a></li>
-            </ul>
+	       <%if((Integer)request.getSession().getAttribute("userIdx") == null){ %>
+	           <li class="utill_link"><a href="Login/Login.jsp">로그인</a></li>
+	           <%} else { %>
+	           <li class="utill_link"><a href="#" onclick="if(confirm('로그아웃 하시겠습니까?')) { window.location.href='/Tcp2/LogoutAction'; } return false;">로그아웃</a></li>
+	           <%} %>
+	           <li class="utill_link"><a href="/Tcp2/Ticket_checkServlet">예매확인/취소</a></li>
+	           <%if((Integer)request.getSession().getAttribute("userIdx") == null){ %>
+	           <li class="utill_link"><a href="/Tcp2/ticketlink/Login/AgreeToTerms.jsp">회원가입</a></li>
+	           <%} %>
+	           <li class="utill_link"><a href="/Tcp2/ticketlink/Customer_Service_Center/Cs_Center_main.jsp">고객센터</a></li>
+	           <li class="utill_link"><a href="/Tcp2/Mypage_memberServlet">마이페이지</a></li>                    
+         </ul>
         </div> 
     </div>
     <div class="nav_box">
         <div class="inner">
-            <h1 class="logo"><a href="../html/main.html">로고</a></h1>
+            <h1 class="logo"><a href="/Tcp2/ticketlink/main.jsp">로고</a></h1>
             <ul class="nav">
-                <li><a href="#">공연/전시</a></li>
-                <li><a href="#">커뮤니티</a></li>
+              <li><a href="/Tcp2/ticketlink/main.jsp">공연</a></li>
+              <li><a href="/Tcp2/band/band_main.jsp">커뮤니티</a></li>
             </ul>
         </div>
     </div>
     <div class="gnb_box">
         <div class="inner">
             <ul class="gnb_list">
-                <li class="gnb_link"><a href="#">홈</a></li>
-                <li class="gnb_link"><a href="#">공연</a></li>
-                <li class="gnb_link"><a href="#">전시</a></li>
-                <li class="gnb_link"><a href="#">랭킹</a></li>
-                <li class="gnb_link"><a href="#">커뮤니티</a></li>
+    		  <li class="gnb_link"><a href="/Tcp2/ticketlink/main.jsp">홈</a></li>
+              <li class="gnb_link"><a href="/Tcp2/ticketlink/main.jsp">공연</a></li>
+              <li class="gnb_link"><a href="/Tcp2/ticketlink/Ranking_MainP/weekly_ranking3.jsp">랭킹</a></li>
+              <li class="gnb_link"><a href="/Tcp2/band/band_main.jsp">커뮤니티</a></li>
             </ul>
         </div>
     </div>
@@ -515,15 +519,15 @@
               </tr>
               <tr>
                 <th scope="row">공연시간</th>
-                <td>110분</td>
+                <td><%=dipd.get(0).getTime()%></td>
                 <th scope="row">관람등급</th>
-                <td>13세 이상</td>
+                <td><%=dipd.get(0).getViewage()%></td>
               </tr>
               <tr>  
                 <th scope="row">주연</th>
-                <td>주민진, 진태화, 홍승안, 최연우, 김려원, 이정화, 김수연, 정민, 유승현, 김준영, 김찬종</td>
+                <td><%=dipd.get(0).getCast()%></td>
                 <th scope="row">공연장소</th>
-                <td>링크아트센터 페이코홀</td>
+                <td><%=dipd.get(0).getPlayhallName()%></td>
               </tr>
               <tr>
                 <th scope="row">예매수수료</th>

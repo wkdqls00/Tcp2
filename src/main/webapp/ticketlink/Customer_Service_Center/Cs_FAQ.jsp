@@ -45,15 +45,15 @@ ArrayList<FaqDTO> fqd = new Customer_ServiceDAO().faqdto();
       <div class="header_util_right">
         <ul class="header_util_list">
           <li class="header_util_item">
-            <a href="#" class="header_util_link">로그인</a>
+            <a href="/Tcp2/ticketlink/Login/Login.jsp" class="header_util_link">로그인</a>
           </li>
           <li class="header_util_item">
             <!-- ::before -->
-            <a href="#" class="header_util_link">예매확인/취소</a>
+            <a href="/Tcp2/ticketlink/Mypage/Ticket_check.jsp" class="header_util_link">예매확인/취소</a>
           </li>
           <li class="header_util_item">
             <!-- ::before -->
-            <a href="#" class="header_util_link">회원가입</a>
+            <a href="/Tcp2/ticketlink/Login/AgreeToTerms.jsp" class="header_util_link">회원가입</a>
             </li>
           <li class="header_util_item">
             <!-- ::before -->
@@ -74,7 +74,7 @@ ArrayList<FaqDTO> fqd = new Customer_ServiceDAO().faqdto();
         </a>
       </h1>
       <div class="header_nav">
-        <a class="header_nav_link" aria-current="true" href="/">공연/전시</a>
+        <a class="header_nav_link" aria-current="true" href="/">공연</a>
       </div>
     </div>
   <!-- 티겟 링크 상단 메뉴 -->
@@ -87,9 +87,6 @@ ArrayList<FaqDTO> fqd = new Customer_ServiceDAO().faqdto();
             </li>
             <li class="page_header3_item2">
               <a class="page_header3_link" aria-current="false" href="/performance/10" target="_self">공연</a>
-            </li>
-            <li class="page_header3_item3">
-              <a class="page_header3_link" aria-current="false" href="/exhibition/11" target="_self">전시</a>
             </li>
           </ul>
           <ul class="page_header3_list2">

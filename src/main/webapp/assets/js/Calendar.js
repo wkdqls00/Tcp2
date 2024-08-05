@@ -151,7 +151,6 @@ function calendarChoiceDay(column) {
 }
 	function getepisode(playinfo_idx) {
 		
-		alert(playinfo_idx);
 	  
 		const xhr = new XMLHttpRequest(); // XMLHttpRequest 객체 생성
 
