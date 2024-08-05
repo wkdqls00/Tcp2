@@ -284,7 +284,7 @@
               <div class="chat_setting_wrap">
                 <!-- <button class="chat_setting_btn">설정</button> -->
               </div>
-              <div class="body">
+              <div class="body" style="max-height: none;">
                 <div class="new_chatting_wrap">
                   <div class="buttonBox">
                     <button class="newChattingBtn">
@@ -294,7 +294,7 @@
                   </div>
                 </div>
                 <!-- 채팅 목록 -->
-                <div class="nano">
+                <div class="nano" style="max-height: none;">
                   <div class="nano_content">
                     <ul class="chat">
                     <% for (ChatListDTO cDto2 : chatListDto) { %>

@@ -290,9 +290,9 @@
             <section class="bandChannerView">
               <h2 class="tit">채팅</h2>
               <div class="chat_setting_wrap">
-                <button class="chat_setting_btn">설정</button>
+                <!-- <button class="chat_setting_btn">설정</button> -->
               </div>
-              <div class="body">
+              <div class="body" style="max-height: none;">
                 <div class="new_chatting_wrap">
                   <div class="buttonBox">
                     <button class="newChattingBtn">
@@ -302,19 +302,23 @@
                   </div>
                 </div>
                 <!-- 채팅 목록 -->
-                <div class="nano">
+                <div class="nano" style="max-height: none;">
                   <div class="nano_content">
                     <ul class="chat">
                     <% for (ChatListDTO cDto2 : chatListDto) { %>
                       <li>
-                        <button class="itemLink" onclick="window.open('chat.jsp', '', 'width=415, height=643')">
+                        <button class="itemLink" onclick="window.open('chat.jsp?chat_idx=' + <%= cDto2.getChat_idx()  %> + '&meet_idx=' + <%= meet_idx %>, '', 'width=415, height=643')">
                           <span class="thum">
                             <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240603162344/images/template/multi_profile_60x60.png"
                             height="30" width="30">
                           </span>
                           <span class="cont">
                             <strong class="text"><%= cDto2.getTitle() %></strong>
+                            <% if (cDto2.getContent() != null) { %>
                             <span class="sub"><%= cDto2.getContent() %></span>
+                            <% } else { %>
+                            <span class="sub">채팅을 시작해보세요.</span>
+                            <% } %>
                           </span>
                         </button>
                       </li>
