@@ -34,7 +34,7 @@ public class Modify_addressAction extends HttpServlet {
 	    String address = request.getParameter("input_newAddress");
 	    String detailed_address = request.getParameter("input_newAddressD");
 	    HttpSession hs = request.getSession();
-	    int idx = (int) hs.getAttribute("userIdx");
+	    int userIdx = (int) hs.getAttribute("userIdx");
 	 
    
         
@@ -45,7 +45,7 @@ public class Modify_addressAction extends HttpServlet {
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, address);
             pstmt.setString(2, detailed_address);
-            pstmt.setInt(3, idx);
+            pstmt.setInt(3, userIdx);
             System.out.println("쿼리실행");
             int updateCount = pstmt.executeUpdate();
             System.out.println("SQL 실행 성공, 업데이트된 행 수: " + updateCount);

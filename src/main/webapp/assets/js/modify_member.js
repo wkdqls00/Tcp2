@@ -50,19 +50,28 @@ emailDomainSelect.forEach(function(option) {
         }
     });
 });
+
+// 이메일 API
+let randomBno = 0;
+
 emailjs.init({publicKey: "SUelUcDuv9pUYkIhb",});
 document.getElementById("mf_email").addEventListener('click', function() {
+	 
+	 randomBno = Math.floor(100000 + Math.random() * 900000);
+	 document.getElementById("email_input_certyNum").style.display = "block";
+     document.getElementById("email_certy_check").style.display = "block";
+     
+     document.getElementById("mf_email").style.display = "none";
 	 let user_email = document.getElementById('user_email').value;
-	 let randomBno = Math.floor(100000 + Math.random() * 900000);
 	 
 	 var templateParams = {
-	  name: '티켓링크',
-	  notes: randomBno,
+	  from_name: '큐트종원이의 랜덤 번호~!',
+	  message: randomBno,
 	  to_email: user_email
 	};
-	
 	emailjs.send('service_bd2irwh', 'template_bpkenkj', templateParams).then(
 	  (response) => {
+		alert('인증번호가 등록하신 이메일로 전송되었습니다.');
 	    console.log('SUCCESS!', response.status, response.text);
 	  },
 	  (error) => {
@@ -70,6 +79,16 @@ document.getElementById("mf_email").addEventListener('click', function() {
 	  }
 	);
 })
+
+document.getElementById("email_certy_check").addEventListener('click', function() {
+	let certyNum = document.getElementById("email_input_certyNum").value;
+	if(certyNum == randomBno) {
+		alert("이메일이 변경되었습니다.");
+		document.getElementById('toModify_emailAction').submit();		
+	} else {
+		alert('인증번호가 다릅니다.');
+	}
+});
 
 // 휴대폰번호 수정 에러문, 인증번호 전송 활성화?
 function validatePhoneInput() {

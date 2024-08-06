@@ -106,6 +106,7 @@
                                 </div>
                             </dl>
                </form>
+               <form action="/Tcp2/Modify_emailAction" method="post" id="toModify_emailAction">
                             <dl>
                                 <dt>이메일</dt>
                                 <dd class="btn_pd">
@@ -117,7 +118,8 @@
                                   <div class="enter_box">
                                     <div class="email_box">
                                       <div class="style_input">
-                                        <input type="email" class="con_input" placeholder="변경 이메일" id="user_email">
+                                        <input type="email" class="con_input" placeholder="변경 이메일" id="user_email" name="user_email">
+                                        <input type="text" class="con_input" id="email_input_certyNum" style="display: none;">
                                         <span id="conClear" class="del_btn" style="display: none;"></span>
                                       </div>
                                       <div class="custom_select">
@@ -144,9 +146,11 @@
                                     </div>
                                     
                                     <p class="btn_area"><a href="#" class="btn_red" id="mf_email">인증번호 전송</a></p>
+                                    <p class="btn_area"><a href="#" class="btn_red" name="email_certy_check" id="email_certy_check" style="display: none;">인증</a></p>
                                   </div>
                                 </div>
                             </dl>
+                   </form>
                             <dl>
                                 <dt>생년월일</dt>
                                 <dd class="btn_pd"><span><%=birth%></span></dd>
