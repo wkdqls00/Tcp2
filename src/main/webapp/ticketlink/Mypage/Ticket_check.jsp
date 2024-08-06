@@ -8,7 +8,7 @@
 	ArrayList<Integer> countList = (ArrayList<Integer>)request.getAttribute("countList");
 	int count = (int)request.getAttribute("count");
 	HttpSession hs = request.getSession();
-	int totalT = (int)hs.getAttribute("totalT");
+	int totalT = (int)hs.getAttribute("totalT"); 
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,7 +21,52 @@
     <link rel="stylesheet" href="/Tcp2/assets/css/common.css">
     <link rel="stylesheet" type="text/css" href="/Tcp2/assets/css/reset.css">
     <title>예매확인</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+ 	<script>
+    	function next(page) {
+    		 $.ajax({
+                 type: "POST",
+                 url: "/Tcp2/TicketAjaxServlet?currP=" + page,
+                 contentType: 'application/json; charset=utf-8',
+                 dataType: 'json',
+                 success: function(res) {
+                 	console.log(res);
+                    let result = "";
+                 	for(let i = 0; i < res.length; i++){
+                 		let payment_idx = res[i].payment_idx;
+             		    let name = res[i].name;
+             		    let start_date = res[i].start_date;
+             		
+             		    let status = res[i].status;
+             		    let start_time = res[i].start_time;
+             		    let pay_date = res[i].pay_date;
+             		    let play_idx = res[i].play_idx;
+             		    let tCount = res[i].tCount;
+             		    let str =
+             		    	'<tr>' +
+             		    	'<td class="fs12 point_number"><a href="">'+play_idx+'</a></td>' +
+                            '<td class="tl ng-scope1"><a href="/Tcp2/ticketlink/Detailed_Infor(Integrated)/Prefor.detail(C).jsp?play_idx='+play_idx+'">'+name+'</a></td>' +
+                            '<td class="fs12 number ng-binding">'+start_date+'</td>' +
+                            '<td class="ng-binding">'+tCount+'장</td>' +
+                            '<td class="fs12 number color_point">'+start_date+'<br>'+start_time+'</td>' +
+                            '<td>' +
+                            	'<div class="reserve_condition1">' + (status == "Y" ? "결제완료" : "취소완료") + '</div>' +
+                                '<div class="reserve_condition2">'+pay_date+'</div>' +
+                            '</td>' +
+                            '</tr>';
+                            result+=str;
+                 	}
+                 	document.querySelector("#list").innerHTML = result;
+                 	document.querySelector("#pnum").innerHTML = page;
+                 },
+                 error: function(xhr, status, error) {
+                     alert("쿠키 삭제에 실패했습니다.");
+                 }
+    		 });
+    	}
+    	
+    </script>
     <style>
     </style>
 </head>
@@ -222,7 +267,7 @@
                                         <th scope="col">상태</th>
                                     </tr>
                                 </thead>
-                                <tbody> <!--예매내역-->
+                                <tbody id="list"> <!--예매내역-->
                                 	<%	
                                 		
                                 		int cnt = 0;
@@ -254,11 +299,11 @@
                             if (currP_ != null && !currP_.equals(""))
                             	currP = Integer.parseInt(currP_);
                             %>
-                            <a href="/Tcp2/Ticket_checkServlet?currP=1" class="first">맨앞</a>
-                            <a href="/Tcp2/Ticket_checkServlet?currP=<%=Math.max(currP -1, 1)%>" class="prev">이전</a>
-                            <strong><%=currP%></strong>
-                            <a href="/Tcp2/Ticket_checkServlet?currP=<%=Math.min(currP + 1, count)%>" class="next">다음</a>
-                            <a href="/Tcp2/Ticket_checkServlet?currP=<%=count%>" class="end">맨뒤</a>
+                            <a href="/Tcp2/Ticket_checkServlet?currP=1" class="first" onclick="next(1); return false;">맨앞</a>
+                            <a href="/Tcp2/Ticket_checkServlet?currP=<%=Math.max(currP -1, 1)%>" class="prev" onclick="next(<%=Math.max(currP - 1, 1)%>); return false;">이전</a>
+                            <strong id="pnum"><%=currP%></strong>
+                            <a href="/Tcp2/Ticket_checkServlet?currP=<%=Math.min(currP + 1, count)%>" class="next" onclick="next(<%=Math.min(currP + 1, count)%>); return false;">다음</a>
+                            <a href="/Tcp2/Ticket_checkServlet?currP=<%=count%>" class="end" onclick="next(<%=count%>); return false;">맨뒤</a>
                         </div>
                         <div class="note">
                             <h6>

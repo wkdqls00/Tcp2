@@ -36,7 +36,7 @@ public class Ticket_checkPeriodDao {
          
           String sql =
                    "SELECT * FROM (SELECT ROWNUM row_n, a.*  " + 
-                   "FROM(SELECT pay.payment_idx, p.name, p.start_date, pay.status, pi.start_time, TO_CHAR(pay.pay_date, 'YYYY.MM.DD'), p.paly_idx " + 
+                   "FROM(SELECT pay.payment_idx, p.name, p.start_date, pay.status, pi.start_time, TO_CHAR(pay.pay_date, 'YYYY.MM.DD'), p.play_idx " + 
                    "FROM payment pay, play p, playinfo pi, member m " + 
                    "WHERE m.member_idx = ? " + 
                    "AND pay.playinfo_idx = pi.playinfo_idx " + 

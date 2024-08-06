@@ -3,6 +3,7 @@ package servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,6 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import dao.TicketCountDao;
 import dao.Ticket_checkDao;
 import dto.Ticket_checkDto;
@@ -19,39 +23,24 @@ import dto.Ticket_checkDto;
 /**
  * Servlet implementation class Ticket_checkServlet
  */
-@WebServlet("/Ticket_checkServlet")
-public class Ticket_checkServlet extends HttpServlet {
+@WebServlet("/TicketAjaxServlet")
+public class TicketAjaxServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
         PrintWriter out = response.getWriter();
 		Integer userIdx = (Integer)request.getSession().getAttribute("userIdx");
 
-		if(userIdx == null) {
-			out.println("<html>");
-			out.println("<head>");
-			out.println("<title></title>");
-			out.println("</head>");
-			out.println("<body>");
-			out.println("<script>");
-			out.println("alert('로그인이 필요합니다.');");
-			out.println("location.href='/Tcp2/ticketlink/Login/Login.jsp'");
-			out.println("</script>");
-			out.println("</body>");
-			out.println("</html>");
-			return;
-		}
 		int currP = 1;
 		String currP_ = request.getParameter("currP");
 		if (currP_ != null && !currP_.equals("")) {
 			currP = Integer.parseInt(currP_);
 		}
-		
+		System.out.println(currP);
 		int max = currP * 10;
 		int min = 1 + (currP - 1)*10;
 		
@@ -60,18 +49,32 @@ public class Ticket_checkServlet extends HttpServlet {
 		int count = tcDao.check_countY(userIdx);
 		
 		TicketCountDao tCountDao = new TicketCountDao();
-		ArrayList<Integer> countList = new ArrayList<>();
-		for(Ticket_checkDto l : list) {
-			countList.add(tCountDao.ticketCount(l.getPayment_idx()));
-		}
 		
-		request.setAttribute("countList", countList);
-		request.setAttribute("list", list);
-		request.setAttribute("count", count);
-		RequestDispatcher rd = request.getRequestDispatcher("/ticketlink/Mypage/Ticket_check.jsp");
-		rd.forward(request, response);
-//		for (Ticket_checkDto l : list) {
-//			System.out.println(l);
+		JSONArray jArray = new JSONArray();
+		for(Ticket_checkDto dto : list) {
+			//countList.add(tCountDao.ticketCount(dto.getPayment_idx()));
+			JSONObject obj = new JSONObject();
+		    int payment_idx = dto.getPayment_idx();
+		    String name = dto.getName();
+		    String start_date = dto.getStart_date().toString();
+		    String status = dto.getStatus();
+		    String start_time = dto.getStart_time();
+		    String pay_date = dto.getPay_date();
+		    int play_idx = dto.getPlay_idx();
+		    int tCount = tCountDao.ticketCount(dto.getPayment_idx());
+		    obj.put("payment_idx", payment_idx);
+		    obj.put("name", name);
+		    obj.put("start_date", start_date);
+		    obj.put("status", status);
+		    obj.put("start_time", start_time);
+		    obj.put("pay_date", pay_date);
+		    obj.put("play_idx", play_idx);
+		    obj.put("tCount", tCount);
+		    
+		    jArray.add(obj);
+		}
+		out.print(jArray);
+
 //		}
 	}
 }

@@ -168,7 +168,7 @@
                                         </ul>
                                     </div>
                                     <div class="selectbox binding">
-                                        <a href="" class="select ng-binding">연도</a>
+                                        <a href="" class="select ng-binding" id="year">연도</a>
                                         <ul class="select_list ng-hiding" style="display: block;">
                                             <li class="ng-scope"><a href="">2024년</a></li>
                                             <li class="ng-scope"><a href="">2023년</a></li>
@@ -176,7 +176,7 @@
                                         </ul>
                                     </div>
                                     <div class="selectbox binding">
-                                        <a href="" class="select ng-binding">월</a>
+                                        <a href="" class="select ng-binding" id="month">월</a>
                                         <ul class="select_list ng-hiding" style="display: block;">
                                             <li class="ng-scope"><a href="">1월</a></li>
                                             <li class="ng-scope"><a href="">2월</a></li>
