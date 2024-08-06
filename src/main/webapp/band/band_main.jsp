@@ -96,7 +96,7 @@
         <!-- 동네 밴드 목록편집 버튼 -->
         <div id="content_tab_right">
           <div id="tab_place_band">
-            <a href="band_main_hometown.jsp?member_idx=<%=member_idx %>" class="btn_option">
+            <a href="/Tcp2/Controller?command=band_main_hometown" class="btn_option">
               <span class="local_icon"></span>
               <span class="option_text">동네 밴드</span>
             </a>

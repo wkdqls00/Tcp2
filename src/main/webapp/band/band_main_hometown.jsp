@@ -5,41 +5,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-// 	/* int m_idx = Integer.parseInt(request.getParameter("member_idx")); */
-	HttpSession hs = request.getSession();
-	int m_idx = (int)hs.getAttribute("userIdx");
-	int member_idx = (int)hs.getAttribute("userIdx");
-	
-	// 내 가입 밴드 출력
-	MeetIntroduceWriteDAO mbwDao = new MeetIntroduceWriteDAO();
-	
-	MybandDAO mbDao = new MybandDAO();
-
-	ArrayList<MybandDTO> mbListDao = new ArrayList<>();
-
-	try { 
-		mbListDao = mbDao.selectMybandDTO(m_idx);
-	} catch (Exception e) {
-		e.printStackTrace();
-	}
-	
-	SelectBandDAO selectDao = new SelectBandDAO();
-	
-	//소모임 지역 idx
-	SelectMeetAreaIdxDTO selectDto = selectDao.selectMeetAreaIdxDTO(member_idx);
-	int meet_area_idx = selectDto.getMeet_area_idx();
-	
-	//지역별 소모임 출력
-	ArrayList<SelectBandAreaDTO> areaListDao = new ArrayList<>();
-	try {
-		areaListDao = selectDao.selectBandAreaDTO(meet_area_idx);
-	} catch (Exception e) {
-		e.printStackTrace();
-	}
-	SelectBandAreaDTO areaDetailDto = selectDao.selectAreaDetailDTO(meet_area_idx);
 	
 	//멤버 수 출력
 	MeetIntroduceWriteDAO miDao = new MeetIntroduceWriteDAO();
+	
+	SelectBandAreaDTO areaDetailDto = (SelectBandAreaDTO)request.getAttribute("areaDetailDto"); 
+	ArrayList<SelectBandAreaDTO> areaListDao = (ArrayList<SelectBandAreaDTO>)request.getAttribute("areaListDao");
 	
 %>
 
@@ -48,10 +19,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="../assets/css/band_main.css">
-  <link rel="stylesheet" href="../assets/css/clear.css">
-  <link rel="stylesheet" href="../assets/css/band_header.css"> 
-  <link rel="stylesheet" href="../assets/css/band.css">
+  <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/band_main.css">
+  <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/clear.css">
+  <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/band_header.css"> 
+  <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/band.css">
   <title>BAND - 메인 페이지</title>
   <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 </head>
@@ -63,7 +34,7 @@
         <div class="logo_search_area">
           <!-- 로고 -->
           <h1 class = "logo_area">
-            <a href="#" class="logo">
+            <a href="/Tcp2/Controller?command=band_main" class="logo">
             </a>
           </h1>
         </div>
@@ -102,14 +73,14 @@
         <div id="content_tab_left">
           <div id="tab_myband">
             <div id="myband_btn">
-              <a href = "band_main.jsp?member_idx=<%=member_idx %>" class = "myband_text">
+              <a href = "/Tcp2/Controller?command=band_main" class = "myband_text">
               내 밴드  
               </a>
             </div>
           </div>
           <div id="tab_meet">
             <div id="meet_btn">
-              <a href="band_main.jsp?member_idx=<%=member_idx %>" class="meet_text">
+              <a href="/Tcp2/Controller?command=band_main#main2" class="meet_text">
                 소모임
               </a>
             </div>
@@ -171,9 +142,13 @@
                 </div>
               </div>
               <div id="band_meet_content_img">
-                <img src="../upload/<%=aDto.getUrl() %>" class="band_cover_img">
+              	<% if (aDto.getUrl() != null) { %>
+                	<img src="/Tcp2/upload/<%= aDto.getUrl() %>" class="band_cover_img">
+                <% } else { %>
+                	<img class="band_cover_img">
+                <% } %>
               </div>
-              <a type="button" href="band_home.jsp?meet_idx=<%=aDto.getMeet_idx() %>&member_idx=<%=member_idx %>" class="band_meet_content_link" style="width:500px; height:150px"></a>
+              <a type="button" href="band_home.jsp?meet_idx=<%=aDto.getMeet_idx() %>" class="band_meet_content_link" style="width:500px; height:150px"></a>
             </div>
             <div id="band_meet_info_wrap">
               <div id="meet_info_box">
