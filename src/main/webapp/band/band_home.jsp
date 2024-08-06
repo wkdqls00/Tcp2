@@ -1048,7 +1048,7 @@
         </section>
       </div>
     </div>
-    <!-- 팝업 : 글쓰기 -->
+   <!-- 팝업 : 글쓰기 -->
    <form action="${pageContext.request.contextPath}/PostWriteServlet" method="post" enctype="multipart/form-data">
     <div class="layerContainerView" tabindex="-1" id="postWriteEditor_popUp" style="display: none;">
       <div class="layerContainerInnerView">
@@ -1092,7 +1092,7 @@
         </div>
       </div>
     </div>
-   </form>
+    </form>
   <!-- 팝업 : 게시글 수정 -->
    <%for (MeetPostListPrintDTO mPDto : mPrintListDTO) { 
    		int post_idx = mPDto.getPost_idx();
@@ -1144,6 +1144,7 @@
      </div>
     </form>
 	<% } %>
+    
     <!-- 팝업 : 새 채팅 -->
     <div class="layerContainerView" id="newChatWrap_popUp" style="display: none;">
       <div class="layerContainerInnerView">

@@ -487,9 +487,9 @@
             <section class="bandChannerView">
               <h2 class="tit">채팅</h2>
               <div class="chat_setting_wrap">
-                <!-- <button class="chat_setting_btn">설정</button> -->
+                <button class="chat_setting_btn">설정</button>
               </div>
-              <div class="body" style="max-height: none;">
+              <div class="body">
                 <div class="new_chatting_wrap">
                   <div class="buttonBox">
                     <button class="newChattingBtn">
@@ -499,23 +499,19 @@
                   </div>
                 </div>
                 <!-- 채팅 목록 -->
-                <div class="nano" style="max-height: none;">
+                <div class="nano">
                   <div class="nano_content">
                     <ul class="chat">
                     <% for (ChatListDTO cDto2 : chatListDto) { %>
                       <li>
-                        <button class="itemLink" onclick="window.open('chat.jsp?chat_idx=' + <%= cDto2.getChat_idx()  %> + '&meet_idx=' + <%= meet_idx %>, '', 'width=415, height=643')">
+                        <button class="itemLink" onclick="window.open('chat.jsp', '', 'width=415, height=643')">
                           <span class="thum">
                             <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240603162344/images/template/multi_profile_60x60.png"
                             height="30" width="30">
                           </span>
                           <span class="cont">
                             <strong class="text"><%= cDto2.getTitle() %></strong>
-                            <% if (cDto2.getContent() != null) { %>
                             <span class="sub"><%= cDto2.getContent() %></span>
-                            <% } else { %>
-                            <span class="sub">채팅을 시작해보세요.</span>
-                            <% } %>
                           </span>
                         </button>
                       </li>
@@ -592,12 +588,10 @@
     </section>
    </div>
   <!-- 팝업 : 글쓰기 -->
-   <form action="${pageContext.request.contextPath}/PostWriteServlet" method="post" enctype="multipart/form-data">
     <div class="layerContainerView" tabindex="-1" id="postWriteEditor_popUp" style="display: none;">
       <div class="layerContainerInnerView">
         <div class="postEditorLayerView" style="position: relative;">
           <section class="lyWrap">
-           <input type="hidden" name="meet_idx" value="<%=meet_idx %>">
             <div class="lyPostShareWrite" style="margin-top: 77px;">
               <header class="header">
                 <h1 class="title">글쓰기</h1>
@@ -605,18 +599,15 @@
               <div class="main">
                 <div class="postWrite">
                   <div class="postWriteForm">
-                    <textarea class="contentEditor cke_editable" name="content"></textarea>
+                    <textarea class="contentEditor cke_editable"></textarea>
                   </div>
                   <div class="buttonArea">
-                    <ul class="toolbarList" style="justify-content: space-between;">
+                    <ul class="toolbarList">
                       <li class="toolbarListItem">
-                        <label class="photo" for="postInputFile">
-                          <input type="file" accept="image/*" id="postInputFile" onchange="uploadImg(this)" name="file_url">
+                        <label class="photo">
+                          <input type="file">
                           <span class="photoIcon"></span>
                         </label>
-                      </li>
-                      <li class="toolbarListItem" >
-                        <img class="postImg" style="width:70px; height: 70px; margin-bottom:10px;" src="https://i.ibb.co/N1V2tXT/image.png">
                       </li>
                     </ul>
                     <div class="writeSubmitBox">
@@ -628,14 +619,13 @@
                 </div>
               </div>
               <footer class="footer">
-                <button type="button" class="btnLyClose"></button>
+                <button class="btnLyClose"></button>
               </footer>
             </div>
           </section>
         </div>
       </div>
     </div>
-    </form>
     <!-- 팝업 : 새 채팅 -->
     <div class="layerContainerView" id="newChatWrap_popUp" style="display: none;">
       <div class="layerContainerInnerView">
@@ -678,7 +668,6 @@
        //글쓰기 버튼 팝업
       $("#postWriteBtn").click(function() {
          $("#postWriteEditor_popUp").css('display', 'block');
-         let a = $(".contentEditor.cke_editable").val();
        })
        
        // 채팅 팝업

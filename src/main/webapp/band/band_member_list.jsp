@@ -252,7 +252,12 @@
                   <li class="uFlexItem">
                     <a class="uProfile">
                       <span class="profileInner">
+                      <%if (dto.getProfile() == null)  {
+                      %>
+                      <img width="50" height="50">
+                      <% } else { %>
                         <img src="../upload/<%=dto.getProfile() %>" width="50" height="50">
+                        <% } %>
                       </span>
                     </a>
                     <div class="body">
