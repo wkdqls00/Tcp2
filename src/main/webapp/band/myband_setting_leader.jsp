@@ -37,50 +37,17 @@
 	} else {
 		meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
 	}
-
-	MeetMemberSettingPrintDAO mmspDAO = new MeetMemberSettingPrintDAO();
-	ArrayList<MeetMemberSettingPrintDTO> mmspListDAO = new ArrayList<>();
 	
-	try {
-		mmspListDAO = mmspDAO.selectMeetMemberSettingPrintDTO(meet_idx);
-	} catch (Exception e) {
-		e.printStackTrace();
-	}
-%>
-<%
-	MeetMemberProfilePrintDAO mmppDAO = new MeetMemberProfilePrintDAO();
-	MeetMemberProfilePrintDTO mmppDTO = mmppDAO.selectMeetMemberProfilePrintDTO(meet_idx, member_idx);
-%>
-<%
-	MeetSettingPrintDAO mspDAO = new MeetSettingPrintDAO();
-	MeetSettingPrintDTO mspDTO = mspDAO.selectMeetSettingPrintDTO(meet_idx);
+	MeetIntroduceWriteDTO miDto = (MeetIntroduceWriteDTO)request.getAttribute("miDto");
+	MeetMemberProfilePrintDTO mMemberProfilePrintDTO = (MeetMemberProfilePrintDTO)request.getAttribute("mMemberProfilePrintDTO");
 	
-	// 밴드 왼쪽 소개
-	MeetIntroduceWriteDAO miDao = new MeetIntroduceWriteDAO();
-	MeetIntroduceWriteDTO miDto = miDao.selectMeetIntroduceWriteDTO(meet_idx);
-	
-	//내 프로필 출력
-	MeetMemberProfilePrintDAO mMemberProfilePrintDAO = new MeetMemberProfilePrintDAO();
-	MeetMemberProfilePrintDTO mMemberProfilePrintDTO = mMemberProfilePrintDAO.selectMeetMemberProfilePrintDTO(meet_idx, member_idx);
-	
-	// 밴드 공개 여부
-	BandPublicOkDAO bDao = new BandPublicOkDAO();
-	BandPublicOkDTO bOkDTO = bDao.selectBandPublicOkDTO(meet_idx);
-	
-	// 밴드 글 목록 출력
 	MeetPostListPrintDAO mPrintDAO = new MeetPostListPrintDAO();
-	ArrayList<MeetPostListPrintDTO> mPrintListDTO = new ArrayList<>();
+	BandPublicOkDTO bOkDTO = (BandPublicOkDTO)request.getAttribute("bOkDTO");
+	JoinConditionPrintDTO jcpListDTO = (JoinConditionPrintDTO)request.getAttribute("jcpListDTO");
 	
-	mPrintListDTO = mPrintDAO.selectMeetPostListPrintDTO(meet_idx);
+	ArrayList<MeetMemberSettingPrintDTO> mmspListDTO = (ArrayList<MeetMemberSettingPrintDTO>)request.getAttribute("mmspListDTO");
 	
-	// 채팅 목록 출력
-	ChatListDAO cDao = new ChatListDAO();
-	ArrayList<ChatListDTO> chatListDto = new ArrayList<>();
-	
-	chatListDto = cDao.selectChatListDTO(meet_idx);
-	
-	JoinConditionPrintDAO jcpDAO = new JoinConditionPrintDAO();
-	JoinConditionPrintDTO jcpListDAO = jcpDAO.selectJoinConditionPrintDTO(meet_idx);
+	ArrayList<ChatListDTO> chatListDto = (ArrayList<ChatListDTO>)request.getAttribute("chatListDto");
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -318,15 +285,15 @@
           </div>
           <div class="profile_view">
           	<span class="profile_inner">
-            <% if (mmppDTO.getProfile() != null) { %>
-            <img id="profile_inner" src="../upload/<%=mmppDTO.getProfile()%>" width="60" height="60" >
+            <% if (mMemberProfilePrintDTO.getProfile() != null) { %>
+            <img id="profile_inner" src="../upload/<%=mMemberProfilePrintDTO.getProfile()%>" width="60" height="60" >
             <% } %>
             </span>
             <div class="set_body">
-            <%if(mmppDTO.getNickname() == null){ %>
-              <span class="name"><%=mmppDTO.getmNickname()%>님의 프로필</span>
+            <%if(mMemberProfilePrintDTO.getNickname() == null){ %>
+              <span class="name"><%=mMemberProfilePrintDTO.getmNickname()%>님의 프로필</span>
               <% }else {%>
-              <span class="name"><%=mmppDTO.getNickname()%>님의 프로필</span>
+              <span class="name"><%=mMemberProfilePrintDTO.getNickname()%>님의 프로필</span>
               <% } %>
               <span class="subtxt"></span>
             </div>
@@ -379,7 +346,7 @@
             <li class="setting_item">
               <div class="item_content">
                 <span class="label">가입 조건 설정</span>
-                <span class="subtxt">성별 <%= gender(jcpListDAO.getGender())%>, 나이 <% if(jcpListDAO.getAge() != 0){ %><%=jcpListDAO.getAge() %> 년생</span><%} %>
+                <span class="subtxt">성별 <%= gender(jcpListDTO.getGender())%>, 나이 <% if(jcpListDTO.getAge() != 0){ %><%=jcpListDTO.getAge() %> 년생</span><%} %>
               </div>
               <div class="item_side">
                <form action="band_joining_condition.jsp" method="post">
@@ -413,7 +380,7 @@
                 <span class="subtxt">멤버 가입시 리더의 승인이 필요합니다.</span>
               </div>
               <%
-              	for(MeetMemberSettingPrintDTO dto : mmspListDAO){
+              	for(MeetMemberSettingPrintDTO dto : mmspListDTO){
               %>
               <div class="item_side">
                 <label class="check_switch">
