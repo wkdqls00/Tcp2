@@ -34,7 +34,7 @@
         <div class="logo_search_area">
           <!-- 로고 -->
           <h1 class = "logo_area">
-            <a href="/Tcp2/Controller?command=band_main" class="logo">
+            <a href="<%=request.getContextPath()%>/Controller?command=band_main" class="logo">
             </a>
           </h1>
         </div>

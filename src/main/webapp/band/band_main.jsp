@@ -41,7 +41,7 @@
         <div class="logo_search_area">
           <!-- 로고 -->
           <h1 class = "logo_area">
-            <a href="/Tcp2/Controller?command=band_main" class="logo">
+            <a href="<%=request.getContextPath()%>/Controller?command=band_main" class="logo">
             </a>
           </h1>
         </div>
@@ -96,7 +96,7 @@
         <!-- 동네 밴드 목록편집 버튼 -->
         <div id="content_tab_right">
           <div id="tab_place_band">
-            <a href="/Tcp2/Controller?command=band_main_hometown" class="btn_option">
+            <a href="<%= request.getContextPath() %>/Controller?command=band_main_hometown" class="btn_option">
               <span class="local_icon"></span>
               <span class="option_text">동네 밴드</span>
             </a>
@@ -111,7 +111,7 @@
       <ul id="band_card_list">
         <li class="band_card_item">
           <div id="band_inner">
-            <a href="band_new_create.jsp?member_idx=<%= member_idx %>" class="band_create_link">
+            <a href="<%= request.getContextPath() %>/Controller?command=band_new_create" class="band_create_link">
               <div id="cover">
                 <img class="create_band_img">
               </div>
@@ -132,7 +132,7 @@
               <div class="uCoverImage -border">
                 <span class="coverInner">
                 <% if(mbDto.getUrl() != null) { %>
-                  <img class="coverImg" src="/Tcp2/upload/<%= mbDto.getUrl() %>">
+                  <img class="coverImg" src="<%=request.getContextPath()%>/upload/<%= mbDto.getUrl() %>">
                   <% } else { %>
                   <img class="coverImg">
                   <% } %>

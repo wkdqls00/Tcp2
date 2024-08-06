@@ -3,43 +3,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	int member_idx = Integer.parseInt(request.getParameter("member_idx"));
+	int member_idx = (Integer)request.getAttribute("member_idx");
 %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="../assets/css/clear.css">
-  <link rel="stylesheet" href="../assets/css/band_header.css">
-  <link rel="stylesheet" href="../assets/css/setting_leader_band_name.css">
-  <link rel="stylesheet" href="../assets/css/band.css">
+  <link rel="stylesheet" href="<%= request.getContextPath() %>/assets/css/clear.css">
+  <link rel="stylesheet" href="<%= request.getContextPath() %>/assets/css/band_header.css">
+  <link rel="stylesheet" href="<%= request.getContextPath() %>/assets/css/setting_leader_band_name.css">
+  <link rel="stylesheet" href="<%= request.getContextPath() %>/assets/css/band.css">
   <script src="https://code.jquery.com/jquery-latest.min.js"></script>
   <title>밴드 생성</title>
    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
    <script>
-//    		$(function() {
-//    			$("._btnConfirm").click(function() {
-//    				let name = $("#ex_name").val();
-//    				let url = $(".selectedCover").attr("src");
-<%--    				let member_idx = <%=member_idx%> --%>
-//    				let sub_q = $("#inputSubQ").val();
-   				
-   				
-//    				$.ajax({
-//    					url: '${pageContext.request.contextPath}/AjaxInsertMeet',
-//    					data: {name : name, url : url, member_idx : member_idx, sub_q : sub_q},
-//    					type: 'get',
-//    					success: function(response){
-//    						alert("소모임이 생성되었습니다.");
-<%--    						location.href="band_main.jsp?member_idx="+ <%=member_idx%>; --%>
-//    					},
-//    					error: function(){
-//    						console.log('ajax 통신 실패');	
-//    					}
-//    				});
-//    			})
-//    		})
    		function uploadImg(input) {
    			if(input.files && input.files[0]) {
    				let reader = new FileReader();
@@ -60,7 +38,7 @@
         <div class="logo_search_area">
           <!-- 로고 -->
           <h1 class = "logo_area">
-            <a href="band_main.jsp?member_idx=<%= member_idx %>" class="logo">
+            <a href="<%=request.getContextPath()%>/Controller?command=band_main" class="logo">
             </a>
           </h1>
         </div>
