@@ -5,35 +5,14 @@
     pageEncoding="UTF-8"%>
     
 <%
-	HttpSession hs = request.getSession();
-	int member_idx = (int)hs.getAttribute("userIdx");
-	int meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
-	
-	// 내 프로필 출력
-	MeetMemberProfilePrintDAO mMemberProfilePrintDAO = new MeetMemberProfilePrintDAO();
-	MeetMemberProfilePrintDTO mMemberProfilePrintDTO = mMemberProfilePrintDAO.selectMeetMemberProfilePrintDTO(meet_idx, member_idx);
-
-	// 밴드 소개
-	MeetIntroduceWriteDAO miDao = new MeetIntroduceWriteDAO();
-	MeetIntroduceWriteDTO miDto = miDao.selectMeetIntroduceWriteDTO(meet_idx);
-	
-	// 밴드 소개글
-	MeetInfoWriteDAO mDao = new MeetInfoWriteDAO();
-	MeetInfoWriteDTO mDto = mDao.selectMeetInfoWriteDTO(meet_idx);
-	
-	// 밴드 가입질문
-	MeetJoinQnAPrintDAO mAPrintDAO = new MeetJoinQnAPrintDAO();
-	MeetJoinQnAPrintDTO mAPrintDTO = mAPrintDAO.selectMeetJoinQnAPrintDTO(meet_idx);
-	
-	// 밴드 글 목록 출력
-	MeetPostListPrintDAO mPrintDAO = new MeetPostListPrintDAO();
-	ArrayList<MeetPostListPrintDTO> mPrintListDTO = new ArrayList<>();
-	
-	mPrintListDTO = mPrintDAO.selectMeetPostListPrintDTO(meet_idx);
+	// 밴드 가입 여부
+	NoJoinMeetDAO njDao = new NoJoinMeetDAO();
 	
 	// 댓글 목록 출력
 	CommentListViewDAO clViewDAO = new CommentListViewDAO();
-	ArrayList<CommentListViewDTO> clListDTO = new ArrayList<>();
+	
+	// 밴드 글 목록 출력
+	MeetPostListPrintDAO mPrintDAO = new MeetPostListPrintDAO();
 	
 	// 밴드 글 좋아요 갯수
 	LikeCountDAO lCountDAO = new LikeCountDAO();
@@ -41,34 +20,19 @@
 	// 댓글 작성 시간 출력 (~시간, ~분, ~일 전)
 	MeetCommentElapsedTimeDAO mCDao = new MeetCommentElapsedTimeDAO();
 	
-	// 밴드 가입 여부
-	NoJoinMeetDAO njDao = new NoJoinMeetDAO();
+	int member_idx = (Integer)request.getAttribute("member_idx");
+	int meet_idx = (Integer)request.getAttribute("meet_idx");
+	int meet_member_idx = (Integer)request.getAttribute("meet_member_idx");
 	
-	// 팝업 : 글 디테일 뷰
-	MeetWriteViewDAO mwDao = new MeetWriteViewDAO();
-	
-	// 채팅 목록 출력
-	ChatListDAO cDao = new ChatListDAO();
-	ArrayList<ChatListDTO> chatListDto = new ArrayList<>();
-	
-	chatListDto = cDao.selectChatListDTO(meet_idx);
-	
-	// 밴드 공개 여부
-	BandPublicOkDAO bDao = new BandPublicOkDAO();
-	BandPublicOkDTO bOkDTO = bDao.selectBandPublicOkDTO(meet_idx);
-	
-	//게시글 삭제 여부
-	UpdateDelOkDAO udoDAO = new UpdateDelOkDAO();
-	
-	//meet_member_idx 꺼내오기
-	int meet_member_idx = mPrintDAO.postMeetMemberIdx(member_idx);
-	
-	SelectBandDAO sDao = new SelectBandDAO();
-	SelectNicknameDTO sDto = sDao.selectNicknameDTO(member_idx);
-	//member_idx 로 닉네임 가져오기
-	String nickname = sDto.getNickname();
-	
-	
+	MeetIntroduceWriteDTO miDto = (MeetIntroduceWriteDTO)request.getAttribute("miDto");
+	String nickname = (String)request.getAttribute("nickname");
+	MeetMemberProfilePrintDTO mMemberProfilePrintDTO = (MeetMemberProfilePrintDTO)request.getAttribute("mMemberProfilePrintDTO");
+	BandPublicOkDTO bOkDTO = (BandPublicOkDTO)request.getAttribute("bOkDTO");
+	MeetInfoWriteDTO mDto = (MeetInfoWriteDTO)request.getAttribute("mDto");
+	ArrayList<MeetPostListPrintDTO> mPrintListDTO = (ArrayList<MeetPostListPrintDTO>)request.getAttribute("mPrintListDTO");
+	ArrayList<CommentListViewDTO> clListDTO = (ArrayList<CommentListViewDTO>)request.getAttribute("clListDTO");
+	ArrayList<ChatListDTO> chatListDto = (ArrayList<ChatListDTO>)request.getAttribute("chatListDto");
+	MeetJoinQnAPrintDTO mAPrintDTO = (MeetJoinQnAPrintDTO)request.getAttribute("mAPrintDTO");
 %>
 
 <!DOCTYPE html>
@@ -83,7 +47,7 @@
   <script src="https://code.jquery.com/jquery-latest.min.js"></script>
   <script>
   	$(function() {
-		$(".postEmpty").load("band_no_write_div.html");
+		$(".postEmpty").load("<%=request.getContextPath()%>/band/band_no_write_div.html");
 		
 		let meet_member_idx = <%= meet_member_idx %>;
 		let meet_idx = <%= meet_idx %>;
@@ -259,7 +223,7 @@
         <div class="logo_search_area">
           <!-- 로고 -->
           <h1 class = "logo_area">
-            <a href="band_main.jsp" class="logo">
+            <a href="<%=request.getContextPath()%>/Controller?command=band_main" class="logo">
             </a>
           </h1>
         </div>
@@ -278,7 +242,7 @@
                 <span class="uProfile">
                   <span class="profileInner">
                	   <% if (mMemberProfilePrintDTO.getProfile() != null) { %>
-               		<img src="../upload/<%= mMemberProfilePrintDTO.getProfile() %>"
+               		<img src="<%=request.getContextPath()%>/upload/<%= mMemberProfilePrintDTO.getProfile() %>"
                     width="30" height="30">
                     <% } else { %>
                    <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
@@ -359,7 +323,7 @@
                   <span class="cover_inner">
                   <img
                     <% if (miDto.getUrl() != null) {%>
-                    	src = "../upload/<%= miDto.getUrl() %>"
+                    	src = "<%=request.getContextPath()%>/upload/<%= miDto.getUrl() %>"
                    	<% } %>
                    	>
                   </span>
@@ -531,7 +495,7 @@
 				       <!-- 프로필 사진 있는지 확인 -->
 				         <span class="profileInner">
 			         		<% if (mPDto.getProfile() != null) { %>
-				         	<img src="../upload/<%= mPDto.getProfile() %>"
+				         	<img src="<%=request.getContextPath()%>/upload/<%= mPDto.getProfile() %>"
 				                   width="34" height="34">
 		                   <% } %>
 				         </span>
@@ -559,7 +523,7 @@
 				           <ul class="photoCollage">
 				             <li class="collageItem">
 				               <button class="collageImg">
-				                 <img src="../upload/<%= mPDto.getFile_url() %>">
+				                 <img src="<%=request.getContextPath()%>/upload/<%= mPDto.getFile_url() %>">
 				               </button>
 				             </li>
 				           </ul>
@@ -665,7 +629,7 @@
 				               <% } %>
 				                 <span class="profileInner">
 				                 <% if (clDto.getProfile() != null) { %>
-				                   <img src="../upload/<%= clDto.getProfile() %>"
+				                   <img src="<%=request.getContextPath()%>/upload/<%= clDto.getProfile() %>"
 				                   width="34" height="34">
 				                   <% } %>
 				                 </span>
@@ -721,7 +685,7 @@
                                     <span class="profileInner">
                                       <img
                                       <% if(mMemberProfilePrintDTO.getProfile() != null) { %>
-                                      	src="../upload/<%= mMemberProfilePrintDTO.getProfile() %>"
+                                      	src="<%=request.getContextPath()%>/upload/<%= mMemberProfilePrintDTO.getProfile() %>"
                                       	<% } %>
                                       width="21" height="21">
                                     </span>
@@ -771,7 +735,7 @@
                                 <% } %>
 			                      <span class="profileInner">
 			                      <% if (mPDto.getProfile() != null) { %>
-			                        <img src="../upload/<%= mPDto.getProfile() %>" width="40" height="40">
+			                        <img src="<%=request.getContextPath()%>/upload/<%= mPDto.getProfile() %>" width="40" height="40">
 		                          <% } %>
 			                      </span>
 			                    </a>
@@ -805,7 +769,7 @@
 			                        <ul class="uCollage">
 			                          <li class="collageItem">
 			                            <a href="#" class="collageImg">
-			                              <img src="../upload/<%= mPDto.getFile_url() %>">
+			                              <img src="<%=request.getContextPath()%>/upload/<%= mPDto.getFile_url() %>">
 			                            </a>
 			                          </li>
 			                        </ul>
@@ -850,7 +814,7 @@
 			                                  <span class="profileInner">
 			                                    <img 
 			                                    <% if (clDto.getProfile() != null) { %>
-			                                    	src="../upload/<%= clDto.getProfile() %>"
+			                                    	src="<%=request.getContextPath()%>/upload/<%= clDto.getProfile() %>"
 			                                    <% } %>
 			                                    width="34" height="34">
 			                                  </span>
@@ -919,7 +883,7 @@
 			                                      <% 
 			                                      try {
 			                                    	  if (mMemberProfilePrintDTO.getProfile() != null) { %>
-			                                      src = "../upload/<%= mMemberProfilePrintDTO.getProfile() %>"
+			                                      src = "<%=request.getContextPath()%>/upload/<%= mMemberProfilePrintDTO.getProfile() %>"
 			                                      <% }
 		                                    	  } catch(Exception e) {
 		                                    		  e.printStackTrace();
@@ -1123,7 +1087,7 @@
                         </label>
                       </li>
                       <li class="toolbarListItem" >
-                        <img class="postImg" style="width:70px; height: 70px; margin-bottom:10px;" src="../upload/<%=mplDto.getFile_url()%>">
+                        <img class="postImg" style="width:70px; height: 70px; margin-bottom:10px;" src="<%=request.getContextPath()%>/upload/<%=mplDto.getFile_url()%>">
                       </li>
                     </ul>
                     <div class="writeSubmitBox">

@@ -75,11 +75,10 @@
       <main id="aside_content">
         <section class="band_make">
           <h2 class="band_name_cover">밴드 이름 및 커버</h2>
-          <form action="${pageContext.request.contextPath}/CreateNewBandServlet" method="post" enctype="multipart/form-data">
-          <input type="hidden" name="member_idx" value="<%=member_idx%>">
+          <form action="Controller" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="command" value="band_new_create_form">
             <fieldset>
-              <legend class="band_name_cover">밴드 이름 및 커버
-              </legend>
+              <legend class="band_name_cover">밴드 이름 및 커버</legend>
               <div class="make_cover">
                 <label class="make_title" for="ex_name">밴드 이름</label>
                 <div class="input_band">

@@ -127,7 +127,7 @@
        	%>
         <li class="band_card_item">
           <div id="band_inner">
-            <a href="<%=request.getContextPath()%>/band/band_home.jsp?member_idx=<%=member_idx%>&meet_idx=<%=mbDto.getMeet_idx()%>" class="band_cover_link">
+            <a href="<%=request.getContextPath()%>/Controller?command=band_home&meet_idx=<%=mbDto.getMeet_idx()%>" class="band_cover_link">
             <div id="cover_band">
               <div class="uCoverImage -border">
                 <span class="coverInner">
@@ -199,7 +199,7 @@
                 <img class="band_cover_img">
                 <% } %>
               </div>
-              <a type="button" href="band_home.jsp?meet_idx=<%=sDto.getMeet_idx() %>&member_idx=<%=member_idx %>" class="band_meet_content_link" style="width:500px; height:150px"></a>
+              <a type="button" href="<%=request.getContextPath()%>/Controller?command=band_home&meet_idx=<%=sDto.getMeet_idx() %>" class="band_meet_content_link" style="width:500px; height:150px"></a>
             </div>
             <div id="band_meet_info_wrap">
               <div id="meet_info_box">
