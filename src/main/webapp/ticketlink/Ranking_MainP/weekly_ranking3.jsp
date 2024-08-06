@@ -11,22 +11,22 @@
     pageEncoding="UTF-8"%>
 
 <%
-	int genre_idx = 1;
-	// int play_idx = Integer.parseInt(request.getParameter("play_idx"));
-	// int genre_idx = Integer.parseInt(request.getParameter("genre_idx"));
-	ArrayList<Genre_RankDTO> list =  new Genre_RankDAO().selectGenre_RankDTO(genre_idx);
-	 
-	SimpleDateFormat inputFormat = new SimpleDateFormat("yyyyMMdd");
-	SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy년 M월 d일 (E)");
+   int genre_idx = 1;
+   // int play_idx = Integer.parseInt(request.getParameter("play_idx"));
+   // int genre_idx = Integer.parseInt(request.getParameter("genre_idx"));
+   ArrayList<Genre_RankDTO> list =  new Genre_RankDAO().selectGenre_RankDTO(genre_idx);
+    
+   SimpleDateFormat inputFormat = new SimpleDateFormat("yyyyMMdd");
+   SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy년 M월 d일 (E)");
 
-	 String[] selectDate = list.get(0).getRegDate().split("");
+    String[] selectDate = list.get(0).getRegDate().split("");
 
-	Date d = inputFormat.parse(String.join("", selectDate));
-	String formattedDate = outputFormat.format(d);
+   Date d = inputFormat.parse(String.join("", selectDate));
+   String formattedDate = outputFormat.format(d);
 
-	int rowNum = 5;
-	ArrayList<Week_RankDTO> wrd = new Genre_RankDAO().weekRankDto(rowNum);
-	ArrayList<Week_RDTO> wr = new Genre_RankDAO().weekRDto(rowNum);
+   int rowNum = 5;
+   ArrayList<Week_RankDTO> wrd = new Genre_RankDAO().weekRankDto(rowNum);
+   ArrayList<Week_RDTO> wr = new Genre_RankDAO().weekRDto(rowNum);
 %>
 <!-- Area_Rank dao/ dto  -->
 <!-- Genre_Rank dao/ dto -->
@@ -49,7 +49,7 @@
   <script src="https://unpkg.com/gijgo@1.9.14/js/gijgo.min.js" type="text/javascript"></script>
   
   <script>
-	
+   
 </script>
 
 <script>
@@ -57,7 +57,7 @@ $(document).ready(function() {
 
     // 버튼 클릭 시 AJAX 요청
     $('.common_tab_btn2').on('click', function() {
-    	const genre_idx = $(this).data('genre');
+       const genre_idx = $(this).data('genre');
 
         console.log(genre_idx); 
         $.ajax({
@@ -67,76 +67,76 @@ $(document).ready(function() {
             dataType: 'json',
             data: { genre_idx: genre_idx },
             success: function(response) {
-            	for(let i = 1;i<4;i++){
-            		const element = document.getElementById('b'+i);
-            		if(genre_idx == i)
-            			element.setAttribute('aria-selected', 'true');
-            		else
-            			element.setAttribute('aria-selected', 'false');
-            		}
+               for(let i = 1;i<4;i++){
+                  const element = document.getElementById('b'+i);
+                  if(genre_idx == i)
+                     element.setAttribute('aria-selected', 'true');
+                  else
+                     element.setAttribute('aria-selected', 'false');
+                  }
 
                 // 응답 데이터 파싱
                 console.log(response);
                 console.log(Array.isArray(response));
                 let result = '';
-				for(let i = 0; i < response.length; i++){
-					 let regDate = response[i].regDate;
-					 let playName = response[i].playName;
-					 let playStartDate = response[i].playStartDate;
-					 let playEndDate = response[i].playEndDate;
-					 let playBookRate = response[i].playBookRate;
-					 let poster_URL = response[i].poster_URL;
-					 let playHallName = response[i].playHallName;
-					 let play_idx = response[i].play_idx;
+            for(let i = 0; i < response.length; i++){
+                let regDate = response[i].regDate;
+                let playName = response[i].playName;
+                let playStartDate = response[i].playStartDate;
+                let playEndDate = response[i].playEndDate;
+                let playBookRate = response[i].playBookRate;
+                let poster_URL = response[i].poster_URL;
+                let playHallName = response[i].playHallName;
+                let play_idx = response[i].play_idx;
                 let str = 
-            		'<tr id="content">' +
-	                '<td>' +
-	                  '<div class="ranking_product_rank">' +
-	                    '<span class="rank_number">' +
-	                      (i+1) +
-	                    '<span class="blind">위</span>' +
-	                    '</span>' +
-	                    '<span class="rank_status">' +
-	                      '<span class="rank_static">' +
-	                        '<span class="rank_step"></span>' +
-	                        '<span class="blind">변동없음</span>' +
-	                      '</span>' +
-	                    '</span>' +
-	                  '</div>' +
-	                '</td>' +
-	                '<td>' +
-	                  '<div class="ranking_product_info">' +
-	                    '<a class="ranking_product_link">' +
-	                      '<span class="ranking_product_imgbox">' +
-	                        '<img src="'+poster_URL+'" class="ranking_product_img">' +
-	                      '</span>' +
-	                      '<span class="ranking_product_title">'+playName+'</span>' +
-	                    '</a>' +
-	                  '</div>' +
-	                '</td>' +
-	                '<td>' +
-	                  '<div class="ranking_product_sideinfo">' +
-	                    '<span class="ranking_product_period">'+playStartDate+' - '+playEndDate+'</span>' +
-	                    '<span class="ranking_product_place">'+playHallName+'</span>' +
-	                  '</div>' +
-	                '</td>' +
-	                '<td>' +
-	                  '<div class="ranking_product_rate">' +
-	                    '<span class="rate_percent">' +
-	                    playBookRate + '%' +
-	                    '</span>' +
-	                  '</div>' +
-	                '</td>' +
-	                '<td>' +
-	                  '<div class="ranking_product_reserve">' +
-	                    '<a class="common_btn btn_primary btn_medium" aria-disabled="false" href="http://localhost:9090/Tcp2/ticketlink/Detailed_Infor(Integrated)/Prefor.detail(C).jsp?play_idx='+play_idx+'">예매하기</a>' +
-	                 '</div>' +
-	               ' </td>' +
-	              '</tr>';
-				result += str;
-				}
-				
-				document.querySelector("#asd").innerHTML = result;
+                  '<tr id="content">' +
+                   '<td>' +
+                     '<div class="ranking_product_rank">' +
+                       '<span class="rank_number">' +
+                         (i+1) +
+                       '<span class="blind">위</span>' +
+                       '</span>' +
+                       '<span class="rank_status">' +
+                         '<span class="rank_static">' +
+                           '<span class="rank_step"></span>' +
+                           '<span class="blind">변동없음</span>' +
+                         '</span>' +
+                       '</span>' +
+                     '</div>' +
+                   '</td>' +
+                   '<td>' +
+                     '<div class="ranking_product_info">' +
+                       '<a class="ranking_product_link">' +
+                         '<span class="ranking_product_imgbox">' +
+                           '<img src="'+poster_URL+'" class="ranking_product_img">' +
+                         '</span>' +
+                         '<span class="ranking_product_title">'+playName+'</span>' +
+                       '</a>' +
+                     '</div>' +
+                   '</td>' +
+                   '<td>' +
+                     '<div class="ranking_product_sideinfo">' +
+                       '<span class="ranking_product_period">'+playStartDate+' - '+playEndDate+'</span>' +
+                       '<span class="ranking_product_place">'+playHallName+'</span>' +
+                     '</div>' +
+                   '</td>' +
+                   '<td>' +
+                     '<div class="ranking_product_rate">' +
+                       '<span class="rate_percent">' +
+                       playBookRate + '%' +
+                       '</span>' +
+                     '</div>' +
+                   '</td>' +
+                   '<td>' +
+                     '<div class="ranking_product_reserve">' +
+                       '<a class="common_btn btn_primary btn_medium" aria-disabled="false" href="http://localhost:9090/Tcp2/ticketlink/Detailed_Infor(Integrated)/Prefor.detail(C).jsp?play_idx='+play_idx+'">예매하기</a>' +
+                    '</div>' +
+                  ' </td>' +
+                 '</tr>';
+            result += str;
+            }
+            
+            document.querySelector("#asd").innerHTML = result;
             },
             error: function() {
                 alert("오류가 발생했습니다.");
@@ -165,7 +165,7 @@ $(document).ready(function() {
    border: none;
 }
 .gj-icon {
- 	margin-top: 8px !important;
+    margin-top: 8px !important;
 }
 .monthly-calendar {
     margin-top: 20px;
@@ -274,8 +274,14 @@ $(document).ready(function() {
             <ul class="gnb_list">
                 <li class="gnb_link"><a href="/Tcp2/ticketlink/main.jsp">홈</a></li>
                 <li class="gnb_link"><a href="/Tcp2/ticketlink/main.jsp">공연</a></li>
-                <li class="gnb_link"><a href="/Tcp2/ticketlink/Ranking_MainP/weekly_ranking2.jsp">랭킹</a></li>
+                <li class="gnb_link"><a href="/Tcp2/ticketlink/Ranking_MainP/weekly_ranking3.jsp">랭킹</a></li>
                 <li class="gnb_link"><a href="/Tcp2/band/band_home.jsp">커뮤니티</a></li>
+            <li class="gnb_link" style="padding: 0; padding-top: 10px; padding-left: 10px; float: right;">
+                    <form action="/Tcp2/SearchResult">
+                      <input type="text" style="width: 200px; padding-inline: 8px;" placeholder="공연을 검색하세요." name="search" minlength="2">
+                      <button type="submit" class="searchSubmitBtn">검색</button>
+                    </form>
+               </li>            
             </ul>
         </div>
     </div>
@@ -501,7 +507,7 @@ $(document).ready(function() {
         </thead>
         <tbody id="asd">
 <%
-	for (int i=0; i < list.size(); i++) {
+   for (int i=0; i < list.size(); i++) {
 %>          
           <tr id="content">
             <td>
