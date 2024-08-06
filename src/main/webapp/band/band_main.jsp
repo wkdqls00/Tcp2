@@ -26,8 +26,11 @@
 	}
 	
 	int member_idx = (int)hs.getAttribute("userIdx");
+	ArrayList<MybandDTO> mbListDao = (ArrayList<MybandDTO>)request.getAttribute("mbListDao");
+	ArrayList<SelectAllBandDTO> bandListDao = (ArrayList<SelectAllBandDTO>)request.getAttribute("bandListDao");
+	ArrayList<SelectBandAreaDTO> areaListDao = (ArrayList<SelectBandAreaDTO>)request.getAttribute("areaListDao");
 	
-	// 내 가입 밴드 출력
+	/* // 내 가입 밴드 출력
 	MeetIntroduceWriteDAO mbwDao = new MeetIntroduceWriteDAO();
 	
 	MybandDAO mbDao = new MybandDAO();
@@ -63,7 +66,7 @@
 	bandListDao = selectDao.selectAllBandDTO();
 	
 	// 밴드 가입 여부
-	NoJoinMeetDAO njDao = new NoJoinMeetDAO();
+	NoJoinMeetDAO njDao = new NoJoinMeetDAO(); */
 %>
 
 <!DOCTYPE html>
@@ -183,7 +186,7 @@
               <div class="uCoverImage -border">
                 <span class="coverInner">
                 <% if(mbDto.getUrl() != null) { %>
-                  <img class="coverImg" src="../upload/<%= mbDto.getUrl() %>">
+                  <img class="coverImg" src="/Tcp2/upload/<%= mbDto.getUrl() %>">
                   <% } else { %>
                   <img class="coverImg">
                   <% } %>
@@ -245,7 +248,7 @@
               </div>
               <div id="band_meet_content_img">
               <% if (sDto.getUrl() != null) { %>
-                <img src="../upload/<%=sDto.getUrl() %>" class="band_cover_img">
+                <img src="/Tcp2/upload/<%=sDto.getUrl() %>" class="band_cover_img">
                 <% } else { %>
                 <img class="band_cover_img">
                 <% } %>

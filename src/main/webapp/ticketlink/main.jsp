@@ -81,7 +81,7 @@
                     <h1 class="logo"><a href="/Tcp2/ticketlink/main.jsp">로고</a></h1>
                     <ul class="nav">
                         <li><a href="/Tcp2/ticketlink/main.jsp">공연</a></li>
-                        <li><a href="/Tcp2/band/band_main.jsp">커뮤니티</a></li>
+                        <li><a href="/Tcp2/Controller?command=band_main">커뮤니티</a></li>
                     </ul>
                 </div>
             </div>
