@@ -1,6 +1,7 @@
 package action;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -16,8 +17,25 @@ public class BandMainAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
 		HttpSession hs = request.getSession();
 		Integer userIdx = (Integer)request.getSession().getAttribute("userIdx");
+		PrintWriter out = response.getWriter();
+		
+		if(userIdx == null) {
+			out.println("<html>");
+			out.println("<head>");
+			out.println("<title></title>");
+			out.println("</head>");
+			out.println("<body>");
+			out.println("<script>");
+			out.println("alert('로그인이 필요합니다.');");
+			out.println("location.href='/Tcp2/ticketlink/Login/Login.jsp'");
+			out.println("</script>");
+			out.println("</body>");
+			out.println("</html>");
+			return;
+		}
 		
 		// 내 가입 밴드 출력
 		MeetIntroduceWriteDAO mbwDao = new MeetIntroduceWriteDAO();
@@ -72,9 +90,11 @@ public class BandMainAction implements Action {
 		NoJoinMeetDAO njDao = new NoJoinMeetDAO();
 		
 		System.out.println("user : " + userIdx);
+		
 		request.setAttribute("member_idx", userIdx);
 		request.setAttribute("bandListDao", bandListDao);
 		request.setAttribute("mbListDao", mbListDao);
+		request.setAttribute("miDao", miDao);
 		
 		request.getRequestDispatcher("band/band_main.jsp").forward(request, response);
 	}

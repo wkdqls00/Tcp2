@@ -5,68 +5,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	HttpSession hs = request.getSession();
 	
-	Integer userIdx = (Integer)request.getSession().getAttribute("userIdx");
-	
-	System.out.println("user : " + userIdx);
-	if(userIdx == null) {
-		out.println("<html>");
-		out.println("<head>");
-		out.println("<title></title>");
-		out.println("</head>");
-		out.println("<body>");
-		out.println("<script>");
-		out.println("alert('로그인이 필요합니다.');");
-		out.println("location.href='/Tcp2/ticketlink/Login/Login.jsp'");
-		out.println("</script>");
-		out.println("</body>");
-		out.println("</html>");
-		return;
-	}
-	
-	int member_idx = (int)hs.getAttribute("userIdx");
+	int member_idx = (Integer)request.getAttribute("member_idx");
 	ArrayList<MybandDTO> mbListDao = (ArrayList<MybandDTO>)request.getAttribute("mbListDao");
 	ArrayList<SelectAllBandDTO> bandListDao = (ArrayList<SelectAllBandDTO>)request.getAttribute("bandListDao");
 	ArrayList<SelectBandAreaDTO> areaListDao = (ArrayList<SelectBandAreaDTO>)request.getAttribute("areaListDao");
 	
-	/* // 내 가입 밴드 출력
-	MeetIntroduceWriteDAO mbwDao = new MeetIntroduceWriteDAO();
-	
-	MybandDAO mbDao = new MybandDAO();
-
-	ArrayList<MybandDTO> mbListDao = new ArrayList<>();
-
-	try { 
-		mbListDao = mbDao.selectMybandDTO(member_idx);
-	} catch (Exception e) {
-		e.printStackTrace();
-	}
-	
-	SelectBandDAO selectDao = new SelectBandDAO();
-	
-	//소모임 지역 idx
-	SelectMeetAreaIdxDTO selectDto = selectDao.selectMeetAreaIdxDTO(member_idx);
-	int meet_area_idx = selectDto.getMeet_area_idx();
-	
-	//지역별 소모임 출력
-	ArrayList<SelectBandAreaDTO> areaListDao = new ArrayList<>();
-	try {
-		areaListDao = selectDao.selectBandAreaDTO(meet_area_idx);
-	} catch (Exception e) {
-		e.printStackTrace();
-	}
-	SelectBandAreaDTO areaDetailDto = selectDao.selectAreaDetailDTO(meet_area_idx);
-	
 	//멤버 수 출력
 	MeetIntroduceWriteDAO miDao = new MeetIntroduceWriteDAO();
 	
-	//모든 밴드 출력
-	ArrayList<SelectAllBandDTO> bandListDao = new ArrayList<>();
-	bandListDao = selectDao.selectAllBandDTO();
-	
-	// 밴드 가입 여부
-	NoJoinMeetDAO njDao = new NoJoinMeetDAO(); */
 %>
 
 <!DOCTYPE html>
@@ -94,7 +41,7 @@
         <div class="logo_search_area">
           <!-- 로고 -->
           <h1 class = "logo_area">
-            <a href="#" class="logo">
+            <a href="/Tcp2/Controller?command=band_main" class="logo">
             </a>
           </h1>
         </div>
@@ -116,7 +63,6 @@
                   <li class="menuMadalItem">
                   <form action="../LogoutAction">
                   	<button class="menuModalLink">로그아웃</button>
-                    <!-- <a href="#" class="menuModalLink">로그아웃</a> -->
                    </form>
                   </li>
                 </ul>

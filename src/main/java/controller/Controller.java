@@ -16,7 +16,8 @@ public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; utf-8");
 		String command = request.getParameter("command");
 		System.out.println("컨트롤러 command : " + command);
 		
