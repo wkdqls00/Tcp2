@@ -111,7 +111,7 @@
       <ul id="band_card_list">
         <li class="band_card_item">
           <div id="band_inner">
-            <a href="<%= request.getContextPath() %>/band/band_new_create.jsp" class="band_create_link">
+            <a href="<%= request.getContextPath() %>/Controller?command=band_new_create" class="band_create_link">
               <div id="cover">
                 <img class="create_band_img">
               </div>

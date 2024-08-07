@@ -216,7 +216,7 @@
       let g_profile = "";
 
       if (nickMessage[2] != null) {
-          g_profile = "<img src='/Tcp2/upload/" + nickMessage[2] + "'>";
+          g_profile = "<img src='Tcp2/upload/" + nickMessage[2] + "'>";
       } else {
           g_profile = "<img>";
       }

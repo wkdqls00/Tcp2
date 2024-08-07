@@ -27,6 +27,9 @@ public class Controller extends HttpServlet {
 			case "band_main": action = new BandMainAction(); break;
 			case "band_main_hometown": action = new BandMainHometown(); break;
 			
+			// 새 밴드 생성
+			case "band_new_create": action = new BandNewCreateAction(); break;
+			
 			// 밴드 홈페이지
 			case "band_home": action = new BandHomeAction(); break;
 			
