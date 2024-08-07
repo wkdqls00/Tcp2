@@ -51,6 +51,8 @@ public class Controller extends HttpServlet {
 			case "band_joining_condition" : action = new BandJoinConditionAction(); break;
 			//밴드 삭제
 			case "band_delete" : action = new BandDeleteAction(); break;
+			//밴드 탈퇴
+			case "band_leave" : action = new BandLeaveAction(); break;
 		}
 		
 		action.execute(request, response);

@@ -371,7 +371,7 @@
             <!-- 밴드 설정 : 가입헀을 시 출력 -->
             <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
             <div class="bandSetting">
-            	<form action="myband_setting_leader.jsp" method="post">
+            	<form action="Controller?command=band_setting" method="post">
 	            	<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
 	            	<input type="hidden" value="<%=member_idx %>" name="member_idx">
 	              	<button type="submit" class="bandSetting_Link">
