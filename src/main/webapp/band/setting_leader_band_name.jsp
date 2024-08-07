@@ -3,28 +3,29 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	int meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
-	int member_idx = Integer.parseInt(request.getParameter("member_idx"));
+	HttpSession hs = request.getSession();
+	int member_idx = (int)hs.getAttribute("userIdx");
 	
-	MeetSettingPrintDAO mspDAO = new MeetSettingPrintDAO();
-	MeetSettingPrintDTO mspDTO = mspDAO.selectMeetSettingPrintDTO(meet_idx);
-	
-	// 내 프로필 출력
-	MeetMemberProfilePrintDAO mMemberProfilePrintDAO = new MeetMemberProfilePrintDAO();
-	MeetMemberProfilePrintDTO mMemberProfilePrintDTO = mMemberProfilePrintDAO.selectMeetMemberProfilePrintDTO(meet_idx, member_idx);
-	
+	int meet_idx = 0;
+	if(request.getParameter("meet_idx")==null) {
+		meet_idx = (Integer)request.getAttribute("meet_idx");
+	} else {
+		meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
+	}
 	// 밴드 가입 여부
 	NoJoinMeetDAO njDao = new NoJoinMeetDAO();
+	MeetMemberProfilePrintDTO mMemberProfilePrintDTO = (MeetMemberProfilePrintDTO)request.getAttribute("mMemberProfilePrintDTO");
+	MeetSettingPrintDTO mspDTO = (MeetSettingPrintDTO)request.getAttribute("mspDTO");
 %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="../assets/css/clear.css">
-  <link rel="stylesheet" href="../assets/css/band_header.css">
-  <link rel="stylesheet" href="../assets/css/setting_leader_band_name.css">
-  <link rel="stylesheet" href="../assets/css/band.css">
+  <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/clear.css">
+  <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/band_header.css">
+  <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/setting_leader_band_name.css">
+  <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/band.css">
   <title>밴드 이름 설정</title>
   <script src="https://code.jquery.com/jquery-latest.min.js"></script>
   <script>
@@ -65,7 +66,7 @@
         <div class="logo_search_area">
           <!-- 로고 -->
           <h1 class = "logo_area">
-            <a href="band_main.jsp?member_idx=<%=member_idx %>" class="logo">
+            <a href="Controller?command=band_main&member_idx=<%=member_idx %>" class="logo">
             </a>
           </h1>
         </div>
@@ -92,7 +93,7 @@
                 <ul class="menuModalList">
                 <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
                   <li class="menuMadalItem">
-                    <a href="band_profile.jsp?meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="menuModalLink">프로필 설정</a>
+                    <a href="Controller?command=band_profile&meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="menuModalLink">프로필 설정</a>
                   </li>
                 <% } %>
                   <li class="menuMadalItem">
@@ -152,7 +153,7 @@
                     </li>
                     <li class="cover_set">
                       <button type="button" data-cover="#" class="default_cover">
-                        <img class="cover_img" src="	https://coresos-phinf.pstatic.net/a/34g0c2/9_ba1Ud018adm15mc94lwd582j_5ksoqj.png?type=cover_a264" width="120" height="90" alt="고양이 이미지">
+                        <img class="cover_img" src="https://coresos-phinf.pstatic.net/a/34g0c2/9_ba1Ud018adm15mc94lwd582j_5ksoqj.png?type=cover_a264" width="120" height="90" alt="고양이 이미지">
                         <span class="mask"></span>
                       </button>
                     </li>
@@ -266,7 +267,8 @@
 <!--                 </ul> -->
 <!--               </div> -->
               <div class="btn_footer">
-              	<button type="button" class="_btnCancel" onClick="history.back()">취소</button>
+              	<button type="button" class="_btnCancel" onClick="location.href='Controller?command=band_setting'">삭제하기</button>
+              	</body>">취소</button>
                 <button type="submit" class="_btnConfirm">완료</button>
               </div>
             </fieldset>

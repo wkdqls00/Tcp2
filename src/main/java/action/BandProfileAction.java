@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 import dao.*;
 import dto.*;
 
-public class BandSettingAction implements Action {
+public class BandProfileAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -26,30 +26,12 @@ public class BandSettingAction implements Action {
 			meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
 		}
 		
-		//meet_idx 별 세팅값 출력
-		MeetMemberSettingPrintDAO mmspDao = new MeetMemberSettingPrintDAO();
-		ArrayList<MeetMemberSettingPrintDTO> mmspListDTO = new ArrayList<>();
-		try {
-			mmspListDTO = mmspDao.selectMeetMemberSettingPrintDTO(meet_idx);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		//meet_idx에 따라 밴드 이름, 프로필 사진 출력
-		MeetSettingPrintDAO mspDAO = new MeetSettingPrintDAO();
-		MeetSettingPrintDTO mspDTO = null;
-		try {
-			mspDTO = mspDAO.selectMeetSettingPrintDTO(meet_idx);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
 		//밴드 왼쪽 소개
 		MeetIntroduceWriteDAO miDao = new MeetIntroduceWriteDAO();
-		MeetIntroduceWriteDTO miDto =  null;
+		MeetIntroduceWriteDTO miDto = null;
 		try {
 			miDto = miDao.selectMeetIntroduceWriteDTO(meet_idx);
-		} catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
@@ -58,9 +40,20 @@ public class BandSettingAction implements Action {
 		MeetMemberProfilePrintDTO mMemberProfilePrintDTO = null;
 		try {
 			mMemberProfilePrintDTO = mMemberProfilePrintDAO.selectMeetMemberProfilePrintDTO(meet_idx, userIdx);
-		} catch (SQLException e) { 
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		// 채팅 목록 출력
+		ChatListDAO cDao = new ChatListDAO();
+		ArrayList<ChatListDTO> chatListDto = new ArrayList<>();
+		
+		try {
+			chatListDto = cDao.selectChatListDTO(meet_idx);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 		// 밴드 공개 여부
 		BandPublicOkDAO bDao = new BandPublicOkDAO();
 		BandPublicOkDTO bOkDTO = null;
@@ -80,35 +73,13 @@ public class BandSettingAction implements Action {
 			e.printStackTrace();
 		}
 		
-		// 채팅 목록 출력
-		ChatListDAO cDao = new ChatListDAO();
-		ArrayList<ChatListDTO> chatListDto = new ArrayList<>();
-
-		try {
-			chatListDto = cDao.selectChatListDTO(meet_idx);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		JoinConditionPrintDAO jcpDAO = new JoinConditionPrintDAO();
-		JoinConditionPrintDTO jcpListDTO = null;
-		try {
-			jcpListDTO = jcpDAO.selectJoinConditionPrintDTO(meet_idx);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		request.setAttribute("member_idx", userIdx);
-		request.setAttribute("meet_idx", meet_idx);
-		request.setAttribute("mmspListDTO", mmspListDTO);
 		request.setAttribute("miDto", miDto);
 		request.setAttribute("mMemberProfilePrintDTO", mMemberProfilePrintDTO);
+		request.setAttribute("chatListDto", chatListDto);
 		request.setAttribute("bOkDTO", bOkDTO);
 		request.setAttribute("mPrintListDTO", mPrintListDTO);
-		request.setAttribute("jcpListDTO", jcpListDTO);
-		request.setAttribute("chatListDto", chatListDto);
 		
-		request.getRequestDispatcher("band/myband_setting_leader.jsp");
+		request.getRequestDispatcher("band//band_profile.jsp");
 	}
 
 }

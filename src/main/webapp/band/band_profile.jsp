@@ -6,33 +6,12 @@
 <%
 	int meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
 	int member_idx = Integer.parseInt(request.getParameter("member_idx"));
-	MeetMemberProfilePrintDAO mmppDAO = new MeetMemberProfilePrintDAO();
-	MeetMemberProfilePrintDTO mmppDTO = mmppDAO.selectMeetMemberProfilePrintDTO(meet_idx, member_idx);
 	
-	//밴드 왼쪽 소개
-	MeetIntroduceWriteDAO miDao = new MeetIntroduceWriteDAO();
-	MeetIntroduceWriteDTO miDto = miDao.selectMeetIntroduceWriteDTO(meet_idx);
-	
-	//내 프로필 출력
-	MeetMemberProfilePrintDAO mMemberProfilePrintDAO = new MeetMemberProfilePrintDAO();
-	MeetMemberProfilePrintDTO mMemberProfilePrintDTO = mMemberProfilePrintDAO.selectMeetMemberProfilePrintDTO(meet_idx, member_idx);
-	
-	// 채팅 목록 출력
-	ChatListDAO cDao = new ChatListDAO();
-	ArrayList<ChatListDTO> chatListDto = new ArrayList<>();
-	
-	chatListDto = cDao.selectChatListDTO(meet_idx);
-	
-	// 밴드 공개 여부
-	BandPublicOkDAO bDao = new BandPublicOkDAO();
-	BandPublicOkDTO bOkDTO = bDao.selectBandPublicOkDTO(meet_idx);
-	
-	// 밴드 글 목록 출력
+	MeetMemberProfilePrintDTO mMemberProfilePrintDTO = (MeetMemberProfilePrintDTO)request.getAttribute("mMemberProfilePrintDTO");
+	MeetIntroduceWriteDTO miDto = (MeetIntroduceWriteDTO)request.getAttribute("miDto");
 	MeetPostListPrintDAO mPrintDAO = new MeetPostListPrintDAO();
-	ArrayList<MeetPostListPrintDTO> mPrintListDTO = new ArrayList<>();
-	
-	mPrintListDTO = mPrintDAO.selectMeetPostListPrintDTO(meet_idx);
-		
+	BandPublicOkDTO bOkDTO = (BandPublicOkDTO)request.getAttribute("bOkDTO");
+	ArrayList<ChatListDTO> chatListDto = (ArrayList<ChatListDTO>)request.getAttribute("chatListDto");
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -211,8 +190,8 @@
           <div class="profileSettingCardBox">
             <div class="profileSettingCard">
               <div class="imgBox _defaultProfileImgBox"></div>
-              <div class="imgBox _existProfileImgBox" <%=(mmppDTO.getProfile()==null ? "style='display:none;'" : "") %>>
-              	<img class="profileImage" alt="프로필 사진" src="../upload/<%=mmppDTO.getProfile()%>">
+              <div class="imgBox _existProfileImgBox" <%=(mMemberProfilePrintDTO.getProfile()==null ? "style='display:none;'" : "") %>>
+              	<img class="profileImage" alt="프로필 사진" src="../upload/<%=mMemberProfilePrintDTO.getProfile()%>">
               </div>
               <span class="addPhoto _btnProfile">
                 <label for="addPhoto" class="_labelProfile">프로필 사진 추가</label>
@@ -231,8 +210,8 @@
               </div>
               <div class="textareaBox">
                 <div class="introductionBox" style="min-height: auto; height: 40px;">
-                <%if (mmppDTO.getNickname() != null) {%>
-                  <input type="text" id="selfIntroduction" name="nickname" maxlength="50" placeholder="닉네임입력" class="_descriptionInput" value="<%=mmppDTO.getNickname()%>">
+                <%if (mMemberProfilePrintDTO.getNickname() != null) {%>
+                  <input type="text" id="selfIntroduction" name="nickname" maxlength="50" placeholder="닉네임입력" class="_descriptionInput" value="<%=mMemberProfilePrintDTO.getNickname()%>">
                   <% } else {%>
                   <input type="text" id="selfIntroduction" name="nickname" maxlength="50" placeholder="닉네임입력" class="_descriptionInput">
                   <% } %>

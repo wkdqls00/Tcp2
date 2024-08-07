@@ -5,48 +5,26 @@
     pageEncoding="UTF-8"%>
 
 <%
-	int meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
-	int member_idx = Integer.parseInt(request.getParameter("member_idx"));
-	//멤버 목록
-	MeetMemberListPrintDAO mmlpDAO = new MeetMemberListPrintDAO();
-	ArrayList<MeetMemberListPrintDTO> mmlpDTO = new ArrayList<>();
+	HttpSession hs = request.getSession();
+	int member_idx = (int)hs.getAttribute("userIdx");
 	
-	try {
-		mmlpDTO = mmlpDAO.selectMeetMemberListPrintDTO(meet_idx);
-	} catch (Exception e) {
-		e.printStackTrace();
+	int meet_idx = 0;
+	if(request.getParameter("meet_idx")==null) {
+		meet_idx = (Integer)request.getAttribute("meet_idx");
+	} else {
+		meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
 	}
-	
 	//리더 출력
 	MeetPostListPrintDAO mPrintDAO = new MeetPostListPrintDAO();
-	
-	// 밴드 왼쪽 소개
-	MeetIntroduceWriteDAO miDao = new MeetIntroduceWriteDAO();
-	MeetIntroduceWriteDTO miDto = miDao.selectMeetIntroduceWriteDTO(meet_idx);
-	
-	//내 프로필 출력
-	MeetMemberProfilePrintDAO mMemberProfilePrintDAO = new MeetMemberProfilePrintDAO();
-	MeetMemberProfilePrintDTO mMemberProfilePrintDTO = mMemberProfilePrintDAO.selectMeetMemberProfilePrintDTO(meet_idx, member_idx);
-
-	// 채팅 목록 출력
-	ChatListDAO cDao = new ChatListDAO();
-	ArrayList<ChatListDTO> chatListDto = new ArrayList<>();
-	
-	chatListDto = cDao.selectChatListDTO(meet_idx);
-	
 	// 밴드 가입 여부
 	NoJoinMeetDAO njDao = new NoJoinMeetDAO();
-	
-	// 밴드 공개 여부
-	BandPublicOkDAO bDao = new BandPublicOkDAO();
-	BandPublicOkDTO bOkDTO = bDao.selectBandPublicOkDTO(meet_idx);
-	// 가입 신청자 출력
-	MeetMemberListPrintDAO joinWaitDAO = new MeetMemberListPrintDAO();
-	ArrayList<MeetMemberListPrintDTO> jwListDto = new ArrayList<>();
-	
-	MeetJoinQuestionWriteDAO mjqwDAO = new MeetJoinQuestionWriteDAO();
-	MeetJoinQuestionWriteDTO mjqwDTO = mjqwDAO.SelectMeetMemberWaitCount(meet_idx);
-%>
+	MeetMemberProfilePrintDTO mMemberProfilePrintDTO = (MeetMemberProfilePrintDTO)request.getAttribute("mMemberProfilePrintDTO");
+	MeetIntroduceWriteDTO miDto = (MeetIntroduceWriteDTO)request.getAttribute("miDto");
+	BandPublicOkDTO bOkDTO = (BandPublicOkDTO)request.getAttribute("bOkDTO");
+	ArrayList<MeetMemberListPrintDTO> mmlpDTO = (ArrayList<MeetMemberListPrintDTO>)request.getAttribute("mmlpDTO");
+	MeetJoinQuestionWriteDTO mjqwDTO = (MeetJoinQuestionWriteDTO)request.getAttribute("mjqwDTO");
+	ArrayList<ChatListDTO> chatListDto = (ArrayList<ChatListDTO>)request.getAttribute("chatListDto");
+	%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -335,7 +313,7 @@
       <div class="layerContainerInnerView">
         <div class="postEditorLayerView" style="position: relative;">
           <section class="lyWrap">
-           <input type="hidden" name="meet_idx" value="<%=meet_idx %>">
+           <input type="hidden" name="meet_idx" value="<%= meet_idx %>">
             <div class="lyPostShareWrite" style="margin-top: 77px;">
               <header class="header">
                 <h1 class="title">글쓰기</h1>

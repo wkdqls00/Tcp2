@@ -22,34 +22,21 @@
 %>
 <%
 	// 밴드 왼쪽 소개
-	int meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
-	MeetIntroduceWriteDAO miDao = new MeetIntroduceWriteDAO();
-	MeetIntroduceWriteDTO miDto = miDao.selectMeetIntroduceWriteDTO(meet_idx);
+	HttpSession hs = request.getSession();
+	int member_idx = (int)hs.getAttribute("userIdx");
 	
-	// 밴드공개 여부
-	BandPublicOkDAO bpoDAO = new BandPublicOkDAO();
-	BandPublicOkDTO bpoDTO = bpoDAO.selectBandPublicOkDTO(meet_idx);
-	int member_idx = Integer.parseInt(request.getParameter("member_idx"));
-	
-	// 내 프로필 출력
-	MeetMemberProfilePrintDAO mMemberProfilePrintDAO = new MeetMemberProfilePrintDAO();
-	MeetMemberProfilePrintDTO mMemberProfilePrintDTO = mMemberProfilePrintDAO.selectMeetMemberProfilePrintDTO(meet_idx, member_idx);
-
-	// 채팅 목록 출력
-	ChatListDAO cDao = new ChatListDAO();
-	ArrayList<ChatListDTO> chatListDto = new ArrayList<>();
-	
-	chatListDto = cDao.selectChatListDTO(meet_idx);
-	
-	// 밴드 공개 여부
-	BandPublicOkDAO bDao = new BandPublicOkDAO();
-	BandPublicOkDTO bOkDTO = bDao.selectBandPublicOkDTO(meet_idx);
-	
-	// 밴드 글 목록 출력
+	int meet_idx = 0;
+	if(request.getParameter("meet_idx")==null) {
+		meet_idx = (Integer)request.getAttribute("meet_idx");
+	} else {
+		meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
+	}
+	MeetIntroduceWriteDTO miDto = (MeetIntroduceWriteDTO)request.getAttribute("miDto");
+	BandPublicOkDTO bpoDTO = (BandPublicOkDTO)request.getAttribute("bpoDTO");
+	MeetMemberProfilePrintDTO mMemberProfilePrintDTO = (MeetMemberProfilePrintDTO)request.getAttribute("mMemberProfilePrintDTO");
+	ArrayList<ChatListDTO> chatListDto = (ArrayList<ChatListDTO>)request.getAttribute("chatListDto");
 	MeetPostListPrintDAO mPrintDAO = new MeetPostListPrintDAO();
-	ArrayList<MeetPostListPrintDTO> mPrintListDTO = new ArrayList<>();
-	
-	mPrintListDTO = mPrintDAO.selectMeetPostListPrintDTO(meet_idx);
+	ArrayList<MeetPostListPrintDTO> mPrintListDTO = (ArrayList<MeetPostListPrintDTO>)request.getAttribute("mPrintListDTO");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -104,7 +91,7 @@
         <div class="logo_search_area">
           <!-- 로고 -->
           <h1 class = "logo_area">
-            <a href="band_main.jsp?meet_idx=<%= meet_idx %>&member_idx=<%= member_idx %>" class="logo">
+            <a href="Controller?command=band_main&meet_idx=<%= meet_idx %>&member_idx=<%= member_idx %>" class="logo">
             </a>
           </h1>
         </div>
@@ -135,7 +122,7 @@
               <div class="menuModalLayer profileDropDown" id="off" style="display: none">
                 <ul class="menuModalList">
                   <li class="menuMadalItem">
-                    <a href="band_profile.jsp?meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="menuModalLink">프로필 설정</a>
+                    <a href="Controller?command=band_porfile&meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="menuModalLink">프로필 설정</a>
                   </li>
                   <li class="menuMadalItem">
                     <form action="../LogoutAction">
@@ -155,7 +142,7 @@
       <div class="header_lnb bg_blue">
         <ul class="header_lnb_menu">
           <li class="menu_item">
-            <form action="band_home.jsp" method="post">
+            <form action="Controller?command=band_home" method="post">
 	          <a>
 	          	<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
    		  	 	<input type="hidden" value="<%=member_idx %>" name="member_idx">
@@ -166,7 +153,7 @@
             </form>
           </li>
           <li class="menu_item">
-           <form action="band_member_list.jsp" method="post">
+           <form action="Controller?command=band_member_list" method="post">
            	<a>	
    		  	 <input type="hidden" value="<%=meet_idx %>" name="meet_idx">
    		  	 <input type="hidden" value="<%=member_idx %>" name="member_idx">
@@ -210,7 +197,7 @@
             <div class="bandInfoBox">
              <% try {
             	 if (mPrintDAO.adminCheck(member_idx, meet_idx)) { %>
-              <a href="band_information.jsp?meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="showBandInfo">밴드 소개 설정
+              <a href="Controller?command=band_information&meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="showBandInfo">밴드 소개 설정
              <% 	} 
              	} catch(Exception e) {
              		e.printStackTrace();
@@ -220,14 +207,14 @@
               </a>
             </div>
             <!-- 밴드 안내 문구 -->
-            <% if (bOkDTO.getPublic_ok().equals("Y")) { %>
+            <% if (bpoDTO.getPublic_ok().equals("Y")) { %>
             <p class="bandTypeDesc">누구나 밴드를 검색해 찾을 수 있고, 밴드 소개와 게시물을 볼 수 있습니다.</p>
             <% } else { %>
             <p class="bandTypeDesc">밴드와 게시글이 공개되지 않습니다. 초대를 통해서만 가입할 수 있습니다.</p>
             <% } %>
             <!-- 밴드 설정 -->
             <div class="bandSetting">
-              <a href="#" onClick="history.back()"  class="bandSetting_Link">
+              <a href="#" onClick="location.href='Controller?command=band_setting'"  class="bandSetting_Link">
                 <span class="uIconSetting"></span>
                 밴드 설정
               </a>
@@ -280,7 +267,7 @@
               <p class="guide_area_txt">타입 변경시 멤버들에게 알림이 발송됩니다.</p>
             </div>
 	            <div class="btn_footer">
-            		<form action="myband_setting_leader.jsp" method="post">
+            		<form action="Controller?command=band_setting" method="post">
 	              		<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
 	              		<input type="hidden" value="<%=member_idx%>" name="member_idx">
 	              		<button type="submit" class="confirm_btn">저장</button>

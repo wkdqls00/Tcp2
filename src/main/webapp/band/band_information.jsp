@@ -4,60 +4,41 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	int meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
-	int member_idx = Integer.parseInt(request.getParameter("member_idx"));
+	HttpSession hs = request.getSession();
+	int member_idx = (int)hs.getAttribute("userIdx");
 	
-	MeetInfoWriteDAO miwDAO = new MeetInfoWriteDAO();
-	MeetInfoWriteDTO miwDTO = miwDAO.selectMeetInfoWriteDTO(meet_idx);
-	
-	// 위치 등록
-	
-	ArrayList<MeetInfoWriteDTO> areaListDTO = new ArrayList<>();
-	areaListDTO = miwDAO.meetInfoWriteListDTO();
-	
-	
-	// 밴드 왼쪽 소개
-	MeetIntroduceWriteDAO miDao = new MeetIntroduceWriteDAO();
-	MeetIntroduceWriteDTO miDto = miDao.selectMeetIntroduceWriteDTO(meet_idx);
-	
+	int meet_idx = 0;
+	if(request.getParameter("meet_idx")==null) {
+		meet_idx = (Integer)request.getAttribute("meet_idx");
+	} else {
+		meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
+	}
 	// 밴드 소개글, 지역 업데이트
 	UpdateMeetInfoWriteDAO umiwDAO = new UpdateMeetInfoWriteDAO();
-	
-	//내 프로필 출력
-	MeetMemberProfilePrintDAO mMemberProfilePrintDAO = new MeetMemberProfilePrintDAO();
-	MeetMemberProfilePrintDTO mMemberProfilePrintDTO = mMemberProfilePrintDAO.selectMeetMemberProfilePrintDTO(meet_idx, member_idx);
-			
-	// 채팅 목록 출력
-	ChatListDAO cDao = new ChatListDAO();
-	ArrayList<ChatListDTO> chatListDto = new ArrayList<>();
-	
-	chatListDto = cDao.selectChatListDTO(meet_idx);
 	
 	// 밴드 가입 여부
 	NoJoinMeetDAO njDao = new NoJoinMeetDAO();
 	
-	// 밴드 공개 여부
-	BandPublicOkDAO bDao = new BandPublicOkDAO();
-	BandPublicOkDTO bOkDTO = bDao.selectBandPublicOkDTO(meet_idx);
+	MeetMemberProfilePrintDTO mMemberProfilePrintDTO = (MeetMemberProfilePrintDTO)request.getAttribute("mMemberProfilePrintDTO");
 	
-	// 밴드 글 목록 출력
+	MeetIntroduceWriteDTO miDto = (MeetIntroduceWriteDTO)request.getAttribute("miDto");
 	MeetPostListPrintDAO mPrintDAO = new MeetPostListPrintDAO();
-	ArrayList<MeetPostListPrintDTO> mPrintListDTO = new ArrayList<>();
-	
-	mPrintListDTO = mPrintDAO.selectMeetPostListPrintDTO(meet_idx);
-	
-	
+	BandPublicOkDTO bOkDTO = (BandPublicOkDTO)request.getAttribute("bOkDTO");
+	ArrayList<MeetInfoWriteDTO> areaListDTO = (ArrayList<MeetInfoWriteDTO>)request.getAttribute("areaListDTO");
+	MeetInfoWriteDTO miwDTO = (MeetInfoWriteDTO)request.getAttribute("miwDTO");
+	MeetInfoWriteDAO miwDAO = new MeetInfoWriteDAO();
+	ArrayList<ChatListDTO> chatListDto = (ArrayList<ChatListDTO>)request.getAttribute("chatListDto");
 %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/clear.css'>
-  <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/band.css'>
-  <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/band_header.css'>
-  <link rel="stylesheet" type="text/css" media="screen" href="../assets/css/myband_setting.css">
-  <link rel="stylesheet" type="text/css" media="screen" href="../assets/css/band_information.css">
+  <link rel='stylesheet' type='text/css' media='screen' href='<%=request.getContextPath()%>/assets/css/clear.css'>
+  <link rel='stylesheet' type='text/css' media='screen' href='<%=request.getContextPath()%>/assets/css/band.css'>
+  <link rel='stylesheet' type='text/css' media='screen' href='<%=request.getContextPath()%>/assets/css/band_header.css'>
+  <link rel="stylesheet" type="text/css" media="screen" href="<%=request.getContextPath()%>/assets/css/myband_setting.css">
+  <link rel="stylesheet" type="text/css" media="screen" href="<%=request.getContextPath()%>/assets/css/band_information.css">
   <title>BAND - Information - Setting</title>
   <script src="https://code.jquery.com/jquery-latest.min.js"></script>
   <script>
@@ -95,7 +76,7 @@
         <div class="logo_search_area">
           <!-- 로고 -->
           <h1 class = "logo_area">
-            <a href="band_main.jsp?meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="logo">
+            <a href="Controller?command=band_main&meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="logo">
             </a>
           </h1>
         </div>
@@ -133,7 +114,7 @@
                 <ul class="menuModalList">
                 <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
                   <li class="menuMadalItem">
-                    <a href="band_profile.jsp?meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="menuModalLink">프로필 설정</a>
+                    <a href="Controller?command=band_profile&meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="menuModalLink">프로필 설정</a>
                   </li>
                 <% } %>
                   <li class="menuMadalItem">
@@ -154,7 +135,7 @@
       <div class="header_lnb bg_blue">
         <ul class="header_lnb_menu">
           <li class="menu_item">
-            <form action="band_home.jsp" method="post">
+            <form action="Controller?command=band_main" method="post">
 	          <a>
 	          	<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
    		  	 	<input type="hidden" value="<%=member_idx %>" name="member_idx">
@@ -165,7 +146,7 @@
             </form>
           </li>
           <li class="menu_item">
-           <form action="band_member_list.jsp" method="post">
+           <form action="Controller?command=band_member_list" method="post">
            	<a>	
    		  	 <input type="hidden" value="<%=meet_idx %>" name="meet_idx">
    		  	 <input type="hidden" value="<%=member_idx %>" name="member_idx">
@@ -205,7 +186,7 @@
             <div class="btnBox">
               <button class="uButton bg_blue" id="postWriteBtn">글쓰기</button>
             </div>
-            <form action="band_information.jsp" method="post">
+            <form action="Controller?command=band_information" method="post">
             	<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
    		  	 	<input type="hidden" value="<%=member_idx %>" name="member_idx">
 	            <div class="bandInfoBox">

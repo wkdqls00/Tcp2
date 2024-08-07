@@ -188,7 +188,7 @@
       <div class="header_lnb bg_blue">
         <ul class="header_lnb_menu">
           <li class="menu_item">
-           <form action="band_home.jsp" method="post">
+           <form action="Controller?command=band_main" method="post">
 	          <a>
 	          	<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
    		  	 	<input type="hidden" value="<%=member_idx %>" name="member_idx">
@@ -239,7 +239,7 @@
               <button class="uButton bg_blue" id="postWriteBtn">글쓰기</button>
             </div>
             <!-- 밴드 소개 설정 : 리더일 시 출력 -->
-            <form action="band_information.jsp" method="post">
+            <form action="Controller?command=band_information" method="post">
             	<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
    		  	 	<input type="hidden" value="<%=member_idx %>" name="member_idx">
 	            <div class="bandInfoBox">
@@ -263,7 +263,7 @@
             <% } %>
             <!-- 밴드 설정 -->
             <div class="bandSetting">
-            	<form action="myband_setting_leader.jsp" method="post">
+            	<form action="Controller?command=band_setting" method="post">
 	            	<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
 	            	<input type="hidden" value="<%=member_idx %>" name="member_idx">
 	              	<button type="submit" class="bandSetting_Link">
@@ -286,7 +286,7 @@
           <div class="profile_view">
           	<span class="profile_inner">
             <% if (mMemberProfilePrintDTO.getProfile() != null) { %>
-            <img id="profile_inner" src="../upload/<%=mMemberProfilePrintDTO.getProfile()%>" width="60" height="60" >
+            <img id="profile_inner" src="<%=request.getContextPath()%>/upload/<%=mMemberProfilePrintDTO.getProfile()%>" width="60" height="60" >
             <% } %>
             </span>
             <div class="set_body">
@@ -297,7 +297,7 @@
               <% } %>
               <span class="subtxt"></span>
             </div>
-            <form action="band_profile.jsp" method="post">
+            <form action="Controller?command=band_profile" method="post">
             	<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
             	<input type="hidden" value="<%=member_idx %>" name="member_idx">
 	            <div class="etc">
@@ -315,7 +315,7 @@
                 <span class="subtxt"></span>
               </div>
               <div class="item_side">
-            <form action="setting_leader_band_name.jsp" method="post">
+            <form action="Controller?command=band_name_setting" method="post">
            		<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
             	<input type="hidden" value="<%=member_idx %>" name="member_idx">
                 <button type="submit" class="band_update_btn">변경</button>
@@ -334,7 +334,7 @@
                 <% } %>
               </div>
               <div class="item_side">
-               <form action="band_public_or_not.jsp" method="get">
+               <form action="Controller?command=band_public_setting" method="get">
 	           		<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
 	            	<input type="hidden" value="<%=member_idx %>" name="member_idx">
 	                <button type="submit" class="band_update_btn">변경</button>
