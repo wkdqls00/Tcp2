@@ -111,7 +111,7 @@
 	                	<a href="#" class="uProfile">
 		                  <span class="profileInner">
 		                  	<% if (chDto.getProfile() != null) { %>
-		                  	<img src="../upload/<%= chDto.getProfile() %>">
+		                  	<img src="<%= request.getContextPath() %>/upload/<%= chDto.getProfile() %>">
 		                  	<% } else { %>
 		                  	<img>
 		                  	<% } %>
@@ -160,7 +160,10 @@
     </div>
   </div>
   <script>
-  
+  	
+  	// chatList
+  	const chatList = document.querySelector('.chatList');
+  	
 	//모든 .msgContainer 요소를 선택
 	const msgContainers = document.querySelectorAll('.msgContainer');
 	
@@ -190,6 +193,7 @@
 	let todayDateText = currentYear + '-' + currentMonth + '-' + currentDay;
 	console.log(todayDateText);
 	
+	// 메시지 전송 이벤트
   	function func_on_message(e) {
   		// 모든 time 요소 선택
   	    let timeElements = document.querySelectorAll('.logWrap .time.dateTime');
@@ -212,7 +216,7 @@
       let g_profile = "";
 
       if (nickMessage[2] != null) {
-          g_profile = "<img src='../upload/" + nickMessage[2] + "'>";
+          g_profile = "<img src='/Tcp2/upload/" + nickMessage[2] + "'>";
       } else {
           g_profile = "<img>";
       }
@@ -261,6 +265,7 @@
 		         "</div>" +
 		         "</div>"
 		     );
+		     chatList.scrollTo(0, chatList.scrollHeight);
 		 }
 	
 		// 채팅방을 열었을 시
@@ -272,6 +277,7 @@
 		            type: 'get',
 		            success: function(response) {
 		                console.log('채팅방 참여 성공');
+		                
 		            },
 		            error: function() {
 		                console.log('ajax 통신 실패');
@@ -281,7 +287,7 @@
 			} else {
 				console.log('이미 참여한 회원입니다.');
 			}
-			
+			chatList.scrollTo(0, chatList.scrollHeight);
 		}
 	
 		function func_on_error(e) {
@@ -300,21 +306,21 @@
 		        let nickname = "<%= mMemberProfilePrintDTO.getNickname() %>";
 		        let profile = "<%= mMemberProfilePrintDTO.getProfile() %>";
 		        let chat_idx = <%= chat_idx %>;
-		        
-		     	// 모든 time 요소 선택
-		  	    let timeElements = document.querySelectorAll('.logWrap .time.dateTime');
-		  	  	let lastDateText = "";
-		  	  	
-		  		if (timeElements.length > 0) {
-		  		    // 가장 마지막 time 요소 선택
-		  		    let lastTimeElement = timeElements[timeElements.length - 1];
-		  		    
-		  		    // 가장 마지막 time 요소의 텍스트 내용 가져오기
-		  		    lastDateText = lastTimeElement.textContent;
-		  		    
-		  		    console.log(lastDateText); // 가장 마지막 time 요소의 날짜 출력
-				}
-				
+
+		        // 모든 time 요소 선택
+		        let timeElements = document.querySelectorAll('.logWrap .time.dateTime');
+		        let lastDateText = "";
+
+		        if (timeElements.length > 0) {
+		            // 가장 마지막 time 요소 선택
+		            let lastTimeElement = timeElements[timeElements.length - 1];
+
+		            // 가장 마지막 time 요소의 텍스트 내용 가져오기
+		            lastDateText = lastTimeElement.textContent;
+
+		            console.log(lastDateText); // 가장 마지막 time 요소의 날짜 출력
+		        }
+
 		        // 현재 시간 가져오기
 		        let currentTime = new Date();
 		        let hours = currentTime.getHours();
@@ -324,22 +330,22 @@
 		        hours = hours ? hours : 12; // 0을 12로 변환
 		        minutes = minutes < 10 ? '0' + minutes : minutes; // 두 자리수 형식
 		        let formattedTime = ampm + " " +  hours + ":" + minutes;
-	
+
 		        webSocket.send(nickname + "|" + msg + "|" + profile);
-	
+
 		        $.ajax({
 		            url: '${pageContext.request.contextPath}/AjaxChatInsertServlet',
 		            data: { chat_idx: chat_idx, member_idx: my_id, content: msg },
 		            type: 'get',
 		            success: function(response) {
-						if (lastDateText != todayDateText) {
-							$(".chatMsgList").append(
-						        "<div class='logWrap logEvent'>" +
-						        "<time class='time dateTime'>" + todayDateText + "</time>" +
-						        "</div>"
-						     );
-						}
-						
+		                if (lastDateText != todayDateText) {
+		                    $(".chatMsgList").append(
+		                        "<div class='logWrap logEvent'>" +
+		                        "<time class='time dateTime'>" + todayDateText + "</time>" +
+		                        "</div>"
+		                    );
+		                }
+
 		                $(".chatMsgList").append(
 		                    "<div class='logWrap logMy'>" +
 		                    "<a class='uProfile'>" +
@@ -365,23 +371,34 @@
 		                );
 		                $("#commentInput").val("");
 		                lastDateText = todayDateText;
+
+		                // 스크롤을 맨 아래로
+		                scrollToBottom();
 		            },
 		            error: function() {
 		                console.log('ajax 통신 실패');
 		            }
 		        });
 		    }
-	
+
+		    function scrollToBottom() {
+		        let chatList = document.querySelector('.chatList');
+		        chatList.scrollTo(0, chatList.scrollHeight);
+		    }
+
 		    $(".writeSubmit").click(function() {
 		        sendMessage();
 		    });
-	
+
 		    $("#commentInput").keypress(function(event) {
 		        if (event.which == 13 && !event.shiftKey) {
 		            event.preventDefault();
 		            sendMessage();
 		        }
 		    });
+
+		    // 페이지 로드 시 스크롤을 맨 아래로
+		    scrollToBottom();
 		});
 	
   </script>
