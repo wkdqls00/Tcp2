@@ -349,7 +349,7 @@
                 <span class="subtxt">성별 <%= gender(jcpListDTO.getGender())%>, 나이 <% if(jcpListDTO.getAge() != 0){ %><%=jcpListDTO.getAge() %> 년생</span><%} %>
               </div>
               <div class="item_side">
-               <form action="band_joining_condition.jsp" method="post">
+               <form action="Controller?command=band_joining_condition" method="post">
 	           		<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
 	            	<input type="hidden" value="<%=member_idx %>" name="member_idx">
 	                <button type="submit" class="band_update_btn">변경</button>
@@ -364,7 +364,7 @@
                 <span class="subtxt">밴드 주소, 소개글을 관리하세요.</span>
               </div>
               <div class="item_side">
-	              <form action="band_information.jsp" method="post">
+	              <form action="Controller?command=band_information" method="post">
 		           		<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
 		            	<input type="hidden" value="<%=member_idx %>" name="member_idx">
 		                <button type="submit" class="band_update_btn">변경</button>

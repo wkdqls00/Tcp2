@@ -47,6 +47,10 @@ public class Controller extends HttpServlet {
 			case "band_name_setting" : action = new BandNameSettingAction(); break;
 			//밴드 공개 설정
 			case "band_public_setting" : action = new BandPublicSettingAction(); break;
+			//밴드 가입 조건 설정
+			case "band_joining_condition" : action = new BandJoinConditionAction(); break;
+			//밴드 삭제
+			case "band_delete" : action = new BandDeleteAction(); break;
 		}
 		
 		action.execute(request, response);

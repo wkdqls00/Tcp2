@@ -76,6 +76,7 @@ public class BandPublicSettingAction implements Action {
 		request.setAttribute("mMemberProfilePrintDTO", mMemberProfilePrintDTO);
 		request.setAttribute("bpoDTO", bpoDTO);
 		request.setAttribute("miDto", miDto);
+		request.getRequestDispatcher("band/band_public_or_not.jsp").forward(request, response);
 	
 	}
 

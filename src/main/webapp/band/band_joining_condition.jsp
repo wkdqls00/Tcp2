@@ -18,35 +18,25 @@
     	return result;
     }
     %>
-<%
-	int member_idx = Integer.parseInt(request.getParameter("member_idx"));
-	int meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
-	JoinConditionPrintDAO jcpDAO = new JoinConditionPrintDAO();
-	JoinConditionPrintDTO jcpListDAO = jcpDAO.selectJoinConditionPrintDTO(meet_idx);
-	//내 프로필 출력
-	MeetMemberProfilePrintDAO mMemberProfilePrintDAO = new MeetMemberProfilePrintDAO();
-	MeetMemberProfilePrintDTO mMemberProfilePrintDTO = mMemberProfilePrintDAO.selectMeetMemberProfilePrintDTO(meet_idx, member_idx);
-		
-%>
-<%
+<%HttpSession hs = request.getSession();
+	int member_idx = (int)hs.getAttribute("userIdx");
+	
+	int meet_idx = 0;
+	if(request.getParameter("meet_idx")==null) {
+		meet_idx = (Integer)request.getAttribute("meet_idx");
+	} else {
+		meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
+	}
+	
 	UpdateJoinBandSettingDAO ujbsDAO = new UpdateJoinBandSettingDAO();
-	
-	//밴드 왼쪽 소개
-	MeetIntroduceWriteDAO miDao = new MeetIntroduceWriteDAO();
-	MeetIntroduceWriteDTO miDto = miDao.selectMeetIntroduceWriteDTO(meet_idx);
-	
-	// 채팅 목록 출력
-	ChatListDAO cDao = new ChatListDAO();
-	ArrayList<ChatListDTO> chatListDto = new ArrayList<>();
-	
-	chatListDto = cDao.selectChatListDTO(meet_idx);
-	
 	// 밴드 가입 여부
 	NoJoinMeetDAO njDao = new NoJoinMeetDAO();
+	MeetIntroduceWriteDTO miDto = (MeetIntroduceWriteDTO)request.getAttribute("miDto");
+	JoinConditionPrintDTO jcpListDAO = (JoinConditionPrintDTO)request.getAttribute("jcpListDAO");
+	MeetMemberProfilePrintDTO mMemberProfilePrintDTO = (MeetMemberProfilePrintDTO)request.getAttribute("mMemberProfilePrintDTO");
+	ArrayList<ChatListDTO> chatListDto = (ArrayList<ChatListDTO>)request.getAttribute("chatListDto");
+	BandPublicOkDTO bOkDTO = (BandPublicOkDTO)request.getAttribute("bOkDTO");
 	
-	// 밴드 공개 여부
-	BandPublicOkDAO bDao = new BandPublicOkDAO();
-	BandPublicOkDTO bOkDTO = bDao.selectBandPublicOkDTO(meet_idx);
 %>
 
 <!DOCTYPE html>
@@ -110,7 +100,7 @@
         <div class="logo_search_area">
           <!-- 로고 -->
           <h1 class = "logo_area">
-            <a href="band_main.jsp?meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="logo">
+            <a href="Controller?command=band_main&meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="logo">
             </a>
           </h1>
         </div>
@@ -153,7 +143,7 @@
                 <ul class="menuModalList">
                 <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
                   <li class="menuMadalItem">
-                    <a href="band_profile.jsp?meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="menuModalLink">프로필 설정</a>
+                    <a href="Controller?command=band_profile&meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="menuModalLink">프로필 설정</a>
                   </li>
                 <% } %>
                   <li class="menuMadalItem">
@@ -174,7 +164,7 @@
       <div class="header_lnb bg_blue">
         <ul class="header_lnb_menu">
           <li class="menu_item">
-            <form action="band_home.jsp" method="post">
+            <form action="Controller?command=band_home" method="post">
 	          <a>
 	          	<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
    		  	 	<input type="hidden" value="<%=member_idx %>" name="member_idx">
@@ -185,7 +175,7 @@
             </form>
           </li>
           <li class="menu_item">
-           <form action="band_member_list.jsp" method="post">
+           <form action="Controller?command=band_member_list" method="post">
            	<a>	
    		  	 <input type="hidden" value="<%=meet_idx %>" name="meet_idx">
    		  	 <input type="hidden" value="<%=member_idx %>" name="member_idx">
@@ -223,7 +213,7 @@
             </p>
             <!-- 밴드 소개 설정 -->
             <div class="band_info_setting">
-              <a href="band_information.jsp?meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="band_setting_link">밴드 소개 설정</a>
+              <a href="Controller?band_information&meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="band_setting_link">밴드 소개 설정</a>
             </div>
             <!-- 글쓰기 버튼 -->
             <div class="btnBox">
@@ -237,7 +227,7 @@
             <% } %>
             <!-- 밴드 설정 -->
             <div class="bandSetting">
-              <a href="myband_setting_leader.jsp?meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" onClick="history.back()" class="bandSetting_Link">
+              <a href="Controller?commad=band_setting&meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" onClick="history.back()" class="bandSetting_Link">
                 <span class="uIconSetting"></span>
                 밴드 설정
               </a>

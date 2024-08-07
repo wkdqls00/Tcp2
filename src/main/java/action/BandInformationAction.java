@@ -96,6 +96,7 @@ public class BandInformationAction implements Action {
 		request.setAttribute("chatListDto", chatListDto);
 		request.setAttribute("bOkDTO", bOkDTO);
 		request.setAttribute("mPrintListDTO", mPrintListDTO);
+		request.getRequestDispatcher("band/band_information.jsp").forward(request, response);
 	}
 
 }
