@@ -71,6 +71,8 @@ public class BandPublicSettingAction implements Action {
 			e.printStackTrace();
 		}
 		
+		request.setAttribute("member_idx", member_idx);
+		request.setAttribute("meet_idx", meet_idx);
 		request.setAttribute("mPrintListDTO", mPrintListDTO);
 		request.setAttribute("chatListDto", chatListDto);
 		request.setAttribute("mMemberProfilePrintDTO", mMemberProfilePrintDTO);

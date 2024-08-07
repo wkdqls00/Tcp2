@@ -22,15 +22,8 @@
 %>
 <%
 	// 밴드 왼쪽 소개
-	HttpSession hs = request.getSession();
-	int member_idx = (int)hs.getAttribute("userIdx");
-	
-	int meet_idx = 0;
-	if(request.getParameter("meet_idx")==null) {
-		meet_idx = (Integer)request.getAttribute("meet_idx");
-	} else {
-		meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
-	}
+	int meet_idx = (int)request.getAttribute("meet_idx");
+	int member_idx = (int)request.getAttribute("member_idx");
 	MeetIntroduceWriteDTO miDto = (MeetIntroduceWriteDTO)request.getAttribute("miDto");
 	BandPublicOkDTO bpoDTO = (BandPublicOkDTO)request.getAttribute("bpoDTO");
 	MeetMemberProfilePrintDTO mMemberProfilePrintDTO = (MeetMemberProfilePrintDTO)request.getAttribute("mMemberProfilePrintDTO");
@@ -39,13 +32,13 @@
 	ArrayList<MeetPostListPrintDTO> mPrintListDTO = (ArrayList<MeetPostListPrintDTO>)request.getAttribute("mPrintListDTO");
 %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/clear.css'>
-  <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/band.css'>
-  <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/band_header.css'>
+  <link rel='stylesheet' type='text/css' media='screen' href='<%= request.getContextPath() %>/assets/css/clear.css'>
+  <link rel='stylesheet' type='text/css' media='screen' href='<%= request.getContextPath() %>/assets/css/band.css'>
+  <link rel='stylesheet' type='text/css' media='screen' href='<%= request.getContextPath() %>/assets/css/band_header.css'>
   
   <title>Band public_or_not</title>
   <script src="https://code.jquery.com/jquery-latest.min.js"></script>
@@ -109,7 +102,7 @@
                 <span class="uProfile">
                   <span class="profileInner">
                	   <% if (mMemberProfilePrintDTO.getProfile() != null) { %>
-               		<img src="../upload/<%= mMemberProfilePrintDTO.getProfile() %>"
+               		<img src="<%= request.getContextPath() %>/upload/<%= mMemberProfilePrintDTO.getProfile() %>"
                     width="30" height="30">
                     <% } else { %>
                    <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
@@ -122,7 +115,7 @@
               <div class="menuModalLayer profileDropDown" id="off" style="display: none">
                 <ul class="menuModalList">
                   <li class="menuMadalItem">
-                    <a href="Controller?command=band_porfile&meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="menuModalLink">프로필 설정</a>
+                    <a href="<%= request.getContextPath() %>/Controller?command=band_profile&meet_idx=<%=meet_idx %>" class="menuModalLink">프로필 설정</a>
                   </li>
                   <li class="menuMadalItem">
                     <form action="../LogoutAction">
@@ -142,26 +135,14 @@
       <div class="header_lnb bg_blue">
         <ul class="header_lnb_menu">
           <li class="menu_item">
-            <form action="Controller?command=band_home" method="post">
-	          <a>
-	          	<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
-   		  	 	<input type="hidden" value="<%=member_idx %>" name="member_idx">
-             	<button type="submit">
+	          <a href="<%= request.getContextPath() %>/Controller?command=band_home&meet_idx=<%= meet_idx %>">
            		  <span class="menu_item_txt" style="padding:2px;">게시글</span>
-            	</button>
 	          </a>
-            </form>
           </li>
           <li class="menu_item">
-           <form action="Controller?command=band_member_list" method="post">
-           	<a>	
-   		  	 <input type="hidden" value="<%=meet_idx %>" name="meet_idx">
-   		  	 <input type="hidden" value="<%=member_idx %>" name="member_idx">
-             <button type="submit">
-              <span class="menu_item_txt" style="padding:2px;">멤버</span>
-             </button>
+           	<a href="<%= request.getContextPath() %>/Controller?command=band_member_list&meet_idx=<%= meet_idx %>">	
+              <span class="menu_item_txt" style="padding: 2px;">멤버</span>
   	        </a>
-           </form>
           </li>
         </ul>
       </div>
@@ -175,7 +156,7 @@
                   <span class="cover_inner">
                   <img
                     <% if (miDto.getUrl() != null) {%>
-                    	src = "../upload/<%= miDto.getUrl() %>"
+                    	src = "<%= request.getContextPath() %>/upload/<%= miDto.getUrl() %>"
                    	<% } %>
                    	>
                   </span>
@@ -214,10 +195,10 @@
             <% } %>
             <!-- 밴드 설정 -->
             <div class="bandSetting">
-              <a href="#" onClick="location.href='Controller?command=band_setting'"  class="bandSetting_Link">
-                <span class="uIconSetting"></span>
-                밴드 설정
-              </a>
+              	<button onclick="location.href='<%= request.getContextPath() %>/Controller?command=band_setting&meet_idx=<%= meet_idx %>'" class="bandSetting_Link">
+	                <span class="uIconSetting"></span>
+	                밴드 설정
+                </button>
             </div>
           </div>
         </div>
@@ -285,7 +266,7 @@
               <div class="chat_setting_wrap">
                 <!-- <button class="chat_setting_btn">설정</button> -->
               </div>
-              <div class="body">
+              <div class="body" style="max-height: none;">
                 <div class="new_chatting_wrap">
                   <div class="buttonBox">
                     <button class="newChattingBtn">
@@ -295,12 +276,12 @@
                   </div>
                 </div>
                 <!-- 채팅 목록 -->
-                <div class="nano">
+                <div class="nano" style="max-height: none;">
                   <div class="nano_content">
                     <ul class="chat">
                     <% for (ChatListDTO cDto2 : chatListDto) { %>
                       <li>
-                        <button class="itemLink" onclick="window.open('chat.jsp?chat_idx=' + <%= cDto2.getChat_idx()  %> + '&meet_idx=' + <%= meet_idx %>, '', 'width=415, height=643')">
+                        <button class="itemLink" onclick="window.open('<%= request.getContextPath() %>/Controller?command=band_chat&chat_idx=' + <%= cDto2.getChat_idx()  %> + '&meet_idx=' + <%= meet_idx %>, '', 'width=415, height=643')">
                           <span class="thum">
                             <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240603162344/images/template/multi_profile_60x60.png"
                             height="30" width="30">

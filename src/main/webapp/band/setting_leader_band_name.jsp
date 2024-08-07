@@ -3,19 +3,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	HttpSession hs = request.getSession();
-	int member_idx = (int)hs.getAttribute("userIdx");
-	
-	int meet_idx = 0;
-	if(request.getParameter("meet_idx")==null) {
-		meet_idx = (Integer)request.getAttribute("meet_idx");
-	} else {
-		meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
-	}
 	// 밴드 가입 여부
 	NoJoinMeetDAO njDao = new NoJoinMeetDAO();
 	MeetMemberProfilePrintDTO mMemberProfilePrintDTO = (MeetMemberProfilePrintDTO)request.getAttribute("mMemberProfilePrintDTO");
 	MeetSettingPrintDTO mspDTO = (MeetSettingPrintDTO)request.getAttribute("mspDTO");
+	int member_idx = (int)request.getAttribute("member_idx");
+	int meet_idx = (int)request.getAttribute("meet_idx");
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -29,24 +22,6 @@
   <title>밴드 이름 설정</title>
   <script src="https://code.jquery.com/jquery-latest.min.js"></script>
   <script>
-   	$(function() {
-   		// 채팅방 만들기
-		$("#createChatButton").click(function() {
-			let member_idx = <%= member_idx %>;
-			let title = $("#chatTitleInput").val();
-			let meet_idx = <%= meet_idx %>;
-			
-			$.ajax({
-				url: '${pageContext.request.contextPath}/AjaxCreateChatServlet',
-				data: {member_idx : member_idx, title : title, meet_idx : meet_idx },
-				type: 'get',
-				success: function(response){
-					alert("채팅방 생성이 완료 되었습니다!");
-					location.reload();
-				}
-			});
-		})
-   	});
   	function uploadImg(input) {
 			if(input.files && input.files[0]) {
 				let reader = new FileReader();
@@ -79,7 +54,7 @@
                 <span class="uProfile">
                   <span class="profileInner">
                	   <% if (mMemberProfilePrintDTO.getProfile() != null) { %>
-               		<img src="../upload/<%= mMemberProfilePrintDTO.getProfile() %>"
+               		<img src="<%= request.getContextPath() %>/upload/<%= mMemberProfilePrintDTO.getProfile() %>"
                     width="30" height="30">
                     <% } else { %>
                    <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
@@ -130,7 +105,7 @@
                 <div class="cover_select">
                   <div class="main_cover">
                     <span class="m_cover">
-                      <img data-cover="#" src="../upload/<%=mspDTO.getUrl() %>" class="selectedCover coverImg" width="300" height="225" >
+                      <img data-cover="#" src="<%= request.getContextPath() %>/upload/<%=mspDTO.getUrl() %>" class="selectedCover coverImg" width="300" height="225" >
                     </span>
                   </div>
                   <div class="cover_list">
@@ -268,7 +243,8 @@
 <!--               </div> -->
               <div class="btn_footer">
               	<button type="button" class="_btnCancel" onClick="location.href='Controller?command=band_setting'">삭제하기</button>
-              	</body>">취소</button>
+              	</body>
+              	</button>
                 <button type="submit" class="_btnConfirm">완료</button>
               </div>
             </fieldset>

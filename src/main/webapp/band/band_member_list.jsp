@@ -150,14 +150,10 @@
             <% } %>
             <!-- 밴드 설정 -->
             <div class="bandSetting">
-            	<form action="myband_setting_leader.jsp" method="post">
-	            	<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
-	            	<input type="hidden" value="<%=member_idx %>" name="member_idx">
-	              	<button type="submit" class="bandSetting_Link">
-		                <span class="uIconSetting"></span>
-		                밴드 설정
-	                </button>
-              </form>
+              	<button onclick="location.href='<%= request.getContextPath() %>/Controller?command=band_setting&meet_idx=<%= meet_idx %>'" class="bandSetting_Link">
+	                <span class="uIconSetting"></span>
+	                밴드 설정
+                </button>
             </div>
           </div>
         </div>

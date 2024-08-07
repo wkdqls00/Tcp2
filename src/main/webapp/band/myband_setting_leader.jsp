@@ -126,7 +126,7 @@
         <div class="logo_search_area">
           <!-- 로고 -->
           <h1 class = "logo_area">
-            <a href="band_main.jsp?member_idx=<%=member_idx %>" class="logo">
+            <a href="<%=request.getContextPath()%>/Controller?command=band_main" class="logo">
             </a>
           </h1>
         </div>
@@ -152,7 +152,7 @@
               <div class="menuModalLayer profileDropDown" id="off" style="display: none">
                 <ul class="menuModalList">
                   <li class="menuMadalItem">
-                    <a href="band_profile.jsp?meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="menuModalLink">프로필 설정</a>
+                    <a href="<%= request.getContextPath() %>/Controller?command=band_profile&meet_idx=<%=meet_idx %>" class="menuModalLink">프로필 설정</a>
                   </li>
                   <li class="menuMadalItem">
                     <form action="../LogoutAction">

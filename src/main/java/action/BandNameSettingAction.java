@@ -27,8 +27,6 @@ public class BandNameSettingAction implements Action {
 			meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
 		}
 		
-		
-		
 		MeetSettingPrintDAO mspDAO = new MeetSettingPrintDAO();
 		MeetSettingPrintDTO mspDTO = null;
 		try {
@@ -47,6 +45,10 @@ public class BandNameSettingAction implements Action {
 		}
 		request.setAttribute("mspDTO", mspDTO);
 		request.setAttribute("mMemberProfilePrintDTO", mMemberProfilePrintDTO);
+		request.setAttribute("meet_idx", meet_idx);
+		request.setAttribute("member_idx", member_idx);
+		
+		request.getRequestDispatcher("band/setting_leader_band_name.jsp").forward(request, response);
 		
 	}
 

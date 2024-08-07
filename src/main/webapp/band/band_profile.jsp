@@ -238,7 +238,7 @@
                     <ul class="chat">
                     <% for (ChatListDTO cDto2 : chatListDto) { %>
                       <li>
-                        <button class="itemLink" onclick="window.open('chat.jsp?chat_idx=' + <%= cDto2.getChat_idx()  %> + '&meet_idx=' + <%= meet_idx %>, '', 'width=415, height=643')">
+                        <button class="itemLink" onclick="window.open('<%= request.getContextPath() %>/Controller?command=band_chat&chat_idx=' + <%= cDto2.getChat_idx()  %> + '&meet_idx=' + <%= meet_idx %>, '', 'width=415, height=643')">
                           <span class="thum">
                             <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240603162344/images/template/multi_profile_60x60.png"
                             height="30" width="30">
