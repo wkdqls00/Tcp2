@@ -35,6 +35,18 @@ public class Controller extends HttpServlet {
 			
 			// 밴드 채팅
 			case "band_chat": action = new BandChatAction(); break;
+			// 밴드 설정
+			case "band_setting" : action = new BandSettingAction(); break;
+			// 프로필 설정
+			case "band_profile" : action = new BandProfileAction(); break;
+			// 밴드 소개
+			case "band_information" : action = new BandInformationAction(); break;
+			// 밴드 멤버 출력
+			case "band_member_list" : action = new BandMemberListAction(); break;
+			//밴드 이름 설정
+			case "band_name_setting" : action = new BandNameSettingAction(); break;
+			//밴드 공개 설정
+			case "band_public_setting" : action = new BandPublicSettingAction(); break;
 		}
 		
 		action.execute(request, response);
