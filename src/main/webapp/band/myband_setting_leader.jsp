@@ -3,40 +3,19 @@
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%!
-     public String gender(String gender) {
-    	String result = "";
-    	if (gender != null) {
-	    	if(gender.equals("M")){
-	    		result = "남자";
-	    	} else if (gender.equals("F")){
-	    		result = "여자";
-	    	} 
-    	} else {
-    		result = "제한없음";
-    	}
-    	return result;
-    }
-    %>
 <%!
-	public String joinok(String input){
+
+	public String joinok(String input) {
 		if(input.equals("Y")){
 			return "checked";
 		} else {
 			return "";
 		}
 	}
-%>
+
+%> 
+
 <%
-	HttpSession hs = request.getSession();
-	int member_idx = (int)hs.getAttribute("userIdx");
-	
-	int meet_idx = 0;
-	if(request.getParameter("meet_idx")==null) {
-		meet_idx = (Integer)request.getAttribute("meet_idx");
-	} else {
-		meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
-	}
 	
 	MeetIntroduceWriteDTO miDto = (MeetIntroduceWriteDTO)request.getAttribute("miDto");
 	MeetMemberProfilePrintDTO mMemberProfilePrintDTO = (MeetMemberProfilePrintDTO)request.getAttribute("mMemberProfilePrintDTO");
@@ -48,6 +27,11 @@
 	ArrayList<MeetMemberSettingPrintDTO> mmspListDTO = (ArrayList<MeetMemberSettingPrintDTO>)request.getAttribute("mmspListDTO");
 	
 	ArrayList<ChatListDTO> chatListDto = (ArrayList<ChatListDTO>)request.getAttribute("chatListDto");
+	
+	int meet_idx = (int)request.getAttribute("meet_idx");
+	int member_idx = (int)request.getAttribute("member_idx");
+	
+	String gender = (String)request.getAttribute("gender");
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -155,7 +139,7 @@
                 <span class="uProfile">
                   <span class="profileInner">
                	   <% if (mMemberProfilePrintDTO.getProfile() != null) { %>
-               		<img src="../upload/<%= mMemberProfilePrintDTO.getProfile() %>"
+               		<img src="<%= request.getContextPath() %>/upload/<%= mMemberProfilePrintDTO.getProfile() %>"
                     width="30" height="30">
                     <% } else { %>
                    <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
@@ -188,26 +172,14 @@
       <div class="header_lnb bg_blue">
         <ul class="header_lnb_menu">
           <li class="menu_item">
-           <form action="Controller?command=band_main" method="post">
-	          <a>
-	          	<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
-   		  	 	<input type="hidden" value="<%=member_idx %>" name="member_idx">
-             	<button type="submit">
+	          <a href="<%= request.getContextPath() %>/Controller?command=band_home&meet_idx=<%= meet_idx %>">
            		  <span class="menu_item_txt" style="padding:2px;">게시글</span>
-            	</button>
 	          </a>
-            </form>
           </li>
           <li class="menu_item">
-           <form action="band_member_list.jsp" method="post">
-           	<a>	
-   		  	 <input type="hidden" value="<%=meet_idx %>" name="meet_idx">
-   		  	 <input type="hidden" value="<%=member_idx %>" name="member_idx">
-             <button type="submit">
+           	<a href="<%= request.getContextPath() %>/Controller?command=band_member_list&meet_idx=<%= meet_idx %>">	
               <span class="menu_item_txt" style="padding:2px;">멤버</span>
-             </button>
   	        </a>
-           </form>
           </li>
         </ul>
       </div>
@@ -220,7 +192,7 @@
                   <span class="cover_inner">
                   <img
                     <% if (miDto.getUrl() != null) {%>
-                    	src = "../upload/<%= miDto.getUrl() %>"
+                    	src = "<%= request.getContextPath() %>/upload/<%= miDto.getUrl() %>"
                    	<% } %>
                    	>
                   </span>
@@ -262,15 +234,11 @@
             <p class="bandTypeDesc">밴드와 게시글이 공개되지 않습니다. 초대를 통해서만 가입할 수 있습니다.</p>
             <% } %>
             <!-- 밴드 설정 -->
-            <div class="bandSetting">
-            	<form action="Controller?command=band_setting" method="post">
-	            	<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
-	            	<input type="hidden" value="<%=member_idx %>" name="member_idx">
-	              	<button type="submit" class="bandSetting_Link">
-		                <span class="uIconSetting"></span>
-		                밴드 설정
-	                </button>
-              </form>
+             <div class="bandSetting">
+              	<button onclick="location.href='<%= request.getContextPath() %>/Controller?command=band_setting&meet_idx=<%= meet_idx %>'" class="bandSetting_Link">
+	                <span class="uIconSetting"></span>
+	                밴드 설정
+                </button>
             </div>
           </div>
         </div>
@@ -297,13 +265,9 @@
               <% } %>
               <span class="subtxt"></span>
             </div>
-            <form action="Controller?command=band_profile" method="post">
-            	<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
-            	<input type="hidden" value="<%=member_idx %>" name="member_idx">
-	            <div class="etc">
-	              <button type="submit" class="etc_btn">설정</button>
-	            </div>
-            </form>
+            <div class="etc">
+              <button onclick="location.href='<%= request.getContextPath() %>/Controller?command=band_profile&meet_idx=<%= meet_idx %>'" class="etc_btn">설정</button>
+            </div>
           </div>
           <%try {
         	  if (mPrintDAO.adminCheck(member_idx, meet_idx)) {%>
@@ -315,11 +279,7 @@
                 <span class="subtxt"></span>
               </div>
               <div class="item_side">
-            <form action="Controller?command=band_name_setting" method="post">
-           		<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
-            	<input type="hidden" value="<%=member_idx %>" name="member_idx">
-                <button type="submit" class="band_update_btn">변경</button>
-              </form>
+                <button onclick="location.href='<%= request.getContextPath() %>/Controller?command=band_name_setting&meet_idx=<%= meet_idx %>'" class="band_update_btn">변경</button>
               </div>
             </li>
           </ul>
@@ -334,11 +294,7 @@
                 <% } %>
               </div>
               <div class="item_side">
-               <form action="Controller?command=band_public_setting" method="get">
-	           		<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
-	            	<input type="hidden" value="<%=member_idx %>" name="member_idx">
-	                <button type="submit" class="band_update_btn">변경</button>
-                </form>
+                <button onclick="location.href='<%= request.getContextPath() %>/Controller?command=band_public_setting&meet_idx=<%= meet_idx %>'" class="band_update_btn">변경</button>
               </div>
             </li>
           </ul>
@@ -346,14 +302,10 @@
             <li class="setting_item">
               <div class="item_content">
                 <span class="label">가입 조건 설정</span>
-                <span class="subtxt">성별 <%= gender(jcpListDTO.getGender())%>, 나이 <% if(jcpListDTO.getAge() != 0){ %><%=jcpListDTO.getAge() %> 년생</span><%} %>
+                <span class="subtxt">성별 <%= gender %>, 나이 <% if(jcpListDTO.getAge() != 0){ %><%=jcpListDTO.getAge() %> 년생</span><%} %>
               </div>
               <div class="item_side">
-               <form action="Controller?command=band_joining_condition" method="post">
-	           		<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
-	            	<input type="hidden" value="<%=member_idx %>" name="member_idx">
-	                <button type="submit" class="band_update_btn">변경</button>
-                </form>
+                <button onclick="location.href='<%= request.getContextPath() %>/Controller?command=band_joining_condition&meet_idx=<%= meet_idx %>'" class="band_update_btn">변경</button>
               </div>
             </li>
           </ul>
@@ -364,11 +316,7 @@
                 <span class="subtxt">밴드 주소, 소개글을 관리하세요.</span>
               </div>
               <div class="item_side">
-	              <form action="Controller?command=band_information" method="post">
-		           		<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
-		            	<input type="hidden" value="<%=member_idx %>" name="member_idx">
-		                <button type="submit" class="band_update_btn">변경</button>
-	                </form>
+                <button onclick="location.href='<%= request.getContextPath() %>/Controller?command=band_information&meet_idx=<%= meet_idx %>'" class="band_update_btn">변경</button>
               </div>
             </li>
           </ul>
@@ -384,7 +332,7 @@
               %>
               <div class="item_side">
                 <label class="check_switch">
-                  <input type="checkbox" class="check_input join_ok_input" id="<%=dto.getJoin_ok()%>" name="join_ok" <%=joinok(dto.getJoin_ok())%> >
+                  <input type="checkbox" class="check_input join_ok_input" id="<%=dto.getJoin_ok()%>" name="join_ok" <%= joinok(dto.getJoin_ok())%> >
                   <span class="check_label">
                     <span class="shape"></span>
                   </span>
@@ -454,9 +402,9 @@
             <section class="bandChannerView">
               <h2 class="tit">채팅</h2>
               <div class="chat_setting_wrap">
-                <button class="chat_setting_btn">설정</button>
+                <!-- <button class="chat_setting_btn">설정</button> -->
               </div>
-              <div class="body">
+              <div class="body" style="max-height: none;">
                 <div class="new_chatting_wrap">
                   <div class="buttonBox">
                     <button class="newChattingBtn">
@@ -466,19 +414,23 @@
                   </div>
                 </div>
                 <!-- 채팅 목록 -->
-                <div class="nano">
+                <div class="nano" style="max-height: none;">
                   <div class="nano_content">
                     <ul class="chat">
                     <% for (ChatListDTO cDto2 : chatListDto) { %>
                       <li>
-                        <button class="itemLink" onclick="window.open('chat.jsp', '', 'width=415, height=643')">
+                        <button class="itemLink" onclick="window.open('<%= request.getContextPath() %>/Controller?command=band_chat&chat_idx=' + <%= cDto2.getChat_idx()  %> + '&meet_idx=' + <%= meet_idx %>, '', 'width=415, height=643')">
                           <span class="thum">
                             <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240603162344/images/template/multi_profile_60x60.png"
                             height="30" width="30">
                           </span>
                           <span class="cont">
                             <strong class="text"><%= cDto2.getTitle() %></strong>
+                            <% if (cDto2.getContent() != null) { %>
                             <span class="sub"><%= cDto2.getContent() %></span>
+                            <% } else { %>
+                            <span class="sub">채팅을 시작해보세요.</span>
+                            <% } %>
                           </span>
                         </button>
                       </li>

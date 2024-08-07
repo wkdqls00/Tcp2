@@ -266,7 +266,7 @@
                 <ul class="menuModalList">
                 <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
                   <li class="menuMadalItem">
-                    <a href="band_profile.jsp?meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="menuModalLink">프로필 설정</a>
+                    <a href="<%= request.getContextPath() %>/Controller?command=band_profile&meet_idx=<%=meet_idx %>" class="menuModalLink">프로필 설정</a>
                   </li>
                 <% } %>
                   <li class="menuMadalItem">
@@ -288,22 +288,14 @@
       <div class="header_lnb bg_blue">
         <ul class="header_lnb_menu">
           <li class="menu_item">
-            <form action="band_home.jsp" method="post">
-	          <a>
-	          	<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
-   		  	 	<input type="hidden" value="<%=member_idx %>" name="member_idx">
-             	<button type="submit">
-           		  <span class="menu_item_txt active">게시글</span>
-            	</button>
+	          <a href="<%= request.getContextPath() %>/Controller?command=band_home&meet_idx=<%= meet_idx %>">
+           		  <span class="menu_item_txt" style="padding:2px;">게시글</span>
 	          </a>
-            </form>
           </li>
           <li class="menu_item">
-           <form action="band_member_list.jsp" method="post">
            	<a href="<%= request.getContextPath() %>/Controller?command=band_member_list&meet_idx=<%= meet_idx %>">	
-              <span class="menu_item_txt" style="padding:2px;">멤버</span>
+              <span class="menu_item_txt active">멤버</span>
   	        </a>
-           </form>
           </li>
         </ul>
       </div>
@@ -371,14 +363,10 @@
             <!-- 밴드 설정 : 가입헀을 시 출력 -->
             <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
             <div class="bandSetting">
-            	<form action="Controller?command=band_setting" method="post">
-	            	<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
-	            	<input type="hidden" value="<%=member_idx %>" name="member_idx">
-	              	<button type="submit" class="bandSetting_Link">
-		                <span class="uIconSetting"></span>
-		                밴드 설정
-	                </button>
-              </form>
+              	<button onclick="location.href='<%= request.getContextPath() %>/Controller?command=band_setting&meet_idx=<%= meet_idx %>'" class="bandSetting_Link">
+	                <span class="uIconSetting"></span>
+	                밴드 설정
+                </button>
             </div>
             <% } %>
           </div>
