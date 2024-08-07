@@ -17,7 +17,7 @@ public class BandProfileAction implements Action {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession hs = request.getSession();
-		Integer userIdx = (Integer)request.getSession().getAttribute("userIdx");
+		Integer member_idx = (Integer)request.getSession().getAttribute("userIdx");
 		
 		int meet_idx = 0;
 		if(request.getParameter("meet_idx")==null) {
@@ -39,7 +39,7 @@ public class BandProfileAction implements Action {
 		MeetMemberProfilePrintDAO mMemberProfilePrintDAO = new MeetMemberProfilePrintDAO();
 		MeetMemberProfilePrintDTO mMemberProfilePrintDTO = null;
 		try {
-			mMemberProfilePrintDTO = mMemberProfilePrintDAO.selectMeetMemberProfilePrintDTO(meet_idx, userIdx);
+			mMemberProfilePrintDTO = mMemberProfilePrintDAO.selectMeetMemberProfilePrintDTO(meet_idx, member_idx);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -78,6 +78,8 @@ public class BandProfileAction implements Action {
 		request.setAttribute("chatListDto", chatListDto);
 		request.setAttribute("bOkDTO", bOkDTO);
 		request.setAttribute("mPrintListDTO", mPrintListDTO);
+		request.setAttribute("member_idx", member_idx);
+		request.setAttribute("meet_idx", meet_idx);
 		
 		request.getRequestDispatcher("band/band_profile.jsp").forward(request, response);
 	}

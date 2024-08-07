@@ -4,8 +4,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	int meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
-	int member_idx = Integer.parseInt(request.getParameter("member_idx"));
+	int meet_idx = (int)request.getAttribute("meet_idx");
+	int member_idx = (int)request.getAttribute("member_idx");
 	
 	MeetMemberProfilePrintDTO mMemberProfilePrintDTO = (MeetMemberProfilePrintDTO)request.getAttribute("mMemberProfilePrintDTO");
 	MeetIntroduceWriteDTO miDto = (MeetIntroduceWriteDTO)request.getAttribute("miDto");
@@ -18,10 +18,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/clear.css'>
-  <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/band.css'>
-  <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/band_header.css'>
-  <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/band_profile.css'>
+  <link rel='stylesheet' type='text/css' media='screen' href='<%= request.getContextPath() %>/assets/css/clear.css'>
+  <link rel='stylesheet' type='text/css' media='screen' href='<%= request.getContextPath() %>/assets/css/band.css'>
+  <link rel='stylesheet' type='text/css' media='screen' href='<%= request.getContextPath() %>/assets/css/band_header.css'>
+  <link rel='stylesheet' type='text/css' media='screen' href='<%= request.getContextPath() %>/assets/css/band_profile.css'>
   <title>BAND - PROFILE</title>
   <script src="https://code.jquery.com/jquery-latest.min.js"></script>
   <script>
@@ -45,7 +45,7 @@
         <div class="logo_search_area">
           <!-- 로고 -->
           <h1 class = "logo_area">
-            <a href="band_main.jsp?member_idx=<%=member_idx %>" class="logo">
+            <a href="<%= request.getContextPath() %>/Controller?command=band_main" class="logo">
             </a>
           </h1>
         </div>
@@ -63,7 +63,7 @@
                 <span class="uProfile">
                   <span class="profileInner">
                	   <% if (mMemberProfilePrintDTO.getProfile() != null) { %>
-               		<img src="../upload/<%= mMemberProfilePrintDTO.getProfile() %>"
+               		<img src="<%= request.getContextPath() %>/upload/<%= mMemberProfilePrintDTO.getProfile() %>"
                     width="30" height="30">
                     <% } else { %>
                    <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
@@ -76,7 +76,7 @@
               <div class="menuModalLayer profileDropDown" id="off" style="display: none">
                 <ul class="menuModalList">
                   <li class="menuMadalItem">
-                    <a href="band_profile.jsp?meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="menuModalLink">프로필 설정</a>
+                    <a href="<%= request.getContextPath() %>/Controller?command=band_profile&meet_idx=<%=meet_idx %>" class="menuModalLink">프로필 설정</a>
                   </li>
                   <li class="menuMadalItem">
                     <form action="../LogoutAction">
@@ -96,26 +96,14 @@
       <div class="header_lnb bg_blue">
         <ul class="header_lnb_menu">
           <li class="menu_item">
-            <form action="band_home.jsp" method="post">
-	          <a>
-	          	<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
-   		  	 	<input type="hidden" value="<%=member_idx %>" name="member_idx">
-             	<button type="submit">
+	          <a href="<%= request.getContextPath() %>/Controller?command=band_home&meet_idx=<%= meet_idx %>">
            		  <span class="menu_item_txt" style="padding:2px;">게시글</span>
-            	</button>
 	          </a>
-            </form>
           </li>
           <li class="menu_item">
-           <form action="band_member_list.jsp" method="post">
-           	<a>	
-   		  	 <input type="hidden" value="<%=meet_idx %>" name="meet_idx">
-   		  	 <input type="hidden" value="<%=member_idx %>" name="member_idx">
-             <button type="submit">
-              <span class="menu_item_txt" style="padding:2px;">멤버</span>
-             </button>
+           	<a href="<%= request.getContextPath() %>/Controller?command=band_member_list&meet_idx=<%= meet_idx %>">	
+              <span class="menu_item_txt" style="padding: 2px;">멤버</span>
   	        </a>
-           </form>
           </li>
         </ul>
       </div>
@@ -129,7 +117,7 @@
                   <span class="cover_inner">
                   <img
                     <% if (miDto.getUrl() != null) {%>
-                    	src = "../upload/<%= miDto.getUrl() %>"
+                    	src = "<%= request.getContextPath() %>/upload/<%= miDto.getUrl() %>"
                    	<% } %>
                    	>
                   </span>
@@ -191,7 +179,7 @@
             <div class="profileSettingCard">
               <div class="imgBox _defaultProfileImgBox"></div>
               <div class="imgBox _existProfileImgBox" <%=(mMemberProfilePrintDTO.getProfile()==null ? "style='display:none;'" : "") %>>
-              	<img class="profileImage" alt="프로필 사진" src="../upload/<%=mMemberProfilePrintDTO.getProfile()%>">
+              	<img class="profileImage" alt="프로필 사진" src="<%= request.getContextPath() %>/upload/<%=mMemberProfilePrintDTO.getProfile()%>">
               </div>
               <span class="addPhoto _btnProfile">
                 <label for="addPhoto" class="_labelProfile">프로필 사진 추가</label>
