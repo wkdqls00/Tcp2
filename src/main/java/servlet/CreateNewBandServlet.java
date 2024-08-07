@@ -60,7 +60,7 @@ public class CreateNewBandServlet extends HttpServlet {
 		CreateMeetDAO cmDao = new CreateMeetDAO();
 		cmDao.createMeet(name, url, member_idx, sub_q);
 		
-		RequestDispatcher rd = request.getRequestDispatcher("band/locationBandMain.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("Controller?command=band_main");
 		rd.forward(request, response);
 	}
 

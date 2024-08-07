@@ -75,14 +75,13 @@
       <main id="aside_content">
         <section class="band_make">
           <h2 class="band_name_cover">밴드 이름 및 커버</h2>
-          <form action="Controller" method="post" enctype="multipart/form-data">
-          <input type="hidden" name="command" value="band_new_create_form">
+          <form action="<%= request.getContextPath() %>/CreateNewBandServlet" method="post" enctype="multipart/form-data">
             <fieldset>
               <legend class="band_name_cover">밴드 이름 및 커버</legend>
               <div class="make_cover">
                 <label class="make_title" for="ex_name">밴드 이름</label>
                 <div class="input_band">
-                  <input type="text" class="_input_band_name" id="ex_name" placeholder="밴드 이름 입력" name="name">
+                  <input type="text" class="_input_band_name" id="ex_name" placeholder="밴드 이름 입력" name="name" required>
                 </div>
                 <div class="cover_select">
                   <div class="main_cover">
@@ -158,77 +157,6 @@
               		<input type="text" id="inputSubQ" placeholder="가입 질문을 입력해주세요." name="sub_q">
               	</div>
               </div>
-<!--               <div class="make_color"> -->
-<!--                 <h2 class="color_title">밴드 컬러</h2> -->
-<!--                 <ul class="color_list"> -->
-<!--                   <li class="item skin1"> -->
-<!--                     <label for="id_skin1" class="ucheck"> -->
-<!--                       <input name="band_theme_color" value="skin1" type="radio" id="id_skin1" class="check_input"> -->
-<!--                       <span class="fake_cover sf_bg sf_border sf_afterBg"></span> -->
-<!--                     </label> -->
-<!--                   </li> -->
-<!--                   <li class="item skin2"> -->
-<!--                     <label for="id_skin2" class="ucheck"> -->
-<!--                       <input name="band_theme_color" value="skin2" type="radio" id="id_skin2" class="check_input"> -->
-<!--                       <span class="fake_cover sf_bg sf_border sf_afterBg"></span> -->
-<!--                     </label> -->
-<!--                   </li> -->
-<!--                   <li class="item skin3"> -->
-<!--                     <label for="id_skin3" class="ucheck"> -->
-<!--                       <input name="band_theme_color" value="skin3" type="radio" id="id_skin3" class="check_input"> -->
-<!--                       <span class="fake_cover sf_bg sf_border sf_afterBg"></span> -->
-<!--                     </label> -->
-<!--                   </li> -->
-<!--                   <li class="item skin4"> -->
-<!--                     <label for="id_skin4" class="ucheck"> -->
-<!--                       <input name="band_theme_color" value="skin4" type="radio" id="id_skin4" class="check_input"> -->
-<!--                       <span class="fake_cover sf_bg sf_border sf_afterBg"></span> -->
-<!--                     </label> -->
-<!--                   </li> -->
-<!--                   <li class="item skin5"> -->
-<!--                     <label for="id_skin5" class="ucheck"> -->
-<!--                       <input name="band_theme_color" value="skin=5" type="radio" id="id_skin5" class="check_input"> -->
-<!--                       <span class="fake_cover sf_bg sf_border sf_afterBg"></span> -->
-<!--                     </label> -->
-<!--                   </li> -->
-<!--                   <li class="item skin6"> -->
-<!--                     <label for="id_skin6" class="ucheck"> -->
-<!--                       <input name="band_theme_color" value="skin6" type="radio" id="id_skin6" class="check_input"> -->
-<!--                       <span class="fake_cover sf_bg sf_border sf_afterBg"></span> -->
-<!--                     </label> -->
-<!--                   </li> -->
-<!--                   <li class="item skin7"> -->
-<!--                     <label for="id_skin1" class="ucheck"> -->
-<!--                       <input name="band_theme_color" value="skin1" type="radio" id="id_skin1" class="check_input"> -->
-<!--                       <span class="fake_cover sf_bg sf_border sf_afterBg"></span> -->
-<!--                     </label> -->
-<!--                   </li> -->
-<!--                   <li class="item skin8"> -->
-<!--                     <label for="id_skin8" class="ucheck"> -->
-<!--                       <input name="band_theme_color" value="skin8" type="radio" id="id_skin8" class="check_input"> -->
-<!--                       <span class="fake_cover sf_bg sf_border sf_afterBg"></span> -->
-<!--                     </label> -->
-<!--                   </li> -->
-<!--                   <li class="item skin9"> -->
-<!--                     <label for="id_skin9" class="ucheck"> -->
-<!--                       <input name="band_theme_color" value="skin9" type="radio" id="id_skin9" class="check_input" checked> -->
-<!--                       <span class="fake_cover sf_bg sf_border sf_afterBg"></span> -->
-<!--                     </label> -->
-<!--                   </li> -->
-<!--                   <li class="item skin10"> -->
-<!--                     <label for="id_skin10" class="ucheck"> -->
-<!--                       <input name="band_theme_color" value="skin10" type="radio" id="id_skin10" class="check_input"> -->
-<!--                       <span class="fake_cover sf_bg sf_border sf_afterBg"></span> -->
-<!--                     </label> -->
-<!--                   </li> -->
-<!--                   <li class="item skin11"> -->
-<!--                     <label for="id_skin11" class="ucheck"> -->
-<!--                       <input name="band_theme_color" value="skin11" type="radio" id="id_skin11" class="check_input"> -->
-<!--                       <span class="fake_cover sf_bg sf_border sf_afterBg"></span> -->
-<!--                     </label> -->
-<!--                   </li> -->
-<!--                 </ul> -->
-<!--               </div> -->
               <div class="btn_footer">
               	<button type="button" class="_btnCancel" onClick="history.back()">취소</button>
                 <button type="submit" class="_btnConfirm">완료</button>

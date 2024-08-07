@@ -111,7 +111,7 @@
       <ul id="band_card_list">
         <li class="band_card_item">
           <div id="band_inner">
-            <a href="<%= request.getContextPath() %>/Controller?command=band_new_create" class="band_create_link">
+            <a href="<%= request.getContextPath() %>/band/band_new_create.jsp" class="band_create_link">
               <div id="cover">
                 <img class="create_band_img">
               </div>
@@ -164,9 +164,9 @@
       <div id="content2">
         <h3 class="title_main_home">소모임 멤버를 모집합니다!
           <span class="help_guide_round" role="alert" aria-live="assertive" style="position:static">
-            <button type="button" class="help_btn">
+            <!-- <button type="button" class="help_btn">
               <span class="help">도움말</span>
-            </button>
+            </button> -->
             <span class="bubble_help_layer" style="width:348px; display:none;">
               소모임 활동 주제가 분명하고, 오프라인 정모 활동이 활발한 밴드를 선정해 보여드려요!
               <button type="button" class="close_btn">

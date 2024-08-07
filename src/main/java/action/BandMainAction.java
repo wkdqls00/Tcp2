@@ -19,10 +19,10 @@ public class BandMainAction implements Action {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		HttpSession hs = request.getSession();
-		Integer userIdx = (Integer)request.getSession().getAttribute("userIdx");
+		Integer member_idx = (Integer)request.getSession().getAttribute("userIdx");
 		PrintWriter out = response.getWriter();
 		
-		if(userIdx == null) {
+		if(member_idx == null) {
 			out.println("<html>");
 			out.println("<head>");
 			out.println("<title></title>");
@@ -45,7 +45,7 @@ public class BandMainAction implements Action {
 		ArrayList<MybandDTO> mbListDao = new ArrayList<>();
 
 		try { 
-			mbListDao = mbDao.selectMybandDTO(userIdx);
+			mbListDao = mbDao.selectMybandDTO(member_idx);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -55,7 +55,7 @@ public class BandMainAction implements Action {
 		//소모임 지역 idx
 		SelectMeetAreaIdxDTO selectDto = null;
 		try {
-			selectDto = selectDao.selectMeetAreaIdxDTO(userIdx);
+			selectDto = selectDao.selectMeetAreaIdxDTO(member_idx);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -89,9 +89,9 @@ public class BandMainAction implements Action {
 		// 밴드 가입 여부
 		NoJoinMeetDAO njDao = new NoJoinMeetDAO();
 		
-		System.out.println("user : " + userIdx);
+		System.out.println("user : " + member_idx);
 		
-		request.setAttribute("member_idx", userIdx);
+		request.setAttribute("member_idx", member_idx);
 		request.setAttribute("bandListDao", bandListDao);
 		request.setAttribute("mbListDao", mbListDao);
 		request.setAttribute("miDao", miDao);

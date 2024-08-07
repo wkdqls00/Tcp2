@@ -492,15 +492,15 @@
 				       <% } else { %>
 				       <a href="#" class="uProfile">
 				       <% } %>
-				       <!-- 프로필 사진 있는지 확인 -->
-				         <span class="profileInner">
-			         		<% if (mPDto.getProfile() != null) { %>
-				         	<img src="<%=request.getContextPath()%>/upload/<%= mPDto.getProfile() %>"
-				                   width="34" height="34">
-		                   <% } %>
-				         </span>
+					       <!-- 프로필 사진 있는지 확인 -->
+					         <span class="profileInner">
+				         		<% if (mPDto.getProfile() != null) { %>
+					         	<img src="<%=request.getContextPath()%>/upload/<%= mPDto.getProfile() %>"
+					                   width="34" height="34">
+			                   <% } %>
+					         </span>
+					       </a>
 				       </a>
-				       </a>>
 				       <div class="postWriterInfoWrap">
 				         <span class="name">
 				           <a href="#" class="text"><%= mPDto.getNickname() %></a>
@@ -951,7 +951,7 @@
                     <ul class="chat">
                     <% for (ChatListDTO cDto2 : chatListDto) { %>
                       <li>
-                        <button class="itemLink" onclick="window.open('chat.jsp?chat_idx=' + <%= cDto2.getChat_idx()  %> + '&meet_idx=' + <%= meet_idx %>, '', 'width=415, height=643')">
+                        <button class="itemLink" onclick="window.open('<%= request.getContextPath() %>/Controller?command=band_chat&chat_idx=' + <%= cDto2.getChat_idx()  %> + '&meet_idx=' + <%= meet_idx %>, '', 'width=415, height=643')">
                           <span class="thum">
                             <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240603162344/images/template/multi_profile_60x60.png"
                             height="30" width="30">

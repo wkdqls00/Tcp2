@@ -6,44 +6,29 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <% 
-	HttpSession hs = request.getSession();
-	int member_idx = (int)hs.getAttribute("userIdx");
-	int meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
-	
-	int chat_idx = Integer.parseInt(request.getParameter("chat_idx"));
-	
-	// 채팅 내역 출력
-	ChatHistoryDAO chDao = new ChatHistoryDAO();
-	ArrayList<ChatHistoryDTO> chList = new ArrayList<>();
-	
-	chList = chDao.selectChatHistoryDTO(chat_idx, meet_idx);
-	
-	// 채팅방 제목 출력
-	ChatTitleDTO chTitleDto = chDao.selectChatTitle(chat_idx);
+	int member_idx = (int)request.getAttribute("member_idx");
+	int meet_idx = (int)request.getAttribute("meet_idx");
+	int chat_idx = (int)request.getAttribute("chat_idx");
 	
 	// 채팅방 참여
 	ChatJoinDAO cjDao = new ChatJoinDAO();
 	
-	// 채팅방 회원수
-	ChatMemberCountDTO cmDto = chDao.chatMemberCount(chat_idx);
+	ArrayList<ChatHistoryDTO> chList = (ArrayList<ChatHistoryDTO>)request.getAttribute("chList");
+	ChatTitleDTO chTitleDto = (ChatTitleDTO)request.getAttribute("chTitleDto");
+	ChatMemberCountDTO cmDto = (ChatMemberCountDTO)request.getAttribute("cmDto");
+	MeetMemberProfilePrintDTO mMemberProfilePrintDTO = (MeetMemberProfilePrintDTO)request.getAttribute("mMemberProfilePrintDTO");
+	MeetIntroduceWriteDTO miDto = (MeetIntroduceWriteDTO)request.getAttribute("miDto");
 	
-	// 내 프로필 출력
-	MeetMemberProfilePrintDAO mMemberProfilePrintDAO = new MeetMemberProfilePrintDAO();
-	MeetMemberProfilePrintDTO mMemberProfilePrintDTO = mMemberProfilePrintDAO.selectMeetMemberProfilePrintDTO(meet_idx, member_idx);
-
-	// 밴드 소개
-	MeetIntroduceWriteDAO miDao = new MeetIntroduceWriteDAO();
-	MeetIntroduceWriteDTO miDto = miDao.selectMeetIntroduceWriteDTO(meet_idx);
 %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/clear.css'>
-  <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/band.css'>
-  <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/band_header.css'>
-  <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/band_chat.css'>
+  <link rel='stylesheet' type='text/css' media='screen' href='<%=request.getContextPath()%>/assets/css/clear.css'>
+  <link rel='stylesheet' type='text/css' media='screen' href='<%=request.getContextPath()%>/assets/css/band.css'>
+  <link rel='stylesheet' type='text/css' media='screen' href='<%=request.getContextPath()%>/assets/css/band_header.css'>
+  <link rel='stylesheet' type='text/css' media='screen' href='<%=request.getContextPath()%>/assets/css/band_chat.css'>
   <title>BAND - 채팅</title>
   <!-- <script src="/socket.io/socket.io.js"></script> -->
   <script src="https://code.jquery.com/jquery-latest.min.js"></script>
