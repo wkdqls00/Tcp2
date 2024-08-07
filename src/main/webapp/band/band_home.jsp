@@ -300,12 +300,8 @@
           </li>
           <li class="menu_item">
            <form action="band_member_list.jsp" method="post">
-           	<a>	
-   		  	 <input type="hidden" value="<%=meet_idx %>" name="meet_idx">
-   		  	 <input type="hidden" value="<%=member_idx %>" name="member_idx">
-             <button type="submit">
+           	<a href="<%= request.getContextPath() %>/Controller?command=band_member_list&meet_idx=<%= meet_idx %>">	
               <span class="menu_item_txt" style="padding:2px;">멤버</span>
-             </button>
   	        </a>
            </form>
           </li>

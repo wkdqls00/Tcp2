@@ -17,7 +17,7 @@ public class BandMemberListAction implements Action {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession hs = request.getSession();
-		Integer userIdx = (Integer)request.getSession().getAttribute("userIdx");
+		Integer member_idx = (Integer)request.getSession().getAttribute("userIdx");
 		
 		int meet_idx = 0;
 		if(request.getParameter("meet_idx")==null) {
@@ -26,7 +26,7 @@ public class BandMemberListAction implements Action {
 			meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
 		}
 		
-		//멤버 목록
+		// 멤버 목록
 		MeetMemberListPrintDAO mmlpDAO = new MeetMemberListPrintDAO();
 		ArrayList<MeetMemberListPrintDTO> mmlpDTO = new ArrayList<>();
 		
@@ -45,12 +45,11 @@ public class BandMemberListAction implements Action {
 			e.printStackTrace();
 		}
 		
-		
-		//내 프로필 출력
+		// 내 프로필 출력
 		MeetMemberProfilePrintDAO mMemberProfilePrintDAO = new MeetMemberProfilePrintDAO();
 		MeetMemberProfilePrintDTO mMemberProfilePrintDTO = null;
 		try {
-			mMemberProfilePrintDTO = mMemberProfilePrintDAO.selectMeetMemberProfilePrintDTO(meet_idx, userIdx);
+			mMemberProfilePrintDTO = mMemberProfilePrintDAO.selectMeetMemberProfilePrintDTO(meet_idx, member_idx);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -85,6 +84,8 @@ public class BandMemberListAction implements Action {
 			e.printStackTrace();
 		}
 		
+		request.setAttribute("member_idx", member_idx);
+		request.setAttribute("meet_idx", meet_idx);
 		request.setAttribute("mmlpDTO", mmlpDTO);
 		request.setAttribute("miDto", miDto);
 		request.setAttribute("mMemberProfilePrintDTO", mMemberProfilePrintDTO);
@@ -93,7 +94,7 @@ public class BandMemberListAction implements Action {
 		request.setAttribute("jwListDto", jwListDto);
 		request.setAttribute("mjqwDTO", mjqwDTO);
 		
+		request.getRequestDispatcher("band/band_member_list.jsp").forward(request, response);
 
 	}
-
 }
