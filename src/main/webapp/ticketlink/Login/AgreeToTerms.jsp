@@ -19,15 +19,17 @@
             z-index: 10;
             display: block;
        	}
-       	.g-recaptcha {
-       	    position: absolute;
+        .g-recaptcha {
+		    position: absolute;
 		    left: 40%;
 		    top: 45%;
 		    z-index: 11;
-       	}
-       	.success {
-       		left: 0;
-       	}
+		    opacity: 1; 
+		    transition: opacity 3s ease; 
+		}
+		.success {
+		    opacity: 0; 
+		}
        .popup {
 		  display: block;
 		  z-index: 100;

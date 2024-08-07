@@ -14,6 +14,30 @@ System.out.println(member_idx);
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>등급/좌석선택</title>
   <link rel="stylesheet" href="/Tcp2/assets/css/payment_p1.css">
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <style>
+   	    .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.7);
+            z-index: 10;
+            display: block;
+       	}
+       	.g-recaptcha {
+		    position: absolute;
+		    left: 40%;
+		    top: 45%;
+		    z-index: 11;
+		    opacity: 1; 
+		    transition: opacity 3s ease; 
+		}
+		.recaptchacomplete {
+		    opacity: 0; 
+		}
+  </style>
 </head>
 <body>
 <%//2871, 62866
@@ -38,6 +62,7 @@ String seatImg = (String)request.getAttribute("seatImg");
   <header>
     <img src="/Tcp2/assets/img/ticklink/종튼.png" alt="">
   </header>
+  
   <div id="paystepup1">
     <img src="/Tcp2/assets/img/ticklink/결제단계1.png" alt="">
   </div>
@@ -136,6 +161,10 @@ for (int i = 0; i < pricelist.size(); i++) {
       </div>
     </div>
   </div>
+  	<div class="overlay" id="overlay"></div>
+  	<div class="g-recaptcha" data-sitekey="6Lerfg0qAAAAAAukEzArdUcJnbf16ra6BELU4ngX" data-callback="recaptchaCallback"></div>
+  		
+  	
   
   <script>
   document.addEventListener('DOMContentLoaded', function() {
@@ -199,7 +228,12 @@ for (int i = 0; i < pricelist.size(); i++) {
 	        document.getElementById('nextForm').submit();
 	    }
 	});
-
+    function recaptchaCallback() {
+ 		let reCap = document.querySelector('.g-recaptcha');
+ 		let overlay = document.getElementById('overlay');
+ 		overlay.style.display = 'none';
+ 		reCap.classList.add("recaptchacomplete");
+    }
 </script>
 </body>
 </html>
