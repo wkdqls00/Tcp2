@@ -58,30 +58,31 @@
 	ArrayList<SearchResultDTO> list = (ArrayList<SearchResultDTO>)request.getAttribute("list");
 	@SuppressWarnings("unchecked")
 	ArrayList<RecommandPDTO> list2 = (ArrayList<RecommandPDTO>)request.getAttribute("list2");
+	Integer userIdx = (Integer)request.getAttribute("userIdx");
 	%>
         <header>
             <div class="utill">
                 <div class="inner">
                     <ul>
-                    <%if((Integer)request.getSession().getAttribute("userIdx") == null){ %>
+                    <%if(userIdx == null){ %>
                         <li class="utill_link"><a href="/Tcp2/Controller?command=login">로그인</a></li>
                         <%} else { %>
                         <li class="utill_link"><a href="#" onclick="if(confirm('로그아웃 하시겠습니까?')) { window.location.href='/Tcp2/LogoutAction'; } return false;">로그아웃</a></li>
                         <%} %>
                         <li class="utill_link"><a href="/Tcp2/Controller?command=ticket_check">예매확인/취소</a></li>
-                    <%if((Integer)request.getSession().getAttribute("userIdx") == null){ %>
-                        <li class="utill_link"><a href="/Tcp2/ticketlink/Login/AgreeToTerms.jsp">회원가입</a></li>
+                    <%if(userIdx == null){ %>
+                        <li class="utill_link"><a href="/Tcp2/Controller?command=newaccount">회원가입</a></li>
                         <%} %>
                         <li class="utill_link"><a href="/Tcp2/ticketlink/Customer_Service_Center/Cs_Center_main.jsp">고객센터</a></li>
-                        <li class="utill_link"><a href="/Tcp2/Mypage_memberServlet">마이페이지</a></li>
+                        <li class="utill_link"><a href="/Tcp2/Controller?command=mypage">마이페이지</a></li>
 					</ul>
                 </div> 
             </div>
             <div class="nav_box">
                 <div class="inner navbox">
-                    <h1 class="logo"><a href="/Tcp2/ticketlink/main.jsp">로고</a></h1>
+                    <h1 class="logo"><a href="/Tcp2/Controller?command=main">로고</a></h1>
                     <ul class="nav">
-                        <li><a href="/Tcp2/ticketlink/main.jsp">공연</a></li>
+                        <li><a href="/Tcp2/Controller?command=main">공연</a></li>
                         <li><a href="/Tcp2/Controller?command=band_main">커뮤니티</a></li>
                     </ul>
                 </div>
@@ -89,10 +90,10 @@
             <div class="gnb_box">
                 <div class="inner ?">
                     <ul class="gnb_list">
-                        <li class="gnb_link"><a href="/Tcp2/ticketlink/main.jsp">홈</a></li>
-                        <li class="gnb_link"><a href="/Tcp2/ticketlink/main.jsp">공연</a></li>
+                        <li class="gnb_link"><a href="/Tcp2/Controller?command=main">홈</a></li>
+                        <li class="gnb_link"><a href="/Tcp2/Controller?command=main">공연</a></li>
                         <li class="gnb_link"><a href="/Tcp2/ticketlink/Ranking_MainP/weekly_ranking3.jsp">랭킹</a></li>
-                        <li class="gnb_link"><a href="/Tcp2/band/band_main.jsp">커뮤니티</a></li>
+                        <li class="gnb_link"><a href="/Tcp2/Controller?command=band_main">커뮤니티</a></li>
                         <li class="gnb_link" style="padding: 0; padding-top: 10px; padding-left: 10px; float: right;">
                         	<form action="/Tcp2/SearchResult">
 		                  	<input type="text" style="width: 200px; padding-inline: 8px;" placeholder="공연을 검색하세요." name="search" minlength="2">
@@ -186,36 +187,7 @@
                     </div>
                 </div>
             </section>
-            <!-- 공연장 / 길찾기 -->
-            <section class="con_box">
-                <div class="inner">
-                    <div class="con_header">
-                        <h2 class="con_tit">공연장</h2>
-                    </div>
-                    <div class="con_sub">
-                        <p class="con_sub_tit">지역별 공연장과 맛집 검색</p>
-                    </div>
-                    <div class="area_btn_box">
-                        <ul class="area_btn_list">
-                            <li class="area_btn_item">
-                                <button class="area_btn">서울</button>
-                            </li>
-                            <li class="area_btn_item">
-                                <button class="area_btn">대전</button>
-                            </li>
-                            <li class="area_btn_item">
-                                <button class="area_btn">대구</button>
-                            </li>
-                            <li class="area_btn_item">
-                                <button class="area_btn">부산</button>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="map_area">
-                        
-                    </div>
-                </div>
-            </section>
+         
         </div>
         </main>
 
@@ -322,7 +294,6 @@
             </div>
             </div>
         </footer>
-    </div>
     <script>
 	    (function(){var w=window;if(w.ChannelIO){return w.console.error("ChannelIO script included twice.");}var ch=function(){ch.c(arguments);};ch.q=[];ch.c=function(args){ch.q.push(args);};w.ChannelIO=ch;function l(){if(w.ChannelIOInitialized){return;}w.ChannelIOInitialized=true;var s=document.createElement("script");s.type="text/javascript";s.async=true;s.src="https://cdn.channel.io/plugin/ch-plugin-web.js";var x=document.getElementsByTagName("script")[0];if(x.parentNode){x.parentNode.insertBefore(s,x);}}if(document.readyState==="complete"){l();}else{w.addEventListener("DOMContentLoaded",l);w.addEventListener("load",l);}})();
 	

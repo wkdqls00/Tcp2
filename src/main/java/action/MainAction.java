@@ -21,6 +21,8 @@ public class MainAction implements Action {
 		ArrayList<RecommandPDTO> list2 = dao.recommandPDao();
 		request.setAttribute("list", list);
 		request.setAttribute("list2", list2);
+		Integer userIdx = (Integer)request.getSession().getAttribute("userIdx");
+		request.setAttribute("userIdx", userIdx);
 		request.getRequestDispatcher("/ticketlink/main.jsp").forward(request, response);
 	}
 }

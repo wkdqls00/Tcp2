@@ -9,20 +9,12 @@ import java.util.Collections;
 import java.util.List;
 
 import dto.Genre_RankDTO;
-import dto.RecommendPDTO;
+import dto.RecommandPDTO;
 import dto.Week_RDTO;
 import dto.Week_RankDTO;
 import project.DatabaseUtil;
 
 public class Genre_RankDAO {
-
-	public static void main(String[] args) {
-
-
-		ArrayList<RecommendPDTO> rpd = new Genre_RankDAO().recommendPDto();
-		for(RecommendPDTO 종원 : rpd)System.out.println(종원);
-
-	}
 
 	public ArrayList<Genre_RankDTO> selectGenre_RankDTO(int genre_idx) {
 
@@ -31,12 +23,9 @@ public class Genre_RankDAO {
 		Connection conn = d.getConn();
 
 		String sql = "SELECT r.r_date, p.name,TO_CHAR(start_date,'YYYY-MM-DD'), TO_CHAR(end_date,'YYYY-MM-DD'), r.booking_rate, poster_url, ph.name, p.play_idx "
-				   + "FROM rank r, play p, genre g, playhall ph  "
-				   + "WHERE r.play_idx = p.play_idx  "
-				   + "AND p.playhall_idx = ph.playhall_idx "
-				   + "AND p.genre_idx = g.genre_idx "
-				   + "AND g.genre_idx = ? "
-				   + "ORDER BY r.r_date DESC, r.genre_rank ";
+				+ "FROM rank r, play p, genre g, playhall ph  " + "WHERE r.play_idx = p.play_idx  "
+				+ "AND p.playhall_idx = ph.playhall_idx " + "AND p.genre_idx = g.genre_idx " + "AND g.genre_idx = ? "
+				+ "ORDER BY r.r_date DESC, r.genre_rank ";
 
 		PreparedStatement pstmt = d.getPstmt(conn, sql);
 
@@ -80,10 +69,9 @@ public class Genre_RankDAO {
 		Connection conn = d.getConn();
 
 		String sql = "SELECT p.name, p.poster_url, TO_CHAR(p.start_date,'YYYY-MM-DD'),TO_CHAR(p.end_date,'YYYY-MM-DD') "
-				   + "FROM play p JOIN (SELECT r.play_idx "
-				   + "				    FROM rank r "
-				   + "				    ORDER BY r.r_date DESC, r.booking_rate DESC) r ON p.play_idx = r.play_idx "
-				   + "WHERE ROWNUM <= ? ";
+				+ "FROM play p JOIN (SELECT r.play_idx " + "				    FROM rank r "
+				+ "				    ORDER BY r.r_date DESC, r.booking_rate DESC) r ON p.play_idx = r.play_idx "
+				+ "WHERE ROWNUM <= ? ";
 
 		PreparedStatement pstmt = d.getPstmt(conn, sql);
 
@@ -118,11 +106,8 @@ public class Genre_RankDAO {
 		DatabaseUtil d = new DatabaseUtil();
 		Connection conn = d.getConn();
 
-		String sql = "SELECT play_idx, booking_rate  "
-				   + "FROM  (SELECT * "
-				   + "       FROM rank  "
-			       + "       ORDER BY r_date DESC, booking_rate DESC)   "
-				   + "       WHERE rownum <= ? ";
+		String sql = "SELECT play_idx, booking_rate  " + "FROM  (SELECT * " + "       FROM rank  "
+				+ "       ORDER BY r_date DESC, booking_rate DESC)   " + "       WHERE rownum <= ? ";
 
 		PreparedStatement pstmt = d.getPstmt(conn, sql);
 
@@ -149,16 +134,16 @@ public class Genre_RankDAO {
 		return list;
 	}
 
-	public ArrayList<RecommendPDTO> recommendPDto() {
+	public ArrayList<RecommandPDTO> recommendPDto() {
 
-		ArrayList<RecommendPDTO> list = new ArrayList<>();
+		ArrayList<RecommandPDTO> list = new ArrayList<>();
 		DatabaseUtil d = new DatabaseUtil();
 		Connection conn = d.getConn();
 
 		String sql = "SELECT p.poster_url, a.name, p.name, TO_CHAR(p.start_date,'YYYY-MM-DD'), TO_CHAR(p.end_date,'YYYY-MM-DD'), p.play_idx "
-				   + "FROM rank r JOIN play p ON r.play_idx = p.play_idx "
-				   + "            JOIN playhall ph ON ph.playhall_idx = p.playhall_idx "
-			       + "            JOIN area a ON ph.area_idx = a.area_idx ";
+				+ "FROM rank r JOIN play p ON r.play_idx = p.play_idx "
+				+ "            JOIN playhall ph ON ph.playhall_idx = p.playhall_idx "
+				+ "            JOIN area a ON ph.area_idx = a.area_idx ";
 
 		PreparedStatement pstmt = d.getPstmt(conn, sql);
 
@@ -167,12 +152,12 @@ public class Genre_RankDAO {
 		try {
 			while (rs.next()) {
 				String poster_url = rs.getString(1);
-				String areaName = rs.getString(2).substring(0,2);
+				String areaName = rs.getString(2).substring(0, 2);
 				String playName = rs.getString(3);
 				String startDate = rs.getString(4);
 				String endDate = rs.getString(5);
 				int play_idx = rs.getInt(6);
-				list.add(new RecommendPDTO(poster_url, areaName, playName, startDate, endDate, play_idx));
+				list.add(new RecommandPDTO(poster_url, areaName, playName, startDate, endDate, play_idx));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -181,7 +166,7 @@ public class Genre_RankDAO {
 		}
 		List result = list;
 		Collections.shuffle(result);
-		list = new ArrayList<RecommendPDTO>(result);
+		list = new ArrayList<RecommandPDTO>(result);
 		return list;
 	}
 }
