@@ -29,7 +29,7 @@ int total_amount = (int)request.getAttribute("total_amount");
 ArrayList<CustomerPayinfoDTO> cpdto = (ArrayList<CustomerPayinfoDTO>)request.getAttribute("cpdto");
 @SuppressWarnings("unchecked")
 ArrayList<SeatPriceDTO> pricelist = (ArrayList<SeatPriceDTO>)request.getAttribute("pricelist");
-
+String address = (String)request.getAttribute("address");
 
 %>
   <header>
@@ -57,6 +57,7 @@ ArrayList<SeatPriceDTO> pricelist = (ArrayList<SeatPriceDTO>)request.getAttribut
         <div class="orderername">이메일</div>
         <div><input type="text" value="<%=cpdto.get(0).getEmail()%>" class="inputemail" id="emailInput"></div>
       </div>
+ 
       <div class="ordererok">예매자 확인</div>
       <div class="agreebox1">
         <div class="checkboxdiv1"><input type="checkbox"></div>
@@ -195,7 +196,7 @@ ArrayList<SeatPriceDTO> pricelist = (ArrayList<SeatPriceDTO>)request.getAttribut
        		}
         }
         
-    	function kakaopay(){
+    	function kakaopay() { 
     		const email = document.getElementById('emailInput').value;
     		const name = document.getElementById('name').innerText;
     		const phonenumber = document.getElementById('phonenumber').value;
@@ -210,7 +211,7 @@ ArrayList<SeatPriceDTO> pricelist = (ArrayList<SeatPriceDTO>)request.getAttribut
     	        buyer_email : email,
     	        buyer_name : name,
     	        buyer_tel : phonenumber,
-    	        buyer_addr : '구매자 주소',
+    	        buyer_addr : '<%=address%>',
     	        buyer_postcode : '구매자 주소',
     	        m_redirect_url : 'http://localhost:9090/Tcp2/Payment_p3?pm=<%=payment_idx%>&type=kakaopay'
     	    }, function(rsp) {
@@ -226,6 +227,7 @@ ArrayList<SeatPriceDTO> pricelist = (ArrayList<SeatPriceDTO>)request.getAttribut
     	}
             
 
+    		
 </script>
 
 

@@ -525,4 +525,27 @@ public class PayDao {
 		}
     	
     }
+	
+	public String getAddress(int member_idx) {
+		DatabaseUtil d = new DatabaseUtil();
+		Connection conn = d.getConn();
+		String sql = "SELECT address FROM member WHERE member_idx = ?";
+		PreparedStatement pstmt = d.getPstmt(conn, sql);
+		try {
+			pstmt.setInt(1, member_idx);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		ResultSet rs = d.getRs(pstmt);
+		try {
+			rs.next();
+			return rs.getString(1);
+		} catch(SQLException e) {
+			e.printStackTrace();
+		} finally {
+			d.close(conn, pstmt, rs);
+		}
+		return "";
+	}
 }
