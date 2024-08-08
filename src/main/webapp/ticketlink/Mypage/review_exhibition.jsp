@@ -31,7 +31,7 @@
                 <div class="inner">
                     <ul>
                         <li class="utill_link"><a href="#" onclick="if(confirm('로그아웃 하시겠습니까?')) { window.location.href='/Tcp2/LogoutAction'; } return false;">로그아웃</a></li>
-                        <li class="utill_link"><a href="/Tcp2/Ticket_checkServlet">예매확인/취소</a></li>
+                        <li class="utill_link"><a href="/Tcp2/Controller?command=ticket_check">예매확인/취소</a></li>
                         <li class="utill_link"><a href="/Tcp2/ticketlink/join_content.jsp">회원가입</a></li>
                         <li class="utill_link"><a href="#">고객센터</a></li>
                         <li class="utill_link"><a href="/Tcp2/Mypage_memberServlet">마이페이지</a></li>
@@ -68,7 +68,7 @@
                 </div>
                 <ul class="quick_menu_list">
                     <li class="quick_menu_item reserve">
-                        <a href="/Tcp2/Ticket_checkServlet">
+                        <a href="/Tcp2/Controller?command=ticket_check">
                             <div class="qmenu_box">
                                 <span class="qmenu_tit">예매내역</span>
                                 <span class="qmenu_subtit state_number"><%=totalT %></span>
@@ -92,7 +92,7 @@
                             <li class="has_sub">
                                 <span class="help_submenu_tit">예매관리</span>
                                 <ul class="help_submenu special">
-                                    <li><a href="/Tcp2/Ticket_checkServlet">예매확인/취소</a></li>
+                                    <li><a href="/Tcp2/Controller?command=ticket_check">예매확인/취소</a></li>
                                 </ul>
                             </li>
                             <li class="has_sub">

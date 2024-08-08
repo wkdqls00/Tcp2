@@ -53,6 +53,10 @@ public class Controller extends HttpServlet {
 			case "band_leave" : action = new BandLeaveAction(); break;
 			//티켓링크 로그인
 			case "login" : action = new LoginAction(); break;
+			//메인 페이지
+			case "main" : action = new MainAction(); break;
+			//티켓예매 확인 페이지
+			case "ticket_check" : action = new Ticket_checkAction(); break;
 		}
 		
 		action.execute(request, response);

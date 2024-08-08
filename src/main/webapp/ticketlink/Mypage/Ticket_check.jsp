@@ -79,7 +79,7 @@
                 <div class="inner">
                     <ul>
                         <li class="utill_link"><a href="#" onclick="if(confirm('로그아웃 하시겠습니까?')) { window.location.href='/Tcp2/LogoutAction'; } return false;">로그아웃</a></li>
-                        <li class="utill_link"><a href="/Tcp2/Ticket_checkServlet">예매확인/취소</a></li>
+                        <li class="utill_link"><a href="/Tcp2/Controller?command=ticket_check">예매확인/취소</a></li>
                         <li class="utill_link"><a href="/Tcp2/ticketlink/join_content.jsp">회원가입</a></li>
                         <li class="utill_link"><a href="#">고객센터</a></li>
                         <li class="utill_link"><a href="/Tcp2/Mypage_memberServlet">마이페이지</a></li>
@@ -90,7 +90,7 @@
                 <div class="inner">
                     <h1 class="logo"><a href="/Tcp2/ticketlink/main.jsp">로고</a></h1>
                     <ul class="nav">
-                        <li><a href="#">공연/전시</a></li>
+                        <li><a href="#">공연</a></li>
                         <li><a href="/Tcp2/band/band_main.jsp">커뮤니티</a></li>
                     </ul>
                 </div>
@@ -116,7 +116,7 @@
                     </div>
                     <ul class="quick_menu_list">
                         <li class="quick_menu_item reserve">
-                            <a href="/Tcp2/Ticket_checkServlet">
+                            <a href="/Tcp2/Controller?command=ticket_check">
                                 <div class="qmenu_box">
                                     <span class="qmenu_tit">예매내역</span>
                                     <span class="qmenu_subtit state_number"><%=totalT %></span>
@@ -140,7 +140,7 @@
                             <li class="has_sub">
                                 <span class="help_submenu_tit">예매관리</span>
                                 <ul class="help_submenu special">
-                                    <li class="on"><a href="/Tcp2/Ticket_checkServlet">예매확인/취소</a></li>
+                                    <li class="on"><a href="/Tcp2/Controller?command=ticket_check">예매확인/취소</a></li>
                                 </ul>
                             </li>
                             <li class="has_sub">
@@ -188,8 +188,8 @@
                             <br>공연/전시 예매 내역은 하단의 공연/전시 탭을 선택하면 확인할 수 있습니다.
                         </p>
                         <ul class="mypage_tab"> <!--예매확인 / 예매취소-->
-                            	<li class="on"><a href="/Tcp2/Ticket_checkServlet">예매확인</a></li>
-                            	<li><a href	="/Tcp2/Ticket_checkServletR">예매취소</a></li>
+                            	<li class="on"><a href="/Tcp2/Controller?command=ticket_check">예매확인</a></li>
+                            	<li><a href	="/Tcp2/Controller?command=ticket_checkR">예매취소</a></li>
                         </ul>
                         <div class="sortbox">
                             <dl class="daytbox fl">
@@ -299,11 +299,11 @@
                             if (currP_ != null && !currP_.equals(""))
                             	currP = Integer.parseInt(currP_);
                             %>
-                            <a href="/Tcp2/Ticket_checkServlet?currP=1" class="first" onclick="next(1); return false;">맨앞</a>
-                            <a href="/Tcp2/Ticket_checkServlet?currP=<%=Math.max(currP -1, 1)%>" class="prev" onclick="next(<%=Math.max(currP - 1, 1)%>); return false;">이전</a>
+                            <a href="/Tcp2/Controller?command=ticket_check?currP=1" class="first" onclick="next(1); return false;">맨앞</a>
+                            <a href="/Tcp2/Controller?command=ticket_check?currP=<%=Math.max(currP -1, 1)%>" class="prev" onclick="next(<%=Math.max(currP - 1, 1)%>); return false;">이전</a>
                             <strong id="pnum"><%=currP%></strong>
-                            <a href="/Tcp2/Ticket_checkServlet?currP=<%=Math.min(currP + 1, count)%>" class="next" onclick="next(<%=Math.min(currP + 1, count)%>); return false;">다음</a>
-                            <a href="/Tcp2/Ticket_checkServlet?currP=<%=count%>" class="end" onclick="next(<%=count%>); return false;">맨뒤</a>
+                            <a href="/Tcp2/Controller?command=ticket_check?currP=<%=Math.min(currP + 1, count)%>" class="next" onclick="next(<%=Math.min(currP + 1, count)%>); return false;">다음</a>
+                            <a href="/Tcp2/Controller?command=ticket_check?currP=<%=count%>" class="end" onclick="next(<%=count%>); return false;">맨뒤</a>
                         </div>
                         <div class="note">
                             <h6>
