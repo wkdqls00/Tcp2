@@ -56,7 +56,7 @@ public class Controller extends HttpServlet {
 			//메인 페이지
 			case "main" : action = new MainAction(); break;
 			//마이 페이지
-			case "mypage" : action = new MypageAction();
+			case "mypage" : action = new MypageAction(); break;
 			//티켓예매 확인 페이지
 			case "ticket_check" : action = new Ticket_checkAction(); break;
 		}
