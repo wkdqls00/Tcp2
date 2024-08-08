@@ -43,7 +43,7 @@ public class Modify_emailAction extends HttpServlet {
 		
 		if(count != 0) {
 			System.out.println(userIdx + "번 회원 이메일 변경.");
-			response.sendRedirect("/Tcp2/Modify_memberServlet");
+			response.sendRedirect("/Controller?command=modify_member");
 		} else {
 			System.out.println("오류 발생.");
 			response.getWriter().write("실패함.");

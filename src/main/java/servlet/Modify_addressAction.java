@@ -59,8 +59,9 @@ public class Modify_addressAction extends HttpServlet {
             }
             
            
-            RequestDispatcher rd = request.getRequestDispatcher("/Modify_memberServlet");
-            rd.forward(request, response);
+//            RequestDispatcher rd = request.getRequestDispatcher("/Controller?command=modify_member");
+//            rd.forward(request, response);
+            response.sendRedirect("Controller?command=modify_member");
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

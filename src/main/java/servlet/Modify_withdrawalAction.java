@@ -44,7 +44,7 @@ public class Modify_withdrawalAction extends HttpServlet {
 			} else {
 				System.out.println("잘못된 탈퇴 시도");
 			}
-			response.sendRedirect("/Tcp2/ticketlink/Login/Login.jsp");
+			response.sendRedirect("/Tcp2//Controller?command=main");
 		
 		} catch(SQLException  e) {
 			e.printStackTrace();
