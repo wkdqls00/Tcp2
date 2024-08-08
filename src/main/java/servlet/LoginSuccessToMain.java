@@ -59,7 +59,7 @@ public class LoginSuccessToMain extends HttpServlet {
                     String saveSess = request.getParameter("saveSess");
                     if ("Y".equals(saveSess)) {
                         Cookie cookie = new Cookie("id", id);
-                        cookie.setMaxAge(60 * 30); // 30분으로 설정했음 
+                        cookie.setMaxAge(60 * 60 * 24); // 하루로 설정 합니당
                         cookie.setPath("/"); // 쿠키 경로 설정
                         response.addCookie(cookie);
                         System.out.println("쿠키 저장됨.");

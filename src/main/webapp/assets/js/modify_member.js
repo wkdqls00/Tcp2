@@ -187,12 +187,12 @@ document.getElementById("phone_certy").addEventListener("click", function() {
 	// 최종 수정 버튼
 	document.querySelector(".btn_red_success").addEventListener("click", function() {
 		alert("수정 완료되었습니다.")
-		window.location.href = "/Tcp2/Mypage_memberServlet"
+		window.location.href = "/Tcp2/Controller?command=mypage"
 	});
 	// 취소 버튼
 	document.querySelector(".btn_white").addEventListener("click", function() {
-		alert("메인페이지로 이동합니다.")
-		window.location.href = "/Tcp2/Mypage_memberServlet"
+		alert("마이페이지로 이동합니다.")
+		window.location.href = "/Tcp2/Controller?command=mypage"
 	});
 });
 

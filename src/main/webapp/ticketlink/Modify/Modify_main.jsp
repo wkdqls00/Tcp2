@@ -43,7 +43,7 @@ String name = (String)request.getAttribute("name");
                     </ul>
                 </div> <!--왼쪽 메뉴들-->
             </div>
-            <form action="/Tcp2/LoginSuccessToModify_member" method="post"> <!--가운데 회원정보들-->
+            <form action="/Tcp2/Controller?command=modify_member" method="post"> <!--가운데 회원정보들-->
                 <div class="sub_content_wrap">
                     <h2 class="main_title">비밀번호인증</h2>
                     <div class="pw_to_box">

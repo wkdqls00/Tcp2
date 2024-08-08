@@ -32,10 +32,10 @@
                 </div>
                 <div class="my_menu_area"> <!--왼쪽 메뉴들-->
                     <ul>
-                        <li class="modify"><a href="/Tcp2//Modify_memberServlet">회원정보수정</a></li>
-                        <li class="password"><a href="/Tcp2/Modify_passwordServlet">비밀번호변경</a></li>
-                        <li class="sns"><a href="/Tcp2/ticketlink/Modify/Modify_memberJoin.jsp">계정연결설정</a></li>
-                        <li class="withdrawal current"><a href="/Tcp2//Modify_withdrawalServlet">회원탈퇴</a></li>
+                        <li class="modify"><a href="/Tcp2/Controller?command=modify_member">회원정보수정</a></li>
+                        <li class="password"><a href="/Tcp2/Controller?command=modify_password">비밀번호변경</a></li>
+                        <li class="sns"><a href="/Tcp2/Controller?command=modify_memberJoin">계정연결설정</a></li>
+                        <li class="withdrawal current"><a href="/Tcp2/Controller?command=modify_withdrawal">회원탈퇴</a></li>
                     </ul>
                 </div> <!--왼쪽 메뉴들-->
             </div>

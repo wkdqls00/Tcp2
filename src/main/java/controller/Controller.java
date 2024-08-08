@@ -64,10 +64,22 @@ public class Controller extends HttpServlet {
 			case "mypage" : action = new MypageAction(); break;
 			//티켓예매 확인 페이지
 			case "ticket_check" : action = new Ticket_checkAction(); break;
+			//티켓취소 확인 페이지
+			case "ticket_cancle" : action = new Ticket_cancleAction(); break;
 			//로그아웃
 			case "logout" : action = new LogoutAction2(); break;
 			//회원가입
 			case "newaccount" : action = new NewAccountAction(); break;
+			//회원정보 수정 메인페이지
+			case "modify" : action = new Modify_mainAction(); break;
+			//회원정보 수정 회원정보페이지
+			case "modify_member" : action = new Modify_memberAction(); break;
+			//회원 비밀번호 수정 페이지
+			case "modify_password" : action = new Modify_passwordAction2(); break;
+			//회원 계정연결 설정 페이지
+			case "modify_memberJoin" : action = new Modify_memberJoinAction(); break;
+			//회원 탈퇴 페이지
+			case "modify_withdrawal" : action = new Modify_withdrawalAction2(); break;
 		}
 		
 		action.execute(request, response);

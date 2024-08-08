@@ -120,7 +120,7 @@ int totalT = (int)hs.getAttribute("totalT");
                             <ul class="help_submenu">
                                 <li><a href="" onclick="event.preventDefault(); alert('준비중입니다.');">환불계좌관리</a></li>
                                 <li class="on"><a href="/Tcp2/Controller?command=mypage">회원정보수정</a></li>
-                                <li><a href="/Tcp2/Modify_mainServlet">회원탈퇴</a></li>
+                                <li><a href="/Tcp2/Controller?command=modify">회원탈퇴</a></li>
                             </ul>
                         </li>
                     </ul> 
@@ -148,7 +148,7 @@ int totalT = (int)hs.getAttribute("totalT");
                                     </tr>
                                     <tr>
                                         <th scope="row">비밀번호</th>
-                                        <td><a href="/Tcp2/Modify_mainServlet" class="btn_blank" style="display: inline-block;">비밀번호 변경</a></td>
+                                        <td><a href="/Tcp2/Controller?command=modify" class="btn_blank" style="display: inline-block;">비밀번호 변경</a></td>
                                     </tr>
                                     <tr>
                                         <th scope="row">연락처</th>
@@ -162,7 +162,7 @@ int totalT = (int)hs.getAttribute("totalT");
                             </table>
                         </div>
                         <div class="list_btn">
-                            <a href="/Tcp2/Modify_mainServlet" class="btn btn_full">회원정보 수정</a>
+                            <a href="/Tcp2/Controller?command=modify" class="btn btn_full">회원정보 수정</a>
                         </div>
                     </div>
                 </div>

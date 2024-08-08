@@ -126,7 +126,7 @@
                             <ul class="help_submenu">
                                 <li><a href="" onclick="event.preventDefault(); alert('준비중입니다.');">환불계좌관리</a></li>
                                 <li><a href="/Tcp2/Controller?command=mypage">회원정보수정</a></li>
-                                <li><a href="/Tcp2/Modify_mainServlet">회원탈퇴</a></li>
+                                <li><a href="/Tcp2/Controller?command=modify">회원탈퇴</a></li>
                             </ul>
                         </li>
                     </ul> 

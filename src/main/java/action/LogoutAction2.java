@@ -34,7 +34,7 @@ public class LogoutAction2 implements Action {
 		if(hs != null) {
 //			System.out.println(idx + "회원 로그아웃.");
 			hs.invalidate();
-			response.sendRedirect("/Tcp2/ticketlink/main.jsp");
+			response.sendRedirect("/Tcp2/Controller?command=main");
 		} else {
 			System.out.println("로그인 되어 있는 상태 아님.");
 		}
