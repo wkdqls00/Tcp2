@@ -29,10 +29,8 @@ public class Controller extends HttpServlet {
 			
 			// 새 밴드 생성
 			case "band_new_create": action = new BandNewCreateAction(); break;
-			
 			// 밴드 홈페이지
 			case "band_home": action = new BandHomeAction(); break;
-			
 			// 밴드 채팅
 			case "band_chat": action = new BandChatAction(); break;
 			// 밴드 설정
@@ -53,6 +51,8 @@ public class Controller extends HttpServlet {
 			case "band_delete" : action = new BandDeleteAction(); break;
 			//밴드 탈퇴
 			case "band_leave" : action = new BandLeaveAction(); break;
+			//티켓링크 로그인
+			case "login" : action = new LoginAction(); break;
 		}
 		
 		action.execute(request, response);
