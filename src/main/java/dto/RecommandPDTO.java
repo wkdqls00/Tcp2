@@ -1,6 +1,6 @@
 package dto;
 
-public class RecommendPDTO {
+public class RecommandPDTO {
 
 	private String poster_url;
 	private String areaName;
@@ -9,7 +9,7 @@ public class RecommendPDTO {
 	private String endDate;
 	private int play_idx;
 
-	public RecommendPDTO(String poster_url, String areaName, String playName, String startDate, String endDate,
+	public RecommandPDTO(String poster_url, String areaName, String playName, String startDate, String endDate,
 			int play_idx) {
 		this.poster_url = poster_url;
 		this.areaName = areaName;
@@ -69,7 +69,7 @@ public class RecommendPDTO {
 
 	@Override
 	public String toString() {
-		return "RecommendPDTO [poster_url=" + poster_url + ", areaName=" + areaName + ", playName=" + playName
+		return "RecommandPDTO [poster_url=" + poster_url + ", areaName=" + areaName + ", playName=" + playName
 				+ ", startDate=" + startDate + ", endDate=" + endDate + ", play_idx=" + play_idx + "]";
 	}
 

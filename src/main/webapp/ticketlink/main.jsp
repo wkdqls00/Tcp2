@@ -54,9 +54,10 @@
 </head>
 	<body>
 	<%
-	TicketlinkMainDao dao = new TicketlinkMainDao();
-	ArrayList<SearchResultDTO> list = dao.getPopular();
-	ArrayList<RecommendPDTO> list2 = dao.recommendPDto();
+	@SuppressWarnings("unchecked")
+	ArrayList<SearchResultDTO> list = (ArrayList<SearchResultDTO>)request.getAttribute("list");
+	@SuppressWarnings("unchecked")
+	ArrayList<RecommandPDTO> list2 = (ArrayList<RecommandPDTO>)request.getAttribute("list2");
 	%>
         <header>
             <div class="utill">

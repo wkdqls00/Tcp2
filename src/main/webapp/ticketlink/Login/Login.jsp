@@ -7,12 +7,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="/Tcp2/assets/css/login.css">
     <title>Document</title>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
+    <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js"></script>
     <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
-    <script>
-		
-    </script>
+    <style>
+    	#naver_id_login img {
+    		opacity: 0;
+    	}
+    </style>
 </head>
 <body>
     <div class="header"></div>
@@ -63,15 +66,15 @@
                         </ul>
                     </div>
                     <div class="snsLogin">
-                        <ul>
+                        <ul style="display: flex">
                             <li id="kakao_li">
-                                <a href="#" class="kakao" id="kakao-login-btn">
+                                <a href="#" class="kakao" id="kakao-login-btn" onclick="loginWithKakao(); return false;">
                                 <span>카카오톡</span>
                                 </a>
                             </li>
                             <li id="naver_li">
-                                <a href="javascript:loginWithNaver()" class="naver" id="naver_id_login">
-                                <span id="">네이버</span>
+                                <a href="#" class="naver" id="naver_id_login">
+                                <span>네이버</span>
                                 </a>
                             </li>
                         </ul>
@@ -82,9 +85,8 @@
         </div>
     </div>
     <script>
-    
-    	
         document.addEventListener("DOMContentLoaded", function() {
+        	parseFragment();
             // 로그인 유지 버튼 기능
             document.querySelector(".checkbox input").addEventListener("change", function() {
                 var check = document.querySelector(".checkbox input");
@@ -109,15 +111,6 @@
             
           });
     </script>        
-    <script type="text/javascript">
-        var naver_id_login = new naver_id_login("0XIdlnam8573LeD3OCbE", "https://127.0.0.1:5500/callback");
-        var state = naver_id_login.getUniqState();
-        naver_id_login.setButton("green", 1, 1);
-        naver_id_login.setDomain("https://127.0.0.1:5500");
-        naver_id_login.setState(state);
-        naver_id_login.setPopup();
-        naver_id_login.init_naver_id_login();
-    </script>
      <script type="text/javascript">
         window.onload = function() {
         	// cookie 값 있는지 확인부터
@@ -130,7 +123,44 @@
             <% } %>
         }
     </script>
-    <script src="/Tcp2/assets/js/del_btn.js"></script>
-    <script src="/Tcp2/assets/js/Kakao.js"></script>
+    <script type="text/javascript">
+	  	var naver_id_login = new naver_id_login("0XIdlnam8573LeD3OCbE", "http://127.0.0.1:9090/Tcp2/NaverServlet");
+	  	var state = naver_id_login.getUniqState();
+	  	naver_id_login.setButton("green", 2,40);
+	  	//naver_id_login.setDomain("https://localhost:9090");
+	  	naver_id_login.setState(state);
+	  	naver_id_login.setPopup();
+	  	naver_id_login.init_naver_id_login();
+	  	
+	  	function parseFragment() {
+            const fragment = window.location.hash.substring(1);
+            const params = new URLSearchParams(fragment);
+
+            const accessToken = params.get("access_token");
+            const state = params.get("state");
+            const tokenType = params.get("token_type");
+            const expiresIn = params.get("expires_in");
+
+            if (accessToken && state) {
+                // 서버로 전달
+                fetch('/Tcp2/NaverServlet', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        access_token: accessToken,
+                        state: state,
+                        token_type: tokenType,
+                        expires_in: expiresIn
+                    })
+                }).then(response => response.json())
+                  .then(data => console.log(data))
+                  .catch(error => console.error('Error:', error));
+            }
+        }
+  </script>
+  <script src="/Tcp2/assets/js/del_btn.js"></script>
+  <script src="/Tcp2/assets/js/Kakao.js"></script>
 </body>
 </html>

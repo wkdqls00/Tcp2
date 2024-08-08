@@ -1,11 +1,14 @@
 package dao;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import dto.RecommendPDTO;
+import dto.RecommandPDTO;
 import dto.SearchResultDTO;
 import project.DatabaseUtil;
 
@@ -80,9 +83,9 @@ public class TicketlinkMainDao {
 		return list;
 	}
 	
-	public ArrayList<RecommendPDTO> recommendPDto() {
+	public ArrayList<RecommandPDTO> recommandPDao() {
 
-		ArrayList<RecommendPDTO> list = new ArrayList<>();
+		ArrayList<RecommandPDTO> list = new ArrayList<>();
 		DatabaseUtil d = new DatabaseUtil();
 		Connection conn = d.getConn();
 
@@ -103,7 +106,7 @@ public class TicketlinkMainDao {
 				String startDate = rs.getString(4);
 				String endDate = rs.getString(5);
 				int play_idx = rs.getInt(6);
-				list.add(new RecommendPDTO(poster_url, areaName, playName, startDate, endDate, play_idx));
+				list.add(new RecommandPDTO(poster_url, areaName, playName, startDate, endDate, play_idx));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -112,7 +115,7 @@ public class TicketlinkMainDao {
 		}
 		List result = list;
 		Collections.shuffle(result);
-		list = new ArrayList<RecommendPDTO>(result);
+		list = new ArrayList<RecommandPDTO>(result);
 		return list;
 	}
 }

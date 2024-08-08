@@ -21,10 +21,10 @@
                 <div class="snsJoin">
                     <ul class="listSns">
                         <li class="snsNaver">
-                            <a href="#" class="btnSns Naver"><span>네이버로 가입</span></a>
+                            <a href="#" class="btnSns Naver"><span>네이버로 간편로그인</span></a>
                         </li>
                         <li class="snsKakao">
-                            <a href="#" class="btnSns Kakao"><span>카카오로 가입</span></a>
+                            <a href="#" class="btnSns Kakao"><span>카카오로 간편로그인</span></a>
                         </li>
                     </ul>
                     <p class="guideText">SNS계정 회원가입(만14세 이상)</p>
