@@ -36,7 +36,7 @@
                         <li class="utill_link"><a href="/Tcp2/Controller?command=ticket_check">예매확인/취소</a></li>
                         <li class="utill_link"><a href="/Tcp2/ticketlink/join_content.jsp">회원가입</a></li>
                         <li class="utill_link"><a href="#">고객센터</a></li>
-                        <li class="utill_link"><a href="/Tcp2/Mypage_memberServlet">마이페이지</a></li>
+                        <li class="utill_link"><a href="/Tcp2/Controller?command=mypage">마이페이지</a></li>
                     </ul>
                 </div> 
             </div>
@@ -78,7 +78,7 @@
                             </a>
                         </li>
                         <li class="quick_menu_item info">
-                            <a href="/Tcp2/Mypage_memberServlet">
+                            <a href="/Tcp2/Controller?command=mypage">
                                 <div class="qmenu_box">
                                     <span class="qmenu_tit">회원정보</span>
                                     <span class="qmenu_subtit">수정</span>
@@ -127,7 +127,7 @@
                                 <span class="help_submenu_tit">회원정보관리</span>
                                 <ul class="help_submenu">
                                     <li><a href="" onclick="event.preventDefault(); alert('준비중입니다.');">환불계좌관리</a></li>
-                                    <li><a href="/Tcp2/Mypage_memberServlet">회원정보수정</a></li>
+                                    <li><a href="/Tcp2/Controller?command=mypage">회원정보수정</a></li>
                                     <li><a href="/Tcp2/Modify_mainServlet">회원탈퇴</a></li>
                                 </ul>
                             </li>
@@ -143,7 +143,7 @@
                         </p>
                         <ul class="mypage_tab"> <!--예매확인 / 예매취소-->
                             	<li class="on"><a href="/Tcp2/Controller?command=ticket_check">예매확인</a></li>
-                            	<li><a href	="/Tcp2/Controller?command=ticket_checkR">예매취소</a></li>
+                            	<li><a href	="/Tcp2/Controller?command=ticket_cancle">예매취소</a></li>
                         </ul>
                         <div class="sortbox">
                             <dl class="daytbox fl">
