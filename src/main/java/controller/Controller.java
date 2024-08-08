@@ -59,6 +59,8 @@ public class Controller extends HttpServlet {
 			case "mypage" : action = new MypageAction(); break;
 			//티켓예매 확인 페이지
 			case "ticket_check" : action = new Ticket_checkAction(); break;
+			//로그아웃
+			case "logout" : action = new LogoutAction2(); break;
 		}
 		
 		action.execute(request, response);

@@ -18,10 +18,10 @@ String name = (String)request.getAttribute("name");
     <div class="common_header"> <!--홈페이지상단-->
         <div class="header_inner">
             <div class="inner">
-                <a href="https://www.naver.com" class="header_logo"><span class="hidden">사이트이름</span></a>
+                <a href="/Tcp2/Controller?command=main" class="header_logo"><span class="hidden">사이트이름</span></a>
                 <ul class="my_menu">
                     <li>
-                        <li class="utill_link"><a href="#" onclick="if(confirm('로그아웃 하시겠습니까?')) { window.location.href='/Tcp2/LogoutAction'; } return false;">로그아웃</a></li>
+                        <li class="utill_link"><a href="#" onclick="if(confirm('로그아웃 하시겠습니까?')) { window.location.href='/Tcp2/Controller?command=logout'; } return false;">로그아웃</a></li>
                     </li>
                 </ul>
             </div>
