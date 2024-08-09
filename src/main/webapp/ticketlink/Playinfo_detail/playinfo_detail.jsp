@@ -19,22 +19,10 @@
 	int playhall_idx = gpi.getplayhall_idx(play_idx);
 	ArrayList<Play_DetailedInfoDTO> list = new Play_DetailedInfoDAO().play_DetailedInfoDTO(play_idx);
 	ArrayList<DetailedInfo_playDTO> dipd = new DetailedInfo_playDAO().DetailedInfoDTO_play(play_idx);
-
-	
-	
  	ArrayList<SeatPriceDTO> spdto = new SeatPriceDAO().selectSeatPrice(play_idx);
-
 	ArrayList<PlayHallLocationDTO> phldto = new PlayHallLocationDAO().playHallLocationDto(playhall_idx);
-
-	
-	ArrayList<ScriptwritecountDTO> swcd = new ScriptwritecountDAO().scriptwritecountDto(play_idx);		
-
-
-	  
 	ArrayList<Exp_RatingcountDTO> ercd = new Exp_ratingcountDAO().exp_ratingcountDto(play_idx);
-	
 	ArrayList<Exp_RatingDTO> erd = new Exp_RatinglistDAO().exp_RatinglistDto(play_idx);
-	
 	ScriptwriteInDAO swid = new ScriptwriteInDAO();	
 	double staravg = swid.getstarRatingavg(play_idx);
 	
@@ -572,8 +560,8 @@
   <div class="content_heading">
     <h2 class="content_title">
       <b>관람후기</b>
-      <input type="hidden" name="play_idx" value="<%=play_idx%>">
-      <span class="text_primary text_number"><%=swcd.get(0).getScriptwritecount()%></span>
+      <input type="hidden" name="play_idx" value="${play_idx}">
+      <span class="text_primary text_number">${scriptCount}</span>
     </h2>
     <div class="star_rate">
       <div class="star_rt" data-rate="<%=staravg %>">
@@ -789,8 +777,8 @@
   <div class="product_content_heading">
     <h2 class="product_content_title">
       <b>기대평</b>
-     <input type="hidden" name="play_idx" value="<%=play_idx %>">
-      <span class="text_primary text_number"><%=ercd.get(0).getExpratingcount()%></span>
+     <input type="hidden" name="play_idx" value="${play_idx}">
+      <span class="text_primary text_number">${expCount}</span>
     </h2>
   </div>
   <div class="comment_write">
