@@ -42,7 +42,7 @@
             </div>
             <div class="nav_box">
                 <div class="inner">
-                    <h1 class="logo"><a href="/Tcp2/ticketlink/main.jsp">로고</a></h1>
+                    <h1 class="logo"><a href="/Tcp2/Controller?command=main">로고</a></h1>
                     <ul class="nav">
                         <li><a href="#">공연/전시</a></li>
                         <li><a href="#">커뮤니티</a></li>
@@ -150,10 +150,10 @@
                                 <dt>기간별 조회</dt>
                                 <dd style="float: left"> <!--기간별 조회-->
                                     <ul class="daysort">
-                                        <li><a href="/Tcp2/Ticket_checkPeriodServlet?day=15">15일</a></li>
-                                        <li><a href="/Tcp2/Ticket_checkPeriodServlet?day=30">1개월</a></li>
-                                        <li><a href="/Tcp2/Ticket_checkPeriodServlet?day=60">2개월</a></li>
-                                        <li><a href="/Tcp2/Ticket_checkPeriodServlet?day=90">3개월</a></li>
+                                        <li><a href="/Tcp2/Controller?command=ticket_check_period&day=15">15일</a></li>
+                                        <li><a href="/Tcp2/Controller?command=ticket_check_period&day=30">1개월</a></li>
+                                        <li><a href="/Tcp2/Controller?command=ticket_check_period&day=60">2개월</a></li>
+                                        <li><a href="/Tcp2/Controller?command=ticket_check_period&day=90">3개월</a></li>
                                     </ul>
                                 </dd>
                             </dl>

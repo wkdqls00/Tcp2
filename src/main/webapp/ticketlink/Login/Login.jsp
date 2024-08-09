@@ -22,7 +22,7 @@
     <div id="container" class="container login">
         <div class="loginWrap">
             <div class="loginLogo nav_box">
-            <h1 class="logo"><a href="../html/main.html"></a></h1>
+            <h1 class="logo"><a href="/Tcp2/Controller?command=main"></a></h1>
             </div>
             <form id="loginFrm" name="loginFrm" action="${pageContext.request.contextPath}/LoginSuccessToMain"  method="post" >
                 <div class="loginInner">

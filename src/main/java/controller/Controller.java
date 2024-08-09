@@ -63,8 +63,16 @@ public class Controller extends HttpServlet {
 			case "mypage" : action = new MypageAction(); break;
 			//티켓예매 확인 페이지
 			case "ticket_check" : action = new Ticket_checkAction(); break;
+			//티켓예매 확인 15, 30, 60, 90일 페이지
+			case "ticket_check_period" : action = new Ticket_checkPeriodAction(); break;
+			//티켓예매 확인 월별 페이지
+			case "ticket_checkMonthY" : action = new Ticket_checkMonthYAction(); break;
 			//티켓취소 확인 페이지
 			case "ticket_cancle" : action = new Ticket_cancleAction(); break;
+			//티켓취소 확인 15, 30, 60, 90일 페이지
+			case "ticket_check_periodR" : action = new Ticket_checkPeriodRAction(); break;
+			//티켓취소 확인 월별 페이지
+			case "ticket_checkMonthR" : action = new Ticket_checkMonthRAction(); break;
 			//로그아웃
 			case "logout" : action = new LogoutAction2(); break;
 			//회원가입
@@ -83,6 +91,8 @@ public class Controller extends HttpServlet {
 			case "ranking" : action = new RankingAction(); break;
 			//공연 상세 페이지
 			case "playinfo" : action = new PlayinfoAction(); break;
+			
+			
 		}
 		
 		action.execute(request, response);

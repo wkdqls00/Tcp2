@@ -11,7 +11,7 @@
 	        return p1.padStart(2, '0');
 		});
 		if(year != "연도" && month != "월")
-		window.location.href = `/Tcp2/Ticket_checkMonthYServlet?viOrRe=${viOrRe}&year=${year}&month=${month}`;
+		window.location.href = `/Tcp2/Controller?command=ticket_checkMonthY&viOrRe=${viOrRe}&year=${year}&month=${month}`;
 		else 
 		window.location.href ="#"
 	});

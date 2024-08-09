@@ -42,7 +42,7 @@
             </div>
             <div class="nav_box">
                 <div class="inner">
-                    <h1 class="logo"><a href="/Tcp2/ticketlink/main.jsp">로고</a></h1>
+                    <h1 class="logo"><a href="/Tcp2/Controller?command=main">로고</a></h1>
                     <ul class="nav">
                         <li><a href="#">공연/전시</a></li>
                         <li><a href="#">커뮤니티</a></li>
@@ -150,10 +150,10 @@
                                 <dt>기간별 조회</dt>
                                 <dd style="float: left"> <!--기간별 조회-->
                                     <ul class="daysort">
-                                        <li><a href="/Tcp2/Ticket_checkPeriodServletR?day=15">15일</a></li>
-                                        <li><a href="/Tcp2/Ticket_checkPeriodServletR?day=30">1개월</a></li>
-                                        <li><a href="/Tcp2/Ticket_checkPeriodServletR?day=60">2개월</a></li>
-                                        <li><a href="/Tcp2/Ticket_checkPeriodServletR?day=90"  class="search">3개월</a></li>
+                                        <li><a href="/Tcp2/Controller?command=ticket_check_periodR&day=15">15일</a></li>
+                                        <li><a href="/Tcp2/Controller?command=ticket_check_periodR&day=30">1개월</a></li>
+                                        <li><a href="/Tcp2/Controller?command=ticket_check_periodR&day=60">2개월</a></li>
+                                        <li><a href="/Tcp2/Controller?command=ticket_check_periodR&day=90"  class="search">3개월</a></li>
                                     </ul>
                                 </dd>
                             </dl>
@@ -254,11 +254,11 @@
                             if (currP_ != null && !currP_.equals(""))
                             	currP = Integer.parseInt(currP_);
                             %>
-                            <a href="/Tcp2/Ticket_checkPeriodServletR?day=90&currP=1" class="first">맨앞</a>
-                            <a href="/Tcp2/Ticket_checkPeriodServletR?day=90&currP=<%=Math.max(currP -1, 1)%>" class="prev">이전</a>
+                            <a href="/Tcp2/Controller?command=ticket_check_periodR&day=90&currP=1" class="first">맨앞</a>
+                            <a href="/Tcp2/Controller?command=ticket_check_periodR&day=90&currP=<%=Math.max(currP -1, 1)%>" class="prev">이전</a>
                             <strong><%=currP%></strong>
-                            <a href="/Tcp2/Ticket_checkPeriodServletR?day=90&currP=<%=Math.min(currP + 1, count)%>" class="next">다음</a>
-                            <a href="/Tcp2/Ticket_checkPeriodServletR?day=90&currP=<%=count%>" class="end">맨뒤</a>
+                            <a href="/Tcp2/Controller?command=ticket_check_periodR&day=90&currP=<%=Math.min(currP + 1, count)%>" class="next">다음</a>
+                            <a href="/Tcp2/Controller?command=ticket_check_periodR&day=90&currP=<%=count%>" class="end">맨뒤</a>
                         </div>
                         <div class="note">
                             <h6>
