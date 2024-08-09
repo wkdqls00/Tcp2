@@ -304,7 +304,7 @@
 	    
 	    function clickbanner(){
 	    	let play_idx = document.querySelector('.sm_img.on').getAttribute('playIdx');
-	    	location.href='/Tcp2/ticketlink/Detailed_Infor(Integrated)/Prefor.detail(C).jsp?play_idx='+play_idx;
+	    	location.href='/Tcp2/Controller?command=playinfo&play_idx='+play_idx;
 	    }
     </script>
 </body>

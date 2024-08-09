@@ -8,32 +8,31 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
-<%
-%>
-    
-    
     
 <%
-    int play_idx = Integer.parseInt(request.getParameter("play_idx"));
-	Getplayhall_idx gpi = new Getplayhall_idx();
-	int playhall_idx = gpi.getplayhall_idx(play_idx);
-	ArrayList<Play_DetailedInfoDTO> list = new Play_DetailedInfoDAO().play_DetailedInfoDTO(play_idx);
-	ArrayList<DetailedInfo_playDTO> dipd = new DetailedInfo_playDAO().DetailedInfoDTO_play(play_idx);
- 	ArrayList<SeatPriceDTO> spdto = new SeatPriceDAO().selectSeatPrice(play_idx);
-	ArrayList<PlayHallLocationDTO> phldto = new PlayHallLocationDAO().playHallLocationDto(playhall_idx);
-	ArrayList<Exp_RatingcountDTO> ercd = new Exp_ratingcountDAO().exp_ratingcountDto(play_idx);
-	ArrayList<Exp_RatingDTO> erd = new Exp_RatinglistDAO().exp_RatinglistDto(play_idx);
-	ScriptwriteInDAO swid = new ScriptwriteInDAO();	
-	double staravg = swid.getstarRatingavg(play_idx);
+int play_idx = (int)request.getAttribute("play_idx");
+int playhall_idx = (int)request.getAttribute("playhall_idx");
+@SuppressWarnings("unchecked")
+ArrayList<Play_DetailedInfoDTO> list = (ArrayList<Play_DetailedInfoDTO>)request.getAttribute("list");
+@SuppressWarnings("unchecked")
+ArrayList<DetailedInfo_playDTO> dipd = (ArrayList<DetailedInfo_playDTO>)request.getAttribute("dipd");
+@SuppressWarnings("unchecked")
+ArrayList<SeatPriceDTO> spdto = (ArrayList<SeatPriceDTO>)request.getAttribute("spdto");
+@SuppressWarnings("unchecked")
+ArrayList<PlayHallLocationDTO> phldto = (ArrayList<PlayHallLocationDTO>)request.getAttribute("phldto");
+int scriptCount = (int)request.getAttribute("scriptCount");
+int expCount = (int)request.getAttribute("expCount");
+@SuppressWarnings("unchecked")
+ArrayList<Exp_RatingDTO> erd = (ArrayList<Exp_RatingDTO>)request.getAttribute("erd");
+double staravg = (double)request.getAttribute("staravg");
+@SuppressWarnings("unchecked")
+ArrayList<PlayhallMapDTO> phmd = (ArrayList<PlayhallMapDTO>)request.getAttribute("phmd");
+@SuppressWarnings("unchecked")
+ArrayList<GetDateDTO> gdd = (ArrayList<GetDateDTO>)request.getAttribute("gdd");
+@SuppressWarnings("unchecked")
+ArrayList<RecommandPDTO> rpd = (ArrayList<RecommandPDTO>)request.getAttribute("rpd");
 	
-	ArrayList<PlayhallMapDTO> phmd = new PlayHallLocationDAO().playhallMap(play_idx);
-
-	ArrayList<GetDateDTO> gdd = new GetDateDAO().getPlayinfo(play_idx);
 	
-	
-	int rowNum = 5;
-	
-	ArrayList<RecommandPDTO> rpd = new Genre_RankDAO().recommendPDto();
 %>    
     
     
