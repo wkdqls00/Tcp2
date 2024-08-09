@@ -15,8 +15,6 @@ import project.DatabaseUtil;
 public class DetailedInfo_playDAO {
     // 메인 메서드
     public static void main(String[] args) {
-    	ArrayList<DetailedInfo_playDTO> dipd = new DetailedInfo_playDAO().DetailedInfoDTO_play(1);
-    	for (DetailedInfo_playDTO 종원 : dipd) System.out.println(종원);
  
     }
 

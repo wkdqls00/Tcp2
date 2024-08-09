@@ -92,8 +92,8 @@
                     <ul class="gnb_list">
                         <li class="gnb_link"><a href="/Tcp2/Controller?command=main">홈</a></li>
                         <li class="gnb_link"><a href="/Tcp2/Controller?command=main">공연</a></li>
-                        <li class="gnb_link"><a href="/Tcp2/ticketlink/Ranking_MainP/weekly_ranking3.jsp">랭킹</a></li>
-                        <li class="gnb_link"><a href="/Tcp2/Controller?command=band_main">커뮤니티</a></li>
+                        <li class="gnb_link"><a href="/Tcp2/Controller?command=ranking">랭킹</a></li>
+                        <li class="gnb_link"><a href="/Tcp2/Controller?command=ban d_main">커뮤니티</a></li>
                         <li class="gnb_link" style="padding: 0; padding-top: 10px; padding-left: 10px; float: right;">
                         	<form action="/Tcp2/SearchResult">
 		                  	<input type="text" style="width: 200px; padding-inline: 8px;" placeholder="공연을 검색하세요." name="search" minlength="2">
@@ -128,7 +128,7 @@
             <section class="con_box inner">
                 <div class="con_header">
                     <h2 class="con_tit">추천공연</h2>
-                    <a href="/Tcp2/ticketlink/Ranking_MainP/weekly_ranking3.jsp">전체보기</a>
+                    <a href="/Tcp2/Controller?command=ranking">전체보기</a>
                 </div>
                 <div class="item_box">
                     <ul class="item_list">
@@ -190,7 +190,8 @@
          
         </div>
         </main>
-
+		<br>
+		<br>
         <!-- 맨 밑 하단 안내사항 -->
         <footer id="common_footer">
             <button type="button" class="btn_move_top is-active is-stuck">

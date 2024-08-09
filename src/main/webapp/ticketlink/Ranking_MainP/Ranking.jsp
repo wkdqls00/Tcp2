@@ -11,22 +11,12 @@
     pageEncoding="UTF-8"%>
 
 <%
-   int genre_idx = 1;
-   // int play_idx = Integer.parseInt(request.getParameter("play_idx"));
-   // int genre_idx = Integer.parseInt(request.getParameter("genre_idx"));
-   ArrayList<Genre_RankDTO> list =  new Genre_RankDAO().selectGenre_RankDTO(genre_idx);
-    
-   SimpleDateFormat inputFormat = new SimpleDateFormat("yyyyMMdd");
-   SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy년 M월 d일 (E)");
-
-    String[] selectDate = list.get(0).getRegDate().split("");
-
-   Date d = inputFormat.parse(String.join("", selectDate));
-   String formattedDate = outputFormat.format(d);
-
-   int rowNum = 5;
-   ArrayList<Week_RankDTO> wrd = new Genre_RankDAO().weekRankDto(rowNum);
-   ArrayList<Week_RDTO> wr = new Genre_RankDAO().weekRDto(rowNum);
+	@SuppressWarnings("unchecked")
+	ArrayList<Genre_RankDTO> list = (ArrayList<Genre_RankDTO>)request.getAttribute("list");
+	@SuppressWarnings("unchecked")
+    ArrayList<Week_RankDTO> wrd = (ArrayList<Week_RankDTO>)request.getAttribute("wrd");
+	@SuppressWarnings("unchecked")
+    ArrayList<Week_RDTO> wr = (ArrayList<Week_RDTO>)request.getAttribute("wr");
 %>
 <!-- Area_Rank dao/ dto  -->
 <!-- Genre_Rank dao/ dto -->
@@ -36,9 +26,9 @@
  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>주간베스트</title> 
-  <link rel="stylesheet" href="../../assets/css/common.css">
-  <link rel="stylesheet" href="../../assets/css/reset.css">
-  <link rel="stylesheet" type="text/css" href="../../assets/css/ranking.css">
+  <link rel="stylesheet" href="/Tcp2/assets/css/common.css">
+  <link rel="stylesheet" href="/Tcp2/assets/css/reset.css">
+  <link rel="stylesheet" type="text/css" href="/Tcp2/assets/css/ranking.css">
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
   <link href="https://unpkg.com/gijgo@1.9.14/css/gijgo.min.css" rel="stylesheet" type="text/css"/>

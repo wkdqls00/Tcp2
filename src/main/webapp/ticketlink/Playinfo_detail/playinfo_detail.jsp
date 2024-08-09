@@ -9,62 +9,31 @@
     pageEncoding="UTF-8"%>
     
 <%
-	// int loginMemberIdx = 1;   // TODO : 나중에, session에서 불러오는 걸로 변경하셔야.
-	// HttpSession hs = request.getSession();
-    // int member_idx = (int)hs.getAttribute("userIdx");
-    request.getSession().getAttribute("userIdx");
 %>
-<script>
-	let g_play_idx = <%=request.getParameter("play_idx")%>;
-</script>
-    
     
     
     
 <%
-	// Integer paymentIdx = 1;   // TODO : 나중에, Dao 메서드 호출해서 가져오는 걸로 변경하셔야.
-	
-    // int play_idx = 486;
     int play_idx = Integer.parseInt(request.getParameter("play_idx"));
- 	// int playhall_idx = Integer.parseInt(request.getParameter("playhall_idx"));
-	 Getplayhall_idx gpi = new Getplayhall_idx();
-	 int playhall_idx = gpi.getplayhall_idx(play_idx);
-	
+	Getplayhall_idx gpi = new Getplayhall_idx();
+	int playhall_idx = gpi.getplayhall_idx(play_idx);
 	ArrayList<Play_DetailedInfoDTO> list = new Play_DetailedInfoDAO().play_DetailedInfoDTO(play_idx);
-
 	ArrayList<DetailedInfo_playDTO> dipd = new DetailedInfo_playDAO().DetailedInfoDTO_play(play_idx);
-	
-	 String[] startDate = dipd.get(0).getStartDate().split(" ");	
-	 String[] endDate = dipd.get(0).getEndDate().split(" ");
-	
-	SimpleDateFormat inputFormat = new SimpleDateFormat("yyyyMMdd");
-	SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy년 M월 d일 (E)");
 
-	String[] selectstartDate = dipd.get(0).getStartDate().split("");
-	String[] selectendDate = dipd.get(0).getEndDate().split("");
-
-	Date sd = inputFormat.parse(String.join("", selectstartDate));
-	Date ed = inputFormat.parse(String.join("", selectendDate));
 	
-	String formattedstartDate = outputFormat.format(sd);
-	String formattedendDate = outputFormat.format(ed);
 	
  	ArrayList<SeatPriceDTO> spdto = new SeatPriceDAO().selectSeatPrice(play_idx);
 
 	ArrayList<PlayHallLocationDTO> phldto = new PlayHallLocationDAO().playHallLocationDto(playhall_idx);
 
-	ArrayList<ScriptwriteDTO> swd = new ScriptwriteDAO().scriptwriteDto(play_idx);
 	
 	ArrayList<ScriptwritecountDTO> swcd = new ScriptwritecountDAO().scriptwritecountDto(play_idx);		
 
-	ScriptwriteInDAO swi = new ScriptwriteInDAO();
 
 	  
 	ArrayList<Exp_RatingcountDTO> ercd = new Exp_ratingcountDAO().exp_ratingcountDto(play_idx);
 	
 	ArrayList<Exp_RatingDTO> erd = new Exp_RatinglistDAO().exp_RatinglistDto(play_idx);
-	
-	ScriptwriteupdateDAO swud = new ScriptwriteupdateDAO();
 	
 	ScriptwriteInDAO swid = new ScriptwriteInDAO();	
 	double staravg = swid.getstarRatingavg(play_idx);
@@ -73,13 +42,10 @@
 
 	ArrayList<GetDateDTO> gdd = new GetDateDAO().getPlayinfo(play_idx);
 	
-	ArrayList<Genre_RankDTO> Glist =  new Genre_RankDAO().selectGenre_RankDTO(3);
 	
 	int rowNum = 5;
-	ArrayList<Week_RankDTO> wrd = new Genre_RankDAO().weekRankDto(rowNum);
-	ArrayList<Week_RDTO> wr = new Genre_RankDAO().weekRDto(rowNum);
 	
-	ArrayList<RecommendPDTO> rpd = new Genre_RankDAO().recommendPDto();
+	ArrayList<RecommandPDTO> rpd = new Genre_RankDAO().recommendPDto();
 %>    
     
     
@@ -99,7 +65,9 @@
   <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=kvd9jc2y88"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
  
+    
   <script>
+	let g_play_idx = <%=request.getParameter("play_idx")%>;
 
   function draw_script_page(page_num) {
 		$.ajax({
@@ -280,7 +248,7 @@
           </li>
           <li class="product_item border">
             <span class="product_info_title">기간</span>
-            <div class="product_info_desc"><%=startDate[0]%> - <%=endDate[0]%></div>
+            <div class="product_info_desc"><%=dipd.get(0).getStartDate() + "-" + dipd.get(0).getEndDate()%></div>
           </li>
           <li class="product_item border">
             <span class="product_info_title">관람등급</span>
@@ -445,7 +413,7 @@
     <section class="section_detail">
       <h3 class="contect_subtit" style="font-size: 24px; margin-bottom: 15px;"><b>공연시간 정보</b></h3>
       <div class="editor">
-       <p style="font-size: 20px;">	&lt;기간 : &nbsp; <b><%=startDate[0]%> - <%=endDate[0]%>&gt; </b></p> <br/>
+       <p style="font-size: 20px;">	&lt;기간 : &nbsp; <b><%=dipd.get(0).getStartDate() + "-" + dipd.get(0).getEndDate()%>&gt; </b></p> <br/>
         <p>
           <b>
 <%

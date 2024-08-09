@@ -27,7 +27,6 @@ public class Controller extends HttpServlet {
 			case "band_main": action = new BandMainAction(); break;
 			
 			case "band_main_hometown": action = new BandMainHometown(); break;
-			
 			// 새 밴드 생성
 			case "band_new_create": action = new BandNewCreateAction(); break;
 			// 밴드 홈페이지
@@ -80,6 +79,10 @@ public class Controller extends HttpServlet {
 			case "modify_memberJoin" : action = new Modify_memberJoinAction(); break;
 			//회원 탈퇴 페이지
 			case "modify_withdrawal" : action = new Modify_withdrawalAction2(); break;
+			//랭킹 페이지
+			case "ranking" : action = new RankingAction(); break;
+			//공연 상세 페이지
+			case "playinfo" : action = new PlayinfoAction(); break;
 		}
 		
 		action.execute(request, response);
