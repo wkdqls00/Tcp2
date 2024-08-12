@@ -12,7 +12,6 @@
     const g = Math.floor(Math.random() * 256);
     const b = Math.floor(Math.random() * 256);
     document.body.style.backgroundColor = 'rgb(' + r + ', ' + g + ', ' + b + ')';
-	
 	var width = getRandomInt(20, 1200);
 	var height = getRandomInt(10, 900);
 	var left = getRandomInt(0, window.innerWidth - 100);

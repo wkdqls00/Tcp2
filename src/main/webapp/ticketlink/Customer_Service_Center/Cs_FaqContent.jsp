@@ -8,12 +8,8 @@
     pageEncoding="UTF-8"%>
     
 <%
-String FaqId = request.getParameter("FaqId");
-int faq_idx = Integer.parseInt(request.getParameter("faq_idx"));
-ArrayList<FaqSelectDTO> fsd = new Customer_ServiceDAO().faqSelectdto(faq_idx);
-
-int titleLength = 20; // 제목 최대 길이
-int contentLength = 50; // 내용 최대 길이
+@SuppressWarnings("unchecked")
+ArrayList<FaqSelectDTO> list = (ArrayList<FaqSelectDTO>)request.getAttribute("list");
 %>    
     
 <!DOCTYPE html>
@@ -21,9 +17,9 @@ int contentLength = 50; // 내용 최대 길이
 <head>
 <meta charset="UTF-8">
 <title>공지사항 내용</title>
-<link rel="stylesheet" href="../../assets/css/reset.css">
-<link rel="stylesheet" href="../../assets/css/common.css">
-<link rel="stylesheet" type="text/css" href="../../assets/css/noticeContent.css">
+<link rel="stylesheet" href="/Tcp2/assets/css/reset.css">
+<link rel="stylesheet" href="/Tcp2/assets/css/common.css">
+<link rel="stylesheet" type="text/css" href="/Tcp2/assets/css/noticeContent.css">
 
 </head>
 
@@ -31,19 +27,19 @@ int contentLength = 50; // 내용 최대 길이
  <header>
 	<div class="utill">
 	  <div class="inner">
-	       <ul>
-	       <%if((Integer)request.getSession().getAttribute("userIdx") == null){ %>
-	           <li class="utill_link"><a href="Login/Login.jsp">로그인</a></li>
-	           <%} else { %>
-	           <li class="utill_link"><a href="#" onclick="if(confirm('로그아웃 하시겠습니까?')) { window.location.href='/Tcp2/LogoutAction'; } return false;">로그아웃</a></li>
-	           <%} %>
-	           <li class="utill_link"><a href="/Tcp2/Ticket_checkServlet">예매확인/취소</a></li>
-	           <%if((Integer)request.getSession().getAttribute("userIdx") == null){ %>
-	           <li class="utill_link"><a href="/Tcp2/ticketlink/Login/AgreeToTerms.jsp">회원가입</a></li>
-	           <%} %>
-	           <li class="utill_link"><a href="/Tcp2/ticketlink/Customer_Service_Center/Cs_Center_main.jsp">고객센터</a></li>
-	           <li class="utill_link"><a href="/Tcp2/Mypage_memberServlet">마이페이지</a></li>                    
-         </ul>
+          <ul>
+            <%if(request.getSession().getAttribute("userIdx") == null){ %>
+              <li class="utill_link"><a href="/Tcp2/Controller?command=login">로그인</a></li>
+              <%} else { %>
+              <li class="utill_link"><a href="#" onclick="if(confirm('로그아웃 하시겠습니까?')) { window.location.href='/Tcp2/LogoutAction'; } return false;">로그아웃</a></li>
+              <%} %>
+              <li class="utill_link"><a href="/Tcp2/Controller?command=ticket_check">예매확인/취소</a></li>
+          <%if(request.getSession().getAttribute("userIdx") == null){ %>
+              <li class="utill_link"><a href="/Tcp2/Controller?command=newaccount">회원가입</a></li>
+              <%} %>
+              <li class="utill_link"><a href="/Tcp2/Controller?command=cscenter">고객센터</a></li>
+              <li class="utill_link"><a href="/Tcp2/Controller?command=mypage">마이페이지</a></li>
+		  </ul>
 	        </div> 
 	    </div>
 	    <div class="nav_box">
@@ -183,15 +179,15 @@ int contentLength = 50; // 내용 최대 길이
    <div class="htab_common hmain_tab">
 	<!-- [D] 활성상태일때 .on 추가입니다. -->
 			<div class="list_view">
-				<div class="category"><%=fsd.get(0).getCategory() %></div>
-				<div class="list_title"><%=fsd.get(0).getFaq() %></div>
+				<div class="category"><%=list.get(0).getCategory()%></div>
+				<div class="list_title"><%=list.get(0).getFaq() %></div>
 			</div>
 			<div class="list_date">
 			등록일 :
-			<%=fsd.get(0).getFaq_date() %>
+			<%=list.get(0).getFaq_date() %>
 			</div>
 			<div class="list_cont">
-				<p><%=fsd.get(0).getReply() %></p>
+				<p><%=list.get(0).getReply() %></p>
 			</div>			
 	   </div>
 		<div class="list_btn"> 
@@ -346,6 +342,12 @@ int contentLength = 50; // 내용 최대 길이
             content.textContent = truncateText(content.textContent, contentLength);
         });
     });
+    function writeInquire() {
+        window.open('/Tcp2/Controller?command=wirteinquire', '', 'width=900, height=1020');
+      }
+      function showInquireList() {
+          window.open('/Tcp2/Controller?command=inquirelist', '', 'width=900, height=1020');
+      }
 </script>
 </body>
 </html>

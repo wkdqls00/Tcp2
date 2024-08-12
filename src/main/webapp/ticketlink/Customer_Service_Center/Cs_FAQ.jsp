@@ -5,18 +5,17 @@
     pageEncoding="UTF-8"%>
     
 <%
-String FaqId = request.getParameter("FaqId");
-ArrayList<FaqDTO> fqd = new Customer_ServiceDAO().faqdto();
+@SuppressWarnings("unchecked")
+ArrayList<FaqDTO> fqd = (ArrayList<FaqDTO>)request.getAttribute("fqd");
 %>
-    
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>FAQ</title>
-<link rel="stylesheet" href="../../assets/css/common.css">
-<link rel="stylesheet" href="../../assets/css/reset.css">
-<link rel="stylesheet" type="text/css" href="../../assets/css/FAQ.css">
+<link rel="stylesheet" href="/Tcp2/assets/css/common.css">
+<link rel="stylesheet" href="/Tcp2/assets/css/reset.css">
+<link rel="stylesheet" type="text/css" href="/Tcp2/assets/css/FAQ.css">
 </head>
 
 <body>
@@ -43,23 +42,19 @@ ArrayList<FaqDTO> fqd = new Customer_ServiceDAO().faqdto();
         </ul>
       </div>
       <div class="header_util_right">
-        <ul class="header_util_list">
-          <li class="header_util_item">
-            <a href="/Tcp2/ticketlink/Login/Login.jsp" class="header_util_link">로그인</a>
-          </li>
-          <li class="header_util_item">
-            <!-- ::before -->
-            <a href="/Tcp2/ticketlink/Mypage/Ticket_check.jsp" class="header_util_link">예매확인/취소</a>
-          </li>
-          <li class="header_util_item">
-            <!-- ::before -->
-            <a href="/Tcp2/ticketlink/Login/AgreeToTerms.jsp" class="header_util_link">회원가입</a>
-            </li>
-          <li class="header_util_item">
-            <!-- ::before -->
-            <a href="/help/main" class="header_util_link">고객센터</a>
-          </li>
-        </ul>
+          <ul>
+            <%if(request.getSession().getAttribute("userIdx") == null){ %>
+              <li class="utill_link"><a href="/Tcp2/Controller?command=login">로그인</a></li>
+              <%} else { %>
+              <li class="utill_link"><a href="#" onclick="if(confirm('로그아웃 하시겠습니까?')) { window.location.href='/Tcp2/LogoutAction'; } return false;">로그아웃</a></li>
+              <%} %>
+              <li class="utill_link"><a href="/Tcp2/Controller?command=ticket_check">예매확인/취소</a></li>
+          <%if(request.getSession().getAttribute("userIdx") == null){ %>
+              <li class="utill_link"><a href="/Tcp2/Controller?command=newaccount">회원가입</a></li>
+              <%} %>
+              <li class="utill_link"><a href="/Tcp2/Controller?command=cscenter">고객센터</a></li>
+              <li class="utill_link"><a href="/Tcp2/Controller?command=mypage">마이페이지</a></li>
+		  </ul>
       </div>
     </div>
   </div>
@@ -128,20 +123,21 @@ ArrayList<FaqDTO> fqd = new Customer_ServiceDAO().faqdto();
       </div>
       <ul>
         <li class="qmenu1" id="menu">
-          <a href="http://localhost:9090/Tcp2/ticketlink/Login/Find_idResult.jsp" class="id_pw1">
+          <a href="/Tcp2/Controller?command=find_id" class="id_pw1">
             <!-- before -->
             아이디<br/>
             패스워드 찾기
           </a>
         </li>
         <li class="qmenu2" id="menu">
-          <a href="#" class="id_pw2" data-url="http://localhost:9090/Tcp2/ticketlink/Customer_Service_Center/oneConsultantServlet" class="id_pw2">
+      <a href="" onclick="writeInquire(); return false;" class="id_pw2">
             <!-- before -->
             상담내역<br/>
             확인하기
           </a>
+        </li> 
         <li class="qmenu3" id="menu">
-          <a href="http://localhost:9090/Tcp2/ticketlink/Customer_Service_Center/Cs_cancel_refund.jsp" class="id_pw3">
+          <a href="" onclick="showInquireList(); return false;" class="id_pw3">
             <!-- before -->
             예매취소<br/>
             환불문의
@@ -155,7 +151,7 @@ ArrayList<FaqDTO> fqd = new Customer_ServiceDAO().faqdto();
           </a>
         </li>
         <li class="qmenu5" id="menu">
-          <a  href="javascript:void(0)" onclick="discG();" class="id_pw5">
+          <a href="javascript:void(0)" onclick="discG();" class="id_pw5">
             <!-- before -->
             할인카드<br/>
             안내보기
@@ -168,32 +164,32 @@ ArrayList<FaqDTO> fqd = new Customer_ServiceDAO().faqdto();
     <ul class="help_menu">
         <li class="help_meu1" id="on">
           <!-- href 추가/ on 클릭시 빨간색으로 바뀜 -->
-          <a href="http://localhost:9090/Tcp2/ticketlink/Customer_Service_Center/Cs_Center_main.jsp" class="meu1">
+          <a href="/Tcp2/Controller?command=cscenter" class="meu1">
             고객센터 홈
             <!-- after -->
           </a>
         </li>
         <li class="help_meu2" id="off">
               <!-- href 추가/ on 클릭시 빨간색으로 바뀜 -->
-              <a href=" http://localhost:9090/Tcp2/ticketlink/Customer_Service_Center/Cs_notice.jsp" class="meu1">
+              <a href="/Tcp2/Controller?command=notice" class="meu1">
                 공지사항
                 <!-- after -->
               </a>
         </li>
         <li class="help_meu3">
-          <a href="http://localhost:9090/Tcp2/ticketlink/Customer_Service_Center/Cs_FAQ.jsp" class="meu1">
+          <a href="/Tcp2/Controller?command=faq" class="meu1">
             FAQ
             <!-- after -->
           </a>
         </li>
         <li class="help_inquiry_meu">
-          <a href="#" data-url="http://localhost:9090/Tcp2/ticketlink/Customer_Service_Center/oneConsultantServlet" class="meu1">
+          <a href="#" onclick="writeInquire(); return false;" class="meu1">
             1:1상담
             <!-- after -->
           </a>
         </li>
         <li class="help_inquiry_history">
-          <a href="oneinquirydetail" class="meu1">
+          <a href="#" onclick="showInquireList(); return false;" class="meu1">
             1:1문의내역
             <!-- after -->
           </a>
@@ -202,25 +198,22 @@ ArrayList<FaqDTO> fqd = new Customer_ServiceDAO().faqdto();
           <span class="submenu_tit">안내</span>
           <ul class="help_tit">
               <li class="reserveGuide" id="on">
-                <a href="http://localhost:9090/Tcp2/ticketlink/Customer_Service_Center/Cs_reserve_info.jsp">예매안내</a>
+                <a href="/Tcp2/Controller?command=reserveinfo">예매안내</a>
               </li>
               <li class="memberGuide" id="off">
-                <a href="http://localhost:9090/Tcp2/ticketlink/Customer_Service_Center/Cs_reserve_membership.jsp">회원정보안내</a>
+                <a href="/Tcp2/Controller?command=membership">회원정보안내</a>
               </li>
               <li class="commissionGuide" id="off">
-                <a href="http://localhost:9090/Tcp2/ticketlink/Customer_Service_Center/Cs_commission.jsp">수수료안내</a>
+                <a href="/Tcp2/Controller?command=commission">수수료안내</a>
               </li>
               <li class="refundGuide" id="off">
-                <a href="http://localhost:9090/Tcp2/ticketlink/Customer_Service_Center/Cs_cancel_refund.jsp">취소/환불안내</a>
+                <a href="/Tcp2/Controller?command=cancel">취소/환불안내</a>
               </li>
               <li class="discountGuide" id="off">
-                <a href="">할인수단안내</a>
+                <a href="javascript:void(0)" onclick="disG();">할인수단안내</a>
               </li>
               <li class="discountcardGuide" id="off">
-                <a href="javascript:void(0)" onclick="disG();">할인카드안내</a>
-              </li>
-              <li class="legalGuide" id="off">
-                <a href="javascript:void(0)" onclick="discG();">부정이용안내</a>
+                <a href="javascript:void(0)" onclick="discG();">할인카드안내</a>
               </li>
             </ul>
         </li>
@@ -265,7 +258,7 @@ ArrayList<FaqDTO> fqd = new Customer_ServiceDAO().faqdto();
 %>                
                   <tr>
                     <td><%=fqd.get(i).getCategory() %></td>
-                    <td class="t1">
+                    <td class="t1" style="cursor: pointer;">
                       <a class="Faq_title" id="<%=fqd.get(i).getFaq_idx() %>" onclick="FaqContent(<%=fqd.get(i).getFaq_idx() %>)"><%=fqd.get(i).getFaq() %></a>
                     </td>
                     <td class="number"><%=fqd.get(i).getFaq_date() %></td>
@@ -406,7 +399,13 @@ ArrayList<FaqDTO> fqd = new Customer_ServiceDAO().faqdto();
 
 <script>
 function FaqContent(FaqId) {
-    window.location.href = '/Tcp2/ticketlink/Customer_Service_Center/Cs_FaqContent.jsp?faq_idx='+ FaqId;
+    window.location.href = '/Tcp2/Controller?command=faqdetail&fi='+ FaqId;
+  }
+function writeInquire() {
+    window.open('/Tcp2/Controller?command=wirteinquire', '', 'width=900, height=1020');
+  }
+  function showInquireList() {
+      window.open('/Tcp2/Controller?command=inquirelist', '', 'width=900, height=1020');
   }
 </script>
 

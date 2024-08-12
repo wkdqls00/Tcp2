@@ -146,7 +146,7 @@
     for(int i = 0; i < list.size(); i++) {%>
     <div class="contentdiv">
       <div class="content1"><%=list.get(i).getProcess_st()%></div>
-      <div class="content2"><a href="/Tcp2/ShowInquirydetails?bno=<%=list.get(i).getInquiry_idx()%>"><%=list.get(i).getTitle()%></a></div>
+      <div class="content2"><a href="/Tcp2/Controller?command=inquiredetail&bno=<%=list.get(i).getInquiry_idx()%>"><%=list.get(i).getTitle()%></a></div>
       <div class="content3"><%=list.get(i).getType()%></div>
       <div class="content4"><%=list.get(i).getDate()%></div>
     </div>

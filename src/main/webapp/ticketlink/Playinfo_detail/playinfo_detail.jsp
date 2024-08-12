@@ -566,7 +566,7 @@ ArrayList<RecommandPDTO> rpd = (ArrayList<RecommandPDTO>)request.getAttribute("r
     <div class="star_rate">
       <div class="star_rt" data-rate="<%=staravg %>">
         <!-- before -->
-         <div class="star-wrap"><div class="star_r"><i class="fas fa-star" aria-hidden="true" id="rate_fa"></i></div></div>     
+         <div class="star-wrap"><div class="star_r"><i class="fas fa-star" aria-hidden="true" id="rate_fa"></i></div></div>
          <div class="star-wrap"><div class="star_r"><i class="fas fa-star" aria-hidden="true" id="rate_fa"></i></div></div>     
          <div class="star-wrap"><div class="star_r"><i class="fas fa-star" aria-hidden="true" id="rate_fa"></i></div></div>     
          <div class="star-wrap"><div class="star_r"><i class="fas fa-star" aria-hidden="true" id="rate_fa"></i></div></div>     
@@ -599,7 +599,7 @@ ArrayList<RecommandPDTO> rpd = (ArrayList<RecommandPDTO>)request.getAttribute("r
 	          <div class="star_select">
 	            <input type="radio" name="star2" id="star2_1" class="star_rating" value="1">
 	            <label for="star2_1" class="star_label">
-	            <i class="fa fa-star" aria-hidden="true" id="star1"></i>
+	            <i class="fa fa-star" aria-hidden="true" id="star1" style="color: red;"></i>
 	              <span class="blind">
 	                1
 	                점
@@ -629,7 +629,7 @@ ArrayList<RecommandPDTO> rpd = (ArrayList<RecommandPDTO>)request.getAttribute("r
 	                점
 	              </span>
 	            </label>
-		            <input type="radio" name="star2" id="star2_5" class="star_rating" value="5">
+		            <input type="radio" name="star2" id="star2_5" class="star_rating" value="5" checked>
 		            <label for="star2_5" class="star_label">
 		            <i class="fa fa-star" aria-hidden="true" id="star5"></i>
 		              <span class="blind">
@@ -1330,26 +1330,8 @@ ArrayList<RecommandPDTO> rpd = (ArrayList<RecommandPDTO>)request.getAttribute("r
 
 <script>
 	function ScriptwriteInsert() {
-	    const title = document.getElementById('title').value.trim();
-	    const content = document.getElementById('content').value.trim();
-	    const starRatings = document.querySelectorAll('.star_rating');
-		const reg_date = document.querySelectorAll('.comment_date');
-	    
 		 // 별점을 저장할 변수를 초기화
-		let star_rating = 1;
-	
-		 // 각 라디오 버튼에 이벤트 리스너 추가
-	 	starRatings.forEach(radio => {
-	  	radio.addEventListener('change', function() {
-	       // 선택된 라디오 버튼의 값 가져오기
-	    star_rating = Integer.parseInt(this.value);
-	
-	  	});
-	  	
-	      form.action = '/Tcp2/ScriptwriteServlet';
-	      form.method = 'doget';
-	      form.submit();
-		});
+
 	}
 </script>
 
@@ -1368,7 +1350,7 @@ ArrayList<RecommandPDTO> rpd = (ArrayList<RecommandPDTO>)request.getAttribute("r
 <script>
 $(document).ready(function() {
     // 초기 색상 설정
-    $(".fa-star").css("color", "black");
+    $(".fa-star").css("color", "red");
 
     $(".fa-star").click(function() {
         const starId = $(this).attr("id"); // 클릭한 스타의 ID 가져오기

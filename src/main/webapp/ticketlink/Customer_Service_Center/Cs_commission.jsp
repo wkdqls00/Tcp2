@@ -5,9 +5,9 @@
 <head>
 <meta charset="UTF-8">
 <title>수수료안내</title>
-<link rel="stylesheet" type="text/css" href="../../assets/css/commission.css">
-  <link rel="stylesheet" href="../../assets/css/common.css">
-  <link rel="stylesheet" href="../../assets/css/reset.css">
+<link rel="stylesheet" type="text/css" href="/Tcp2/assets/css/commission.css">
+  <link rel="stylesheet" href="/Tcp2/assets/css/common.css">
+  <link rel="stylesheet" href="/Tcp2/assets/css/reset.css">
 
 </head>
 
@@ -15,19 +15,19 @@
  <header>
     <div class="utill">
         <div class="inner">
-           <ul>
-	       <%if((Integer)request.getSession().getAttribute("userIdx") == null){ %>
-	           <li class="utill_link"><a href="Login/Login.jsp">로그인</a></li>
-	           <%} else { %>
-	           <li class="utill_link"><a href="#" onclick="if(confirm('로그아웃 하시겠습니까?')) { window.location.href='/Tcp2/LogoutAction'; } return false;">로그아웃</a></li>
-	           <%} %>
-	           <li class="utill_link"><a href="/Tcp2/Ticket_checkServlet">예매확인/취소</a></li>
-	           <%if((Integer)request.getSession().getAttribute("userIdx") == null){ %>
-	           <li class="utill_link"><a href="/Tcp2/ticketlink/Login/AgreeToTerms.jsp">회원가입</a></li>
-	           <%} %>
-	           <li class="utill_link"><a href="/Tcp2/ticketlink/Customer_Service_Center/Cs_Center_main.jsp">고객센터</a></li>
-	           <li class="utill_link"><a href="/Tcp2/Mypage_memberServlet">마이페이지</a></li>                    
-         </ul>
+          <ul>
+            <%if(request.getSession().getAttribute("userIdx") == null){ %>
+              <li class="utill_link"><a href="/Tcp2/Controller?command=login">로그인</a></li>
+              <%} else { %>
+              <li class="utill_link"><a href="#" onclick="if(confirm('로그아웃 하시겠습니까?')) { window.location.href='/Tcp2/LogoutAction'; } return false;">로그아웃</a></li>
+              <%} %>
+              <li class="utill_link"><a href="/Tcp2/Controller?command=ticket_check">예매확인/취소</a></li>
+          <%if(request.getSession().getAttribute("userIdx") == null){ %>
+              <li class="utill_link"><a href="/Tcp2/Controller?command=newaccount">회원가입</a></li>
+              <%} %>
+              <li class="utill_link"><a href="/Tcp2/Controller?command=cscenter">고객센터</a></li>
+              <li class="utill_link"><a href="/Tcp2/Controller?command=mypage">마이페이지</a></li>
+		  </ul>
         </div> 
     </div>
     <div class="nav_box">
@@ -60,20 +60,21 @@
       </div>
       <ul>
         <li class="qmenu1" id="menu">
-          <a href="http://localhost:9090/Tcp2/ticketlink/Login/Find_idResult.jsp"" class="id_pw1">
+          <a href="/Tcp2/Controller?command=find_id" class="id_pw1">
             <!-- before -->
             아이디<br/>
             패스워드 찾기
           </a>
         </li>
         <li class="qmenu2" id="menu">
-          <a href="#"  data-url="http://localhost:9090/Tcp2/ticketlink/Customer_Service_Center/oneConsultantServlet" class="id_pw2">
+      <a href="" onclick="writeInquire(); return false;" class="id_pw2">
             <!-- before -->
             상담내역<br/>
             확인하기
           </a>
+        </li> 
         <li class="qmenu3" id="menu">
-          <a href="http://localhost:9090/Tcp2/ticketlink/Customer_Service_Center/Cs_cancel_refund.jsp" class="id_pw3">
+          <a href="" onclick="showInquireList(); return false;" class="id_pw3">
             <!-- before -->
             예매취소<br/>
             환불문의
@@ -87,7 +88,7 @@
           </a>
         </li>
         <li class="qmenu5" id="menu">
-          <a href="javascript:void(0)" onclick="discG();"class="id_pw5">
+          <a href="javascript:void(0)" onclick="discG();" class="id_pw5">
             <!-- before -->
             할인카드<br/>
             안내보기
@@ -100,32 +101,32 @@
     <ul class="help_menu">
         <li class="help_meu1" id="on">
           <!-- href 추가/ on 클릭시 빨간색으로 바뀜 -->
-          <a href="http://localhost:9090/Tcp2/ticketlink/Customer_Service_Center/Cs_Center_main.jsp" class="meu1">
+          <a href="/Tcp2/Controller?command=cscenter" class="meu1">
             고객센터 홈
             <!-- after -->
           </a>
         </li>
         <li class="help_meu2" id="off">
               <!-- href 추가/ on 클릭시 빨간색으로 바뀜 -->
-              <a href="http://localhost:9090/Tcp2/ticketlink/Customer_Service_Center/Cs_notice.jsp" class="meu1">
+              <a href="/Tcp2/Controller?command=notice" class="meu1">
                 공지사항
                 <!-- after -->
               </a>
         </li>
         <li class="help_meu3">
-          <a href="http://localhost:9090/Tcp2/ticketlink/Customer_Service_Center/Cs_FAQ.jsp" class="meu1">
+          <a href="/Tcp2/Controller?command=faq" class="meu1">
             FAQ
             <!-- after -->
           </a>
         </li>
         <li class="help_inquiry_meu">
-          <a href="#" data-url="http://localhost:9090/Tcp2/ticketlink/Customer_Service_Center/oneConsultantServlet" class="meu1">
+          <a href="#" onclick="writeInquire(); return false;" class="meu1">
             1:1상담
             <!-- after -->
           </a>
         </li>
         <li class="help_inquiry_history">
-          <a href="oneinquirydetail" class="meu1">
+          <a href="#" onclick="showInquireList(); return false;" class="meu1">
             1:1문의내역
             <!-- after -->
           </a>
@@ -134,16 +135,16 @@
           <span class="submenu_tit">안내</span>
           <ul class="help_tit">
               <li class="reserveGuide" id="on">
-                <a href="http://localhost:9090/Tcp2/ticketlink/Customer_Service_Center/Cs_reserve_info.jsp">예매안내</a>
+                <a href="/Tcp2/Controller?command=reserveinfo">예매안내</a>
               </li>
               <li class="memberGuide" id="off">
-                <a href="http://localhost:9090/Tcp2/ticketlink/Customer_Service_Center/Cs_reserve_membership.jsp">회원정보안내</a>
+                <a href="/Tcp2/Controller?command=membership">회원정보안내</a>
               </li>
               <li class="commissionGuide" id="off">
-                <a href="http://localhost:9090/Tcp2/ticketlink/Customer_Service_Center/Cs_commission.jsp">수수료안내</a>
+                <a href="/Tcp2/Controller?command=commission">수수료안내</a>
               </li>
               <li class="refundGuide" id="off">
-                <a href="http://localhost:9090/Tcp2/ticketlink/Customer_Service_Center/Cs_cancel_refund.jsp">취소/환불안내</a>
+                <a href="/Tcp2/Controller?command=cancel">취소/환불안내</a>
               </li>
               <li class="discountGuide" id="off">
                 <a href="javascript:void(0)" onclick="disG();">할인수단안내</a>
@@ -371,7 +372,14 @@
 </div>
 </section>
   
-
+<script>
+function writeInquire() {
+    window.open('/Tcp2/Controller?command=wirteinquire', '', 'width=900, height=1020');
+  }
+  function showInquireList() {
+      window.open('/Tcp2/Controller?command=inquirelist', '', 'width=900, height=1020');
+  }
+</script>
 
 
 </body>

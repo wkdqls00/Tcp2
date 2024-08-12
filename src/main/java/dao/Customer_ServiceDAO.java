@@ -10,30 +10,13 @@ import dto.Customer_ServiceCDTO;
 import dto.Customer_ServiceDTO;
 import dto.FaqDTO;
 import dto.FaqSelectDTO;
+import dto.RecentNoticeDTO;
 import dto.ScriptwriteDTO;
 import project.DatabaseUtil;
 
 public class Customer_ServiceDAO {
 
-	public static void main(String[] args) {
 		
-//		ArrayList<Customer_ServiceDTO> csd = new Customer_ServiceDAO().customerserviceDto();
-//		for (Customer_ServiceDTO customerserviceDto : csd) {
-//			System.out.println(customerserviceDto);
-//		}
-//		ArrayList<Customer_ServiceCDTO> cscd = new Customer_ServiceDAO().customerserviceContent(10);
-		
-//		ArrayList<FaqDTO> fqd = new Customer_ServiceDAO().faqdto();
-//		for (FaqDTO fq : fqd) {
-//			System.out.println(fq);
-//		}
-		
-		ArrayList<FaqSelectDTO> fsd = new Customer_ServiceDAO().faqSelectdto(4);
-		for (FaqSelectDTO 지수 : fsd) {
-			System.out.println(지수);
-		}
-		
-    }
 	
 	public ArrayList<Customer_ServiceDTO> customerserviceDto()  {
 		
@@ -353,5 +336,39 @@ public class Customer_ServiceDAO {
 				
 			return listRet;
 	}
-
+	
+	public ArrayList<RecentNoticeDTO> getRecentNotice(){
+		DatabaseUtil d = new DatabaseUtil();
+		ArrayList<RecentNoticeDTO> list = new ArrayList<>();
+		Connection conn = d.getConn();
+		String sql = "SELECT notice_idx, title FROM notice ORDER BY reg_date DESC";
+		PreparedStatement pstmt = d.getPstmt(conn, sql);
+		ResultSet rs = d.getRs(pstmt);
+		try {
+			while(rs.next()) {
+				list.add(new RecentNoticeDTO(rs.getInt(1), rs.getString(2)));
+			}
+		} catch(SQLException e) {
+			e.printStackTrace();
+		} finally {
+			d.close(conn, pstmt, rs);
+		}
+	return list;
+	}
+	
+	
+	public void addViews(int notice_idx){
+		DatabaseUtil d = new DatabaseUtil();
+		Connection conn = d.getConn();
+		String sql = "UPDATE notice SET views = views + 1 WHERE notice_idx = ?";
+		PreparedStatement pstmt = d.getPstmt(conn, sql);
+		try {
+			pstmt.setInt(1, notice_idx);
+			System.out.println(pstmt.executeUpdate() + "행 업데이트됨");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		d.close(conn, pstmt);
+	}
+	
 }

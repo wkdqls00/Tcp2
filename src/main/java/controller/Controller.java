@@ -121,7 +121,28 @@ public class Controller extends HttpServlet {
 			case "writescript" : action = new WriteScriptAction(); break;
 			//기대평작성
 			case "writeexp" : action = new WriteExpAction(); break;
-			
+			// 문의목록 페이지
+			case "inquirelist" : action = new InquirelistAction(); break;
+			// 문의 내역 글 클릭시
+			case "inquiredetail" : action = new InquiredetailAction(); break;
+			// 문의하기
+			case "wirteinquire" : action = new WirteinquireAction(); break;
+			//공지사항
+			case "notice" : action = new NoticeAction(); break;
+			//faq
+			case "faq" : action = new FaqAction(); break;
+			//예약안내페이지
+			case "reserveinfo" : action = new ReserveInfoAction(); break;
+			//회원정보안내멤버십
+			case "membership" : action = new MembershipAction(); break;
+			//수수료 안내
+			case "commission" : action = new CommissionAction(); break;
+			//예매취소안내
+			case "cancel" : action = new CancelRefundAction(); break;
+			//FAQ 내용
+			case "faqdetail" : action = new FaqDetailAction(); break;
+			//공지사항 내용
+			case "noticedetail" : action = new NoticeDetailAction(); break;
 		}
 		
 		action.execute(request, response);

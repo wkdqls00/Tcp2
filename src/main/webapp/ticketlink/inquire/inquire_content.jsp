@@ -98,7 +98,7 @@ ShowInquiryInfoDTO dto = (ShowInquiryInfoDTO)request.getAttribute("dto");
       <div class="regdate"><%=dto.getDate()%></div>
     </div>
     <div class="btndiv">
-      <button class="btn" onclick="location.href='/Tcp2/ShowInquiryList'">목록</button>
+      <button class="btn" onclick="location.href='/Tcp2/Controller?command=inquirelist'">목록</button>
     </div>
   </div>
 </body>

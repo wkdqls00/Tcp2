@@ -6,12 +6,8 @@
     pageEncoding="UTF-8"%>
     
 <%
-String noticeId = request.getParameter("noticeId");
-int notice_idx = Integer.parseInt(request.getParameter("notice_idx"));
-ArrayList<Customer_ServiceCDTO> cscd = new Customer_ServiceDAO().customerserviceContent(notice_idx);
-
-int titleLength = 20; // 제목 최대 길이
-int contentLength = 50; // 내용 최대 길이
+@SuppressWarnings("unchecked")
+ArrayList<Customer_ServiceCDTO> list = (ArrayList<Customer_ServiceCDTO>)request.getAttribute("list");
 %>    
     
 <!DOCTYPE html>
@@ -19,9 +15,9 @@ int contentLength = 50; // 내용 최대 길이
 <head>
 <meta charset="UTF-8">
 <title>공지사항</title>
-<link rel="stylesheet" href="../../assets/css/reset.css">
-<link rel="stylesheet" href="../../assets/css/common.css">
-<link rel="stylesheet" type="text/css" href="../../assets/css/noticeContent.css">
+<link rel="stylesheet" href="/Tcp2/assets/css/reset.css">
+<link rel="stylesheet" href="/Tcp2/assets/css/common.css">
+<link rel="stylesheet" type="text/css" href="/Tcp2/assets/css/noticeContent.css">
 
 </head>
 
@@ -29,41 +25,41 @@ int contentLength = 50; // 내용 최대 길이
  <header>
 	<div class="utill">
 	        <div class="inner">
-	            <ul>
-	       <%if((Integer)request.getSession().getAttribute("userIdx") == null){ %>
-	           <li class="utill_link"><a href="Login/Login.jsp">로그인</a></li>
-	           <%} else { %>
-	           <li class="utill_link"><a href="#" onclick="if(confirm('로그아웃 하시겠습니까?')) { window.location.href='/Tcp2/LogoutAction'; } return false;">로그아웃</a></li>
-	           <%} %>
-	           <li class="utill_link"><a href="/Tcp2/Ticket_checkServlet">예매확인/취소</a></li>
-	           <%if((Integer)request.getSession().getAttribute("userIdx") == null){ %>
-	           <li class="utill_link"><a href="/Tcp2/ticketlink/Login/AgreeToTerms.jsp">회원가입</a></li>
-	           <%} %>
-	           <li class="utill_link"><a href="/Tcp2/ticketlink/Customer_Service_Center/Cs_Center_main.jsp">고객센터</a></li>
-	           <li class="utill_link"><a href="/Tcp2/Mypage_memberServlet">마이페이지</a></li>                    
-         </ul>
+	          <ul>
+	            <%if(request.getSession().getAttribute("userIdx") == null){ %>
+	              <li class="utill_link"><a href="/Tcp2/Controller?command=login">로그인</a></li>
+	              <%} else { %>
+	              <li class="utill_link"><a href="#" onclick="if(confirm('로그아웃 하시겠습니까?')) { window.location.href='/Tcp2/LogoutAction'; } return false;">로그아웃</a></li>
+	              <%} %>
+	              <li class="utill_link"><a href="/Tcp2/Controller?command=ticket_check">예매확인/취소</a></li>
+	          <%if(request.getSession().getAttribute("userIdx") == null){ %>
+	              <li class="utill_link"><a href="/Tcp2/Controller?command=newaccount">회원가입</a></li>
+	              <%} %>
+	              <li class="utill_link"><a href="/Tcp2/Controller?command=cscenter">고객센터</a></li>
+	              <li class="utill_link"><a href="/Tcp2/Controller?command=mypage">마이페이지</a></li>
+			  </ul>
 	        </div> 
 	    </div>
 	    <div class="nav_box">
 	        <div class="inner">
-	            <h1 class="logo"><a href="/Tcp2/ticketlink/main.jsp">로고</a></h1>
-	            <ul class="nav">
-	               <li><a href="/Tcp2/ticketlink/main.jsp">공연</a></li>
-                <li><a href="/Tcp2/band/band_main.jsp">커뮤니티</a></li>
-	            </ul>
-	        </div>
-	    </div>
-	    <div class="gnb_box">
-	        <div class="inner">
-	            <ul class="gnb_list">
-	            <li class="gnb_link"><a href="/Tcp2/ticketlink/main.jsp">홈</a></li>
-                <li class="gnb_link"><a href="/Tcp2/ticketlink/main.jsp">공연</a></li>
-                <li class="gnb_link"><a href="/Tcp2/ticketlink/Ranking_MainP/weekly_ranking3.jsp">랭킹</a></li>
-                <li class="gnb_link"><a href="/Tcp2/band/band_main.jsp">커뮤니티</a></li>
-	            </ul>
-	        </div>
-	    </div>
- </header>
+          <h1 class="logo"><a href="/Tcp2/Controller?command=main">로고</a></h1>
+          <ul class="nav">
+              <li><a href="/Tcp2/Controller?command=main">공연</a></li>
+              <li><a href="/Tcp2/Controller?command=band_main">커뮤니티</a></li>
+          </ul>
+      </div>
+  </div>
+  <div class="gnb_box">
+      <div class="inner">
+          <ul class="gnb_list">
+              <li class="gnb_link"><a href="/Tcp2/Controller?command=main">홈</a></li>
+              <li class="gnb_link"><a href="/Tcp2/Controller?command=main">공연</a></li>
+              <li class="gnb_link"><a href="/Tcp2/Controller?command=ranking">랭킹</a></li>
+              <li class="gnb_link"><a href="/Tcp2/Controller?command=band_main">커뮤니티</a></li>
+          </ul>
+      </div>
+  </div>
+</header>
 <!-- 고객센터 본문(상단메뉴) -->
 <main id="container" class="common_container cs_center" role="main">
   <div class="main_body">
@@ -74,20 +70,20 @@ int contentLength = 50; // 내용 최대 길이
       </div>
       <ul>
         <li class="qmenu1" id="menu">
-          <a href="http://localhost:9090/Tcp2/ticketlink/Login/Find_idResult.jsp" class="id_pw1">
+          <a href="/Tcp2/Controller?command=find_id" class="id_pw1">
             <!-- before -->
             아이디<br/>
             패스워드 찾기
           </a>
         </li>
         <li class="qmenu2" id="menu">
-          <a href="#" data-url="http://localhost:9090/Tcp2/ticketlink/Customer_Service_Center/oneConsultantServlet" class="id_pw2">
+     	 <a href="" onclick="writeInquire(); return false;" class="id_pw2">
             <!-- before -->
             상담내역<br/>
             확인하기
           </a>
         <li class="qmenu3" id="menu">
-          <a href="http://localhost:9090/Tcp2/ticketlink/Customer_Service_Center/Cs_commission.jsp" class="id_pw3">
+          <a href="" onclick="showInquireList(); return false;" class="id_pw3">
             <!-- before -->
             예매취소<br/>
             환불문의
@@ -110,36 +106,36 @@ int contentLength = 50; // 내용 최대 길이
       </ul>  
   </div>
 
-  <div class="help_cont">
+   <div class="help_cont">
     <ul class="help_menu">
         <li class="help_meu1" id="on">
           <!-- href 추가/ on 클릭시 빨간색으로 바뀜 -->
-          <a href="http://localhost:9090/Tcp2/ticketlink/Customer_Service_Center/Cs_Center_main.jsp" class="meu1">
+          <a href="/Tcp2/Controller?command=cscenter" class="meu1">
             고객센터 홈
             <!-- after -->
           </a>
         </li>
         <li class="help_meu2" id="off">
               <!-- href 추가/ on 클릭시 빨간색으로 바뀜 -->
-              <a href="http://localhost:9090/Tcp2/ticketlink/Customer_Service_Center/Cs_notice.jsp" class="meu1">
+              <a href="/Tcp2/Controller?command=notice" class="meu1">
                 공지사항
                 <!-- after -->
               </a>
         </li>
         <li class="help_meu3">
-          <a href="http://localhost:9090/Tcp2/ticketlink/Customer_Service_Center/Cs_FAQ.jsp" class="meu1">
+          <a href="/Tcp2/Controller?command=faq" class="meu1">
             FAQ
             <!-- after -->
           </a>
         </li>
         <li class="help_inquiry_meu">
-          <a href="#"  data-url="http://localhost:9090/Tcp2/ticketlink/Customer_Service_Center/oneConsultantServlet" class="meu1">
+          <a href="#" onclick="writeInquire(); return false;" class="meu1">
             1:1상담
             <!-- after -->
           </a>
         </li>
         <li class="help_inquiry_history">
-          <a href="oneinquirydetail" class="meu1">
+          <a href="#" onclick="showInquireList(); return false;" class="meu1">
             1:1문의내역
             <!-- after -->
           </a>
@@ -148,22 +144,22 @@ int contentLength = 50; // 내용 최대 길이
           <span class="submenu_tit">안내</span>
           <ul class="help_tit">
               <li class="reserveGuide" id="on">
-                <a href="http://localhost:9090/Tcp2/ticketlink/Customer_Service_Center/Cs_reserve_info.jsp">예매안내</a>
+                <a href="/Tcp2/Controller?command=reserveinfo">예매안내</a>
               </li>
               <li class="memberGuide" id="off">
-                <a href="http://localhost:9090/Tcp2/ticketlink/Customer_Service_Center/Cs_reserve_membership.jsp">회원정보안내</a>
+                <a href="/Tcp2/Controller?command=membership">회원정보안내</a>
               </li>
               <li class="commissionGuide" id="off">
-                <a href="http://localhost:9090/Tcp2/ticketlink/Customer_Service_Center/Cs_commission.jsp">수수료안내</a>
+                <a href="/Tcp2/Controller?command=commission">수수료안내</a>
               </li>
               <li class="refundGuide" id="off">
-                <a href="http://localhost:9090/Tcp2/ticketlink/Customer_Service_Center/Cs_cancel_refund.jsp">취소/환불안내</a>
+                <a href="/Tcp2/Controller?command=cancel">취소/환불안내</a>
               </li>
               <li class="discountGuide" id="off">
-                <a  href="javascript:void(0)" onclick="disG();">할인수단안내</a>
+                <a href="javascript:void(0)" onclick="disG();">할인수단안내</a>
               </li>
               <li class="discountcardGuide" id="off">
-                <a  href="javascript:void(0)" onclick="discG();">할인카드안내</a>
+                <a href="javascript:void(0)" onclick="discG();">할인카드안내</a>
               </li>
             </ul>
         </li>
@@ -180,17 +176,17 @@ int contentLength = 50; // 내용 최대 길이
 		<div class="list_view"> 
 			<div class="list_date"> 
 			 등록일 :
-			<span id="registerDatetime"><%=cscd.get(0).getReg_date() %></span>
+			<span id="registerDatetime"><%=list.get(0).getReg_date() %></span>
 			<span class="bar">|</span>	
-			조회수 :&nbsp;<%=cscd.get(0).getViews() %>
+			조회수 :&nbsp;<%=list.get(0).getViews() %>
 			</div>
 			<div class="list_con" style="padding: 15px;">
-			<p><%=cscd.get(0).getContent() %> </p>
+			<p><%=list.get(0).getContent() %> </p>
 			</div>
 		</div>
 		<div class="list_btn"> 
 		   <div class="fr">	
-			<a href="/Tcp2/ticketlink/Customer_Service_Center/Cs_notice.jsp" class="btn btn_blank">목록보기</a>
+			<a href="/Tcp2/Controller?command=notice" class="btn btn_blank">목록보기</a>
 		   </div>	
 		</div>
     </div>
@@ -341,6 +337,12 @@ int contentLength = 50; // 내용 최대 길이
             content.textContent = truncateText(content.textContent, contentLength);
         });
     });
+    function writeInquire() {
+        window.open('/Tcp2/Controller?command=wirteinquire', '', 'width=900, height=1020');
+      }
+      function showInquireList() {
+          window.open('/Tcp2/Controller?command=inquirelist', '', 'width=900, height=1020');
+      }
 </script>
 </body>
 </html>
