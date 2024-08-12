@@ -139,14 +139,14 @@
             <div class="bandInfoBox">
              <% try {
             	 if (mPrintDAO.adminCheck(member_idx, meet_idx)) { %>
-              <a href="band_information.jsp?meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="showBandInfo">밴드 소개 설정
+              <button class="showBandInfo" onclick="location.href='<%= request.getContextPath() %>/Controller?command=band_information&meet_idx=<%= meet_idx %>'">밴드 소개 설정
              <% 	} 
              	} catch(Exception e) {
              		e.printStackTrace();
              	}
              	%>
                 <span class="uIconArrow"></span>
-              </a>
+              </button>
             </div>
             <!-- 밴드 안내 문구 : 공개 여부 -->
             <% if (bOkDTO.getPublic_ok().equals("Y")) { %>

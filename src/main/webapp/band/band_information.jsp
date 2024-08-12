@@ -49,7 +49,7 @@
 				type: 'get',
 				success: function(response){
 					alert("저장되었습니다.");
-					location.href = "myband_setting_leader.jsp?meet_idx=" + <%=meet_idx%> + "&member_idx=" + <%=member_idx%>;
+					location.href = "${pageContext.request.contextPath}/Controller?command=band_setting&meet_idx=" + <%=meet_idx%>;
 				},
 				error: function(){
 					console.log('ajax 통신 실패');	
@@ -69,21 +69,26 @@
         <div class="logo_search_area">
           <!-- 로고 -->
           <h1 class = "logo_area">
-            <a href="Controller?command=band_main&meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="logo">
+            <a href="<%=request.getContextPath()%>/Controller?command=band_main" class="logo">
             </a>
           </h1>
         </div>
         <!-- 위젯 -->
         <div id="header_widget_area">
           <ul class="widgetList">
-            <!-- 가입했을 시 프로필 출력 -->
+            <li class="ml_14">
+              <button class="btnIconStyle">
+                <span class="uIconChat bg_white"></span>
+              </button>
+            </li>
+           <!-- 가입했을 시 프로필 출력 -->
             <li class="ml_24 positionR">
            <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
               <button class="btnMySetting">
                 <span class="uProfile">
                   <span class="profileInner">
                	   <% if (mMemberProfilePrintDTO.getProfile() != null) { %>
-               		<img src="${request.getContextPath}/upload/<%= mMemberProfilePrintDTO.getProfile() %>"
+               		<img src="<%=request.getContextPath()%>/upload/<%= mMemberProfilePrintDTO.getProfile() %>"
                     width="30" height="30">
                     <% } else { %>
                    <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
@@ -107,13 +112,11 @@
                 <ul class="menuModalList">
                 <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
                   <li class="menuMadalItem">
-                    <a href="Controller?command=band_profile&meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="menuModalLink">프로필 설정</a>
+                    <a href="<%= request.getContextPath() %>/Controller?command=band_profile&meet_idx=<%=meet_idx %>" class="menuModalLink">프로필 설정</a>
                   </li>
                 <% } %>
                   <li class="menuMadalItem">
-                    <form action="../LogoutAction">
-                    <button type="submit" class="menuModalLink">로그아웃</button>
-                   </form>
+                    <button onclick="if(confirm('로그아웃 하시겠습니까?')) { window.location.href='/Tcp2/Controller?command=logout'; } return false;" class="menuModalLink">로그아웃</button>
                   </li>
                 </ul>
               </div>
@@ -124,48 +127,40 @@
     </header>
     <!-- 내용 시작 -->
     <div id="container" class="band_main_area">
-      <!-- header lnb 메뉴 -->
+      <!-- header lnb 메뉴 : 가입했을 시 출력 -->
+      <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
       <div class="header_lnb bg_blue">
         <ul class="header_lnb_menu">
           <li class="menu_item">
-            <form action="Controller?command=band_main" method="post">
-	          <a>
-	          	<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
-   		  	 	<input type="hidden" value="<%=member_idx %>" name="member_idx">
-             	<button type="submit">
-           		  <span class="menu_item_txt" style="padding:2px;">게시글</span>
-            	</button>
+	          <a href="<%= request.getContextPath() %>/Controller?command=band_home&meet_idx=<%= meet_idx %>">
+           		  <span class="menu_item_txt active">게시글</span>
 	          </a>
-            </form>
           </li>
           <li class="menu_item">
-           <form action="Controller?command=band_member_list" method="post">
-           	<a>	
-   		  	 <input type="hidden" value="<%=meet_idx %>" name="meet_idx">
-   		  	 <input type="hidden" value="<%=member_idx %>" name="member_idx">
-             <button type="submit">
+           	<a href="<%= request.getContextPath() %>/Controller?command=band_member_list&meet_idx=<%= meet_idx %>">	
               <span class="menu_item_txt" style="padding:2px;">멤버</span>
-             </button>
   	        </a>
-           </form>
           </li>
         </ul>
       </div>
+      <% } %>
       <!-- 메인 내용 왼쪽 밴드 소개 -->
       <aside class="band_info">
         <div class="info_inner">
           <div class="sticky_side_bar">
             <!-- 밴드 이미지 -->
-           <div class="side_cover">
+            <div class="side_cover">
+              <a href="#">
                 <div class="cover_img">
                   <span class="cover_inner">
                   <img
                     <% if (miDto.getUrl() != null) {%>
-                    	src = "../upload/<%= miDto.getUrl() %>"
+                    	src = "<%=request.getContextPath()%>/upload/<%= miDto.getUrl() %>"
                    	<% } %>
                    	>
                   </span>
                 </div>
+              </a>
               <!-- 밴드 이름 -->
               <div class="band_name">
                 <a class="band_name_txt"><%= miDto.getMeet_name() %></a>
@@ -173,41 +168,47 @@
             </div>
             <!-- 멤버 수 -->
             <p class="member">
-              <a class="member_count">멤버 <%= miDto.getMeet_member_count() %></a>
+              <a href="#" class="member_count">멤버 <%= miDto.getMeet_member_count() %></a>
             </p>
-            <!-- 글쓰기 버튼 -->
+            <!-- 글쓰기 버튼 : 가입했을 시 출력 -->
+            <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
             <div class="btnBox">
               <button class="uButton bg_blue" id="postWriteBtn">글쓰기</button>
             </div>
-            <form action="Controller?command=band_information" method="post">
-            	<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
-   		  	 	<input type="hidden" value="<%=member_idx %>" name="member_idx">
-	            <div class="bandInfoBox">
-	             <% try {
-	            	 if (mPrintDAO.adminCheck(member_idx, meet_idx)) { %>
-	              <button type="submit" class="showBandInfo">밴드 소개 설정
-	             <% 	} 
-	             	} catch(Exception e) {
-	             		e.printStackTrace();
-	             	}
-	             	%>
-	                <span class="uIconArrow"></span>
-	              </button>
-	            </div>
-            </form>
-            <!-- 밴드 안내 문구 -->
+            <% } else { %>
+            <!-- 가입하기 버튼 -->
+            <div class="btnBox">
+              <button type="submit" class="uButton" id="joinBtn">밴드 가입하기</button>
+            </div>
+            <% } %>
+            <!-- 밴드 소개 설정 : 리더일 시 출력 -->
+            <div class="bandInfoBox">
+             <% try {
+            	 if (mPrintDAO.adminCheck(member_idx, meet_idx)) { %>
+              <button class="showBandInfo" onclick="location.href='<%= request.getContextPath() %>/Controller?command=band_information&meet_idx=<%= meet_idx %>'">밴드 소개 설정
+             <% 	} 
+             	} catch(Exception e) {
+             		e.printStackTrace();
+             	}
+             	%>
+                <span class="uIconArrow"></span>
+              </button>
+            </div>
+            <!-- 밴드 안내 문구 : 공개 여부 -->
             <% if (bOkDTO.getPublic_ok().equals("Y")) { %>
             <p class="bandTypeDesc">누구나 밴드를 검색해 찾을 수 있고, 밴드 소개와 게시물을 볼 수 있습니다.</p>
             <% } else { %>
             <p class="bandTypeDesc">밴드와 게시글이 공개되지 않습니다. 초대를 통해서만 가입할 수 있습니다.</p>
             <% } %>
-            <!-- 밴드 소개 -->
-           	<div class="bandSetting">
-              <a href="#" onClick="history.back()" class="bandSetting_Link">
-                <span class="uIconSetting"></span>
-                밴드 설정
-              </a>
+            <!-- 밴드 설정 : 가입헀을 시 출력 -->
+            <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
+            <div class="bandSetting">
+              	<button onclick="location.href='<%= request.getContextPath() %>/Controller?command=band_setting&meet_idx=<%= meet_idx %>'" class="bandSetting_Link">
+	                <span class="uIconSetting"></span>
+	                밴드 설정
+                </button>
             </div>
+            <% } %>
           </div>
         </div>
       </aside>
@@ -281,7 +282,7 @@
                     <ul class="chat">
                     <% for (ChatListDTO cDto2 : chatListDto) { %>
                       <li>
-                        <button class="itemLink" onclick="window.open('chat.jsp?chat_idx=' + <%= cDto2.getChat_idx()  %> + '&meet_idx=' + <%= meet_idx %>, '', 'width=415, height=643')">
+                        <button class="itemLink" onclick="window.open('<%= request.getContextPath() %>/Controller?command=band_chat&chat_idx=' + <%= cDto2.getChat_idx()  %> + '&meet_idx=' + <%= meet_idx %>, '', 'width=415, height=643')">
                           <span class="thum">
                             <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240603162344/images/template/multi_profile_60x60.png"
                             height="30" width="30">
