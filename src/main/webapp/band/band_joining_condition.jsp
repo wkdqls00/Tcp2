@@ -18,7 +18,8 @@
     	return result;
     }
     %>
-<%HttpSession hs = request.getSession();
+<%
+	HttpSession hs = request.getSession();
 	int member_idx = (int)hs.getAttribute("userIdx");
 	
 	int meet_idx = 0;
@@ -44,13 +45,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel='stylesheet' type='text/css' media='screen' href='<%= request.getContextPath() %>/assets/css/clear.css'>
-  <link rel='stylesheet' type='text/css' media='screen' href='<%= request.getContextPath() %>/assets/css/band.css'>
-  <link rel='stylesheet' type='text/css' media='screen' href='<%= request.getContextPath() %>/assets/css/band_header.css'>
-  <link rel="stylesheet" type="text/css" media="screen" href="<%= request.getContextPath() %>/assets/css/myband_setting.css">
-  <link rel="stylesheet" type="text/css" media="screen" href="<%= request.getContextPath() %>/assets/css/joining_condition.css">
-  <link rel='stylesheet' type='text/css' media='screen' href='<%= request.getContextPath() %>/assets/css/band_condition_age_popup.css'>
-  <link rel='stylesheet' type='text/css' media='screen' href='<%= request.getContextPath() %>/assets/css/band_condition_gender.css'>
+  <link rel='stylesheet' type='text/css' media='screen' href='<%=request.getContextPath()%>/assets/css/clear.css'>
+  <link rel='stylesheet' type='text/css' media='screen' href='<%=request.getContextPath()%>/assets/css/band.css'>
+  <link rel='stylesheet' type='text/css' media='screen' href='<%=request.getContextPath()%>/assets/css/band_header.css'>
+  <link rel="stylesheet" type="text/css" media="screen" href="<%=request.getContextPath()%>/assets/css/myband_setting.css">
+  <link rel="stylesheet" type="text/css" media="screen" href="<%=request.getContextPath()%>/assets/css/joining_condition.css">
+  <link rel='stylesheet' type='text/css' media='screen' href='<%=request.getContextPath()%>/assets/css/band_condition_age_popup.css'>
+  <link rel='stylesheet' type='text/css' media='screen' href='<%=request.getContextPath()%>/assets/css/band_condition_gender.css'>
 
   <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 
@@ -100,7 +101,7 @@
         <div class="logo_search_area">
           <!-- 로고 -->
           <h1 class = "logo_area">
-            <a href="Controller?command=band_main&meet_idx=<%=meet_idx %>" class="logo">
+            <a href="Controller?command=band_main&meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="logo">
             </a>
           </h1>
         </div>
@@ -197,7 +198,7 @@
                   <span class="cover_inner">
                   <img
                     <% if (miDto.getUrl() != null) {%>
-                    	src = "<%= request.getContextPath() %>/upload/<%= miDto.getUrl() %>"
+                    	src = "../upload/<%= miDto.getUrl() %>"
                    	<% } %>
                    	>
                   </span>
@@ -227,7 +228,7 @@
             <% } %>
             <!-- 밴드 설정 -->
             <div class="bandSetting">
-              <a href="Controller?commad=band_setting&meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" onClick="history.back()" class="bandSetting_Link">
+              <a href="<%=request.getContextPath()%>/Controller?command=band_setting&meet_idx=<%=meet_idx %>" class="bandSetting_Link">
                 <span class="uIconSetting"></span>
                 밴드 설정
               </a>
