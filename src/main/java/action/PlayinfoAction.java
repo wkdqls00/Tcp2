@@ -76,7 +76,7 @@ public class PlayinfoAction implements Action {
 		request.setAttribute("gdd", gdd);
 		request.setAttribute("rpd", rpd);
 	
-		request.getRequestDispatcher("/ticketlink/Ranking_MainP/Ranking.jsp").forward(request, response);
+		request.getRequestDispatcher("/ticketlink//Playinfo_detail/playinfo_detail.jsp").forward(request, response);
 	}
 
 }

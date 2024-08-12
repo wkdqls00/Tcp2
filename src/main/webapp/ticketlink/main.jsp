@@ -73,7 +73,7 @@
                     <%if(userIdx == null){ %>
                         <li class="utill_link"><a href="/Tcp2/Controller?command=newaccount">회원가입</a></li>
                         <%} %>
-                        <li class="utill_link"><a href="/Tcp2/ticketlink/Customer_Service_Center/Cs_Center_main.jsp">고객센터</a></li>
+                        <li class="utill_link"><a href="/Tcp2/Controller?command=cscenter">고객센터</a></li>
                         <li class="utill_link"><a href="/Tcp2/Controller?command=mypage">마이페이지</a></li>
 					</ul>
                 </div> 

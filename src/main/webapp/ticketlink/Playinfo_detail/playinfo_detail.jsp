@@ -42,12 +42,12 @@ ArrayList<RecommandPDTO> rpd = (ArrayList<RecommandPDTO>)request.getAttribute("r
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>공연상세정보 내용</title>
-  <link rel="stylesheet" href="../../assets/css/detail(C).css">
-  <link rel="stylesheet" href="../../assets/css/common.css">
-  <link rel="stylesheet" href="../../assets/css/reset.css">
+  <link rel="stylesheet" href="/Tcp2/assets/css/detail(C).css">
+  <link rel="stylesheet" href="/Tcp2/assets/css/common.css">
+  <link rel="stylesheet" href="/Tcp2/assets/css/reset.css">
   <script src="https://code.jquery.com/jquery-latest.min.js"></script>	
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="../../assets/js/Calendar.js" type="text/javascript"></script>
+  <script src="/Tcp2/assets/js/Calendar.js" type="text/javascript"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=kvd9jc2y88"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -170,7 +170,7 @@ ArrayList<RecommandPDTO> rpd = (ArrayList<RecommandPDTO>)request.getAttribute("r
         <div class="inner">
             <ul>
 	       <%if((Integer)request.getSession().getAttribute("userIdx") == null){ %>
-	           <li class="utill_link"><a href="Login/Login.jsp">로그인</a></li>
+	           <li class="utill_link"><a href="/Tcp2/Controoler">로그인</a></li>
 	           <%} else { %>
 	           <li class="utill_link"><a href="#" onclick="if(confirm('로그아웃 하시겠습니까?')) { window.location.href='/Tcp2/LogoutAction'; } return false;">로그아웃</a></li>
 	           <%} %>

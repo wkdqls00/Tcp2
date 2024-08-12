@@ -2,10 +2,6 @@
     pageEncoding="UTF-8"%>
   
 <%
-	// int loginMemberIdx = 1;   // TODO : 나중에, session에서 불러오는 걸로 변경하셔야.
-	// HttpSession hs = request.getSession();
-    // int member_idx = (int)hs.getAttribute("userIdx");
-    Integer member = (Integer)request.getSession().getAttribute("userIdx");
 %>   
     
 <!DOCTYPE html>
@@ -13,9 +9,9 @@
 <head>
 <meta charset="UTF-8">
 <title>CS_main</title>
-<link rel="stylesheet" type="text/css"  href="../../assets/css/Service.css">
-<link rel="stylesheet" href="../../assets/css/common.css">
-<link rel="stylesheet" href="../../assets/css/reset.css">
+<link rel="stylesheet" type="text/css"  href="/Tcp2/assets/css/Service.css">
+<link rel="stylesheet" href="/Tcp2/assets/css/common.css">
+<link rel="stylesheet" href="/Tcp2/assets/css/reset.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
    <script>
         $(document).ready(function(){

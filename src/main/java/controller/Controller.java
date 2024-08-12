@@ -25,7 +25,7 @@ public class Controller extends HttpServlet {
 		switch(command) {
 			// 밴드 메인 페이지
 			case "band_main": action = new BandMainAction(); break;
-			
+			//여기 설명 주석추가좀 ^^7
 			case "band_main_hometown": action = new BandMainHometown(); break;
 			// 새 밴드 생성
 			case "band_new_create": action = new BandNewCreateAction(); break;
@@ -91,7 +91,8 @@ public class Controller extends HttpServlet {
 			case "ranking" : action = new RankingAction(); break;
 			//공연 상세 페이지
 			case "playinfo" : action = new PlayinfoAction(); break;
-			
+			//고객센터 페이지
+			case "cscenter" : action = new CsCenterAction(); break;
 			
 		}
 		
