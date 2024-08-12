@@ -59,6 +59,16 @@ public class Controller extends HttpServlet {
 			case "login" : action = new LoginAction(); break;
 			//메인 페이지
 			case "main" : action = new MainAction(); break;
+		    //아이디 찾기 페이지
+			case "Find_id" : action = new Find_idAction(); break;
+			//아이디 찾기 결과 페이지
+			case "Find_idResult" : action = new Find_idResultAction(); break;
+			//비밀번호 찾기 전 아이디 체크 페이지
+			case "Find_pw_idcheck" : action = new Find_pw_idcheckAction(); break;
+			//비밀번호 찾기 페이지
+			case "Find_pw" : action = new Find_pwAction(); break;
+			//비밀번호 찾기 결과 페이지
+			case "Find_pwResult" : action = new Find_pwResultAction(); break;
 			//마이 페이지
 			case "mypage" : action = new MypageAction(); break;
 			//티켓예매 확인 페이지
