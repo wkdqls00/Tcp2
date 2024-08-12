@@ -7,62 +7,39 @@
 <%
 	int meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
 	int member_idx = Integer.parseInt(request.getParameter("member_idx"));
-	//멤버 목록
-	MeetMemberListPrintDAO mmlpDAO = new MeetMemberListPrintDAO();
-	ArrayList<MeetMemberListPrintDTO> mmlpDTO = new ArrayList<>();
-	
-	try {
-		mmlpDTO = mmlpDAO.selectMeetMemberListPrintDTO(meet_idx);
-	} catch (Exception e) {
-		e.printStackTrace();
-	}
-	
 	
 	//리더 출력
 	MeetPostListPrintDAO mPrintDAO = new MeetPostListPrintDAO();
-	// 가입 신청자 출력
-	MeetMemberListPrintDAO joinWaitDAO = new MeetMemberListPrintDAO();
-	ArrayList<MeetMemberListPrintDTO> jwListDto = new ArrayList<>();	
-	
-	jwListDto = joinWaitDAO.selectJoinWaitMemberList(meet_idx);
-	
-	// 밴드 왼쪽 소개
-	MeetIntroduceWriteDAO miDao = new MeetIntroduceWriteDAO();
-	MeetIntroduceWriteDTO miDto = miDao.selectMeetIntroduceWriteDTO(meet_idx);
-	
 	//내 프로필 출력
-	MeetMemberProfilePrintDAO mMemberProfilePrintDAO = new MeetMemberProfilePrintDAO();
-	MeetMemberProfilePrintDTO mMemberProfilePrintDTO = mMemberProfilePrintDAO.selectMeetMemberProfilePrintDTO(meet_idx, member_idx);
-
-	// 채팅 목록 출력
-	ChatListDAO cDao = new ChatListDAO();
-	ArrayList<ChatListDTO> chatListDto = new ArrayList<>();
-	
-	chatListDto = cDao.selectChatListDTO(meet_idx);
-	
+	MeetMemberProfilePrintDTO mMemberProfilePrintDTO = (MeetMemberProfilePrintDTO)request.getAttribute("mMemberProfilePrintDTO");
+	//밴드 왼쪽 소개
+	MeetIntroduceWriteDTO miDto = (MeetIntroduceWriteDTO)request.getAttribute("miDto");
+	// 밴드 공개
+	BandPublicOkDTO bOkDTO = (BandPublicOkDTO)request.getAttribute("bOkDTO");
+	// 밴드 가입 질문
+	MeetJoinQuestionWriteDTO mjqwDTO = (MeetJoinQuestionWriteDTO)request.getAttribute("mjqwDTO");
 	// 밴드 가입 여부
 	NoJoinMeetDAO njDao = new NoJoinMeetDAO();
 	
-	// 밴드 공개 여부
-	BandPublicOkDAO bDao = new BandPublicOkDAO();
-	BandPublicOkDTO bOkDTO = bDao.selectBandPublicOkDTO(meet_idx);
-	
-	MeetJoinQnAPrintDAO mjqpDAO = new MeetJoinQnAPrintDAO();
-	MeetJoinQnAPrintDTO mjqpDTO = mjqpDAO.selectMeetJoinQnAPrintDTO(meet_idx);
-	
-	MeetJoinQuestionWriteDAO mjqwDAO = new MeetJoinQuestionWriteDAO();
-	MeetJoinQuestionWriteDTO mjqwDTO = mjqwDAO.SelectMeetMemberWaitCount(meet_idx);
-	
 	UpdateBandDAO updateDAO = new UpdateBandDAO();
+	// 가입 신청자 출력
+	MeetMemberListPrintDAO joinWaitDAO = new MeetMemberListPrintDAO();
+	ArrayList<MeetMemberListPrintDTO> jwListDto = new ArrayList<>();	
+	try {
+		jwListDto = joinWaitDAO.selectJoinWaitMemberList(meet_idx);
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+	ArrayList<ChatListDTO> chatListDto = (ArrayList<ChatListDTO>)request.getAttribute("chatListDto");
 %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/clear.css'>
-  <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/band.css'>
-  <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/band_header.css'>
+  <link rel='stylesheet' type='text/css' media='screen' href='<%=request.getContextPath()%>/assets/css/clear.css'>
+  <link rel='stylesheet' type='text/css' media='screen' href='<%=request.getContextPath()%>/assets/css/band.css'>
+  <link rel='stylesheet' type='text/css' media='screen' href='<%=request.getContextPath()%>/assets/css/band_header.css'>
   <title>BAND - 멤버 목록</title>
   <script src="https://code.jquery.com/jquery-latest.min.js"></script>
   <script>
@@ -147,7 +124,7 @@
               <div class="menuModalLayer profileDropDown" id="off" style="display: none">
                 <ul class="menuModalList">
                   <li class="menuMadalItem">
-                    <a href="band_profile.jsp?meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="menuModalLink">프로필 설정</a>
+                    <a href="<%=request.getContextPath()%>/Controller?command=band_profile&meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="menuModalLink">프로필 설정</a>
                   </li>
                   <li class="menuMadalItem">
                     <form action="../LogoutAction">
@@ -167,7 +144,7 @@
       <div class="header_lnb bg_blue">
         <ul class="header_lnb_menu">
           <li class="menu_item">
-             <form action="band_home.jsp" method="post">
+             <form action="<%=request.getContextPath()%>/Controller?command=band_home" method="post">
 	          <a>
 	          	<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
    		  	 	<input type="hidden" value="<%=member_idx %>" name="member_idx">
@@ -178,7 +155,7 @@
             </form>
           </li>
           <li class="menu_item">
-           <form action="band_member_list.jsp" method="post">
+           <form action="<%=request.getContextPath()%>/Controller?command=band_member_list" method="post">
            	<a>	
    		  	 <input type="hidden" value="<%=meet_idx %>" name="meet_idx">
    		  	 <input type="hidden" value="<%=member_idx %>" name="member_idx">
@@ -212,7 +189,7 @@
             </div>
             <!-- 멤버 수 -->
             <p class="member">
-              <a href="band_information.jsp?meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="member_count">멤버 <%=miDto.getMeet_member_count() %></a>
+              <a href="<%=request.getContextPath()%>/Controller?command=band_information&meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="member_count">멤버 <%=miDto.getMeet_member_count() %></a>
             </p>
             <!-- 글쓰기 버튼 -->
             <div class="btnBox">
@@ -239,7 +216,7 @@
             <% } %>
             <!-- 밴드 설정 -->
             <div class="bandSetting">
-            	<form action="myband_setting_leader.jsp" method="post">
+            	<form action="<%=request.getContextPath()%>/Controller?command=band_setting" method="post">
 	            	<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
 	            	<input type="hidden" value="<%=member_idx %>" name="member_idx">
 	              	<button type="submit" class="bandSetting_Link">
