@@ -133,12 +133,12 @@
         <ul class="header_lnb_menu">
           <li class="menu_item">
 	          <a href="<%= request.getContextPath() %>/Controller?command=band_home&meet_idx=<%= meet_idx %>">
-           		  <span class="menu_item_txt active">게시글</span>
+           		  <span class="menu_item_txt">게시글</span>
 	          </a>
           </li>
           <li class="menu_item">
            	<a href="<%= request.getContextPath() %>/Controller?command=band_member_list&meet_idx=<%= meet_idx %>">	
-              <span class="menu_item_txt" style="padding:2px;">멤버</span>
+              <span class="menu_item_txt">멤버</span>
   	        </a>
           </li>
         </ul>
