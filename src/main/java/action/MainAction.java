@@ -16,6 +16,9 @@ public class MainAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=UTF-8");
+		
 		TicketlinkMainDao dao = new TicketlinkMainDao();
 		ArrayList<SearchResultDTO> list = dao.getPopular();
 		ArrayList<RecommandPDTO> list2 = dao.recommandPDao();

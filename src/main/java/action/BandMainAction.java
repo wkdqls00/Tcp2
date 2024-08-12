@@ -17,7 +17,9 @@ public class BandMainAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		
 		HttpSession hs = request.getSession();
 		Integer member_idx = (Integer)request.getSession().getAttribute("userIdx");
 		PrintWriter out = response.getWriter();
@@ -30,7 +32,7 @@ public class BandMainAction implements Action {
 			out.println("<body>");
 			out.println("<script>");
 			out.println("alert('로그인이 필요합니다.');");
-			out.println("location.href='/Tcp2/ticketlink/Login/Login.jsp'");
+			out.println("location.href='Tcp2/Controller?command=login'");
 			out.println("</script>");
 			out.println("</body>");
 			out.println("</html>");

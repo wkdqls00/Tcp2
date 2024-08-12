@@ -89,7 +89,9 @@ public class BandInformationAction implements Action {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
 		request.setAttribute("member_idx", userIdx);
+		request.setAttribute("meet_idx", meet_idx);
 		request.setAttribute("miwDTO", miwDTO);
 		request.setAttribute("miDto", miDto);
 		request.setAttribute("mMemberProfilePrintDTO", mMemberProfilePrintDTO);
