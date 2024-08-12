@@ -59,7 +59,7 @@ public class PostRetouchServlet extends HttpServlet {
 		}
 		
 		request.setAttribute("meet_idx", meetIdx);
-		RequestDispatcher rd = request.getRequestDispatcher("band/locationBandHome.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("Controller?command=band_home&meet_idx="+meetIdx);
 		rd.forward(request, response);
 	}
 }

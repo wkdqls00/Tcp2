@@ -270,9 +270,7 @@
                   </li>
                 <% } %>
                   <li class="menuMadalItem">
-                  <form action="../LogoutAction">
-                    <button type="submit" class="menuModalLink">로그아웃</button>
-                   </form>
+                    <button onclick="if(confirm('로그아웃 하시겠습니까?')) { window.location.href='/Tcp2/Controller?command=logout'; } return false;" class="menuModalLink">로그아웃</button>
                   </li>
                 </ul>
               </div>
@@ -521,9 +519,8 @@
                      <div class="lyMenu" style="display: none">
                        <ul>
                        	<li>
-                       	<form action="../UpdateDelOkServlet" method="post">
+                       	<form action="<%= request.getContextPath() %>/UpdateDelOkServlet" method="post">
                        	  <input type="hidden" name="meet_idx" value="<%=meet_idx%>">
-                       	  <input type="hidden" name="member_idx" value="<%=member_idx%>">
                        	  <input type="hidden" name="post_idx" value="<%= mPDto.getPost_idx() %>">
                        	  <input type="submit" style="width: 100%;
 						   height: 37px;
@@ -886,7 +883,7 @@
 			                            </div>
 			                          </div>
 			                          <div class="submitWrap">
-			                            <button  id="popupCommentWrite" class="writeSubmit">보내기</button>
+			                            <button id="popupCommentWrite" class="writeSubmit">보내기</button>
 			                          </div>
 			                        </div>
 			                      </section>

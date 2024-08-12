@@ -10,10 +10,9 @@
 	UpdateDelOkDAO udoDAO = new UpdateDelOkDAO();
 	
 	int meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
-	int member_idx = Integer.parseInt(request.getParameter("member_idx"));
 	
 	int post_idx = Integer.parseInt(request.getParameter("post_idx"));
 	udoDAO.updateDelOk(post_idx);
 	
-	response.sendRedirect("band/band_home.jsp?meet_idx=" + meet_idx + "&member_idx=" + member_idx);
+	response.sendRedirect("Controller?command=band_home&meet_idx=" + meet_idx);
 %>
