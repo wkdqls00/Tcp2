@@ -31,27 +31,27 @@ ArrayList<SearchResultDTO> list = (ArrayList<SearchResultDTO>)request.getAttribu
 	<header>
       <div class="utill">
           <div class="inner">
-              <ul>
-              <%if((Integer)request.getSession().getAttribute("userIdx") == null){ %>
-                  <li class="utill_link"><a href="Login/Login.jsp">로그인</a></li>
-                  <%} else { %>
-                  <li class="utill_link"><a href="#" onclick="if(confirm('로그아웃 하시겠습니까?')) { window.location.href='/Tcp2/LogoutAction'; } return false;">로그아웃</a></li>
-                  <%} %>
-                  <li class="utill_link"><a href="/Tcp2/Ticket_checkServlet">예매확인/취소</a></li>
-              <%if((Integer)request.getSession().getAttribute("userIdx") == null){ %>
-                  <li class="utill_link"><a href="/Tcp2/ticketlink/Login/AgreeToTerms.jsp">회원가입</a></li>
-                  <%} %>
-                  <li class="utill_link"><a href="/Tcp2/ticketlink/Customer_Service_Center/Cs_Center_main.jsp">고객센터</a></li>
-                  <li class="utill_link"><a href="/Tcp2/Mypage_memberServlet">마이페이지</a></li>
-              </ul>
+                    <ul>
+                    <%if(request.getSession().getAttribute("userIdx") == null){ %>
+                        <li class="utill_link"><a href="/Tcp2/Controller?command=login">로그인</a></li>
+                        <%} else { %>
+                        <li class="utill_link"><a href="#" onclick="if(confirm('로그아웃 하시겠습니까?')) { window.location.href='/Tcp2/Controller?command=logout'; } return false;">로그아웃</a></li>
+                        <%} %>
+                        <li class="utill_link"><a href="/Tcp2/Controller?command=ticket_check">예매확인/취소</a></li>
+                    <%if(request.getSession().getAttribute("userIdx") == null){ %>
+                        <li class="utill_link"><a href="/Tcp2/Controller?command=newaccount">회원가입</a></li>
+                        <%} %>
+                        <li class="utill_link"><a href="/Tcp2/Controller?command=cscenter">고객센터</a></li>
+                        <li class="utill_link"><a href="/Tcp2/Controller?command=mypage">마이페이지</a></li>
+					</ul>
           </div> 
       </div>
         <div class="nav_box">
             <div class="inner navbox">
-                <h1 class="logo"><a href="/Tcp2/ticketlink/main.jsp">로고</a></h1>
+                <h1 class="logo"><a href="/Tcp2/Controller?command=main">로고</a></h1>
                 <ul class="nav">
-                    <li><a href="/Tcp2/ticketlink/main.jsp">공연</a></li>
-                    <li><a href="/Tcp2/band/band_main.jsp">커뮤니티</a></li>
+                    <li><a href="/Tcp2/Controller?command=main">공연</a></li>
+                    <li><a href="/Tcp2/Controller?command=band_main">커뮤니티</a></li>
                 </ul>
             </div>
         </div>
@@ -59,10 +59,10 @@ ArrayList<SearchResultDTO> list = (ArrayList<SearchResultDTO>)request.getAttribu
       <div class="gnb_box">
           <div class="inner">
               <ul class="gnb_list">
-                  <li class="gnb_link"><a href="/Tcp2/ticketlink/main.jsp">홈</a></li>
-                  <li class="gnb_link"><a href="/Tcp2/ticketlink/main.jsp">공연</a></li>
-                  <li class="gnb_link"><a href="/Tcp2/ticketlink/Ranking_MainP/weekly_ranking3.jsp">랭킹</a></li>
-                  <li class="gnb_link"><a href="/Tcp2/band/band_main.jsp">커뮤니티</a></li>
+                  <li class="gnb_link"><a href="/Tcp2/Controller?command=main">홈</a></li>
+                  <li class="gnb_link"><a href="/Tcp2/Controller?command=main">공연</a></li>
+                  <li class="gnb_link"><a href="/Tcp2/Controller?command=ranking">랭킹</a></li>
+                  <li class="gnb_link"><a href="/Tcp2/Controller?command=ban">커뮤니티</a></li>
                   <li class="gnb_link" style="padding: 0; padding-top: 10px; padding-left: 10px; float: right;">
                         	<form action="/Tcp2/SearchResult">
 		                  	<input type="text" style="width: 200px; padding-inline: 8px;" placeholder="공연을 검색하세요." name="search" minlength="2">
@@ -86,7 +86,7 @@ ArrayList<SearchResultDTO> list = (ArrayList<SearchResultDTO>)request.getAttribu
                         for(int i = 0; i < list.size(); i++){
                         %>
                             <li class="card_item_04">
-                                <a href="/Tcp2/ticketlink/Detailed_Infor(Integrated)/Prefor.detail(C).jsp?play_idx=<%=list.get(i).getPlay_idx()%>">
+                                <a href="/Tcp2/Controller?command=playinfo&play_idx=<%=list.get(i).getPlay_idx()%>">
                                     <div class="img_box">
                                         <img src="<%=list.get(i).getPoster_url()%>" alt="">
                                     </div>

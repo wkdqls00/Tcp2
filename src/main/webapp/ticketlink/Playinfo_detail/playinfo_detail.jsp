@@ -10,6 +10,7 @@
     
     
 <%
+Integer userIdx = (Integer)request.getSession().getAttribute("userIdx");
 int play_idx = (int)request.getAttribute("play_idx");
 int playhall_idx = (int)request.getAttribute("playhall_idx");
 @SuppressWarnings("unchecked")
@@ -168,19 +169,19 @@ ArrayList<RecommandPDTO> rpd = (ArrayList<RecommandPDTO>)request.getAttribute("r
   <header>
     <div class="utill">
         <div class="inner">
-            <ul>
-	       <%if((Integer)request.getSession().getAttribute("userIdx") == null){ %>
-	           <li class="utill_link"><a href="/Tcp2/Controoler">로그인</a></li>
-	           <%} else { %>
-	           <li class="utill_link"><a href="#" onclick="if(confirm('로그아웃 하시겠습니까?')) { window.location.href='/Tcp2/LogoutAction'; } return false;">로그아웃</a></li>
-	           <%} %>
-	           <li class="utill_link"><a href="/Tcp2/Ticket_checkServlet">예매확인/취소</a></li>
-	           <%if((Integer)request.getSession().getAttribute("userIdx") == null){ %>
-	           <li class="utill_link"><a href="/Tcp2/ticketlink/Login/AgreeToTerms.jsp">회원가입</a></li>
-	           <%} %>
-	           <li class="utill_link"><a href="/Tcp2/ticketlink/Customer_Service_Center/Cs_Center_main.jsp">고객센터</a></li>
-	           <li class="utill_link"><a href="/Tcp2/Mypage_memberServlet">마이페이지</a></li>                    
-         </ul>
+          <ul>
+            <%if(userIdx == null){ %>
+              <li class="utill_link"><a href="/Tcp2/Controller?command=login">로그인</a></li>
+              <%} else { %>
+              <li class="utill_link"><a href="#" onclick="if(confirm('로그아웃 하시겠습니까?')) { window.location.href='/Tcp2/LogoutAction'; } return false;">로그아웃</a></li>
+              <%} %>
+              <li class="utill_link"><a href="/Tcp2/Controller?command=ticket_check">예매확인/취소</a></li>
+          <%if(userIdx == null){ %>
+              <li class="utill_link"><a href="/Tcp2/Controller?command=newaccount">회원가입</a></li>
+              <%} %>
+              <li class="utill_link"><a href="/Tcp2/Controller?command=cscenter">고객센터</a></li>
+              <li class="utill_link"><a href="/Tcp2/Controller?command=mypage">마이페이지</a></li>
+		  </ul>
         </div> 
     </div>
     <div class="nav_box">

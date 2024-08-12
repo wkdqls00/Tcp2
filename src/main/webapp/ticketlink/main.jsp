@@ -67,7 +67,7 @@
                     <%if(userIdx == null){ %>
                         <li class="utill_link"><a href="/Tcp2/Controller?command=login">로그인</a></li>
                         <%} else { %>
-                        <li class="utill_link"><a href="#" onclick="if(confirm('로그아웃 하시겠습니까?')) { window.location.href='/Tcp2/LogoutAction'; } return false;">로그아웃</a></li>
+                        <li class="utill_link"><a href="#" onclick="if(confirm('로그아웃 하시겠습니까?')) { window.location.href='/Tcp2/Controller?command=logout'; } return false;">로그아웃</a></li>
                         <%} %>
                         <li class="utill_link"><a href="/Tcp2/Controller?command=ticket_check">예매확인/취소</a></li>
                     <%if(userIdx == null){ %>
@@ -136,7 +136,7 @@
 	for(int i = 0; i < 4; i++){
 %>
                         <li class="card_item">
-                            <a href="/Tcp2/ticketlink/Detailed_Infor(Integrated)/Prefor.detail(C).jsp?play_idx=<%=list2.get(i).getPlay_idx()%>">
+                            <a href="/Tcp2/Controller?command=playinfo&play_idx=<%=list2.get(i).getPlay_idx()%>">
                                 <div class="img_box">
                                     <img src="<%=list2.get(i).getPoster_url()%>" alt="">
                                 </div>
@@ -167,7 +167,7 @@
                         for(int i = 0; i < list.size(); i++){
                         %>
                             <li class="card_item_04">
-                                <a href="/Tcp2/ticketlink/Detailed_Infor(Integrated)/Prefor.detail(C).jsp?play_idx=<%=list.get(i).getPlay_idx()%>">
+                                <a href="/Tcp2/Controller?command=playinfo&play_idx=<%=list.get(i).getPlay_idx()%>">
                                     <div class="img_box">
                                         <img src="<%=list.get(i).getPoster_url()%>" alt="">
                                     </div>
