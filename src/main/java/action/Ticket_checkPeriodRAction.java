@@ -22,6 +22,7 @@ public class Ticket_checkPeriodRAction implements Action {
 		HttpSession hs = request.getSession();
 		int userIdx = (int)hs.getAttribute("userIdx");
 		int day = Integer.parseInt(request.getParameter("day"));
+		System.out.println(day);
 		int page = 1;
 		String page_ = request.getParameter("currP");
 		if (page_ != null && !page_.equals("")) {
