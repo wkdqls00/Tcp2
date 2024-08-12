@@ -785,12 +785,13 @@ ArrayList<RecommandPDTO> rpd = (ArrayList<RecommandPDTO>)request.getAttribute("r
   <div class="comment_write">
     <div class="comment_notice">
       <p class="comment_notice_desc">게시판 운영규정에 맞지 않는 글은 사전 통보없이 삭제될 수 있습니다.</p>
-      <a href="http://localhost:9090/Tcp2/ticketlink/Detailed_Infor(Integrated)/popup.html" target="_blank" class="btn_hyperlink">
+      <a href="/Tcp2/ticketlink/Playinfo_detail/popup.html" target="_blank" class="btn_hyperlink">
         <!-- before -->
         게시판 운영규정
       </a>
     </div>
-  <form action="/Tcp2/Ins_Exp_ratingServlet">
+  <form action="/Tcp2/Controller">
+  	 <input type="hidden" name="command" value="writeexp">
      <input type="hidden" name="play_idx" value="<%=play_idx %>">
     <div class="product_comment_form">
       <div class="product_comment_content">
@@ -1058,7 +1059,7 @@ ArrayList<RecommandPDTO> rpd = (ArrayList<RecommandPDTO>)request.getAttribute("r
 
    <li class="grid_item">
           <div class="grid_unit">
-            <a href="http://localhost:9090/Tcp2/ticketlink/Detailed_Infor(Integrated)/Prefor.detail(C).jsp?play_idx=<%=rpd.get(i).getPlay_idx()%>">
+            <a href="/Tcp2/Controller?command=playinfo&play_idx=<%=rpd.get(i).getPlay_idx()%>">
               <div class="imgbox"> 
                 <!-- before -->
                 <img class="img" src="<%=rpd.get(i).getPoster_url()%>"/>

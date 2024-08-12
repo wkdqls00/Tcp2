@@ -103,6 +103,8 @@ public class Controller extends HttpServlet {
 			case "pay3" : action = new Payment3Action(); break;
 			//관람후기작성
 			case "writescript" : action = new WriteScriptAction(); break;
+			//기대평작성
+			case "writeexp" : action = new WriteExpAction(); break;
 			
 		}
 		
