@@ -519,7 +519,7 @@
                      <div class="lyMenu" style="display: none">
                        <ul>
                        	<li>
-                       	<form action="<%= request.getContextPath() %>/UpdateDelOkServlet" method="post">
+                       	<form action="<%= request.getContextPath() %>/Controller?command=band_post_delete" method="post">
                        	  <input type="hidden" name="meet_idx" value="<%=meet_idx%>">
                        	  <input type="hidden" name="post_idx" value="<%= mPDto.getPost_idx() %>">
                        	  <input type="submit" style="width: 100%;
@@ -1033,7 +1033,7 @@
         </div>
       </div>
     </div>
-    </form>
+   </form>
   <!-- 팝업 : 게시글 수정 -->
    <%for (MeetPostListPrintDTO mPDto : mPrintListDTO) { 
    		int post_idx = mPDto.getPost_idx();

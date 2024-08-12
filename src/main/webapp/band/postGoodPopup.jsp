@@ -12,5 +12,5 @@
 	
 	ispDAO.insertPostGood(post_idx, meet_member_idx);
 	
-	response.sendRedirect("band/band_home.jsp?meet_idx=" + meet_idx + "&member_idx=" + member_idx );
+	response.sendRedirect("Controller?command=band_home&meet_idx=" + meet_idx + "&member_idx=" + member_idx );
 %>

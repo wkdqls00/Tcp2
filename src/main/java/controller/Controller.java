@@ -56,7 +56,8 @@ public class Controller extends HttpServlet {
 			case "band_leave" : action = new BandLeaveAction(); break;
 			//밴드 가입 대기
 			case "band_join_request" : action = new BandJoinRequestAction(); break;
-			
+			//밴드 게시글 삭제
+			case "band_post_delete" : action = new BandPostDeleteAction(); break;
 			
 			//-----티켓링크-----
 			

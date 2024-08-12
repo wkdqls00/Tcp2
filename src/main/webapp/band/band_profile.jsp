@@ -178,7 +178,8 @@
           <div class="profileSettingCardBox">
             <div class="profileSettingCard">
               <div class="imgBox _defaultProfileImgBox"></div>
-              <div class="imgBox _existProfileImgBox" <%=(mMemberProfilePrintDTO.getProfile()==null ? "style='display:none;'" : "") %>>
+              <% if(mMemberProfilePrintDTO.getProfile() == null) { %>
+              <div class="imgBox _existProfileImgBox" style="display:none;">
               	<img class="profileImage" alt="프로필 사진" src="<%= request.getContextPath() %>/upload/<%=mMemberProfilePrintDTO.getProfile()%>">
               </div>
               <span class="addPhoto _btnProfile">
@@ -186,6 +187,16 @@
                 <input id="addPhoto" type="file" accept="image/*" name="profile" class="inputFile" onchange="uploadImg(this)">
                 <img class="profileImg">
              </span>
+             <% } else { %>
+             <div class="imgBox _existProfileImgBox">
+              	<img class="profileImage" alt="프로필 사진" src="<%= request.getContextPath() %>/upload/<%=mMemberProfilePrintDTO.getProfile()%>">
+              </div>
+              <span class="addPhoto _btnProfile">
+                <label for="addPhoto" class="_labelProfile">프로필 사진 추가</label>
+                <input id="addPhoto" type="file" accept="image/*" name="profile" class="inputFile" onchange="uploadImg(this)">
+                <img class="profileImg">
+             </span>
+             <% } %>
             </div>
           </div>
           <ul class="settingList">
