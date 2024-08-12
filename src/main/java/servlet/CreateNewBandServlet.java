@@ -37,7 +37,6 @@ public class CreateNewBandServlet extends HttpServlet {
 			filePath.mkdirs();
 		}
 		
-		
 		MultipartRequest multi = new MultipartRequest(
 										request,
 										path,
