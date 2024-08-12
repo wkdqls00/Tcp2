@@ -23,9 +23,12 @@ public class Controller extends HttpServlet {
 		Action action = null;
 
 		switch(command) {
+		
+			//-----밴드-----
+		
 			// 밴드 메인 페이지
 			case "band_main": action = new BandMainAction(); break;
-			//여기 설명 주석추가좀 ^^7
+			// 밴드 메인 - 동네 밴드
 			case "band_main_hometown": action = new BandMainHometown(); break;
 			// 새 밴드 생성
 			case "band_new_create": action = new BandNewCreateAction(); break;
