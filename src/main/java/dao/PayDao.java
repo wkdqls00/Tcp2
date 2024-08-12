@@ -457,16 +457,17 @@ public class PayDao {
 		return list;
 	}
 
-	public void updatePayment2(int payment_idx) {
+	public void updatePayment2(int payment_idx, String type) {
 		DatabaseUtil d = new DatabaseUtil();
 		Connection conn = d.getConn();
 
 		String sql = "UPDATE payment SET " + "pay_date = sysdate, " + "agree1 = 'Y', " + "agree2 = 'Y', "
-				+ "agree3 = 'Y', " + "status = 'Y', " + "type = '무통장입금' " + "WHERE payment_idx = ?";
+				+ "agree3 = 'Y', " + "status = 'Y', " + "type = '?' " + "WHERE payment_idx = ?";
 
 		PreparedStatement pstmt = d.getPstmt(conn, sql);
 		try {
 			pstmt.setInt(1, payment_idx);
+			pstmt.setString(2, type);
 			int result = pstmt.executeUpdate();
 			System.out.println(result + "행 성공적으로 업데이트됨");
 		} catch (SQLException e) {

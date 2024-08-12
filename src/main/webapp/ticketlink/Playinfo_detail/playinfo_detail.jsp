@@ -1479,7 +1479,7 @@ var rating = $('.star_rt');
 <script>
   function reservation() {
 	  const playinfoValue = document.querySelector('.product_seat_item').getAttribute('playinfo');
-      window.open('/Tcp2/Payment_p0?pi='+ playinfoValue, '', 'width=1200, height=900');
+      window.open('/Tcp2/Controller?command=pay0&pi='+ playinfoValue, '', 'width=1200, height=900');
 	  
   }
 

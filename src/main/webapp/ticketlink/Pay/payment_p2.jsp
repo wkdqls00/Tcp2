@@ -162,7 +162,8 @@ for (int i = 0; i < rsidto.size(); i++) {
       <div class="cancel" style="margin-top: 0px;"><span class="canceltitle">취소수수료:</span>티켓금액의 0%~30%</div>
       <div class="prenextbutton">
       <div><button class="prenextbtn" onclick="history.back()">이전단계</button></div>
-	  <form id="paymentForm" action="/Tcp2/Payment_p2" method="POST" style="display:none;">
+	  <form id="paymentForm" action="/Tcp2/Controller" method="POST" style="display:none;">
+        <input type="hidden" name="command" value="pay2">
         <input type="hidden" name="pi" value="<%=playinfo_idx%>">
     	<input type="hidden" name="pm" value="<%=payment_idx%>">
     	<input type="hidden" name="totalamount" value="<%=total%>">

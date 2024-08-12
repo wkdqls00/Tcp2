@@ -93,6 +93,15 @@ public class Controller extends HttpServlet {
 			case "playinfo" : action = new PlayinfoAction(); break;
 			//고객센터 페이지
 			case "cscenter" : action = new CsCenterAction(); break;
+			//예매창누를시
+			case "pay0" : action = new Payment0Action(); break;
+			//결제페이지1>2
+			case "pay1" : action = new Payment1Action(); break;
+			//결제페이지2>3
+			case "pay2" : action = new Payment2Action(); break;
+			//결제완료시
+			case "pay3" : action = new Payment3Action(); break;
+			
 			
 		}
 		

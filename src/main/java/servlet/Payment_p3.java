@@ -24,7 +24,9 @@ public class Payment_p3 extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		PayDao dao = new PayDao();
 		int payment_idx = Integer.parseInt(request.getParameter("pm"));
-		dao.updatePayment2(payment_idx);
+		String type = request.getParameter("type");
+		System.out.println(type);
+		dao.updatePayment2(payment_idx, type);
 		request.getRequestDispatcher("/ticketlink/Pay/paycomplete.html").forward(request, response);
 		
 		

@@ -81,7 +81,8 @@ String seatImg = (String)request.getAttribute("seatImg");
       </div>
       <div id="playhallseat">
         <img src="/Tcp2/assets/img/ticklink/<%=seatImg%>" alt="">
-        <form action="/Tcp2/Payment_p1" id="nextForm">
+        <form action="/Tcp2/Controller" id="nextForm">
+        <input type="hidden" name="command" value="pay1">
         <input type="hidden" id="selectedSeats" name="selectedSeats" value="">
                 <input type="hidden" name="idx" value="<%=playinfo_idx%>">
         

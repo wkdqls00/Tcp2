@@ -213,10 +213,10 @@ String address = (String)request.getAttribute("address");
     	        buyer_tel : phonenumber,
     	        buyer_addr : '<%=address%>',
     	        buyer_postcode : '구매자 주소',
-    	        m_redirect_url : 'http://localhost:9090/Tcp2/Payment_p3?pm=<%=payment_idx%>&type=kakaopay'
+    	        m_redirect_url : 'http://localhost:9090/Tcp2/Controller?command=pay3&pm=<%=payment_idx%>&type=kakaopay'
     	    }, function(rsp) {
     	        if ( rsp.success ) {
-    	            location.href='http://localhost:9090/Tcp2/Payment_p3?pm=<%=payment_idx%>';
+    	            location.href='http://localhost:9090/Tcp2/Controller?command=pay3&pm=<%=payment_idx%>&type=kakaopay';
     	        } else {
     	            var msg = '결제에 실패하였습니다.';
     	            alert(msg);
