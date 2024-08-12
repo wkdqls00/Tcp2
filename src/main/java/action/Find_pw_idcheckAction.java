@@ -12,7 +12,7 @@ import action.Action;
 public class Find_pw_idcheckAction implements Action {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.sendRedirect("/Tcp2/ticketlink/Login/Find_pw_idcheck.jsp");
+		request.getRequestDispatcher("/ticketlink/Login/Find_pw_idcheck.jsp").forward(request, response);
 	}
 
 }

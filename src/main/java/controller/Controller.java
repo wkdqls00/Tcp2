@@ -15,7 +15,7 @@ public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setCharacterEncoding("utf-8");
+		request.setCharacterEncoding("utf-8"); // request로 바꿈
 		response.setContentType("text/html; utf-8");
 		String command = request.getParameter("command");
 		System.out.println("컨트롤러 command : " + command);
@@ -60,15 +60,15 @@ public class Controller extends HttpServlet {
 			//메인 페이지
 			case "main" : action = new MainAction(); break;
 		    //아이디 찾기 페이지
-			case "Find_id" : action = new Find_idAction(); break;
+			case "find_id" : action = new Find_idAction(); break;
 			//아이디 찾기 결과 페이지
-			case "Find_idResult" : action = new Find_idResultAction(); break;
+			case "find_idResult" : action = new Find_idResultAction(); break;
 			//비밀번호 찾기 전 아이디 체크 페이지
-			case "Find_pw_idcheck" : action = new Find_pw_idcheckAction(); break;
+			case "find_pw_idcheck" : action = new Find_pw_idcheckAction(); break;
 			//비밀번호 찾기 페이지
-			case "Find_pw" : action = new Find_pwAction(); break;
+			case "find_pw" : action = new Find_pwAction(); break;
 			//비밀번호 찾기 결과 페이지
-			case "Find_pwResult" : action = new Find_pwResultAction(); break;
+			case "find_pwResult" : action = new Find_pwResultAction(); break;
 			//마이 페이지
 			case "mypage" : action = new MypageAction(); break;
 			//티켓예매 확인 페이지

@@ -16,8 +16,8 @@
                 <a href="https://www.naver.com" class="header_logo"><span class="hidden">사이트이름</span></a>
                 <ul class="my_menu">
                     <li>
-                        <a href="/Tcp2/ticketlink/Login/Login.jsp">로그인</a>
-                        <a href="/Tcp2/ticketlink/Login/Join_content.jsp">회원가입</a>
+                        <a href="/Tcp2/Controller?command=login">로그인</a>
+                        <a href="/Tcp2/Controller?command=newaccount">회원가입</a>
                     </li>
                 </ul>
             </div>
@@ -31,10 +31,10 @@
             <div class="search_tabWrap">
                 <div class="search_tab">
                     <div class="tab current">
-                        <a href="/Tcp2/ticketlink/Login/Find_id.jsp">아이디 찾기</a>
+                        <a href="/Tcp2/Controller?command=find_id">아이디 찾기</a>
                     </div>
                     <div class="tab">
-                        <a href="/Tcp2/ticketlink/Login/Find_pw_idcheck.jsp">비밀번호 찾기</a>
+                        <a href="/Tcp2/Controller?command=find_pw_idcheck">비밀번호 찾기</a>
                     </div>
                 </div>
             </div>
@@ -48,7 +48,7 @@
                             <div class="content_inner">
                                 <p class="message">입력하신 이름과 휴대폰 번호가 회원 정보와 일치한 경우 인증번호가 발송돼요.</p>
                                 <div class="input_form">
-                                <form action="/Tcp2/Find_idResultServlet" method="post" id="toResultservlet">
+                                <form action="/Tcp2/Controller?command=find_idResult" method="post" id="toResultservlet">
                                     <div class="input_style"> 
                                         <input type="text" id="input_memberName" name="name" class="search_input" placeholder="이름">
                                         <span class="del_btn"></span>
@@ -206,9 +206,6 @@
 	        const display = document.getElementById('timer');
 	        startTimer(fiveMinutes, display);
 		});
-		
-		
-	
 </script>
 </body>
 </html>
