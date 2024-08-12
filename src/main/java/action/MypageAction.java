@@ -24,7 +24,7 @@ public class MypageAction implements Action {
 		PrintWriter out = response.getWriter();
 		Integer userIdx = (Integer)request.getSession().getAttribute("userIdx");
 
-		System.out.println("userIdx : " + userIdx);
+		System.out.println("userIdx : " + userIdx + "번 회원 마이페이지 진입.");
 		if(userIdx == null) {
 			out.println("<html>");
 			out.println("<head>");
@@ -65,10 +65,6 @@ public class MypageAction implements Action {
 				String id = resultSet.getString(1);
 				String phone = resultSet.getString(2);
 				String address = resultSet.getString(3);
-
-				System.out.println("id: " + id);
-				System.out.println("phone: " + phone);
-				System.out.println("address: " + address);
 
 				// jsp 파일로 가져갈거
 				request.setAttribute("id", id);

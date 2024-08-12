@@ -30,8 +30,8 @@
                 <a href="https://www.naver.com" class="header_logo"><span class="hidden">사이트이름</span></a>
                 <ul class="my_menu">
                     <li>
-                        <a href="/Tcp2/ticketlink/Login/Login.jsp">로그인</a>
-                        <a href="/Tcp2/ticketlink/Login/Join_content.jsp">회원가입</a>
+                        <a href="/Tcp2/Controller?command=login">로그인</a>
+                        <a href="/Tcp2/Controller?command=newaccount">회원가입</a>
                     </li>
                 </ul>
             </div>
@@ -45,14 +45,14 @@
             <div class="search_tabWrap">
                 <div class="search_tab">
                     <div class="tab">
-                        <a href="/Tcp2/ticketlink/Login/Find_id.jsp">아이디 찾기</a>
+                        <a href="/Tcp2/Controller?command=find_id">아이디 찾기</a>
                     </div>
                     <div class="tab current">
                         <a href="#">비밀번호 찾기</a>
                     </div>
                 </div>
             </div>
-            <form action="/Tcp2/Find_pwServlet" id="toServlet">
+            <form action="/Tcp2/Controller?command=find_pw" id="toServlet" method="post">
             <div class="search_contentWrap">
                 <div class="search_content">
                     <h3>아이디 확인 후 비밀번호를 재설정 할 수 있습니다</h3>

@@ -79,8 +79,8 @@
                 <a href="https://www.naver.com" class="header_logo"><span class="hidden">사이트이름</span></a>
                 <ul class="my_menu">
                     <li>
-                        <a href="/Tcp2/ticketlink/Login/Login.jsp">로그인</a>
-                        <a href="/Tcp2/ticketlink/Login/Join_content.jsp">회원가입</a>
+                        <a href="/Tcp2/Controller?command=login">로그인</a>
+                        <a href="/Tcp2/Controller?command=newaccount">회원가입</a>
                     </li>
                 </ul>
             </div>
@@ -94,10 +94,10 @@
             <div class="search_tabWrap">
                 <div class="search_tab">
                     <div class="tab current">
-                        <a href="/Tcp2/ticketlink/Login/Find_id.jsp">아이디 찾기</a>
+                        <a href="/Tcp2/Controller?command=find_id">아이디 찾기</a>
                     </div>
                     <div class="tab">
-                        <a href="/Tcp2/ticketlink/Login/Find_pw_idcheck.jsp">비밀번호 찾기</a>
+                        <a href="/Tcp2/Controller?command=find_pw_idcheck">비밀번호 찾기</a>
                     </div>
                 </div>
             </div>
@@ -116,8 +116,8 @@
                         </ul>
                     </div>
                     <div class="btn_box">
-                        <a href="/Tcp2/ticketlink/Login/Find_pw_idcheck.jsp" class="white_btn">비밀번호 찾기</a>
-                        <a href="/Tcp2/ticketlink/Login/Login.jsp" class="red_btn">로그인</a>
+                        <a href="/Tcp2/Controller?command=find_pw_idcheck" class="white_btn">비밀번호 찾기</a>
+                        <a href="/Tcp2/Controller?command=login" class="red_btn">로그인</a>
                     </div>
                 </div>
             </div>
