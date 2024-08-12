@@ -179,24 +179,19 @@
             <div class="profileSettingCard">
               <div class="imgBox _defaultProfileImgBox"></div>
               <% if(mMemberProfilePrintDTO.getProfile() == null) { %>
-              <div class="imgBox _existProfileImgBox" style="display:none;">
+              <div class="imgBox _existProfileImgBox">
+              	<img class="profileImage">
+              </div>
+              <% } else { %>
+              <div class="imgBox _existProfileImgBox">
               	<img class="profileImage" alt="프로필 사진" src="<%= request.getContextPath() %>/upload/<%=mMemberProfilePrintDTO.getProfile()%>">
               </div>
-              <span class="addPhoto _btnProfile">
-                <label for="addPhoto" class="_labelProfile">프로필 사진 추가</label>
-                <input id="addPhoto" type="file" accept="image/*" name="profile" class="inputFile" onchange="uploadImg(this)">
-                <img class="profileImg">
-             </span>
-             <% } else { %>
-             <div class="imgBox _existProfileImgBox">
-              	<img class="profileImage" alt="프로필 사진" src="<%= request.getContextPath() %>/upload/<%=mMemberProfilePrintDTO.getProfile()%>">
-              </div>
-              <span class="addPhoto _btnProfile">
-                <label for="addPhoto" class="_labelProfile">프로필 사진 추가</label>
-                <input id="addPhoto" type="file" accept="image/*" name="profile" class="inputFile" onchange="uploadImg(this)">
-                <img class="profileImg">
-             </span>
              <% } %>
+              <span class="addPhoto _btnProfile">
+                <label for="addPhoto" class="_labelProfile">프로필 사진 추가</label>
+                <input id="addPhoto" type="file" accept="image/*" name="profile" class="inputFile" onchange="uploadImg(this)">
+                <img class="profileImg">
+             </span>
             </div>
           </div>
           <ul class="settingList">
@@ -219,7 +214,7 @@
             </li>
           </ul>
           <div class="btnFooter">
-            <button type="button" onClick="history.back()" class="btnCancel">취소</button>
+            <button type="button" onClick="location.href='<%= request.getContextPath() %>/Controller?command=band_setting&meet_idx=<%=meet_idx %>'" class="btnCancel">취소</button>
             <button type="submit" class="btnSave">저장</button>
           </div>
           </form>

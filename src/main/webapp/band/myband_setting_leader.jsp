@@ -402,7 +402,6 @@
             <section class="bandChannerView">
               <h2 class="tit">채팅</h2>
               <div class="chat_setting_wrap">
-                <!-- <button class="chat_setting_btn">설정</button> -->
               </div>
               <div class="body" style="max-height: none;">
                 <div class="new_chatting_wrap">
