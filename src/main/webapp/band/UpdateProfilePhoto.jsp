@@ -20,5 +20,5 @@
 	mnDao.meetNicknameSetting(nickname, member_idx, meet_idx);
 	
 	
-	response.sendRedirect("band/band_setting_reader.jsp?member_idx=" + member_idx + "&meet_idx=" + meet_idx);
+	response.sendRedirect("Controller?command=band_setting&meet_idx=" + meet_idx);
 %>

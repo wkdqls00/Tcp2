@@ -167,7 +167,7 @@
       <!-- 프로필 설정 -->
       <main id="content" role="main" class="midContent">
         <div class="settingBand">
-         <form action="../UpdateProfileServlet" method="post" enctype="multipart/form-data">
+         <form action="<%= request.getContextPath() %>/UpdateProfileServlet" method="post" enctype="multipart/form-data">
           <input type="hidden" name="meet_idx" value="<%=meet_idx %>">
           <input type="hidden" name="member_idx" value="<%=member_idx %>">
           <div class="headerWrap">
