@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import dao.*;
 import dto.*;
@@ -14,9 +15,15 @@ public class BandJoinRequestAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
-		int member_idx = Integer.parseInt(request.getParameter("member_idx"));
+		HttpSession hs = request.getSession();
+		int member_idx = (int)hs.getAttribute("userIdx");
 		
+		int meet_idx = 0;
+		if(request.getParameter("meet_idx")==null) {
+			meet_idx = (Integer)request.getAttribute("meet_idx");
+		} else {
+			meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
+		}
 		//멤버 목록
 		MeetMemberListPrintDAO mmlpDAO = new MeetMemberListPrintDAO();
 		ArrayList<MeetMemberListPrintDTO> mmlpDTO = new ArrayList<>();
@@ -95,6 +102,8 @@ public class BandJoinRequestAction implements Action {
 		request.setAttribute("mjqpDTO", mjqpDTO);
 		request.setAttribute("chatListDto", chatListDto);
 		request.setAttribute("mjqwDTO", mjqwDTO);
+		request.getRequestDispatcher("band/join_request.jsp").forward(request, response);
+	
 	}
 
 }

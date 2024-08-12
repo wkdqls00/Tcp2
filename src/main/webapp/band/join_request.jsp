@@ -5,9 +5,15 @@
     pageEncoding="UTF-8"%>
 
 <%
-	int meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
-	int member_idx = Integer.parseInt(request.getParameter("member_idx"));
+	HttpSession hs = request.getSession();
+	int member_idx = (int)hs.getAttribute("userIdx");
 	
+	int meet_idx = 0;
+	if(request.getParameter("meet_idx")==null) {
+		meet_idx = (Integer)request.getAttribute("meet_idx");
+	} else {
+		meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
+	}
 	//리더 출력
 	MeetPostListPrintDAO mPrintDAO = new MeetPostListPrintDAO();
 	//내 프로필 출력
@@ -199,7 +205,7 @@
             <div class="bandInfoBox">
              <% try {
             	 if (mPrintDAO.adminCheck(member_idx, meet_idx)) { %>
-              <a href="#" class="showBandInfo">밴드 소개 설정
+              <a href="<%=request.getContextPath()%>/Controller?command=band_information&meet_idx=<%=meet_idx %>" class="showBandInfo">밴드 소개 설정
              <% 	} 
              	} catch(Exception e) {
              		e.printStackTrace();

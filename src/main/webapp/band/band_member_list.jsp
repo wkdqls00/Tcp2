@@ -181,11 +181,11 @@
           	    <span class="circleIcon">
           		  <span class="personIcon"></span>
           		</span>
-          		<a href="join_request.jsp?meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>"  class="arrowTextLink">
+          		<a href="<%=request.getContextPath()%>/Controller?command=band_join_request&meet_idx=<%=meet_idx %>"  class="arrowTextLink">
           		가입 신청자
           	    </a>
           	  </div>
-          	  <form action="join_request.jsp" method="post">
+          	  <form action="<%=request.getContextPath()%>/Controller?command=band_join_request" method="post">
           	  <input type="hidden" value="<%=member_idx %>" name="member_idx">
           	  <input type="hidden" value="<%= meet_idx%>" name="meet_idx">
           	  <button type="submit" class="joinStatus">가입대기 <%=mjqwDTO.getJoin_wait_count() %></button>
