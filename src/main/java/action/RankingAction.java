@@ -21,7 +21,7 @@ public class RankingAction implements Action {
 		   request.setAttribute("list", list);
 		   request.setAttribute("wrd", wrd);
 		   request.setAttribute("wr", wr);
-		   request.getRequestDispatcher("/ticketlink/Ranking_MainP/weekly_ranking3.jsp").forward(request, response);
+		   request.getRequestDispatcher("/ticketlink/Ranking_MainP/Ranking.jsp").forward(request, response);
 	}
 
 }

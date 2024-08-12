@@ -56,7 +56,7 @@ ArrayList<RecommandPDTO> rpd = (ArrayList<RecommandPDTO>)request.getAttribute("r
     
   <script>
 	let g_play_idx = <%=request.getParameter("play_idx")%>;
-
+	let playinfoIdx = 0;
   function draw_script_page(page_num) {
 		$.ajax({
 			type: 'get',
@@ -186,10 +186,10 @@ ArrayList<RecommandPDTO> rpd = (ArrayList<RecommandPDTO>)request.getAttribute("r
     </div>
     <div class="nav_box">
         <div class="inner">
-            <h1 class="logo"><a href="/Tcp2/ticketlink/main.jsp">로고</a></h1>
+            <h1 class="logo"><a href="/Tcp2/Controller?command=main">로고</a></h1>
             <ul class="nav">
-              <li><a href="/Tcp2/ticketlink/main.jsp">공연</a></li>
-              <li><a href="/Tcp2/band/band_main.jsp">커뮤니티</a></li>
+              <li><a href="/Tcp2/Controller?command=main">공연</a></li>
+              <li><a href="/Tcp2/Controller?command=band">커뮤니티</a></li>
             </ul>
         </div>
     </div>
@@ -198,8 +198,8 @@ ArrayList<RecommandPDTO> rpd = (ArrayList<RecommandPDTO>)request.getAttribute("r
             <ul class="gnb_list">
     		  <li class="gnb_link"><a href="/Tcp2/ticketlink/main.jsp">홈</a></li>
               <li class="gnb_link"><a href="/Tcp2/ticketlink/main.jsp">공연</a></li>
-              <li class="gnb_link"><a href="/Tcp2/ticketlink/Ranking_MainP/weekly_ranking3.jsp">랭킹</a></li>
-              <li class="gnb_link"><a href="/Tcp2/band/band_main.jsp">커뮤니티</a></li>
+              <li class="gnb_link"><a href="/Tcp2/Controller?command=ranking">랭킹</a></li>
+              <li class="gnb_link"><a href="/Tcp2/Controller?command=band">커뮤니티</a></li>
              <li class="gnb_link" style="padding: 0; padding-top: 10px; padding-left: 10px; float: right;">
                  <form action="/Tcp2/SearchResult">
                 	<input type="text" style="width: 200px; padding-inline: 8px;" placeholder="공연을 검색하세요." name="search" minlength="2">
@@ -325,7 +325,7 @@ ArrayList<RecommandPDTO> rpd = (ArrayList<RecommandPDTO>)request.getAttribute("r
 				}
 				if (!(originalTime.equals(gdd.get(i).getPlay_date()))) break;
 %>
-	           <button type="button" onclick="<%=gdd.get(i).getPlayinfo_idx()%>" class="episode_selection time_btn" style="margin-bottom: 15px;"> 
+	           <button type="button" onclick="getepisode(<%=gdd.get(i).getPlayinfo_idx()%>)" class="episode_selection time_btn" style="margin-bottom: 15px;"> 
 			      <span><b style="font-size: larger"><%=gdd.get(i).getStart_time()%></b></span>
 			       <span>
 			        <span class="c_member"></span>
@@ -583,12 +583,13 @@ ArrayList<RecommandPDTO> rpd = (ArrayList<RecommandPDTO>)request.getAttribute("r
   <div class="comment_write">
     <div class="comment_notice">
       <p class="comment_notice_desc">게시판 운영규정에 맞지 않는 글은 사전 통보없이 삭제될 수 있습니다.</p>
-      <a href="http://localhost:9090/Tcp2/ticketlink/Detailed_Infor(Integrated)/popup.html" target="_blank" class="btn_hyperlink">
+      <a href="/Tcp2/ticketlink/Playinfo_detail/popup.html" target="_blank" class="btn_hyperlink">
         <!-- before -->
          게시판 운영규정
       </a>
     </div>
-   <form action="/Tcp2/ScriptwriteServlet">
+   <form action="/Tcp2/Controller">
+   	<input type="hidden" name="command" value="writescript">
      <input type="hidden" name="play_idx" value="<%=play_idx%>">
     <div class="comment_form">
       <div class="comment_content">
@@ -1479,7 +1480,7 @@ var rating = $('.star_rt');
 <script>
   function reservation() {
 	  const playinfoValue = document.querySelector('.product_seat_item').getAttribute('playinfo');
-      window.open('/Tcp2/Controller?command=pay0&pi='+ playinfoValue, '', 'width=1200, height=900');
+      window.open('/Tcp2/Controller?command=pay0&pi='+ playinfoIdx, '', 'width=1200, height=900');
 	  
   }
 

@@ -101,7 +101,8 @@ public class Controller extends HttpServlet {
 			case "pay2" : action = new Payment2Action(); break;
 			//결제완료시
 			case "pay3" : action = new Payment3Action(); break;
-			
+			//관람후기작성
+			case "writescript" : action = new WriteScriptAction(); break;
 			
 		}
 		

@@ -153,7 +153,7 @@ function calendarChoiceDay(column) {
       
      
       const xhr = new XMLHttpRequest(); // XMLHttpRequest 객체 생성
-
+	  playinfoIdx = playinfo_idx;
        //alert(year + month+ date);
       xhr.open('GET', '/Tcp2/EpTransferServlet?playinfo_idx='+playinfo_idx, true); // 요청 초기화
        xhr.onreadystatechange = function() {
@@ -177,7 +177,6 @@ function calendarChoiceDay(column) {
                   }
                 
                document.querySelector(".product_seat_list").innerHTML = str;
-                   displayResults(response); // 결과 표시 함수 호출
                }
                } else {
                    console.error('AJAX 요청 실패:', xhr.status, xhr.statusText);

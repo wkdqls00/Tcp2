@@ -93,7 +93,7 @@
                         <li class="gnb_link"><a href="/Tcp2/Controller?command=main">홈</a></li>
                         <li class="gnb_link"><a href="/Tcp2/Controller?command=main">공연</a></li>
                         <li class="gnb_link"><a href="/Tcp2/Controller?command=ranking">랭킹</a></li>
-                        <li class="gnb_link"><a href="/Tcp2/Controller?command=ban d_main">커뮤니티</a></li>
+                        <li class="gnb_link"><a href="/Tcp2/Controller?command=band_main">커뮤니티</a></li>
                         <li class="gnb_link" style="padding: 0; padding-top: 10px; padding-left: 10px; float: right;">
                         	<form action="/Tcp2/SearchResult">
 		                  	<input type="text" style="width: 200px; padding-inline: 8px;" placeholder="공연을 검색하세요." name="search" minlength="2">
