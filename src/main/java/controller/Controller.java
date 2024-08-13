@@ -91,6 +91,10 @@ public class Controller extends HttpServlet {
 			case "ticket_check_periodR" : action = new Ticket_checkPeriodRAction(); break;
 			//티켓취소 확인 월별 페이지
 			case "ticket_checkMonthR" : action = new Ticket_checkMonthRAction(); break;
+			//후기관리 페이지(공연)
+			case "script_concert" : action = new ScriptManagementCAction(); break;
+			//후기관리 페이지(전시)
+			case "script_exhibition" : action = new ScriptManagementEAction(); break;
 			//로그아웃
 			case "logout" : action = new LogoutAction2(); break;
 			//회원가입

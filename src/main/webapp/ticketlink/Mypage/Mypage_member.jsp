@@ -107,7 +107,7 @@ int totalT = (int)hs.getAttribute("totalT");
                             <span class="help_submenu_tit">활동관리</span>
                             <ul class="help_submenu">
                                 <li><a href="" onclick="event.preventDefault(); alert('준비 중입니다.');">참여 이벤트</a></li>
-                                <li><a href="/Tcp2/ScriptManagementServlet">후기관리</a></li>
+                                <li><a href="/Tcp2/Controller?command=script_concert">후기관리</a></li>
                                 <li><a href="" onclick="event.preventDefault(); alert('준비 중입니다.');">팬클럽/멤버십 내역</a></li>
                                 <li><a href="" onclick="event.preventDefault(); alert('준비 중입니다.');">취소표 대기 신청 내역</a></li>
                             </ul>

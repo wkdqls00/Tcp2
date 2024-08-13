@@ -113,7 +113,7 @@
                                 <span class="help_submenu_tit">활동관리</span>
                                 <ul class="help_submenu">
                                     <li><a href="" onclick="event.preventDefault(); alert('준비 중입니다.');">참여 이벤트</a></li>
-                                    <li class="on"><a href="/Tcp2/ScriptManagementServlet">후기관리</a></li>
+                                    <li class="on"><a href="/Tcp2/Controller?command=script_concert">후기관리</a></li>
                                     <li><a href="" onclick="event.preventDefault(); alert('준비 중입니다.');">팬클럽/멤버십 내역</a></li>
                                     <li><a href="" onclick="event.preventDefault(); alert('준비 중입니다.');">취소표 대기 신청 내역</a></li>
                                 </ul>
@@ -145,8 +145,8 @@
                             종원링크 운영정책에 위봔되거나, 후기의 성격에 맞지 않는 글은 고객님께 사전 통보 없이 삭제될 수 있습니다.
                         </p>
                         <ul class="mypage_tab">
-                            <li><a href="/Tcp2/ScriptManagementServlet">공연</a></li>
-                            <li class="on"><a href="/Tcp2/ScriptManagementServletE">전시</a></li>
+                            <li><a href="/Tcp2/Controller?command=script_concert">공연</a></li>
+                            <li class="on"><a href="/Tcp2/Controller?command=script_exhibition">전시</a></li>
                         </ul>
                         <div class="basic_tbl">
                             <table>
@@ -187,11 +187,11 @@
                             if (page_ != null && !page_.equals(""))
                             	cp = Integer.parseInt(page_);
                           	%>
-                            <a href="/Tcp2/ScriptManagementServletE?cp=1" class="first">처음</a>
-                            <a href="/Tcp2/ScriptManagementServletE?cp=<%=Math.max(cp-1, 1)%>" class="prev">이전</a>
+                            <a href="/Tcp2/Controller?command=script_concert&cp=1" class="first">처음</a>
+                            <a href="/Tcp2/Controller?command=script_concert&cp=<%=Math.max(cp-1, 1)%>" class="prev">이전</a>
                             <strong><%=cp %></strong>
-                            <a href="/Tcp2/ScriptManagementServletE?cp=<%=Math.min(cp+1, count)%>" class="next">다음</a>
-                            <a href="/Tcp2/ScriptManagementServletE?cp=<%=count%>" class="end">마지막</a>
+                            <a href="/Tcp2/Controller?command=script_concert&cp=<%=Math.min(cp+1, count)%>" class="next">다음</a>
+                            <a href="/Tcp2/Controller?command=script_concert&cp=<%=count%>" class="end">마지막</a>
                         </div>
                     </div>
                 </div>
