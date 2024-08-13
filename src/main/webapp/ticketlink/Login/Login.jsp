@@ -116,7 +116,7 @@
         	// cookie 값 있는지 확인부터
         	let cookie = <%=request.getAttribute("cookie")%>;
         	if(cookie === null)
-        	window.location.href = "/Tcp2/LoginSuccessToMain";
+        	window.location.href = "/Tcp2/Controller?command=loginAction";
             // 로그인 실패하면 error문 뜨게 
             <% if (request.getAttribute("loginError") != null) { %> // 이게 LoginSuccessMain에서 조건이 맞지 않으면 loginError 라는 속성을 전달함
                 document.querySelector(".message").style.display = "block";

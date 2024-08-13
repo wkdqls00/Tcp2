@@ -61,8 +61,10 @@ public class Controller extends HttpServlet {
 			
 			//-----티켓링크-----
 			
-			//티켓링크 로그인
+			//티켓링크 로그인 페이지
 			case "login" : action = new LoginAction(); break;
+			//티켓링크 로그인 액션
+			case "loginAction" : action = new LoginAction3(); break;
 			//메인 페이지
 			case "main" : action = new MainAction(); break;
 		    //아이디 찾기 페이지
