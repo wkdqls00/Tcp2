@@ -15,7 +15,7 @@ public class CommentListViewDAO {
 		CommentListViewDAO clvdao = new CommentListViewDAO();
         ArrayList<CommentListViewDTO> list = null;        
         try {
-        	list = clvdao.selectCommentListViewDTO(3);
+        	list = clvdao.selectCommentListViewDTO(34);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -30,11 +30,12 @@ public class CommentListViewDAO {
         Connection conn = d.getConn();
 
         String sql = 
-        		"SELECT m.member_idx, c.meet_comment_idx, m_m.nickname, m_m.profile, c.content, c.reg_date "
+        		"SELECT m_m.member_idx, c.meet_comment_idx, m_m.nickname, m_m.profile, c.content, c.reg_date "
         		+ "FROM member m, meet_member m_m, meet_comment c, post p "
         		+ "WHERE m.member_idx = m_m.member_idx "
         		+ "AND c.meet_member_idx = m_m.meet_member_idx "
         		+ "AND p.post_idx = c.post_idx "
+        		+ "AND m_m.meet_idx = 53"
         		+ "AND delete_ok = 'N' "
         		+ "AND p.post_idx = ? "
         		+ "ORDER BY c.reg_date";

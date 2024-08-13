@@ -5,15 +5,11 @@
     pageEncoding="UTF-8"%>
 
 <%
-	HttpSession hs = request.getSession();
-	int member_idx = (int)hs.getAttribute("userIdx");
+
+	int member_idx = (int)request.getAttribute("member_idx");
+	int meet_idx = (int)request.getAttribute("meet_idx");
+	ArrayList<ChatListDTO> chatListDto = (ArrayList<ChatListDTO>)request.getAttribute("chatListDto");
 	
-	int meet_idx = 0;
-	if(request.getParameter("meet_idx")==null) {
-		meet_idx = (Integer)request.getAttribute("meet_idx");
-	} else {
-		meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
-	}
 	//리더 출력
 	MeetPostListPrintDAO mPrintDAO = new MeetPostListPrintDAO();
 	//내 프로필 출력
@@ -36,7 +32,7 @@
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
-	ArrayList<ChatListDTO> chatListDto = (ArrayList<ChatListDTO>)request.getAttribute("chatListDto");
+	
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -66,6 +62,22 @@
   				}
   			});
   		});
+  		// 채팅방 만들기
+		$("#createChatButton").click(function() {
+			let member_idx = <%= member_idx %>;
+			let title = $("#chatTitleInput").val();
+			let meet_idx = <%= meet_idx %>;
+			
+			$.ajax({
+				url: '${pageContext.request.contextPath}/AjaxCreateChatServlet',
+				data: {member_idx : member_idx, title : title, meet_idx : meet_idx },
+				type: 'get',
+				success: function(response){
+					alert("채팅방 생성이 완료 되었습니다!");
+					location.reload();
+				}
+			});
+		})
   	});
   	//거절하기
   	$(function(){
@@ -99,7 +111,7 @@
         <div class="logo_search_area">
           <!-- 로고 -->
           <h1 class = "logo_area">
-            <a href="band_main.jsp?meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="logo">
+            <a href="<%=request.getContextPath()%>/Controller?command=band_main" class="logo">
             </a>
           </h1>
         </div>
@@ -111,13 +123,14 @@
                 <span class="uIconChat bg_white"></span>
               </button>
             </li>
-            <!-- 가입했을 시 프로필 출력 -->
+           <!-- 가입했을 시 프로필 출력 -->
             <li class="ml_24 positionR">
+           <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
               <button class="btnMySetting">
                 <span class="uProfile">
                   <span class="profileInner">
                	   <% if (mMemberProfilePrintDTO.getProfile() != null) { %>
-               		<img src="../upload/<%= mMemberProfilePrintDTO.getProfile() %>"
+               		<img src="<%=request.getContextPath()%>/upload/<%= mMemberProfilePrintDTO.getProfile() %>"
                     width="30" height="30">
                     <% } else { %>
                    <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
@@ -126,16 +139,26 @@
                   </span>
                 </span>
               </button>
+            <% } else { %>
+            <button class="btnMySetting">
+                <span class="uProfile">
+                  <span class="profileInner">
+                   <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240528100621/images/template/profile_60x60.png"
+                   width="30" height="30">
+                  </span>
+                </span>
+              </button>
+              <% } %>
               <!-- 프로필 클릭 시 드롭다운 -->
               <div class="menuModalLayer profileDropDown" id="off" style="display: none">
                 <ul class="menuModalList">
+                <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
                   <li class="menuMadalItem">
-                    <a href="<%=request.getContextPath()%>/Controller?command=band_profile&meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="menuModalLink">프로필 설정</a>
+                    <a href="<%= request.getContextPath() %>/Controller?command=band_profile&meet_idx=<%=meet_idx %>" class="menuModalLink">프로필 설정</a>
                   </li>
+                <% } %>
                   <li class="menuMadalItem">
-                    <form action="../LogoutAction">
-                    <button type="submit" class="menuModalLink">로그아웃</button>
-                   </form>
+                    <button onclick="if(confirm('로그아웃 하시겠습니까?')) { window.location.href='/Tcp2/Controller?command=logout'; } return false;" class="menuModalLink">로그아웃</button>
                   </li>
                 </ul>
               </div>
@@ -150,26 +173,14 @@
       <div class="header_lnb bg_blue">
         <ul class="header_lnb_menu">
           <li class="menu_item">
-             <form action="<%=request.getContextPath()%>/Controller?command=band_home" method="post">
-	          <a>
-	          	<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
-   		  	 	<input type="hidden" value="<%=member_idx %>" name="member_idx">
-             	<button type="submit">
-           		  <span class="menu_item_txt" style="padding:2px;">게시글</span>
-            	</button>
+	          <a href="<%= request.getContextPath() %>/Controller?command=band_home&meet_idx=<%= meet_idx %>">
+           		  <span class="menu_item_txt">게시글</span>
 	          </a>
-            </form>
           </li>
           <li class="menu_item">
-           <form action="<%=request.getContextPath()%>/Controller?command=band_member_list" method="post">
-           	<a>	
-   		  	 <input type="hidden" value="<%=meet_idx %>" name="meet_idx">
-   		  	 <input type="hidden" value="<%=member_idx %>" name="member_idx">
-             <button type="submit">
-              <span class="menu_item_txt active">멤버</span>
-             </button>
+           	<a href="<%= request.getContextPath() %>/Controller?command=band_member_list&meet_idx=<%= meet_idx %>">	
+              <span class="menu_item_txt">멤버</span>
   	        </a>
-           </form>
           </li>
         </ul>
       </div>
@@ -179,15 +190,15 @@
           <div class="sticky_side_bar">
             <!-- 밴드 이미지 -->
             <div class="side_cover">
-               <div class="cover_img">
-                 <span class="cover_inner">
-                 <img
-                   <% if (miDto.getUrl() != null) {%>
-                   	src = "../upload/<%= miDto.getUrl() %>"
-                  	<% } %>
-                  	>
-                 </span>
-               </div>
+                <div class="cover_img">
+                  <span class="cover_inner">
+                  <img
+                    <% if (miDto.getUrl() != null) {%>
+                    	src = "<%= request.getContextPath() %>/upload/<%= miDto.getUrl() %>"
+                   	<% } %>
+                   	>
+                  </span>
+                </div>
               <!-- 밴드 이름 -->
               <div class="band_name">
                 <a class="band_name_txt"><%= miDto.getMeet_name() %></a>
@@ -195,41 +206,41 @@
             </div>
             <!-- 멤버 수 -->
             <p class="member">
-              <a href="<%=request.getContextPath()%>/Controller?command=band_information&meet_idx=<%=meet_idx %>&member_idx=<%=member_idx %>" class="member_count">멤버 <%=miDto.getMeet_member_count() %></a>
+              <a class="member_count">멤버 <%= miDto.getMeet_member_count() %></a>
             </p>
             <!-- 글쓰기 버튼 -->
             <div class="btnBox">
               <button class="uButton bg_blue" id="postWriteBtn">글쓰기</button>
             </div>
-             <!-- 밴드 소개 설정 : 리더일 시 출력 -->
-            <div class="bandInfoBox">
-             <% try {
-            	 if (mPrintDAO.adminCheck(member_idx, meet_idx)) { %>
-              <a href="<%=request.getContextPath()%>/Controller?command=band_information&meet_idx=<%=meet_idx %>" class="showBandInfo">밴드 소개 설정
-             <% 	} 
-             	} catch(Exception e) {
-             		e.printStackTrace();
-             	}
-             	%>
-                <span class="uIconArrow"></span>
-              </a>
-            </div>
-            <!-- 밴드 안내 문구 : 공개 여부 -->
+            <!-- 밴드 소개 설정 : 리더일 시 출력 -->
+            <form action="Controller?command=band_information" method="post">
+            	<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
+   		  	 	<input type="hidden" value="<%=member_idx %>" name="member_idx">
+	            <div class="bandInfoBox">
+	             <% try {
+	            	 if (mPrintDAO.adminCheck(member_idx, meet_idx)) { %>
+	              <button type="submit" class="showBandInfo">밴드 소개 설정
+	             <% 	} 
+	             	} catch(Exception e) {
+	             		e.printStackTrace();
+	             	}
+	             	%>
+	                <span class="uIconArrow"></span>
+	              </button>
+	            </div>
+            </form>
+            <!-- 밴드 안내 문구 -->
             <% if (bOkDTO.getPublic_ok().equals("Y")) { %>
             <p class="bandTypeDesc">누구나 밴드를 검색해 찾을 수 있고, 밴드 소개와 게시물을 볼 수 있습니다.</p>
             <% } else { %>
             <p class="bandTypeDesc">밴드와 게시글이 공개되지 않습니다. 초대를 통해서만 가입할 수 있습니다.</p>
             <% } %>
             <!-- 밴드 설정 -->
-            <div class="bandSetting">
-            	<form action="<%=request.getContextPath()%>/Controller?command=band_setting" method="post">
-	            	<input type="hidden" value="<%=meet_idx %>" name="meet_idx">
-	            	<input type="hidden" value="<%=member_idx %>" name="member_idx">
-	              	<button type="submit" class="bandSetting_Link">
-		                <span class="uIconSetting"></span>
-		                밴드 설정
-	                </button>
-              </form>
+             <div class="bandSetting">
+              	<button onclick="location.href='<%= request.getContextPath() %>/Controller?command=band_setting&meet_idx=<%= meet_idx %>'" class="bandSetting_Link">
+	                <span class="uIconSetting"></span>
+	                밴드 설정
+                </button>
             </div>
           </div>
         </div>
@@ -287,9 +298,8 @@
             <section class="bandChannerView">
               <h2 class="tit">채팅</h2>
               <div class="chat_setting_wrap">
-                <button class="chat_setting_btn">설정</button>
               </div>
-              <div class="body">
+              <div class="body" style="max-height: none;">
                 <div class="new_chatting_wrap">
                   <div class="buttonBox">
                     <button class="newChattingBtn">
@@ -299,19 +309,23 @@
                   </div>
                 </div>
                 <!-- 채팅 목록 -->
-                <div class="nano">
+                <div class="nano" style="max-height: none;">
                   <div class="nano_content">
                     <ul class="chat">
                     <% for (ChatListDTO cDto2 : chatListDto) { %>
                       <li>
-                        <button class="itemLink" onclick="window.open('chat.jsp', '', 'width=415, height=643')">
+                        <button class="itemLink" onclick="window.open('<%= request.getContextPath() %>/Controller?command=band_chat&chat_idx=' + <%= cDto2.getChat_idx()  %> + '&meet_idx=' + <%= meet_idx %>, '', 'width=415, height=643')">
                           <span class="thum">
                             <img src="https://ssl.pstatic.net/cmstatic/webclient/dres/20240603162344/images/template/multi_profile_60x60.png"
                             height="30" width="30">
                           </span>
                           <span class="cont">
                             <strong class="text"><%= cDto2.getTitle() %></strong>
+                            <% if (cDto2.getContent() != null) { %>
                             <span class="sub"><%= cDto2.getContent() %></span>
+                            <% } else { %>
+                            <span class="sub">채팅을 시작해보세요.</span>
+                            <% } %>
                           </span>
                         </button>
                       </li>
@@ -326,10 +340,12 @@
       </div>
     </div>
     <!-- 팝업 : 글쓰기 -->
+    <form action="${pageContext.request.contextPath}/PostWriteServlet" method="post" enctype="multipart/form-data">
     <div class="layerContainerView" tabindex="-1" id="postWriteEditor_popUp" style="display: none;">
       <div class="layerContainerInnerView">
         <div class="postEditorLayerView" style="position: relative;">
           <section class="lyWrap">
+           <input type="hidden" name="meet_idx" value="<%=meet_idx %>">
             <div class="lyPostShareWrite" style="margin-top: 77px;">
               <header class="header">
                 <h1 class="title">글쓰기</h1>
@@ -337,15 +353,18 @@
               <div class="main">
                 <div class="postWrite">
                   <div class="postWriteForm">
-                    <textarea class="contentEditor cke_editable"></textarea>
+                    <textarea class="contentEditor cke_editable" name="content"></textarea>
                   </div>
                   <div class="buttonArea">
-                    <ul class="toolbarList">
+                    <ul class="toolbarList" style="justify-content: space-between;">
                       <li class="toolbarListItem">
-                        <label class="photo">
-                          <input type="file">
+                        <label class="photo" for="postInputFile">
+                          <input type="file" accept="image/*" id="postInputFile" onchange="uploadImg(this)" name="file_url">
                           <span class="photoIcon"></span>
                         </label>
+                      </li>
+                      <li class="toolbarListItem" >
+                        <img class="postImg" style="width:70px; height: 70px; margin-bottom:10px;" src="https://i.ibb.co/N1V2tXT/image.png">
                       </li>
                     </ul>
                     <div class="writeSubmitBox">
@@ -357,13 +376,14 @@
                 </div>
               </div>
               <footer class="footer">
-                <button class="btnLyClose"></button>
+                <button type="button" class="btnLyClose"></button>
               </footer>
             </div>
           </section>
         </div>
       </div>
     </div>
+   </form>
     <!-- 팝업 : 새 채팅 -->
     <div class="layerContainerView" id="newChatWrap_popUp" style="display: none;">
       <div class="layerContainerInnerView">
@@ -377,12 +397,12 @@
                 채팅방 이름
               </label>
               <div class="uInput" style="height: 36px; padding: 0 10px; margin-bottom: 20px;">
-                <input type="text" placeholder="채팅방 이름을 입력해주세요.">
+                <input id="chatTitleInput" type="text" placeholder="채팅방 이름을 입력해주세요.">
                 <span class="border"></span>
               </div>
             </div>
             <footer class="footer">
-              <button class="uButton -confirm -sizeL">완료</button>
+              <button class="uButton -confirm -sizeL" id="createChatButton">완료</button>
               <button class="btnLyClose"></button>
             </footer>
           </div>

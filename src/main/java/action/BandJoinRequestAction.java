@@ -33,7 +33,6 @@ public class BandJoinRequestAction implements Action {
 			e.printStackTrace();
 		}
 		
-		
 		// 가입 신청자 출력
 		MeetMemberListPrintDAO joinWaitDAO = new MeetMemberListPrintDAO();
 		ArrayList<MeetMemberListPrintDTO> jwListDto = new ArrayList<>();	
@@ -94,6 +93,8 @@ public class BandJoinRequestAction implements Action {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		request.setAttribute("member_idx", member_idx);
+		request.setAttribute("meet_idx", meet_idx);
 		request.setAttribute("mmlpDTO", mmlpDTO);
 		request.setAttribute("jwListDto", jwListDto);
 		request.setAttribute("miDto", miDto);
