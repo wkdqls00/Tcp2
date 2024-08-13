@@ -332,33 +332,33 @@
   <div class="footer_menu">
     <ul class="footer_menu_list">
       <li class="footer_menu_item">
-        <a href="/introduction/company" class="footer_menu_link">회사소개</a>
+        <a href="" onclick="disG(); return false;" class="footer_menu_link">회사소개</a>
       </li>
       <li class="footer_menu_item">
       <!-- ::before -->
-      <a href="/terms/personalInforamtion" class="footer_menu_link">
+      <a href="" onclick="disG(); return false;" class="footer_menu_link">
         <span class="text_bold">개인정보 처리방침</span>
       </a>
       </li>
       <li class="footer_menu_item">
       <!-- ::before -->
-      <a href="/term/youth" class="footer_menu_link">청소년 보호정책</a>
+      <a href="" onclick="disG(); return false;" class="footer_menu_link">청소년 보호정책</a>
       </li>
       <li class="footer_menu_item">
       <!-- ::before -->
-      <a href="/terms/use" class="footer_menu_link">이용약관</a>
+      <a href="" onclick="disG(); return false;" class="footer_menu_link">이용약관</a>
       </li>
       <li class="footer_menu_item">
       <!-- ::before -->
-      <a href="/help/main" class="footer_menu_link">고객센터</a>
+      <a href="" onclick="disG(); return false;" class="footer_menu_link">고객센터</a>
       </li>
       <li class="footer_menu_item">
       <!-- ::before -->
-      <a href="/help/partner" class="footer_menu_link">티켓판매안내</a>
+      <a href="" onclick="disG(); return false;" class="footer_menu_link">티켓판매안내</a>
       </li>
       <li class="footer_menu_item">
        <!-- ::before -->
-       <a href="/advertisement/" class="footer_menu_link">광고안내</a>
+       <a href="" onclick="disG(); return false;" class="footer_menu_link">광고안내</a>
       </li>
     </ul>
   </div>
