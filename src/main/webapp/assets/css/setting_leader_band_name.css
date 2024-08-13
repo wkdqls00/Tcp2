@@ -498,7 +498,7 @@ legend {
 	padding-top: 40px;
 }
 
-#inputSubQ {
+#inputSubQ, #inputNickname {
     line-height: 54px;
     font-size: 15px;
     font-weight: 400;

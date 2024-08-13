@@ -53,11 +53,12 @@ public class CreateNewBandServlet extends HttpServlet {
 		String name = multi.getParameter("name");
 		String url = multi.getFilesystemName(fileObject);
 		String sub_q = multi.getParameter("sub_q");
-		System.out.println(name+" " + url + " " + sub_q);
+		String nickname = multi.getParameter("nickname");
+		System.out.println(name+" " + url + " " + sub_q + " " + nickname);
 		
 		
 		CreateMeetDAO cmDao = new CreateMeetDAO();
-		cmDao.createMeet(name, url, member_idx, sub_q);
+		cmDao.createMeet(name, url, member_idx, sub_q, nickname);
 		
 		RequestDispatcher rd = request.getRequestDispatcher("Controller?command=band_main");
 		rd.forward(request, response);
