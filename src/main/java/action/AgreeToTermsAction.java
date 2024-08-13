@@ -12,10 +12,8 @@ import action.Action;
 public class AgreeToTermsAction implements Action {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.sendRedirect("/Tcp2/ticketlink/Login/Join_content.jsp");
-
+		request.getRequestDispatcher("/ticketlink/Login/AgreeToTerms.jsp").forward(request, response);
 	}
-
 }
 
 

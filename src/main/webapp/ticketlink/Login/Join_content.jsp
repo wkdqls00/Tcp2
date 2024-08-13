@@ -10,7 +10,7 @@
 </head>
 <body>
     <div class="header">
-       <a href=""><span class="header_logo"></span></a>
+       <a href="/Tcp2/Controller?command=main"><span class="header_logo"></span></a>
     </div>
     <div class="contents">
         <div class="contentWrapper">
@@ -37,7 +37,7 @@
     <script>
         // 개인회원가입 버튼에 링크 추가
         document.querySelector(".text").nextElementSibling.addEventListener("click", function() {
-            window.location.href = "/Tcp2/ticketlink/Login/AgreeToTerms.jsp";
+            window.location.href = "/Tcp2/Controller?command=agreeToTerms";
         });
 	
         // 개인회원가입 버튼누르면 약간 효과 주기

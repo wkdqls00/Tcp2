@@ -93,6 +93,10 @@ public class Controller extends HttpServlet {
 			case "logout" : action = new LogoutAction2(); break;
 			//회원가입
 			case "newaccount" : action = new NewAccountAction(); break;
+			//동의항목 페이지 
+			case "agreeToTerms" : action = new AgreeToTermsAction(); break;
+			//회원가입 정보 입력 페이지
+			case "signup" : action = new SignupAction(); break;
 			//회원정보 수정 메인페이지
 			case "modify" : action = new Modify_mainAction(); break;
 			//회원정보 수정 회원정보페이지

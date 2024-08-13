@@ -62,7 +62,7 @@
                         <ul>
                             <li><a href="/Tcp2/Controller?command=find_id">아이디 찾기</a></li>
                             <li><a href="/Tcp2/Controller?command=find_pw_idcheck">비밀번호 찾기</a></li>
-                            <li><a href="/Tcp2/ticketlink/Login/Join_content.jsp">회원가입</a></li>
+                            <li><a href="/Tcp2/Controller?command=newaccount">회원가입</a></li>
                         </ul>
                     </div>
                     <div class="snsLogin">

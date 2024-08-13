@@ -33,7 +33,7 @@
         <div class="memberConatainer">
             <div class="header">
                 <div class="header_inner">
-                    <a href="/Tcp2/ticketlink/main.jsp" class="header_logo">
+                    <a href="/Tcp2/Controller?command=main" class="header_logo">
                         <span class="blind">
                             종원링크
                         </span>
@@ -224,15 +224,15 @@
                         </div>
                         <div class="error_text">점유인증을 하여 휴대폰 번호를 등록해주세요. 등록한 번호는 로그인 이후 변경 가능합니다.</div>
                         <div class="account_vali" style="display: none;">
-                            <div class="account_guide">
+                            <!-- <div class="account_guide">
                                 <div>
                                     <span class="account">wns*****</span>
                                     <span class="date">(1949-04-15)</span>
                                     아이디로 가입 된 정보입니다.
                                 </div>
-                            </div>
-                            <p class="block_text">동일 정보로 가입된 계정으로 로그인 하시겠습니까?</p>
-                            <a href="#" class="btn btnArrow">로그인하기</a>
+                            </div> -->
+                            <!-- <p class="block_text">동일 정보로 가입된 계정으로 로그인 하시겠습니까?</p>
+                            <a href="#" class="btn btnArrow">로그인하기</a> -->
                         </div>
                     </div> 
                     <div class="uBlock" id="certify" style="display: none;"> <!--인증번호브럭-->
@@ -334,7 +334,7 @@
                     </div>
                     <div class="btn_area last"> <!--가입완료버튼-->
                         <div class="col">
-                            <button type="submit" class="btn point" disabled onclick="end(event)">가입완료</button>
+                            <button type="submit" class="btn point" disabled onclick="">가입완료</button>
                         </div>
                     </div>
                 </div>

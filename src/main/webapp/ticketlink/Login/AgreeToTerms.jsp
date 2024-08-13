@@ -46,10 +46,10 @@
 	<div class="g-recaptcha" data-sitekey="6Lerfg0qAAAAAAukEzArdUcJnbf16ra6BELU4ngX" data-callback="recaptchaCallback"></div>
     <div class="memberContainer">
         <div class="header">
-            <a href="/Tcp2/ticketlink/main.jsp" class="headerLogo"><span></span></a>
+            <a href="/Tcp2/Controller?command=main" class="headerLogo"><span></span></a>
             <div class="headerTitle">약관동의</div>
         </div>
-        <form action="/Tcp2/ticketlink/Login/Signup.jsp" method="get">
+        <form action="/Tcp2/Controller?command=signup" method="post">
             <div class="contents">
                 <div class="contentWrapper">
                     <div class="checkboxAll">

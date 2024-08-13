@@ -78,11 +78,17 @@
             <div class="utill">
                 <div class="inner">
                     <ul>
-                        <li class="utill_link"><a href="#" onclick="if(confirm('로그아웃 하시겠습니까?')) { window.location.href='/Tcp2/Controller?command=logout'; } return false;">로그아웃</a></li>
-                        <li class="utill_link"><a href="/Tcp2/Controller?command=ticket_check">예매확인/취소</a></li>
-                        <li class="utill_link"><a href="/Tcp2/ticketlink/Login/Join_content.jsp">회원가입</a></li>
-                        <li class="utill_link"><a href="#">고객센터</a></li>
-                        <li class="utill_link"><a href="/Tcp2/Controller?command=mypage">마이페이지</a></li>
+                        <%if(request.getSession().getAttribute("userIdx") == null){ %>
+			            <li class="utill_link"><a href="/Tcp2/Controller?command=login">로그인</a></li>
+			            <%} else { %>
+			            <li class="utill_link"><a href="#" onclick="if(confirm('로그아웃 하시겠습니까?')) { window.location.href='/Tcp2/Controller?command=logout'; } return false;">로그아웃</a></li>
+			            <%} %>
+			            <li class="utill_link"><a href="/Tcp2/Controller?command=ticket_check">예매확인/취소</a></li>
+			            <%if(request.getSession().getAttribute("userIdx") == null){ %>
+			            <li class="utill_link"><a href="/Tcp2/Controller?command=newaccount">회원가입</a></li>
+			            <%} %>
+			            <li class="utill_link"><a href="/Tcp2/Controller?command=cscenter">고객센터</a></li>
+			            <li class="utill_link"><a href="/Tcp2/Controller?command=mypage">마이페이지</a></li>
                     </ul>
                 </div> 
             </div>
@@ -98,11 +104,10 @@
             <div class="gnb_box">
                 <div class="inner">
                     <ul class="gnb_list">
-                        <li class="gnb_link"><a href="#">홈</a></li>
-                        <li class="gnb_link"><a href="#">공연</a></li>
-                        <li class="gnb_link"><a href="#">전시</a></li>
-                        <li class="gnb_link"><a href="#">랭킹</a></li>
-                        <li class="gnb_link"><a href="/Tcp2/band/band_main.jsp">커뮤니티</a></li>
+                        <li class="gnb_link"><a href="/Tcp2/Controller?command=main">홈</a></li>
+			            <li class="gnb_link"><a href="/Tcp2/Controller?command=main">공연</a></li>
+			            <li class="gnb_link"><a href="/Tcp2/Controller?command=ranking">랭킹</a></li>
+			            <li class="gnb_link"><a href="/Tcp2/Controller?command=band_main">커뮤니티</a></li>
                     </ul>
                 </div>
             </div>
@@ -279,7 +284,7 @@
                                 	%>
                                     <tr>
                                         <td class="fs12 point_number"><a href=""><%=dto.getPayment_idx()%></a></td>
-                                        <td class="tl ng-scope1"><a href="/Tcp2/ticketlink/Detailed_Infor(Integrated)/Prefor.detail(C).jsp?play_idx=<%=dto.getPlay_idx()%>"><%=dto.getName() %></a></td>
+                                        <td class="tl ng-scope1"><a href="/Tcp2/Controller?command=playinfo&play_idx=<%=dto.getPlay_idx()%>"><%=dto.getName() %></a></td>
                                         <td class="fs12 number ng-binding"><%=dto.getStart_date()%></td>
                                         <td class="ng-binding"><%=countList.get(cnt) %>장</td>
                                         <td class="fs12 number color_point"><%=dto.getStart_date()%><br><%=dto.getStart_time()%></td>

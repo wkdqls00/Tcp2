@@ -12,7 +12,7 @@ import action.Action;
 public class SignupAction implements Action {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.sendRedirect("/Tcp2/ticketlink/Login/Signup.jsp");
+		request.getRequestDispatcher("/ticketlink/Login/Signup.jsp").forward(request, response);
 	}
 
 }

@@ -71,7 +71,7 @@ String name = (String)request.getAttribute("name");
                     </div>
                     <div class="inter_btn_area">
                         <span>
-                            <button type="sumbit" class="btn_white">취소</button>
+                            <button type="button" class="btn_white" onclick="history.back();">취소</button>
                         </span>
                         <span>
                             <button type="submit" class="btn_red">확인</button>
