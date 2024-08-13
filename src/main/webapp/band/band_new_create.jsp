@@ -151,10 +151,16 @@
                   <p class="make_not_ice_text">밴드이름과 사진은 개설 후에도 변경할 수 있어요</p>
                 </div>
               </div>
-              <div class="sub_q_label">
+              <div class="sub_q_label" style="padding-bottom:40px;" >
               	<label class="sub_q make_title">밴드 가입 질문</label>
               	<div class="input_subQ">
               		<input type="text" id="inputSubQ" placeholder="가입 질문을 입력해주세요." name="sub_q">
+              	</div>
+              </div>
+              <div class="sub_q_label" style="border-top:1px solid #e7e7e7;">
+              	<label class="sub_q make_title">닉네임</label>
+              	<div class="input_subQ">
+              		<input type="text" id="inputNickname" placeholder="닉네임을 입력해주세요." name="nickname">
               	</div>
               </div>
               <div class="btn_footer">
