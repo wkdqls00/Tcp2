@@ -21,7 +21,7 @@ public class AjaxInsertJoinQWriteServlet extends HttpServlet {
 		int meet_idx = Integer.parseInt(request.getParameter("meet_idx"));
 		String sub_a = request.getParameter("sub_a");
 		String nickname = request.getParameter("nickname");
-		
+		System.out.println(nickname+" , "+sub_a);
 		
 		NoJoinMeetDAO njmDao = new NoJoinMeetDAO();
 		try {

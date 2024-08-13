@@ -152,7 +152,7 @@
 			let member_idx = <%=member_idx %>;
 			let meet_idx = <%=meet_idx %>;
 			let sub_a = $("#sub_a").val();
-			let nickname = '<%=nickname %>';
+			let nickname = $("#inputNickname").val();
 			
 			$.ajax({
 				url: '${pageContext.request.contextPath}/AjaxInsertJoinQWriteServlet',
@@ -322,7 +322,7 @@
             </div>
             <!-- 멤버 수 -->
             <p class="member">
-              <a href="#" class="member_count">멤버 <%= miDto.getMeet_member_count() %></a>
+              <a href="<%=request.getContextPath() %>/Controller?command=band_member_list&meet_idx=<%=meet_idx %>" class="member_count">멤버 <%= miDto.getMeet_member_count() %></a>
             </p>
             <!-- 글쓰기 버튼 : 가입했을 시 출력 -->
             <% if (njDao.noJoinOk(meet_idx, member_idx)) { %>
@@ -975,6 +975,18 @@
                     <div class="mentions-input">
                       <div class="mentions">
                         <textarea id="sub_a"  maxlength="200" placeholder="답변을 작성해주세요."></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="questionBox">
+                  <div class="questionText" style="margin-top:5px;">닉네임 설정</div>
+                </div>
+                <div class="answerInputBox">
+                  <div class="answerInputWrap">
+                    <div class="mentions-input">
+                      <div class="mentions">
+                        <textarea id="inputNickname" maxlength="200" placeholder="닉네임을 작성해주세요."></textarea>
                       </div>
                     </div>
                   </div>
