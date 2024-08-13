@@ -3,6 +3,6 @@
 <%
 	HttpSession hs = request.getSession();
 	int member_idx = (int)hs.getAttribute("userIdx");
-    response.sendRedirect("Controller?band_main&member_idx=" + member_idx);
+    response.sendRedirect("Controller?command=band_main&member_idx=" + member_idx);
 
 %>
