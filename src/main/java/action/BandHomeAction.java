@@ -109,7 +109,7 @@ public class BandHomeAction implements Action {
 		//meet_member_idx 꺼내오기
 		int meet_member_idx = 0;
 		try {
-			meet_member_idx = mPrintDAO.postMeetMemberIdx(member_idx);
+			meet_member_idx = mPrintDAO.postMeetMemberIdx(member_idx, meet_idx);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
