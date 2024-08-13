@@ -173,7 +173,7 @@ ArrayList<RecommandPDTO> rpd = (ArrayList<RecommandPDTO>)request.getAttribute("r
             <%if(userIdx == null){ %>
               <li class="utill_link"><a href="/Tcp2/Controller?command=login">로그인</a></li>
               <%} else { %>
-              <li class="utill_link"><a href="#" onclick="if(confirm('로그아웃 하시겠습니까?')) { window.location.href='/Tcp2/LogoutAction'; } return false;">로그아웃</a></li>
+              <li class="utill_link"><a href="#" onclick="if(confirm('로그아웃 하시겠습니까?')) { window.location.href='/Tcp2/Controller?command=logout'; } return false;">로그아웃</a></li>
               <%} %>
               <li class="utill_link"><a href="/Tcp2/Controller?command=ticket_check">예매확인/취소</a></li>
           <%if(userIdx == null){ %>
