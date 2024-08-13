@@ -32,7 +32,7 @@ public class BandMainAction implements Action {
 			out.println("<body>");
 			out.println("<script>");
 			out.println("alert('로그인이 필요합니다.');");
-			out.println("location.href='Tcp2/Controller?command=login'");
+			out.println("location.href='/Tcp2/Controller?command=login'");
 			out.println("</script>");
 			out.println("</body>");
 			out.println("</html>");

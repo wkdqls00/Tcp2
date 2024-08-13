@@ -61,8 +61,7 @@ public class PostWriteServlet extends HttpServlet {
 		
 		
 		request.setAttribute("meet_idx", meetIdx);
-		RequestDispatcher rd = request.getRequestDispatcher("Controller?command=band_home&meet_idx="+meetIdx);
-		rd.forward(request, response);
+		response.sendRedirect("Controller?command=band_home&meet_idx="+meetIdx);
 		
 	}
 }
