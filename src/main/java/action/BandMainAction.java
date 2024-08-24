@@ -61,8 +61,8 @@ public class BandMainAction implements Action {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		int meet_area_idx = selectDto.getMeet_area_idx();
 		
+		int meet_area_idx = new MeetAreaDto22().updateMeetArea(member_idx);
 		//지역별 소모임 출력
 		ArrayList<SelectBandAreaDTO> areaListDao = new ArrayList<>();
 		try {

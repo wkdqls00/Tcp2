@@ -189,7 +189,7 @@ ArrayList<RecommandPDTO> rpd = (ArrayList<RecommandPDTO>)request.getAttribute("r
             <h1 class="logo"><a href="/Tcp2/Controller?command=main">로고</a></h1>
             <ul class="nav">
               <li><a href="/Tcp2/Controller?command=main">공연</a></li>
-              <li><a href="/Tcp2/Controller?command=band">커뮤니티</a></li>
+              <li><a href="/Tcp2/Controller?command=band_main">커뮤니티</a></li>
             </ul>
         </div>
     </div>
