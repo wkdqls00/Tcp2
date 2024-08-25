@@ -77,7 +77,7 @@
           <h2 class="band_name_cover">밴드 이름 및 커버</h2>
           <form action="<%= request.getContextPath() %>/CreateNewBandServlet" method="post" enctype="multipart/form-data">
             <fieldset>
-              <legend class="band_name_cover">밴드 이름 및 커버</legend>
+              <legend class="band_name_cover">밴드 이름 및 커버</legend>`
               <div class="make_cover">
                 <label class="make_title" for="ex_name">밴드 이름</label>
                 <div class="input_band">
@@ -97,7 +97,7 @@
                     <li>
                       <span class="cover_change">
                         <label for="add_photo" class="label_add_photo">사진 추가</label>
-                        <input type="file" class="image_update" id="add_photo" accept="image/*" onchange="uploadImg(this)" name="url">
+                        <input type="file" class="image_update" id="add_photo" accept="image/*" onchange="uploadImg(this)" name="input">
                         <span class="focus_outline"></span>
                       </span> 
                     </li>
