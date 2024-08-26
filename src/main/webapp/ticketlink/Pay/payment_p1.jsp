@@ -163,7 +163,7 @@ for (int i = 0; i < pricelist.size(); i++) {
     </div>
   </div>
   	<div class="overlay" id="overlay"></div>
-  	<div class="g-recaptcha" data-sitekey="6Lerfg0qAAAAAAukEzArdUcJnbf16ra6BELU4ngX" data-callback="recaptchaCallback"></div>
+  	<div class="g-recaptcha" data-sitekey="6LdxTS8qAAAAABwdtPsPaAb9b_rnafUn9FIfnlOv" data-callback="recaptchaCallback"></div>
   		
   	
   
