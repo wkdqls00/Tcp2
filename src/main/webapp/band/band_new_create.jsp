@@ -23,9 +23,15 @@
    				let reader = new FileReader();
    				reader.onload = function (e) {
    				 $(".selectedCover").attr("src", e.target.result);
+   				 $("#hiddenImageUrl").val(''); // 파일 업로드 시 기본 이미지 값 비우기
    				}
    				reader.readAsDataURL(input.files[0]);
    			}
+   		}
+   		function selectDefaultImage(button) {
+   			let imageSrc = $(button).find(".cover_img").attr("src");
+   			$(".selectedCover").attr("src", imageSrc);
+   			$("#hiddenImageUrl").val(imageSrc);
    		}
    </script>
    
@@ -86,7 +92,7 @@
                 <div class="cover_select">
                   <div class="main_cover">
                     <span class="m_cover">
-                      <img class="selectedCover coverImg" width="300" height="225" name="input">
+                      <img class="selectedCover coverImg"  width="300" height="225">
                     </span>
                   </div>
                   <div class="cover_list">
@@ -97,50 +103,51 @@
                     <li>
                       <span class="cover_change">
                         <label for="add_photo" class="label_add_photo">사진 추가</label>
-                        <input type="file" class="image_update" id="add_photo" accept="image/*" onchange="uploadImg(this)">
+                        <input type="file" class="image_update" id="add_photo" accept="image/*" onchange="uploadImg(this)" name="url">
+                        <input type="hidden" id="add_photo" class="image_update" name="url">
+                        <input type="hidden" id="hiddenImageUrl" name="imageSrc">
                         <span class="focus_outline"></span>
                       </span> 
                     </li>
                     <li class="cover_set">
-                      <button type="button" data-cover="#" class="default_cover">
-                        <img class="cover_img" src="https://coresos-phinf.pstatic.net/a/34g04d/3_ea3Ud018admaj6npplibe76_5ksoqj.png?type=cover_a264" width="120" height="90" alt="게임기 이미지">
+                      <button type="button" data-cover="#" class="default_cover" onclick="selectDefaultImage(this)">
+                        <img class="cover_img" id="cover_img" src="<%= request.getContextPath() %>/upload/기본이미지1.png" width="120" height="90" alt="게임기 이미지">
                         <span class="mask"></span>
                       </button>
                     </li>
                     <li class="cover_set">
-                      <button type="button" data-cover="#" class="default_cover">
-                        <img class="cover_img" src="https://coresos-phinf.pstatic.net/a/34g0c2/9_ba1Ud018adm15mc94lwd582j_5ksoqj.png?type=cover_a264" width="120" height="90" alt="고양이 이미지">
+                      <button type="button" data-cover="#" class="default_cover" onclick="selectDefaultImage(this)">
+                        <img class="cover_img" src="<%= request.getContextPath() %>/upload/기본이미지2.png" width="120" height="90" alt="고양이 이미지">
                         <span class="mask"></span>
                       </button>
                     </li>
                     <li class="cover_set">
-                      <button type="button" data-cover="#" class="default_cover">
-                        <img class="cover_img" src="https://coresos-phinf.pstatic.net/a/34g0bd/f_6a2Ud018adm1cc8mit3kn4po_5ksoqj.png?type=cover_a264
-                        " width="120" height="90" alt="색연필들 이미지">
+                      <button type="button" data-cover="#" class="default_cover" onclick="selectDefaultImage(this)">
+                        <img class="cover_img" src="<%= request.getContextPath() %>/upload/기본이미지3.png" width="120" height="90" alt="색연필들 이미지">
                         <span class="mask"></span>
                       </button>
                     </li>
                     <li class="cover_set">
-                      <button type="button" data-cover="#" class="default_cover">
-                        <img class="cover_img" src="https://coresos-phinf.pstatic.net/a/2ih0hj/c_36hUd018adma3lmqcmkw1bu_fnol82.jpg?type=cover_a264" width="120" height="90" alt="손목시계 이미지">
+                      <button type="button" data-cover="#" class="default_cover" onclick="selectDefaultImage(this)">
+                        <img class="cover_img" src="<%= request.getContextPath() %>/upload/기본이미지4.png" width="120" height="90" alt="손목시계 이미지">
                         <span class="mask"></span>
                       </button>
                     </li>
                     <li class="cover_set">
-                      <button type="button" data-cover="#" class="default_cover">
-                        <img class="cover_img" src="https://coresos-phinf.pstatic.net/a/34g07j/c_4a1Ud018adm1egyqqdem7w3r_5ksoqj.png?type=cover_a264" width="120" height="90" alt="커피가 담긴 잔 이미지">
+                      <button type="button" data-cover="#" class="default_cover" onclick="selectDefaultImage(this)">
+                        <img class="cover_img" src="<%= request.getContextPath() %>/upload/기본이미지5.png" width="120" height="90" alt="커피가 담긴 잔 이미지">
                         <span class="mask"></span>
                       </button>
                     </li>
                     <li class="cover_set">
-                      <button type="button" data-cover="#" class="default_cover">
-                        <img class="cover_img" src="https://coresos-phinf.pstatic.net/a/34g09g/g_7a2Ud018admxatsgz9wapsi_5ksoqj.png?type=cover_a264" width="120" height="90" alt="테니스 코트 이미지">
+                      <button type="button" data-cover="#" class="default_cover" onclick="selectDefaultImage(this)">
+                        <img class="cover_img" src="<%= request.getContextPath() %>/upload/기본이미지6.png" width="120" height="90" alt="테니스 코트 이미지">
                         <span class="mask"></span>
                       </button>
                     </li>
                     <li class="cover_set">
-                      <button type="button" data-cover="#" class="default_cover">
-                        <img class="cover_img" src="https://coresos-phinf.pstatic.net/a/34g0d8/i_ga2Ud018admahr9rwbxt2ua_5ksoqj.png?type=cover_a264" width="120" height="90" alt="노을빛 산과 나무 이미지">
+                      <button type="button" data-cover="#" class="default_cover" onclick="selectDefaultImage(this)">
+                        <img class="cover_img" src="<%= request.getContextPath() %>/upload/기본이미지7.png" width="120" height="90" alt="노을빛 산과 나무 이미지">
                         <span class="mask"></span>
                       </button>
                     </li>
@@ -192,7 +199,7 @@
 	   let a = $(this).attr('src');
 	   $(".selectedCover").attr("src",a);
    })
-
+   
   });
   </script>
 </body>

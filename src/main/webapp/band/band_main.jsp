@@ -131,9 +131,12 @@
             <div id="cover_band">
               <div class="uCoverImage -border">
                 <span class="coverInner">
-                <% if(mbDto.getUrl() != null) { %>
-                  <img class="coverImg" src="<%=request.getContextPath()%>/upload/<%= mbDto.getUrl() %>">
-                  <% } else { %>
+                <% if(mbDto.getUrl() != null ) { %>
+                	<% if(mbDto.getUrl().contains("/upload/")) { %>
+                  	<img class="coverImg" src="<%= mbDto.getUrl() %>"> 
+                  	<% } else { %>
+                  	<img class="coverImg" src="<%=request.getContextPath()%>/upload/<%= mbDto.getUrl() %>"> <% } %>
+                  	<% } else { %>
                   <img class="coverImg">
                   <% } %>
                 </span>
