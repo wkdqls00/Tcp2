@@ -153,9 +153,9 @@
                         <div class="input_area">
                             <div class="col">
                                 <div class="input">
-                                    <label for="input_nickname">우편번호</label>
+                                    <label for="input_nickname">주소</label>
                                     <div class="input_box">
-                                        <input type="text" id="input_address" class="input_text" placeholder="우편번호를 입력해주세요." tabindex="7" value="" name="address">
+                                        <input type="text" id="input_address" class="input_text" placeholder="우편번호를 입력해주세요." tabindex="7" value="" name="address" readonly>
                                         <span id="conClear" class="del_btn" style="display: none;"></span>
                                     </div>
                                 </div>

@@ -170,7 +170,7 @@
                               <span class="em_noti" style="color: #ef3e42">변경할 주소를 상세주소까지 정확하게 입력해주세요.</span>
                               <div class="enter_box">
                                 <div class="style_input">
-                                  <input type="text" class="con_input" id="input_newAddress" name="input_newAddress">
+                                  <input type="text" class="con_input" id="input_newAddress" name="input_newAddress" readonly>
                                   <input type="text" class="con_input" id="input_newAddressD" name="input_newAddressD">
                                 </div>
                               </div>
