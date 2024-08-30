@@ -1,9 +1,7 @@
 <%@page import="dao.Customer_ServiceDAO"%>
 <%@page import="dto.FaqDTO"%>
 <%@page import="java.util.ArrayList"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
 <%
 @SuppressWarnings("unchecked")
 ArrayList<FaqDTO> fqd = (ArrayList<FaqDTO>)request.getAttribute("fqd");
@@ -15,33 +13,13 @@ ArrayList<FaqDTO> fqd = (ArrayList<FaqDTO>)request.getAttribute("fqd");
 <title>FAQ</title>
 <link rel="stylesheet" href="/Tcp2/assets/css/common.css">
 <link rel="stylesheet" href="/Tcp2/assets/css/reset.css">
-<link rel="stylesheet" type="text/css" href="/Tcp2/assets/css/FAQ.css">
+<link rel="stylesheet" href="/Tcp2/assets/css/FAQ.css">
 </head>
 
 <body>
- <div class="header_util">
-    <div id="Page_header">
-      <div class="header_util_left">
-        <ul class="header_util_list">
-          <li class="header_util_item">
-            <button type="button" class="btn_dropdown" aria-expanded="false">
-              KOR
-              <!-- ::after -->
-            </button>
-            <div class="header_dropdown_content">
-              <ul class="header_language_list">
-                <li class="header_language_item">
-                  <a class="header_lanaguage_link">ENG</a>
-                </li>
-                <li class="header_language_item">
-                  <a class="header_language_link">JPN</a>
-                </li>
-              </ul>
-            </div>
-          </li>
-        </ul>
-      </div>
-      <div class="header_util_right">
+  <header>
+    <div class="utill">
+        <div class="inner">
           <ul>
             <%if(request.getSession().getAttribute("userIdx") == null){ %>
               <li class="utill_link"><a href="/Tcp2/Controller?command=login">로그인</a></li>
@@ -55,64 +33,29 @@ ArrayList<FaqDTO> fqd = (ArrayList<FaqDTO>)request.getAttribute("fqd");
               <li class="utill_link"><a href="/Tcp2/Controller?command=cscenter">고객센터</a></li>
               <li class="utill_link"><a href="/Tcp2/Controller?command=mypage">마이페이지</a></li>
 		  </ul>
-      </div>
+        </div> 
     </div>
+    <div class="nav_box">
+        <div class="inner">
+            <h1 class="logo"><a href="/Tcp2/Controller?command=main">로고</a></h1>
+          <ul class="nav">
+              <li><a href="/Tcp2/Controller?command=main">공연</a></li>
+              <li><a href="/Tcp2/Controller?command=band_main">커뮤니티</a></li>
+          </ul>
+      </div>
   </div>
-  <!-- 티켓 링크 제목 -->
-    <div id="Page_header2" class="center">
-      <h1 class="header_title">
-        <a class="header_title_link" href="/">
-          <span class="common_icon0 logo_black_kr">
-            <span class="blind">티켓링크</span>
-          <!-- after -->
-          </span>
-        </a>
-      </h1>
-      <div class="header_nav">
-        <a class="header_nav_link" aria-current="true" href="/">공연</a>
-      </div>
-    </div>
-  <!-- 티겟 링크 상단 메뉴 -->
-    <div id="Page_header3" class="center">
-      <div class="page_header3_inner">
-        <div class="page_header3_area">
-          <ul class="page_header3_list1">
-            <li class="page_header3_item1">
-              <a class="page_header3_link" aria-current="false" href="/home">홈</a>
-            </li>
-            <li class="page_header3_item2">
-              <a class="page_header3_link" aria-current="false" href="/performance/10" target="_self">공연</a>
-            </li>
+  <div class="gnb_box">
+      <div class="inner">
+          <ul class="gnb_list">
+              <li class="gnb_link"><a href="/Tcp2/Controller?command=main">홈</a></li>
+              <li class="gnb_link"><a href="/Tcp2/Controller?command=main">공연</a></li>
+              <li class="gnb_link"><a href="/Tcp2/Controller?command=ranking">랭킹</a></li>
+              <li class="gnb_link"><a href="/Tcp2/Controller?command=band_main">커뮤니티</a></li>
           </ul>
-          <ul class="page_header3_list2">
-            <li class="page_header3_item4">
-              <a class="page_header3_link1" aria-current="page" href="/ranking">
-                <!-- berfore -->
-                랭킹
-              </a>
-            <li class="page_header3_item5">
-              <a class="page_header3_link1" aria-current="false" href="/local">
-                지역
-              </a>
-            </li>
-            <li class="page_header3_item5">
-              <a href="/venue/main" class="page_header3_link1">공연장</a>
-            </li>
-          </ul>
-          </div>
-            <div class="header3_search">
-              <div class="header3_search_box">
-                <input type="search" name="search" id="search" class="header3_search_input" placeholder="검색어를 입력해주세요" >
-                <button type="button" class="header3_search_btn">
-                  <span class="icon_search">
-                    <span class="blind">검색</span>
-                    <!-- after -->
-                  </span>
-                </button>
-              </div>
-            </div>
       </div>
-    </div>
+  </div>
+</header>
+
 <!-- 고객센터 본문(상단메뉴) -->
 <main id="container" class="common_container cs_center" role="main">
   <div class="main_body">

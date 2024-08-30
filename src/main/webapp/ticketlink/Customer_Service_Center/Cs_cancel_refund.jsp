@@ -66,13 +66,13 @@
           </a>
         </li>
         <li class="qmenu2" id="menu">
-      <a href="" onclick="writeInquire(); return false;" class="id_pw2">
+      <a href="" onclick="showInquireList(); return false;" class="id_pw2">
             <!-- before -->
             상담내역<br/>
             확인하기
           </a>
         <li class="qmenu3" id="menu">
-          <a href="" onclick="showInquireList(); return false;" class="id_pw3">
+          <a href="" onclick="writeInquire(); return false;" class="id_pw3">
             <!-- before -->
             예매취소<br/>
             환불문의

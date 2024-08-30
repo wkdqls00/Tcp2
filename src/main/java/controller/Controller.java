@@ -132,7 +132,7 @@ public class Controller extends HttpServlet {
 			//기대평작성
 			case "writeexp" : action = new WriteExpAction(); break;
 			// 문의목록 페이지
-			case "inquirelist" : action = new InquirelistAction(); break;
+			case "inquirelist" : action = new InquirelistAction(); System.out.println("실행됨ㅋ"); break;
 			// 문의 내역 글 클릭시
 			case "inquiredetail" : action = new InquiredetailAction(); break;
 			// 문의하기
