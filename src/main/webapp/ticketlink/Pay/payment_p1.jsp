@@ -27,6 +27,7 @@ System.out.println(member_idx);
             display: block;
        	}
        	.g-recaptcha {
+       		display: none;
 		    position: absolute;
 		    left: 40%;
 		    top: 45%;
