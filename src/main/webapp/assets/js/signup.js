@@ -157,13 +157,24 @@ document.addEventListener("DOMContentLoaded", function() {
 
 		verificationCode = generateVerificationCode();
         isCodeValid = true;
-        console.log(`인증번호: ${verificationCode}`);
+       	
+       	// 임시 인중번호 코드
+       	let btn_area = document.querySelector('.btn_area.phone');
+	    let findDiv = document.querySelector('.new_div');
+	    if (findDiv) {
+	        findDiv.remove(); 
+	    }
+	    let newDiv = document.createElement('div');
+	    newDiv.className = "new_div";
+	    newDiv.textContent = `임시 인증번호 : ${verificationCode}`;
+	    btn_area.appendChild(newDiv);
 
         const fiveMinutes = 60 * 5;
         const display = document.querySelector('.timer');
         startTimer(fiveMinutes, display);  
     });
     
+	    
 	// 인증번호가 같아야 버튼 활성화되게끔
     document.getElementById("check_certify").addEventListener("click", function() {
         var input = document.getElementById("input_certify").value;
@@ -196,7 +207,17 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById('re').addEventListener('click', function() {
         verificationCode = generateVerificationCode();
         isCodeValid = true;
-        console.log(`인증번호 : ${verificationCode}`);
+        
+        // 임시 인증번호 코드
+        let btn_area = document.querySelector('.btn_area.phone');
+		let findDiv = document.querySelector('.new_div');
+	    if (findDiv) {
+	        findDiv.remove(); 
+	    }
+	    let newDiv = document.createElement('div');
+	    newDiv.className = "new_div";
+	    newDiv.textContent = `임시 인증번호 : ${verificationCode}`;
+	    btn_area.appendChild(newDiv);
 
         const fiveMinutes = 60 * 5;
         const display = document.querySelector('.timer');

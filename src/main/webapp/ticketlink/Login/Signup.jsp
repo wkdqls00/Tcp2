@@ -217,7 +217,7 @@
                                 </div>
                             </div>
                             <div class="col">
-                                <div class="btn_area">
+                                <div class="btn_area phone" style="position: relative">
                                     <button type="button" class="btn border_type">인증번호 받기</button>
                                 </div>
                             </div>

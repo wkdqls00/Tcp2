@@ -161,6 +161,7 @@ input::placeholder {
     background-color: #ccc;
     transition: 1s;
     opacity: 0.4;
+    position: relative;
 }
 .btn.address, .check_id, .check_nickname  {
     min-width: 70px;
@@ -407,4 +408,12 @@ input::placeholder {
 }
 .error_text {
     display: none;
+}
+.new_div {
+	position: absolute;
+    width: 175px;
+    height: 25px;
+    border: 1px solid black;
+    left: 110px;
+    bottom: 0;
 }
