@@ -137,6 +137,13 @@ public class BandHomeAction implements Action {
 		request.setAttribute("mPrintListDTO", mPrintListDTO);
 		request.setAttribute("clListDTO", clListDTO);
 		request.setAttribute("mAPrintDTO", mAPrintDTO);
+		request.setAttribute("udoDAO", udoDAO);
+		request.setAttribute("mwDao", mwDao);
+		request.setAttribute("njDao", njDao);
+		request.setAttribute("mCDao", mCDao);
+		request.setAttribute("lCountDAO", lCountDAO);
+		request.setAttribute("clViewDAO", clViewDAO);
+		
 		
 		request.getRequestDispatcher("band/band_home.jsp").forward(request, response);
 	}
